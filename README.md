@@ -9,7 +9,7 @@ Based off the project https://github.com/sorucoder/freebasic-vscode-extension
 ## Features
 
 * Syntax highlighting for QB64 2.x
-* This is very rough and needs a lot of work
+* Build Only
 
 ## How to edit & debug.
 
