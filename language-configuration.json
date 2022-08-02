@@ -60,10 +60,6 @@
     ],
     "surroundingPairs": [
         [
-            "sub",
-            "end sub"
-        ],
-        [
             "{",
             "}"
         ],
