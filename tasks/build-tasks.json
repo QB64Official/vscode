@@ -14,6 +14,20 @@
 				"reveal": "always",
 				"panel": "new"
 			}
+		},
+		{
+			"label": "QB64 Build Task - Build & Run",
+			"type": "shell",
+			"command": "D:\\basic\\qb64\\qb64.exe -c ${fileDirname}\\${fileBasename} -o ${fileBasenameNoExtension}.exe -x; ${fileDirname}\\${fileBasenameNoExtension}.exe",
+			"options": {},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
 		}
 	]
 }
