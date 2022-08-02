@@ -20,15 +20,15 @@
     // symbols that are auto closed when typing
     "autoClosingPairs": [
         {
-            "open": "sub",
+            "open": "sub ",
             "close": "\n\nend sub"
         },
         {
-            "open": "function",
+            "open": "function ",
             "close": "\n\nend function"
         },
         {
-            "open": "if",
+            "open": "if ",
             "close": "\n\nend if"
         },
         {
