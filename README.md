@@ -33,7 +33,6 @@ Based off the project https://github.com/sorucoder/freebasic-vscode-extension
 
 ## Known Issues
 * 1 The task(s) for building are not auto installing when debugging - You will need to manually create the tasks for now.
-*       The task(s) are in tasks\build-tasts.json
 * 2 The compiled vsix does not work.
 * 3 Keywords do not proper cased
 * 4 No real time problems
