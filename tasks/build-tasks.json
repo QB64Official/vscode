@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "QB64 Build Task - Build Only",
+			"type": "shell",
+			"command": "D:\\basic\\qb64\\qb64.exe -c ${fileDirname}\\${fileBasename} -o ${fileBasenameNoExtension}.exe -x",
+			"options": {},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
+		}
+	]
+}

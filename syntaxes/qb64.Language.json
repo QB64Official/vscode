@@ -1,0 +1,1890 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "QB64",
+	"patterns": [
+		{
+			"include": "#preprocessor"
+		},
+		{
+			"include": "#declarations"
+		},
+		{
+			"include": "#control-flow"
+		},
+		{
+			"include": "#scoping"
+		},
+		{
+			"include": "#expressions"
+		}
+	],
+	"repository": {
+		"preprocessor": {
+			"patterns": [
+				{
+					"include": "#metacommands"
+				},
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#line-operations"
+				},
+				{
+					"include": "#options"
+				},
+				{
+					"include": "#affix-typing"
+				},
+				{
+					"include": "#preprocessor-conditions"
+				},
+				{
+					"include": "#preprocessor-text-replacement"
+				},
+				{
+					"include": "#preprocessor-file-directives"
+				},
+				{
+					"include": "#preprocessor-control-directives"
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"include": "#single-quote-comments"
+				},
+				{
+					"include": "#statement-comments"
+				},
+				{
+					"include": "#multiline-comments"
+				}
+			]
+		},
+		"single-quote-comments": {
+			"name": "comment.line.single-quote.QB64",
+			"match": "'.*?$"
+		},
+		"statement-comments": {
+			"name": "comment.line.keyword.QB64",
+			"begin": "^(?i)(rem)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.comment.QB64"
+				}
+			},
+			"end": "\n",
+			"patterns": [
+				{
+					"include": "#metacommands"
+				}
+			]
+		},
+		"metacommands": {
+			"name": "keyword.other.metacommand.QB64",
+			"match": "(?i)(?:(?:'|rem[ \t]+)\\$(?:dynamic|include|lang|static)\\b|\\bonce:)"
+		},
+		"multiline-comments": {
+			"name": "comment.block.QB64",
+			"begin": "/'",
+			"end": "'/"
+		},
+		"line-operations": {
+			"patterns": [
+				{
+					"name": "keyword.operator.line.continuation.QB64",
+					"match": "[ \t]_[ \t]"
+				},
+				{
+					"name": "keyword.operator.line.separator.QB64",
+					"match": ":"
+				}
+			]
+		},
+		"preprocessor-conditions": {
+			"begin": "(?i)^[ \t]*(#[ \t]*if(?:n?def)?)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.if.begin.QB64"
+				}
+			},
+			"end": "(?i)^[ \t]*(#[ \t]*endif)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.if.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"match": "(?i)^[ \t]*(#[ \t]*elseif)\\b",
+					"captures": {
+						"1": {
+							"name": "keyword.control.preprocessor.if.elseif.QB64"
+						}
+					}
+				},
+				{
+					"match": "(?i)^[ \t]*(#[ \t]*else)\\b",
+					"captures": {
+						"1": {
+							"name": "keyword.control.preprocessor.if.else.QB64"
+						}
+					}
+				},
+				{
+					"name": "keyword.control.preprocessor.QB64",
+					"match": "(?i)\\bdefined\\b"
+				},
+				{
+					"include": "$self"
+				}
+			]
+		},
+		"preprocessor-text-replacement": {
+			"patterns": [
+				{
+					"include": "#preprocessor-define"
+				},
+				{
+					"include": "#preprocessor-undef"
+				},
+				{
+					"include": "#preprocessor-macro"
+				}
+			]
+		},
+		"preprocessor-define": {
+			"begin": "(?i)^[ \t]*(#[ \t]*define)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.text-replacement.define.QB64"
+				}
+			},
+			"end": "(?<!_)[ \t]*\n",
+			"patterns": [
+				{
+					"include": "$self"
+				}
+			]
+		},
+		"preprocessor-undef": {
+			"begin": "(?i)^[ \t]*(#[ \t]*undef)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.text-replacement.define.QB64"
+				}
+			},
+			"end": "\n"
+		},
+		"preprocessor-macro": {
+			"begin": "(?i)^[ \t]*(#[ \t]*macro)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.text-replacement.macro.begin.QB64"
+				}
+			},
+			"end": "(?i)^[ \t]*(#[ \t]*endmacro)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.text-replacement.macro.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "keyword.control.preprocessor.text-replacement.macro.QB64",
+					"match": "\\?"
+				},
+				{
+					"include": "$self"
+				},
+				{
+					"include": "#preprocessor-operators"
+				}
+			]
+		},
+		"preprocessor-operators": {
+			"name": "keyword.operator.preprocessor.QB64",
+			"match": "##?"
+		},
+		"preprocessor-file-directives": {
+			"patterns": [
+				{
+					"include": "#preprocessor-include"
+				},
+				{
+					"include": "#preprocessor-inclib"
+				},
+				{
+					"include": "#preprocessor-libpath"
+				}
+			]
+		},
+		"preprocessor-include": {
+			"begin": "(?i)^[ \t]*(#[ \t]*include)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.file-directive.include.QB64"
+				}
+			},
+			"end": "\n",
+			"patterns": [
+				{
+					"name": "keyword.control.preprocessor.QB64",
+					"match": "(?i)\\bonce\\b"
+				},
+				{
+					"include": "#string-literals"
+				},
+				{
+					"include": "#comments"
+				}
+			]
+		},
+		"preprocessor-inclib": {
+			"begin": "(?i)^[ \t]*(#[ \t]*inclib)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.file-directive.inclib.QB64"
+				}
+			},
+			"end": "\n",
+			"patterns": [
+				{
+					"include": "#string-literals"
+				},
+				{
+					"include": "#comments"
+				}
+			]
+		},
+		"preprocessor-libpath": {
+			"begin": "(?i)^[ \t]*(#[ \t]*libpath)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.file-directive.libpath.QB64"
+				}
+			},
+			"end": "\n",
+			"patterns": [
+				{
+					"include": "#string-literals"
+				},
+				{
+					"include": "#comments"
+				}
+			]
+		},
+		"preprocessor-control-directives": {
+			"patterns": [
+				{
+					"include": "#preprocessor-pragma"
+				},
+				{
+					"include": "#preprocessor-cmdline"
+				},
+				{
+					"include": "#preprocessor-lang"
+				},
+				{
+					"include": "#preprocessor-print"
+				},
+				{
+					"include": "#preprocessor-error"
+				},
+				{
+					"include": "#preprocessor-assert"
+				},
+				{
+					"include": "#preprocessor-line"
+				}
+			]
+		},
+		"preprocessor-pragma": {
+			"begin": "(?i)^[ \t]*(#[ \t]*pragma)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.control-directive.pragma.QB64"
+				}
+			},
+			"end": "\n",
+			"patterns": [
+				{
+					"name": "keyword.control.preprocessor.QB64",
+					"match": "(?i)\\b(?:asm|extern|once|pop|push|reserve)\\b"
+				},
+				{
+					"include": "#comments"
+				}
+			]
+		},
+		"preprocessor-cmdline": {
+			"begin": "(?i)^[ \t]*(#[ \t]*cmdline)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.control-directive.cmdline.QB64"
+				}
+			},
+			"end": "\n",
+			"patterns": [
+				{
+					"include": "#string-literals"
+				},
+				{
+					"include": "#comments"
+				}
+			]
+		},
+		"preprocessor-lang": {
+			"begin": "(?i)^[ \t]*(#[ \t]*lang)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.control-directive.lang.QB64"
+				}
+			},
+			"end": "\n",
+			"patterns": [
+				{
+					"include": "#string-literals"
+				},
+				{
+					"include": "#comments"
+				}
+			]
+		},
+		"preprocessor-print": {
+			"begin": "(?i)^[ \t]*(#[ \t]*print)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.control-directive.print.QB64"
+				}
+			},
+			"end": "\n"
+		},
+		"preprocessor-error": {
+			"begin": "(?i)^[ \t]*(#[ \t]*error)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.control-directive.error.QB64"
+				}
+			},
+			"end": "\n"
+		},
+		"preprocessor-assert": {
+			"begin": "(?i)^[ \t]*(#[ \t]*assert)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.control-directive.assert.QB64"
+				}
+			},
+			"end": "\n",
+			"patterns": [
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"preprocessor-line": {
+			"begin": "(?i)^[ \t]*(#[ \t]*line)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.preprocessor.control-directive.line.QB64"
+				}
+			},
+			"end": "\n",
+			"patterns": [
+				{
+					"include": "#literals"
+				},
+				{
+					"include": "#single-quote-comments"
+				}
+			]
+		},
+		"options": {
+			"name": "meta.option.QB64",
+			"begin": "(?i)\\b(option)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.option.QB64"
+				}
+			},
+			"end": "\n",
+			"patterns": [
+				{
+					"name": "keyword.other.option.QB64",
+					"match": "(?i)\\b(?:base|byval|dynamic|escape|explicit|gosub|nogosub|nokeyword|private|static|title)\\b"
+				},
+				{
+					"include": "#decimal-integer-literals"
+				}
+			]
+		},
+		"expressions": {
+			"patterns": [
+				{
+					"include": "#literals"
+				},
+				{
+					"include": "#operators"
+				},
+				{
+					"include": "#single-quote-comments"
+				},
+				{
+					"include": "#keywords"
+				}
+			]
+		},
+		"literals": {
+			"patterns": [
+				{
+					"include": "#numeric-literals"
+				},
+				{
+					"include": "#string-literals"
+				},
+				{
+					"include": "#boolean-literals"
+				}
+			]
+		},
+		"numeric-literals": {
+			"patterns": [
+				{
+					"include": "#integer-literals"
+				},
+				{
+					"include": "#floating-point-literals"
+				}
+			]
+		},
+		"integer-literals": {
+			"patterns": [
+				{
+					"include": "#decimal-integer-literals"
+				},
+				{
+					"include": "#hexadecimal-integer-literals"
+				},
+				{
+					"include": "#octal-integer-literals"
+				},
+				{
+					"include": "#binary-integer-literals"
+				}
+			]
+		},
+		"decimal-integer-literals": {
+			"name": "constant.numeric.integer.decimal.QB64",
+			"match": "(?i)\\b[0-9]+([%&]|U?L{0,2})?\\b",
+			"captures": {
+				"1": {
+					"name": "storage.type.suffix.integer.QB64"
+				}
+			}
+		},
+		"hexadecimal-integer-literals": {
+			"name": "constant.numeric.integer.hexadecimal.QB64",
+			"match": "(?i)(&h)[0-9A-F]+([%&]|U?L{0,2})?",
+			"captures": {
+				"1": {
+					"name": "keyword.other.integer.hexadecimal.QB64"
+				},
+				"2": {
+					"name": "storage.type.suffix.integer.QB64"
+				}
+			}
+		},
+		"octal-integer-literals": {
+			"name": "constant.numeric.integer.octal.QB64",
+			"match": "(?i)(&o)[0-7]+([%&]|U?L{0,2})?",
+			"captures": {
+				"1": {
+					"name": "keyword.other.integer.octal.QB64"
+				},
+				"2": {
+					"name": "storage.type.suffix.integer.QB64"
+				}
+			}
+		},
+		"binary-integer-literals": {
+			"name": "contant.numeric.integer.binary.QB64",
+			"match": "(?i)(&b)[01]+([%&]|U?L{0,2})?",
+			"captures": {
+				"1": {
+					"name": "keyword.other.integer.binary.QB64"
+				},
+				"2": {
+					"name": "storage.type.suffix.integer.QB64"
+				}
+			}
+		},
+		"floating-point-literals": {
+			"name": "constant.numeric.floating-point.QB64",
+			"match": "(?i)[0-9]*\\.[0-9]+(?:([de])([+\\-]?)[0-9]+)?([!#fd])?",
+			"captures": {
+				"1": {
+					"name": "keyword.other.floating-point.QB64"
+				},
+				"2": {
+					"name": "keyword.operator.floating-point.QB64"
+				},
+				"3": {
+					"name": "storage.type.suffix.floating-point.QB64"
+				}
+			}
+		},
+		"string-literals": {
+			"patterns": [
+				{
+					"include": "#escaped-string-literals"
+				},
+				{
+					"include": "#unescaped-string-literals"
+				}
+			]
+		},
+		"unescaped-string-literals": {
+			"name": "string.quoted.double.unescaped.QB64",
+			"begin": "(\\$)?\"",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.string.unescaped.QB64"
+				}
+			},
+			"end": "\""
+		},
+		"escaped-string-literals": {
+			"name": "string.quoted.double.escaped.QB64",
+			"begin": "(!)\"",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.string.escaped.QB64"
+				}
+			},
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.QB64",
+					"match": "\\\\(?:[abflnrtv\\\"']|[0-9]{3}|&[hH][0-9a-fA-F]{2}|&[oO][0-7]{3}|&[bB][01]{8}|&[uU][0-9a-fA-F]{4})"
+				}
+			]
+		},
+		"interpolated-string-literals": {
+			"patterns": [
+				{
+					"include": "#qbasic-interpolated-string-literals"
+				},
+				{
+					"include": "#visualbasic-interpolated-string-literals"
+				}
+			]
+		},
+		"qbasic-interpolated-string-literals": {
+			"patterns": [
+				{
+					"include": "#escaped-qbasic-interpolated-string-literals"
+				},
+				{
+					"include": "#unescaped-qbasic-interpolated-string-literals"
+				}
+			]
+		},
+		"unescaped-qbasic-interpolated-string-literals": {
+			"name": "string.interpolated.qbasic.unescaped.QB64",
+			"begin": "(\\$)?\"",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.string.unescaped.QB64"
+				}
+			},
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.other.string-interpolation.qbasic.QB64",
+					"match": "(?:[!\\&#,\\.\\+\\-]|\\^{3,5}|\\*{2}\\$?)"
+				}
+			]
+		},
+		"escaped-qbasic-interpolated-string-literals": {
+			"name": "string.interpolated.qbasic.unescaped.QB64",
+			"begin": "(!)\"",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.string.escaped.QB64"
+				}
+			},
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.QB64",
+					"match": "\\\\(?:[abflnrtv\\\"']|[0-9]{3}|&[hH][0-9a-fA-F]{2}|&[oO][0-7]{3}|&[bB][01]{8}|&[uU][0-9a-fA-F]{4})"
+				},
+				{
+					"name": "constant.other.string-interpolation.qbasic.QB64",
+					"match": "(?:[!\\&#,\\.\\+\\-]|\\^{3,5}|\\*{2}\\$?)"
+				}
+			]
+		},
+		"visualbasic-interpolated-string-literals": {
+			"patterns": [
+				{
+					"include": "#escaped-visualbasic-interpolated-string-literals"
+				},
+				{
+					"include": "#unescaped-visualbasic-interpolated-string-literals"
+				}
+			]
+		},
+		"unescaped-visualbasic-interpolated-string-literals": {
+			"name": "string.interpolated.visualbasic.unescaped.QB64",
+			"begin": "(\\$)?\"",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.string.unescaped.QB64"
+				}
+			},
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.other.string-interpolation.visualbasic.QB64",
+					"match": "(?:[0#%/\\.\\\\:]|[eE][\\+\\-]|\\b(?:d{1,5}|m{1,5}|M{1,2}|y{1,2}|y{4}|h{1,2}|s{1,2}|t{5}|AM/PM|am/pm|A/P|a/p)\\b)"
+				}
+			]
+		},
+		"escaped-visualbasic-string-literals": {
+			"name": "string.interpolated.qbasic.unescaped.QB64",
+			"begin": "(!)\"",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.string.escaped.QB64"
+				}
+			},
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.QB64",
+					"match": "\\\\(?:[abflnrtv\\\"']|[0-9]{3}|&[hH][0-9a-fA-F]{2}|&[oO][0-7]{3}|&[bB][01]{8}|&[uU][0-9a-fA-F]{4})"
+				},
+				{
+					"name": "constant.other.string-interpolation.visualbasic.QB64",
+					"match": "(?:[0#%/\\.\\\\:]|[eE][\\+\\-]|\\b(?:d{1,5}|m{1,5}|M{1,2}|y{1,2}|y{4}|h{1,2}|s{1,2}|t{5}|AM/PM|am/pm|A/P|a/p)\\b)"
+				}
+			]
+		},
+		"boolean-literals": {
+			"name": "constant.language.boolean.QB64",
+			"match": "(?i)\\b(true|false)\\b"
+		},
+		"standard-data-types": {
+			"patterns": [
+				{
+					"include": "#integer-types"
+				},
+				{
+					"include": "#floating-point-types"
+				},
+				{
+					"include": "#string-types"
+				},
+				{
+					"include": "#procedure-types"
+				}
+			]
+		},
+		"integer-types": {
+			"name": "storage.type.integer.QB64",
+			"match": "(?i)\\bu?(?:byte|short|long|integer|unsigned|integer64)\\b"
+		},
+		"floating-point-types": {
+			"name": "storage.type.floating-point.QB64",
+			"match": "(?i)\\b(?:single|double|float|offest)\\b"
+		},
+		"string-types": {
+			"name": "storage.type.string.QB64",
+			"match": "(?i)\\b[zw]?string\\b"
+		},
+		"procedure-types": {
+			"name": "storage.type.procedure.QB64",
+			"match": "(?i)\\b(?:function|sub)\\b"
+		},
+		"operators": {
+			"name": "keyword.operator.QB64",
+			"match": "(?i)(?:[\\+\\-\\*/\\\\^@&\\.,;]|=>?|<>|[<>]=?|->|\\b(?:cast|procptr|strptr|varptr|new|delete|mod|shl|shr|not|and|or|eqv|imp|xor|let)\\b)"
+		},
+		"declarations": {
+			"patterns": [
+				{
+					"include": "#variable-declarations"
+				},
+				{
+					"include": "#procedure-declarations"
+				},
+				{
+					"include": "#type-alias-declarations"
+				},
+				{
+					"include": "#type-declarations"
+				},
+				{
+					"include": "#union-declarations"
+				},
+				{
+					"include": "#enumeration-declarations"
+				},
+				{
+					"include": "#class-declarations"
+				},
+				{
+					"include": "#instance-declarations"
+				}
+			]
+		},
+		"variable-declarations": {
+			"name": "meta.declaration.variable.QB64",
+			"begin": "(?i)\\b(common|const|dim|extern|redim|static)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.variable.QB64"
+				}
+			},
+			"end": ":|(?<!_)[ \t]*\n",
+			"patterns": [
+				{
+					"name": "keyword.other.declaration.variable.QB64",
+					"match": "(?i)\\b(?:as|preserve)\\b"
+				},
+				{
+					"name": "storage.modifier.variable.QB64",
+					"match": "(?i)\\b(?:alias|byref|const|import|pointer|ptr|shared)\\b"
+				},
+				{
+					"name": "keyword.operator.QB64",
+					"match": "[,=]"
+				},
+				{
+					"include": "#variable-dimensions"
+				},
+				{
+					"include": "#standard-data-types"
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"variable-dimensions": {
+			"name": "meta.declaration.variable.dimensions.QB64",
+			"begin": "\\(",
+			"end": "\\)",
+			"patterns": [
+				{
+					"name": "keyword.other.declaration.QB64",
+					"match": "(?i)(?:\\.{3}|\\b(?:any|to)\\b)"
+				},
+				{
+					"name": "keyword.operator.QB64",
+					"match": ","
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"procedure-declarations": {
+			"patterns": [
+				{
+					"include": "#procedure-prototype-declarations"
+				},
+				{
+					"include": "#procedure-body-declarations"
+				}
+			]
+		},
+		"procedure-prototype-declarations": {
+			"name": "meta.declaration.procedure.prototype.QB64",
+			"begin": "(?i)\\b(declare)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.procedure.prototype.QB64"
+				}
+			},
+			"end": ":|(?<!_)[ \t]*\n",
+			"patterns": [
+				{
+					"name": "keyword.other.declaration.procedure.QB64",
+					"match": "(?i)\\b(?:as|function|operator|sub)\\b"
+				},
+				{
+					"name": "storage.modifier.procedure.QB64",
+					"match": "(?i)\\b(?:alias|byref|byval|cdecl|const|constructor|destructor|lib|overload|pascal|pointer|ptr|static|stdcall|thiscall)\\b"
+				},
+				{
+					"include": "#procedure-parameters"
+				},
+				{
+					"include": "#standard-data-types"
+				},
+				{
+					"include": "#string-literals"
+				},
+				{
+					"include": "#preprocessor"
+				}
+			]
+		},
+		"procedure-parameters": {
+			"name": "meta.declaration.procedure.parameters.QB64",
+			"begin": "\\(",
+			"end": "\\)",
+			"patterns": [
+				{
+					"name": "storage.modifier.parameter.QB64",
+					"match": "(?i)\\b(?:byref|byval|const|pointer|ptr)\\b"
+				},
+				{
+					"name": "keyword.other.declaration.QB64",
+					"match": "(?i)(?:\\.{3}|\\bas\\b)"
+				},
+				{
+					"name": "keyword.operator.QB64",
+					"match": "[=,]"
+				},
+				{
+					"include": "#standard-data-types"
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"procedure-body-declarations": {
+			"begin": "(?i)(?:(private|public)[ \t]+)?\\b(constructor|destructor|operator|property|function|sub)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.modifier.procedure.QB64"
+				},
+				"2": {
+					"name": "keyword.other.declaration.procedure.body.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(end[ \t]+\\2)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.procedure.body.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "keyword.other.declaration.procedure.QB64",
+					"match": "(?i)\\bas\\b"
+				},
+				{
+					"name": "storage.modifier.procedure.QB64",
+					"match": "(?i)\\b(?:alias|byref|byval|cdecl|const|constructor|destructor|export|lib|overload|pascal|pointer|ptr|static|stdcall|thiscall)\\b"
+				},
+				{
+					"name": "keyword.control.procedure.QB64",
+					"match": "(?i)\\b(?:return|exit[ \t]+(?:constructor|destructor|operator|property|function|sub))\\b"
+				},
+				{
+					"name": "variable.language.QB64",
+					"match": "(?i)\\b(?:this|base)\\b"
+				},
+				{
+					"include": "$self"
+				}
+			]
+		},
+		"type-alias-declarations": {
+			"name": "meta.declaration.type.alias.QB64",
+			"match": "(?i)\\b(type)[ \t]+([a-z_][a-z0-9_]*)[ \t]+(as)[ \t]+([a-z_][a-z0-9_]*)",
+			"captures": {
+				"1": {
+					"name": "keyword.other.declaration.type.QB64"
+				},
+				"2": {
+					"name": "entity.name.type.QB64"
+				},
+				"3": {
+					"name": "keyword.other.declaration.type.QB64"
+				},
+				"4": {
+					"name": "entity.name.type.QB64"
+				}
+			}
+		},
+		"type-declarations": {
+			"name": "meta.declaration.type.QB64",
+			"begin": "(?i)\\b(type)[ \t]+([a-z_][a-z0-9_]*)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.type.begin.QB64"
+				},
+				"2": {
+					"name": "entity.name.type.QB64"
+				}
+			},
+			"end": "(?i)\\b(end[ \t]+type)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.type.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "storage.modifier.type.QB64",
+					"match": "(?i)\\b(?:alias|field)\\b"
+				},
+				{
+					"match": "(?i)\\b(extends)[ \t]+([a-z_][a-z0-9_]*)",
+					"captures": {
+						"1": {
+							"name": "keyword.other.declaration.type.QB64"
+						},
+						"2": {
+							"name": "entity.other.inherited-class.QB64"
+						}
+					}
+				},
+				{
+					"name": "invalid.illegal.unimplemented.QB64",
+					"match": "(?i)\\bimplements\\b"
+				},
+				{
+					"name": "keyword.other.declaration.type.access-control.QB64",
+					"match": "(?i)\\b(?:private|protected|public):"
+				},
+				{
+					"include": "#type-member-declarations"
+				},
+				{
+					"include": "#union-declarations"
+				},
+				{
+					"include": "#preprocessor"
+				}
+			]
+		},
+		"type-member-declarations": {
+			"patterns": [
+				{
+					"include": "#type-member-procedure-declarations"
+				},
+				{
+					"include": "#type-member-field-declarations"
+				}
+			]
+		},
+		"type-member-field-declarations": {
+			"patterns": [
+				{
+					"name": "storage.modifier.type.member.field.QB64",
+					"match": "(?i)\\b(?:const|pointer|ptr|redim|static)\\b"
+				},
+				{
+					"name": "keyword.other.declaration.QB64",
+					"match": "(?i)(?:\\:|\\bas\\b)"
+				},
+				{
+					"name": "keyword.operator.QB64",
+					"match": "[,=]"
+				},
+				{
+					"include": "#type-member-field-dimensions"
+				},
+				{
+					"include": "#standard-data-types"
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"type-member-field-dimensions": {
+			"name": "meta.declaration.type.member.field.dimensions.QB64",
+			"begin": "\\(",
+			"end": "\\)",
+			"patterns": [
+				{
+					"name": "keyword.other.declaration.QB64",
+					"match": "(?i)(?:\\.{3}|\\b(?:any|to)\\b)"
+				},
+				{
+					"name": "keyword.operator.QB64",
+					"match": ","
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"type-member-procedure-declarations": {
+			"name": "meta.declaration.type.member.procedure.QB64",
+			"begin": "(?i)\\b(declare)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.procedure.QB64"
+				}
+			},
+			"end": ":|(?<!_)[ \t]*\n",
+			"patterns": [
+				{
+					"name": "keyword.other.declaration.type.member.procedure.QB64",
+					"match": "(?i)\\b(?:constructor|destructor|operator|property|function|sub)\\b"
+				},
+				{
+					"name": "storage.modifier.type.member.procedure.QB64",
+					"match": "(?i)\\b(?:abstract|byref|byval|alias|const|cdecl|lib|override|pascal|pointer|ptr|static|stdcall|thiscall|virtual)\\b"
+				},
+				{
+					"include": "#type-member-procedure-parameters"
+				},
+				{
+					"name": "keyword.other.declaration.QB64",
+					"match": "(?i)\\bas\\b"
+				},
+				{
+					"include": "#standard-data-types"
+				}
+			]
+		},
+		"type-member-procedure-parameters": {
+			"name": "meta.declaration.type.member.procedure.parameters.QB64",
+			"begin": "\\(",
+			"end": "\\)",
+			"patterns": [
+				{
+					"name": "storage.modifier.parameter.QB64",
+					"match": "(?i)\\b(?:byref|byval|const|pointer|ptr)\\b"
+				},
+				{
+					"name": "keyword.other.declaration.QB64",
+					"match": "(?i)(?:\\.{3}|\\bas\\b)"
+				},
+				{
+					"name": "keyword.operator.QB64",
+					"match": "[=,]"
+				},
+				{
+					"include": "#standard-data-types"
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"union-declarations": {
+			"name": "meta.declaration.union.QB64",
+			"begin": "(?i)\\b(union)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.union.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(end[ \t]+union)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.union.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "storage.modifier.type.QB64",
+					"match": "(?i)\\b(?:alias|extends|field)\\b"
+				},
+				{
+					"name": "invalid.illegal.unimplemented.QB64",
+					"match": "(?i)\\bimplements\\b"
+				},
+				{
+					"include": "#union-member-declarations"
+				},
+				{
+					"include": "#type-declarations"
+				},
+				{
+					"include": "#preprocessor"
+				}
+			]
+		},
+		"union-member-declarations": {
+			"patterns": [
+				{
+					"include": "#union-member-procedure-declarations"
+				},
+				{
+					"include": "#union-member-field-declarations"
+				}
+			]
+		},
+		"union-member-field-declarations": {
+			"patterns": [
+				{
+					"name": "storage.modifier.union.member.field.QB64",
+					"match": "(?i)\\b(?:static|redim)\\b"
+				},
+				{
+					"name": "keyword.other.declaration.QB64",
+					"match": "(?i)(?:\\:|\\bas\\b)"
+				},
+				{
+					"name": "keyword.operator.QB64",
+					"match": "[,=]"
+				},
+				{
+					"include": "#union-member-field-dimensions"
+				},
+				{
+					"include": "#standard-data-types"
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"union-member-field-dimensions": {
+			"name": "meta.declaration.union.member.field.dimensions.QB64",
+			"begin": "\\(",
+			"end": "\\)",
+			"patterns": [
+				{
+					"name": "keyword.other.declaration.QB64",
+					"match": "(?i)(?:\\.{3}|\\b(?:any|to)\\b)"
+				},
+				{
+					"name": "keyword.operator.QB64",
+					"match": ","
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"union-member-procedure-declarations": {
+			"name": "meta.declaration.type.member.procedure.QB64",
+			"begin": "(?i)\\b(declare)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.procedure.QB64"
+				}
+			},
+			"end": ":|(?<!_)[ \t]*\n",
+			"patterns": [
+				{
+					"name": "keyword.other.declaration.type.member.procedure.QB64",
+					"match": "(?i)\\b(?:constructor|destructor|operator|property|function|sub)\\b"
+				},
+				{
+					"name": "storage.modifier.type.member.procedure.QB64",
+					"match": "(?i)\\b(?:abstract|byref|byval|alias|const|cdecl|lib|override|pascal|pointer|ptr|static|stdcall|thiscall|virtual)\\b"
+				},
+				{
+					"include": "#type-member-procedure-parameters"
+				},
+				{
+					"name": "keyword.other.declaration.QB64",
+					"match": "(?i)\\bas\\b"
+				},
+				{
+					"include": "#standard-data-types"
+				}
+			]
+		},
+		"union-member-procedure-parameters": {
+			"name": "meta.declaration.union.member.procedure.parameters.QB64",
+			"begin": "\\(",
+			"end": "\\)",
+			"patterns": [
+				{
+					"name": "storage.modifier.parameter.QB64",
+					"match": "(?i)\\b(?:byref|byval|const|pointer|ptr)\\b"
+				},
+				{
+					"name": "keyword.other.declaration.QB64",
+					"match": "(?i)(?:\\.{3}|\\bas\\b)"
+				},
+				{
+					"name": "keyword.operator.QB64",
+					"match": "[=,]"
+				},
+				{
+					"include": "#standard-data-types"
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"enumeration-declarations": {
+			"name": "meta.declaration.enumeration.QB64",
+			"begin": "(?i)\\b(enum)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.enumeration.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(end[ \t]+enum)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.enumeration.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "keyword.other.declaration.enumeration.QB64",
+					"match": "(?i)\\bexplicit\\b"
+				},
+				{
+					"name": "keyword.operator.QB64",
+					"match": "[,=]"
+				},
+				{
+					"include": "#integer-literals"
+				},
+				{
+					"include": "#preprocessor"
+				}
+			]
+		},
+		"class-declarations": {
+			"name": "meta.declaration.class.QB64",
+			"begin": "(?i)\\b(class)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "invalid.illegal.unimplemented.QB64"
+				}
+			},
+			"end": "(?i)\\b(end[ \t]+class)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "invalid.illegal.unimplemented.QB64"
+				}
+			}
+		},
+		"instance-declarations": {
+			"name": "meta.declaration.instance.QB64",
+			"begin": "(?i)\\b(with)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.instance.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(end[ \t]+with)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.other.declaration.instance.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"control-flow": {
+			"patterns": [
+				{
+					"include": "#control-flow-goto"
+				},
+				{
+					"include": "#control-flow-gosub"
+				},
+				{
+					"include": "#control-flow-return"
+				},
+				{
+					"include": "#control-flow-if"
+				},
+				{
+					"include": "#control-flow-select"
+				},
+				{
+					"include": "#control-flow-for"
+				},
+				{
+					"include": "#control-flow-do"
+				},
+				{
+					"include": "#control-flow-while"
+				},
+				{
+					"include": "#control-flow-error"
+				},
+				{
+					"include": "#control-flow-on-error"
+				},
+				{
+					"include": "#control-flow-resume"
+				},
+				{
+					"include": "#control-flow-resume-next"
+				},
+				{
+					"include": "#control-flow-system"
+				},
+				{
+					"include": "#control-flow-stop"
+				},
+				{
+					"include": "#control-flow-end"
+				}
+			]
+		},
+		"control-flow-goto": {
+			"name": "keyword.control.goto.QB64",
+			"match": "(?i)\\bgoto\\b"
+		},
+		"control-flow-gosub": {
+			"name": "keyword.control.gosub.QB64",
+			"match": "(?i)\\bgosub\\b"
+		},
+		"control-flow-return": {
+			"name": "keyword.control.gosub.QB64",
+			"match": "(?i)\\breturn\\b"
+		},
+		"control-flow-if": {
+			"name": "meta.block.if.QB64",
+			"begin": "(?i)\\b(if)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.if.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(end[ \t]*if)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.control.if.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "keyword.control.if.then.QB64",
+					"match": "(?i)\\bthen\\b"
+				},
+				{
+					"name": "keyword.control.if.elseif.QB64",
+					"match": "(?i)\\belseif\\b"
+				},
+				{
+					"name": "keyword.control.if.else.QB64",
+					"match": "(?i)\\belse\\b"
+				},
+				{
+					"include": "$self"
+				}
+			]
+		},
+		"control-flow-select": {
+			"name": "meta.block.select.QB64",
+			"begin": "(?i)\\b(select[ \t]+case(?:[ \t]+as[ \t]+const)?)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.select.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(end[ \t]+select)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.control.select.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "keyword.control.select.case.else.QB64",
+					"match": "(?i)\\bcase[ \t]+else\\b"
+				},
+				{
+					"name": "keyword.control.select.case.QB64",
+					"match": "(?i)\\bcase\\b"
+				},
+				{
+					"name": "keyword.control.select.case.is.QB64",
+					"match": "(?i)\\bis\\b"
+				},
+				{
+					"name": "keyword.control.select.case.to.QB64",
+					"match": "(?i)\\bto\\b"
+				},
+				{
+					"name": "keyword.control.select.exit.QB64",
+					"match": "(?i)\\bexit[ \t]+select\\b"
+				},
+				{
+					"include": "$self"
+				}
+			]
+		},
+		"control-flow-do": {
+			"name": "meta.block.do.QB64",
+			"begin": "(?i)\\b(do)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.do.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(loop)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.control.do.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "keyword.control.do.continue.QB64",
+					"match": "(?i)\\bcontinue[ \t]+do\\b"
+				},
+				{
+					"name": "keyword.control.do.exit.QB64",
+					"match": "(?i)\\bexit[ \t]+do\\b"
+				},
+				{
+					"name": "keyword.control.do.until.QB64",
+					"match": "(?i)\\buntil\\b"
+				},
+				{
+					"name": "keyword.control.do.while.QB64",
+					"match": "(?i)\\bwhile\\b"
+				},
+				{
+					"include": "$self"
+				}
+			]
+		},
+		"control-flow-for": {
+			"name": "meta.block.for.QB64",
+			"begin": "(?i)\\b(for)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.for.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(next)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.control.for.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "keyword.control.for.continue.QB64",
+					"match": "(?i)\\bcontinue[ \t]+for\\b"
+				},
+				{
+					"name": "keyword.control.for.exit.QB64",
+					"match": "(?i)\\bexit[ \t]+for\\b"
+				},
+				{
+					"name": "keyword.control.for.step.QB64",
+					"match": "(?i)\\bstep\\b"
+				},
+				{
+					"name": "keyword.control.for.to.QB64",
+					"match": "(?i)\\bto\\b"
+				},
+				{
+					"include": "$self"
+				}
+			]
+		},
+		"control-flow-while": {
+			"name": "meta.block.while.QB64",
+			"begin": "(?i)\\b(while)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.while.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(wend)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.control.while.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "keyword.control.while.continue.QB64",
+					"match": "(?i)\\bcontinue[ \t]+while\\b"
+				},
+				{
+					"name": "keyword.control.while.exit.QB64",
+					"match": "(?i)\\bexit[ \t]+while\\b"
+				}
+			]
+		},
+		"control-flow-error": {
+			"match": "(?i)\\b(?:erfn|erl|ermn|err|error)\\b"
+		},
+		"control-flow-on-error": {
+			"name": "keyword.control.on-error.QB64",
+			"match": "(?i)\\bon[ \t]+(?:local[ \t]+)?error[ \t]+goto"
+		},
+		"control-flow-resume": {
+			"name": "keyword.control.resume.QB64",
+			"match": "(?i)\\bresume\\b"
+		},
+		"control-flow-resume-next": {
+			"name": "keyword.control.resume-next.QB64",
+			"match": "(?i)\\bresume[ \t]+next\\b"
+		},
+		"control-flow-system": {
+			"name": "keyword.control.system",
+			"match": "(?i)\\bsystem\\b"
+		},
+		"control-flow-stop": {
+			"name": "keyword.control.stop",
+			"match": "(?i)\\bstop\\b"
+		},
+		"control-flow-end": {
+			"name": "keyword.control.end",
+			"match": "(?i)\\bend\\b"
+		},
+		"scoping": {
+			"patterns": [
+				{
+					"name": "meta.scope.QB64",
+					"begin": "(?i)\\b(scope)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.scope.begin.QB64"
+						}
+					},
+					"end": "(?i)\\b(end[ \t]+scope)\\b",
+					"endCaptures": {
+						"1": {
+							"name": "keyword.control.scope.end.QB64"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"include": "#scoping-extern"
+				},
+				{
+					"include": "#scoping-namespaces"
+				},
+				{
+					"include": "#scoping-using"
+				}
+			]
+		},
+		"scoping-extern": {
+			"name": "meta.scope.extern.QB64",
+			"begin": "(?i)\\b(extern)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.namespace.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(end[ \t]+extern)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.control.extern.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"name": "keyword.control.extern.QB64",
+					"match": "(?i)\\blib\\b"
+				},
+				{
+					"include": "#declarations"
+				},
+				{
+					"include": "#preprocessor"
+				}
+			]
+		},
+		"scoping-namespaces": {
+			"name": "meta.scope.namespace.QB64",
+			"begin": "(?i)\\b(namespace)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.namespace.begin.QB64"
+				}
+			},
+			"end": "(?i)\\b(end[ \t]+namespace)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.control.namespace.end.QB64"
+				}
+			},
+			"patterns": [
+				{
+					"include": "$self"
+				}
+			]
+		},
+		"scoping-using": {
+			"name": "keyword.control.using.QB64",
+			"match": "(?i)\\busing\\b"
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"include": "#special-keywords"
+				},
+				{
+					"include": "#array-keywords"
+				},
+				{
+					"include": "#bit-manipulation-keywords"
+				},
+				{
+					"include": "#date-time-keywords"
+				},
+				{
+					"include": "#error-handling-keywords"
+				},
+				{
+					"include": "#input-output-keywords"
+				},
+				{
+					"include": "#memory-keywords"
+				},
+				{
+					"include": "#operating-system-keywords"
+				},
+				{
+					"include": "#string-keywords"
+				},
+				{
+					"include": "#threading-keywords"
+				},
+				{
+					"include": "#graphics-keywords"
+				},
+				{
+					"include": "#miscellaneous-keywords"
+				},
+				{
+					"include": "#sound-keywords"
+				}
+			]
+		},
+		"array-keywords": {
+			"name": "support.function.arrays.QB64",
+			"match": "(?i)\\b(?:arraylen|arraysize|erase|lbound|ubound)\\b"
+		},
+		"bit-manipulation-keywords": {
+			"name": "support.other.macro.bit-manipulation.QB64",
+			"match": "(?i)\\b(?:bit|bitset|bitreset|lobyte|loword|hibyte|hiword|togglebit)\\b"
+		},
+		"console-keywords": {
+			"name": "support.function.console.QB64",
+			"match": "(?i)\\b(?:cls|csrlin|locate|pos|spc|tab|width|write)\\b"
+		},
+		"date-time-keywords": {
+			"name": "support.function.date-time.QB64",
+			"match": "(?i)\\b(?:date|dateadd|datediff|datepart|dateserial|datevalue|day|isdate|minute|month|monthname|now|second|setdate|settime|time|timer|timeserial|timevalue|weekday|weekdayname|year)\\b"
+		},
+		"input-output-keywords": {
+			"name": "support.function.input-output.QB64",
+			"match": "(?i)\\b(?:close|freefilegetjoystick|getkey|getmouse|inkey|inp|input|line[ \t]+input|loc|lock|lof|lpos|lprint|multikey|out|reset|seek|setmouse|stick|strig|unlock|wait|winput)\\b"
+		},
+		"mathematical-keywords": {
+			"name": "support.function.mathematical.QB64",
+			"match": "(?i)\\b(?:abs|acos|asin|atan|atan2|cos|exp|log|randomize|rnd|sqr|fix|frac|int|sgn|sin|tan)\\b"
+		},
+		"memory-keywords": {
+			"name": "support.function.memory.QB64",
+			"match": "(?i)\\b(?:allocate|callocate|clear|fb_memcopy|fb_memcopyclear|fb_memmove|deallocate|peek|poke|reallocate|sadd|swap)\\b"
+		},
+		"operating-system-keywords": {
+			"name": "support.function.operating-system.QB64",
+			"match": "(?i)\\b(?:beep|chain|chdir|command|curdir|dir|environ|exec|exepath|fileattr|filecopy|filedatetime|fileexists|fileflush|filelen|fileseteof|fre|isredirected|kill|mkdir|name|rmdir|run|shell|setenviron|sleep|FileDescription|ProductName|VersionInfo|title)\\b"
+		},
+		"string-keywords": {
+			"name": "support.function.string.QB64",
+			"match": "(?i)\\b(?:asc|bin|chr|cvd|cvi|cvl|cvlongint|cvs|cvshort|hex|instr|instrrev|lcase|left|len|lset|ltrim|mkd|mki|mkl|mklongint|mks|mkshort|mid|oct|right|rset|rtrim|space|str|ucase|val|valint|vallng|valuint|valulng|wbin|wchr|whex|woct|wspace|wstr|strcmp)\\b"
+		},
+		"threading-keywords": {
+			"name": "support.function.threading.QB64",
+			"match": "(?i)\\b(?:condbroadcast|condcreate|conddestroy|condsignal|mutexcreate|mutexdestroy|mutexlock|mutexunlock|threadcall|threadcreate|threaddetach|threadself|threadwait)\\b"
+		},
+		"graphics-keywords": {
+			"name": "support.function.graphics.QB64",
+			"match": "(?i)\\b(?:bload|bsave|circle|cls|draw|draw[ \t]+line|color|event|flip|line|imagecreate|imageconvertrow|imagedestroy|imageinfo|paint|palette|pcopy|pmap|point|pointcoord|pset|preset|rgb|rgb32|rgba|screen|screencontrol|screencopy|screenevent|screenglproc|screenlist|screenlock|screenptr|screenset|screensync|screenunlock|view|window|windowtitle)\\b"
+		},
+		"miscellaneous-keywords": {
+			"name": "support.function.QB64",
+			"match": "(?i)\\b(?:assert|assertwarn|data|offsetof|read|restore|sizeof|typeof|exeicon|noprefix)\\b"
+		},
+		"sound-keywords": {
+			"name": "support.function.QB64",
+			"match": "(?i)\\b(?:sndplaying|SndOpen|sndbal|sndclose|sndcopy|sndgetpos|sndlen|sndloop|sndopenraw|sendpause|sndpaused|sndplay|sndplaycopy|sndplayfile|sndrate|sndraw|sndrawdone|sndstop|sndvol)\\b"
+		},
+		"special-keywords": {
+			"patterns": [
+				{
+					"include": "#print-keyword"
+				},
+				{
+					"include": "#open-keyword"
+				},
+				{
+					"include": "#get-keyword"
+				},
+				{
+					"include": "#put-keyword"
+				},
+				{
+					"include": "#format-keyword"
+				}
+			]
+		},
+		"print-keyword": {
+			"begin": "(?i)(\\bprint\\b|\\?)",
+			"beginCaptures": {
+				"1": {
+					"name": "support.function.console.QB64"
+				}
+			},
+			"end": ":|(?<!_)[ \t]*\n",
+			"patterns": [
+				{
+					"begin": "(?i)\\b(using)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "support.function.console.QB64"
+						}
+					},
+					"end": ";",
+					"patterns": [
+						{
+							"include": "#qbasic-interpolated-string-literals"
+						},
+						{
+							"include": "#operators"
+						}
+					]
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"open-keyword": {
+			"begin": "(?i)\\b(open)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "support.function.input-output.frebasic"
+				}
+			},
+			"end": ":|(?<!_)[ \t]*\n",
+			"patterns": [
+				{
+					"name": "support.function.input-output.QB64",
+					"match": "(?i)\\b(?:as|access|append|binary|com|cons|encoding|err|input|for|len|lock|lpt|output|pipe|random|read|scrn|write)\\b"
+				},
+				{
+					"include": "#expressions"
+				}
+			]
+		},
+		"get-keyword": {
+			"patterns": [
+				{
+					"begin": "(?i)\\b(get)[ \t]+#",
+					"beginCaptures": {
+						"1": {
+							"name": "support.function.input-output.QB64"
+						}
+					},
+					"end": ":|(?<!_)[ \t]*\n",
+					"patterns": [
+						{
+							"include": "#expressions"
+						}
+					]
+				},
+				{
+					"begin": "(?i)\\b(get)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "support.function.graphics.QB64"
+						}
+					},
+					"end": ":|(?<!_)[ \t]*\n",
+					"patterns": [
+						{
+							"include": "#expressions"
+						}
+					]
+				}
+			]
+		},
+		"put-keyword": {
+			"patterns": [
+				{
+					"begin": "(?i)\\b(put)[ \t]+#",
+					"beginCaptures": {
+						"1": {
+							"name": "support.function.input-output.QB64"
+						}
+					},
+					"end": ":|(?<!_)[ \t]*\n",
+					"patterns": [
+						{
+							"include": "#expressions"
+						}
+					]
+				},
+				{
+					"begin": "(?i)\\b(put)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "support.function.graphics.QB64"
+						}
+					},
+					"end": ":|(?<!_)[ \t]*\n",
+					"patterns": [
+						{
+							"name": "support.constant.graphics.QB64",
+							"match": "(?i)\\b(?:add|alpha|and|custom|or|pset|trans|xor)\\b"
+						},
+						{
+							"include": "#expressions"
+						}
+					]
+				}
+			]
+		},
+		"format-keyword": {
+			"begin": "(?i)\\b(format)[ \t]*\\(",
+			"beginCaptures": {
+				"1": {
+					"name": "support.function.string.frebasic"
+				}
+			},
+			"end": "\\)",
+			"patterns": [
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#numeric-literals"
+				},
+				{
+					"include": "#visualbasic-interpolated-string-literals"
+				},
+				{
+					"include": "#boolean-literals"
+				},
+				{
+					"include": "#operators"
+				},
+				{
+					"include": "#keywords"
+				}
+			]
+		}
+	},
+	"scopeName": "source.QB64"
+}

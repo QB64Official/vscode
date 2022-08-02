@@ -1,0 +1,45 @@
+{
+    "name": "qb64",
+    "displayName": "QB64",
+    "description": "QB64 language support for Visual Studio Code.",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^0.0.1"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "license": "MIT",
+    "publisher": "LordDurus",
+    "keywords": [
+        "QB64"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/LordDurus/qb64-vscode-extension"
+    },
+    "contributes": {
+        "languages": [
+            {
+                "id": "QB64",
+                "aliases": [
+                    "QB64",
+                    "Qb64"
+                ],
+                "extensions": [
+                    ".bas",
+                    ".bi",
+                    ".bm"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "QB64",
+                "scopeName": "source.QB64",
+                "path": "./syntaxes/qb64.Language.json"
+            }
+        ]
+    }
+}
