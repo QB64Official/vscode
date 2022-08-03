@@ -4,20 +4,25 @@ A VSCode extension that adds support for QB64.
 
 This is very rough and still needs a lot of work.
 
-Based off the project https://github.com/sorucoder/freebasic-vscode-extension
+## Give credit where credit is due
+Syntax Highlighting: based on: https://github.com/sorucoder/freebasic-vscode-extension
+OutLine based on: https://github.com/svaberg/SWMF-grammar
 
 ## Features
 
 * Syntax highlighting for QB64 2.x
+* Code outline
+* Code folding
 * Build Only
 
 ## How to edit & debug.
 
 * 1 Download the source to a folder
 * 2 Open VS Code an open the downloaded folder from step 1
-* 3 Press F5 -- A new VS code window will open
-* 4 in the new VS Code window open a QB64 file.
-* This new VS Code window will have the QB64 extension enabled.
+* 3 run "npm install -g vsce" in the terminal (if you don't your changes won't get applied).  
+* 4 Press F5 -- A new VS code window will open
+* 5 in the new VS Code window open a QB64 file.
+* 6 This new VS Code window will have the QB64 extension enabled.
 
 * The sytax settings are in the file syntaxes\qb64.Language.json
 * The build tasks are in tasks folder
@@ -40,3 +45,10 @@ Based off the project https://github.com/sorucoder/freebasic-vscode-extension
 * 6 Hard coded QB64.exe path (need to create a setting page in VS Code)
 * 7 There are still FreeBasic key words in the language-configuration.json
 * 8 The auto complete sub/if/fucntion leaves the curson on the wrong line.
+
+## NPM installs
+* npm install should work, but if it doesn't
+* 1 npm install --save @types/vscode
+* 2 npm install --@types/node
+* 3 npm install -g vsce
+
