@@ -46,6 +46,31 @@
                 "scopeName": "source.QB64",
                 "path": "./syntaxes/qb64.tmLanguage.json"
             }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.showHelp",
+                "key": "f1",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.buildOnly",
+                "key": "ctrl+shift+b",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.buildAndRunWithoutDebug",
+                "key": "ctrl+f5",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.buildAndRunWithoutDebug",
+                "key": "f5",
+                "when": "editorTextFocus"
+            }
+        ],
+        "activationEvents": [
+            "onCommand:extension.showHelp"
         ]
     },
     "scripts": {
