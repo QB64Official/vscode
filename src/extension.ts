@@ -7,7 +7,8 @@ import * as vscode from 'vscode';
 // If we end up with a lot of changes an array might be better.
 var helpChannel: any;
 var formatterhannel: any;
-var qb64Build: any;
+var qb64BuildChannel: any;
+var outlineChannel: any;
 
 // Gets the selected editor text is nothing is selected return empty string.
 function getSelectedText() {
@@ -17,17 +18,19 @@ function getSelectedText() {
 
 export function activate(context: vscode.ExtensionContext) {
 
-	// Register Commands here
-	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(context); }));
-	context.subscriptions.push(vscode.commands.registerCommand('extension.buildAndRunWithoutDebug', () => { buildAndRunWithoutDebug(context, true); }));
-	context.subscriptions.push(vscode.commands.registerCommand('extension.buildOnly', () => { buildAndRunWithoutDebug(context, false); }));
-
 	context.subscriptions.push(
 		vscode.languages.registerDocumentSymbolProvider(
 			{ scheme: "file", language: "QB64" },
 			new Qb64ConfigDocumentSymbolProvider()
 		)
 	);
+
+	// Register Commands here
+	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(context); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.buildAndRunWithoutDebug', () => { buildAndRunWithoutDebug(context, true); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.buildOnly', () => { buildAndRunWithoutDebug(context, false); }));
+
+
 }
 
 export function buildAndRunWithoutDebug(context: vscode.ExtensionContext, runApp: boolean) {
@@ -36,11 +39,11 @@ export function buildAndRunWithoutDebug(context: vscode.ExtensionContext, runApp
 
 	try {
 
-		if (qb64Build) {
-			outputChannnel = qb64Build
+		if (qb64BuildChannel) {
+			outputChannnel = qb64BuildChannel
 		} else {
-			qb64Build = vscode.window.createOutputChannel("QB64: Compile");
-			outputChannnel = qb64Build;
+			qb64BuildChannel = vscode.window.createOutputChannel("QB64: Compile");
+			outputChannnel = qb64BuildChannel;
 		}
 
 		let fileName: string = vscode.window.activeTextEditor.document.uri.fsPath;
@@ -146,9 +149,11 @@ vscode.languages.registerDocumentFormattingEditProvider('QB64', {
 // Setup the Outline window
 class Qb64ConfigDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 	public provideDocumentSymbols(
+
 		document: vscode.TextDocument,
 		token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
 		return new Promise((resolve, reject) => {
+
 			let symbols: vscode.DocumentSymbol[] = [];
 			let nodes = [symbols]
 			let inside_marker: boolean = false
@@ -158,8 +163,8 @@ class Qb64ConfigDocumentSymbolProvider implements vscode.DocumentSymbolProvider 
 
 				if (line.text.toLowerCase().startsWith("sub ") || line.text.toLowerCase().startsWith("function ")) {
 
-					let isSub = line.text.toLowerCase().startsWith("sub ")
-					let tokens = line.text.split(" ")
+					let isSub: boolean = line.text.toLowerCase().startsWith("sub ")
+					let tokens: string[] = line.text.split(" ")
 					let marker_symbol = new vscode.DocumentSymbol(
 						tokens[1].trim(),
 						isSub ? "Sub" : "Function",
