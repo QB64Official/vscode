@@ -51,7 +51,7 @@
                 "qb64.compilerPath": {
                     "type": "string",
                     "default": "qb64.exe",
-                    "description": "Full path to the QB64 compiler.  If you have the QB64 in your path you can just leave this as QB64"
+                    "description": "Full path to the QB64 compiler.  If you have the folder QB64 in your path you can just leave this as QB64.exe"
                 }
             }
         },
