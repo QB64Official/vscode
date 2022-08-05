@@ -25,63 +25,88 @@
         "onLanguage:QB64"
     ],
     "contributes": {
-        "languages": [
-            {
-                "id": "QB64",
-                "aliases": [
-                    "QB64",
-                    "Qb64"
-                ],
-                "extensions": [
-                    ".bas",
-                    ".bi",
-                    ".bm"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "QB64",
-                "scopeName": "source.QB64",
-                "path": "./syntaxes/qb64.tmLanguage.json"
-            }
-        ],
-        "keybindings": [
-            {
-                "command": "extension.showHelp",
-                "key": "f1",
-                "when": "editorTextFocus"
+        "configuration": {
+            "title": "QB64",
+            "properties": {
+                "qb64.isAutoSpacing": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Auto spacing & Upper/Lowercase formation."
+                },
+                "qb64.areKeywordsInCapitals": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Keywords in CAPITALS."
+                },
+                "qb64.areSubsAndFuctionsIndented": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Indent SUBs and FUNCTIONs"
+                },
+                "qb64.compilerPath": {
+                    "type": "string",
+                    "default": "qb64.exe",
+                    "description": "Full path to the QB64 compiler.  If you have the QB64 in your path you can just leave this as QB64"
+                }
             },
-            {
-                "command": "extension.buildOnly",
-                "key": "ctrl+shift+b",
-                "when": "editorTextFocus"
-            },
-            {
-                "command": "extension.buildAndRunWithoutDebug",
-                "key": "ctrl+f5",
-                "when": "editorTextFocus"
-            },
-            {
-                "command": "extension.buildAndRunWithoutDebug",
-                "key": "f5",
-                "when": "editorTextFocus"
-            }
-        ],
-        "activationEvents": [
-            "onCommand:extension.showHelp"
-        ]
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "pretest": "npm run compile"
-    },
-    "devDependencies": {
-        "typescript": "^4.7.4",
-        "vscode-test": "^1.3.0",
-        "@types/vscode": "^1.41.0"
+            "languages": [
+                {
+                    "id": "QB64",
+                    "aliases": [
+                        "QB64",
+                        "Qb64"
+                    ],
+                    "extensions": [
+                        ".bas",
+                        ".bi",
+                        ".bm"
+                    ],
+                    "configuration": "./language-configuration.json"
+                }
+            ],
+            "grammars": [
+                {
+                    "language": "QB64",
+                    "scopeName": "source.QB64",
+                    "path": "./syntaxes/qb64.tmLanguage.json"
+                }
+            ],
+            "keybindings": [
+                {
+                    "command": "extension.showHelp",
+                    "key": "f1",
+                    "when": "editorTextFocus"
+                },
+                {
+                    "command": "extension.buildOnly",
+                    "key": "ctrl+shift+b",
+                    "when": "editorTextFocus"
+                },
+                {
+                    "command": "extension.buildAndRunWithoutDebug",
+                    "key": "ctrl+f5",
+                    "when": "editorTextFocus"
+                },
+                {
+                    "command": "extension.buildAndRunWithoutDebug",
+                    "key": "f5",
+                    "when": "editorTextFocus"
+                }
+            ],
+            "activationEvents": [
+                "onCommand:extension.showHelp"
+            ]
+        },
+        "scripts": {
+            "vscode:prepublish": "npm run compile",
+            "compile": "tsc -p ./",
+            "watch": "tsc -watch -p ./",
+            "pretest": "npm run compile"
+        },
+        "devDependencies": {
+            "typescript": "^4.7.4",
+            "vscode-test": "^1.3.0",
+            "@types/vscode": "^1.41.0"
+        }
     }
 }
