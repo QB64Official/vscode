@@ -5,8 +5,8 @@ A VSCode extension that adds support for QB64.
 This is very rough and still needs a lot of work.
 
 ## Give credit where credit is due
-Syntax Highlighting: based on: https://github.com/sorucoder/freebasic-vscode-extension
-OutLine based on: https://github.com/svaberg/SWMF-grammar
+* Syntax Highlighting: based on: https://github.com/sorucoder/freebasic-vscode-extension
+* OutLine based on: https://github.com/svaberg/SWMF-grammar
 
 ## Features
 
@@ -39,14 +39,21 @@ OutLine based on: https://github.com/svaberg/SWMF-grammar
 ## Known Issues
 * 1 The task(s) for building are not auto installing when debugging - You will need to manually create the tasks for now.
 * 2 The compiled vsix does not work.
-* 3 Keywords do not proper cased
-* 4 No real time problems
+* 3 Keywords are not formatted
+* 4 No real time problems / compiler warning.
 * 5 No Install
 * 6 Hard coded QB64.exe path (need to create a setting page in VS Code)
 * 7 There are still FreeBasic key words in the language-configuration.json
 * 8 The auto complete sub/if/fucntion leaves the curson on the wrong line.
 
+## What is currently working (I think)
+* F1 to get open the help Wiki on GitHub
+* Outline - F2 toggles focus to the outline
+* Syntax coloring -- If we see keywords that are not colored.  Report and issue, I'm sure I missed some.
+
 ## NPM installs
+* If you don't have node installed you'll needit
+*    https://nodejs.dev/learn/how-to-install-nodejs
 * npm install should work, but if it doesn't
 * 1 npm install --save @types/vscode
 * 2 npm install --@types/node
