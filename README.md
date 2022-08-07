@@ -39,10 +39,10 @@ This is very rough and still needs a lot of work.
 ## How to Build
 1. Open VS Code and add the folder from this project to the workspace
 2. Open a terminal window in VS Code
-2. Run `npm install -g vsce` from the terminal window (if not already installed)
-3. Run `vsce package` from the terminal window
-4. Right click the `qb64*.vsix` extension file and choose Install Extension
-4. The project install will be placed in root of this project
+3. Run `npm install -g vsce` from the terminal window (if not already installed)
+4. Run `vsce package` from the terminal window
+5. Right click the `qb64*.vsix` extension file and choose Install Extension
+6. The project install will be placed in root of this project
 
 ## Sytax Highlighting  
 * The sytax highlighting runs are in `language-configuration.json`
