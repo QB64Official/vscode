@@ -414,7 +414,7 @@
 			"patterns": [
 				{
 					"name": "keyword.other.option.QB64",
-					"match": "(?i)\\b(?:base|byval|dynamic|escape|explicit|gosub|nogosub|nokeyword|title)\\b"
+					"match": "(?i)\\b(?:base|byval|dynamic|escape|explicit|gosub|nogosub|nokeyword|private|static|title)\\b"
 				},
 				{
 					"include": "#decimal-integer-literals"
@@ -696,7 +696,7 @@
 		},
 		"integer-types": {
 			"name": "storage.type.integer.QB64",
-			"match": "(?i)\\bu?(?:byte|_byte|short|long|integer|unsigned|integer64|_integer64|_unsigned|offset|_offset)\\b"
+			"match": "(?i)\\bu?(?:byte|short|long|integer|unsigned|integer64)\\b"
 		},
 		"floating-point-types": {
 			"name": "storage.type.floating-point.QB64",
@@ -712,7 +712,7 @@
 		},
 		"operators": {
 			"name": "keyword.operator.QB64",
-			"match": "(?i)(?:[\\+\\-\\*/\\\\^@&\\.,;]|=>?|<>|[<>]=?|->|$|\\b(?:cast|procptr|strptr|varptr|new|delete|mod|shl|shr|not|and|or|eqv|imp|xor|let)\\b)"
+			"match": "(?i)(?:[\\+\\-\\*/\\\\^@&\\.,;]|=>?|<>|[<>]=?|->|\\b(?:cast|procptr|strptr|varptr|new|delete|mod|shl|shr|not|and|or|eqv|imp|xor|let)\\b)"
 		},
 		"declarations": {
 			"patterns": [
@@ -1686,7 +1686,7 @@
 		},
 		"input-output-keywords": {
 			"name": "support.function.input-output.QB64",
-			"match": "(?i)\\b(?:close|freefilegetjoystick|getkey|getmouse|inkey|inp|input|line[ \t]+input|loc|lock|lof|lpos|lprint|multikey|out|reset|seek|setmouse|stick|strig|unlock|wait|winput|_dest|destconsole|_console|icon|_icon|_screenshow|screenshow)\\b"
+			"match": "(?i)\\b(?:close|freefilegetjoystick|getkey|getmouse|inkey|inp|input|line[ \t]+input|loc|lock|lof|lpos|lprint|multikey|out|reset|seek|setmouse|stick|strig|unlock|wait|winput)\\b"
 		},
 		"mathematical-keywords": {
 			"name": "support.function.mathematical.QB64",
@@ -1714,7 +1714,7 @@
 		},
 		"miscellaneous-keywords": {
 			"name": "support.function.QB64",
-			"match": "(?i)\\b(?:assert|assertwarn|data|offsetof|read|restore|exeicon|noprefix|off)\\b"
+			"match": "(?i)\\b(?:assert|assertwarn|data|offsetof|read|restore|sizeof|typeof|exeicon|noprefix)\\b"
 		},
 		"sound-keywords": {
 			"name": "support.function.QB64",
@@ -1785,6 +1785,74 @@
 				},
 				{
 					"include": "#expressions"
+				}
+			]
+		},
+		"get-keyword": {
+			"patterns": [
+				{
+					"begin": "(?i)\\b(get)[ \t]+#",
+					"beginCaptures": {
+						"1": {
+							"name": "support.function.input-output.QB64"
+						}
+					},
+					"end": ":|(?<!_)[ \t]*\n",
+					"patterns": [
+						{
+							"include": "#expressions"
+						}
+					]
+				},
+				{
+					"begin": "(?i)\\b(get)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "support.function.graphics.QB64"
+						}
+					},
+					"end": ":|(?<!_)[ \t]*\n",
+					"patterns": [
+						{
+							"include": "#expressions"
+						}
+					]
+				}
+			]
+		},
+		"put-keyword": {
+			"patterns": [
+				{
+					"begin": "(?i)\\b(put)[ \t]+#",
+					"beginCaptures": {
+						"1": {
+							"name": "support.function.input-output.QB64"
+						}
+					},
+					"end": ":|(?<!_)[ \t]*\n",
+					"patterns": [
+						{
+							"include": "#expressions"
+						}
+					]
+				},
+				{
+					"begin": "(?i)\\b(put)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "support.function.graphics.QB64"
+						}
+					},
+					"end": ":|(?<!_)[ \t]*\n",
+					"patterns": [
+						{
+							"name": "support.constant.graphics.QB64",
+							"match": "(?i)\\b(?:add|alpha|and|custom|or|pset|trans|xor)\\b"
+						},
+						{
+							"include": "#expressions"
+						}
+					]
 				}
 			]
 		},
