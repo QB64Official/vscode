@@ -26,7 +26,8 @@ This is very rough and still needs a lot of work.
         - Example: ```"qb64.compilerPath": "c:\\QB64\\qb64.exe"```
     - Linux and Mac OS should use `/` for path separators
 8. Compile your basic projects using the task using Terminal -> Run Task (or CTRL+SHIFT+B) until debugging works
-9. You will need to create a launch.json - to use F5 for debugging the extension.
+9. If you don't get the .vscode folder, I've been told some people are having issues with it.
+    - You will need to create a launch.json - to use F5 for debugging the extension.
     - Create a new folder named .vscode the root of the project.
     - In that folder create a new file named launch.json
     - Past the following code in the launch.json file
