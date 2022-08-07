@@ -4,7 +4,7 @@
     "description": "QB64 language support for Visual Studio Code.",
     "version": "0.0.2",
     "engines": {
-        "vscode": "^1.41.0"
+        "vscode": "^1.69.1"
     },
     "categories": [
         "Programming Languages",

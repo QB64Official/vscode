@@ -4,7 +4,7 @@
 		{
 			"label": "QB64 Build Task - Build Only",
 			"type": "shell",
-			"command": "D:\\basic\\qb64\\qb64.exe -c ${fileDirname}\\${fileBasename} -o ${fileBasenameNoExtension}.exe -x",
+			"command": "${config:qb64.compilerPath} -c ${fileDirname}\\${fileBasename} -o ${fileDirname}\\${fileBasenameNoExtension}.exe -x",
 			"options": {},
 			"group": {
 				"kind": "build",
@@ -12,21 +12,21 @@
 			},
 			"presentation": {
 				"reveal": "always",
-				"panel": "new"
+				"panel": "shared"
 			}
 		},
 		{
 			"label": "QB64 Build Task - Build & Run",
 			"type": "shell",
-			"command": "D:\\basic\\qb64\\qb64.exe -c ${fileDirname}\\${fileBasename} -o ${fileBasenameNoExtension}.exe -x; ${fileDirname}\\${fileBasenameNoExtension}.exe",
+			"command": "${config:qb64.compilerPath} -c ${fileDirname}\\${fileBasename} -o ${fileDirname}\\${fileBasenameNoExtension}.exe -x; ${fileDirname}\\${fileBasenameNoExtension}.exe",
 			"options": {},
 			"group": {
-				"kind": "build",
+				"kind": "test",
 				"isDefault": true
 			},
 			"presentation": {
 				"reveal": "always",
-				"panel": "new"
+				"panel": "shared"
 			}
 		}
 	]
