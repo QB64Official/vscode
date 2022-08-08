@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.0.2",
+    "version": "0.1.0",
     "engines": {
         "vscode": "^1.69.1"
     },
@@ -60,7 +60,9 @@
                 "id": "QB64",
                 "aliases": [
                     "QB64",
-                    "Qb64"
+                    "Qb64",
+                    "qb64",
+                    "qB64"
                 ],
                 "extensions": [
                     ".bas",
@@ -75,6 +77,12 @@
                 "language": "QB64",
                 "scopeName": "source.QB64",
                 "path": "./syntaxes/qb64.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "QB64",
+                "path": "./snippets/qb64-snippets.json"
             }
         ],
         "keybindings": [
