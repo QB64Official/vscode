@@ -7,12 +7,19 @@ This is very rough and still needs a lot of work.
 ## Give credit where credit is due
 * Syntax Highlighting: based on: https://github.com/sorucoder/freebasic-vscode-extension
 * OutLine based on: https://github.com/svaberg/SWMF-grammar
+* The snippets came from https://github.com/microsoft/vscode/blob/main/extensions/vb/snippets/vb.code-snippets
+  - They have been edit for QB64
 
 ## Features
 * Syntax highlighting for QB64 2.x
 * Code outline
 * Code folding
 * Build Only
+* Snippets
+  - ifelse
+  - ifthen
+  - sub
+  - func
 
 ## How to edit & debug.
 1. Download the source to a folder
