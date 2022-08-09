@@ -2,20 +2,81 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.showHelp = exports.buildAndRunWithoutDebug = exports.activate = void 0;
 const vscode = require("vscode");
+const fs = require("fs");
 // Channels
 // They have to be cached or vs creates a new channel every time 😒
 // If we end up with a lot of changes an array might be better.
 var helpChannel;
 var formatterhannel;
 var qb64BuildChannel;
-var outlineChannel;
+var createFilesChannel;
 // Gets the selected editor text is nothing is selected return empty string.
 function getSelectedText() {
     let editor = vscode.window.activeTextEditor;
     return editor ? editor.document.getText(editor.selection) : "";
 }
+function createDotVSCodeFile() {
+    // const extensionsJson = "{\"recommendations\": [\"discretegames.f5anything\"]}";
+    const vscodeFolder = vscode.workspace.workspaceFolders[0].uri.fsPath + "/.vscode";
+    const extensionsJson = `{
+		"recommendations": [
+			"discretegames.f5anything"
+		]
+	}`;
+    const launchJson = `{
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "QB64",
+				"type": "f5anything",
+				"request": "launch",
+				"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}\\\\${fileBasename} -o ${fileDirname}\\\\${fileBasenameNoExtension}.exe -x; ${fileDirname}\\\\${fileBasenameNoExtension}.exe\","
+        + "\n\"terminalName\": \"QB64\","
+        + "\n\"terminalIndex\": -1, \n\"showTerminal\": true \n} \n] \n}";
+    let outputChannnel;
+    try {
+        if (qb64BuildChannel) {
+            outputChannnel = createFilesChannel;
+        }
+        else {
+            createFilesChannel = vscode.window.createOutputChannel("QB64: Create Files");
+            outputChannnel = createFilesChannel;
+        }
+        outputChannnel.appendLine("Checking for: " + vscodeFolder);
+        if (fs.existsSync(vscodeFolder)) {
+            outputChannnel.appendLine("    Found");
+        }
+        else {
+            outputChannnel.appendLine("Creating folder: " + vscodeFolder);
+            fs.mkdirSync(vscodeFolder);
+        }
+        let estFile = vscodeFolder + "/extensions.json";
+        outputChannnel.appendLine("Checking for: " + estFile);
+        if (fs.existsSync(estFile)) {
+            outputChannnel.appendLine("    Found");
+        }
+        else {
+            outputChannnel.appendLine("Creating File: " + estFile);
+            fs.writeFileSync(estFile, extensionsJson);
+        }
+        let launchFile = vscodeFolder + "/launch.json";
+        outputChannnel.appendLine("Checking for: " + launchFile);
+        if (fs.existsSync(launchFile)) {
+            outputChannnel.appendLine("    Found");
+        }
+        else {
+            outputChannnel.appendLine("Creating File: " + launchFile);
+            fs.writeFileSync(launchFile, launchJson);
+        }
+    }
+    catch (error) {
+        outputChannnel.appendLine("ERROR: " + error);
+    }
+    // TODO create files here
+}
 function activate(context) {
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ scheme: "file", language: "QB64" }, new Qb64ConfigDocumentSymbolProvider()));
+    createDotVSCodeFile();
     // Register Commands here
     context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(context); }));
     context.subscriptions.push(vscode.commands.registerCommand('extension.buildAndRunWithoutDebug', () => { buildAndRunWithoutDebug(context, true); }));
@@ -83,7 +144,7 @@ function showHelp(context) {
             code = "Function";
         }
         let url = BASE_URL + encodeURIComponent(code);
-        outputChannnel.appendLine(`Open URL: ${url}`);
+        outputChannnel.appendLine(`Open URL: ${url} `);
         vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
         // openDefaultBrowswer(url);
     }
@@ -116,8 +177,8 @@ vscode.languages.registerDocumentFormattingEditProvider('QB64', {
                 } while (lineText.endsWith(";"));
             }
             if (lineText != line.text) {
-                outputChannnel.appendLine(`Line: ${i}|C| ${line.text.trimEnd()}`);
-                outputChannnel.appendLine(`Line: ${i}|N| ${lineText}`);
+                outputChannnel.appendLine(`Line: ${i}| C | ${line.text.trimEnd()} `);
+                outputChannnel.appendLine(`Line: ${i}| N | ${lineText} `);
                 retvalue.push(vscode.TextEdit.replace(line.range, lineText));
             }
         }

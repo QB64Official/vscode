@@ -352,3 +352,5 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 db/qb64.sqbpro
+out/extension.js
+out/extension.js.map

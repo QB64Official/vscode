@@ -64,6 +64,7 @@ This is very rough and still needs a lot of work.
 2. Typescript: `npm install -g typescript`
 3. VSCode Types: `npm install -g --save @types/vscode`
 4. NodeJS Types: `npm install -g --save @types/node`
+5. To get Node:FS to compile  `npm i --save-dev @types/node`
 
 ## How to Build
 1. Open VS Code and add the folder from this project to the workspace
