@@ -2,7 +2,6 @@
 	"information_for_contributors": [
 		"This file was copied from https://github.com/microsoft/vscode/blob/main/extensions/vb/syntaxes/asp-vb-net.tmlanguage.json"
 	],
-	"version": "https://github.com/textmate/asp.vb.net.tmbundle/commit/72d44550b3286d0382d7be0624140cf97857ff69",
 	"name": "QB64",
 	"scopeName": "source.QB64",
 	"comment": "Modified from the original ASP bundle. Originally modified by Thomas Aylott subtleGradient.com",
@@ -97,7 +96,7 @@
 			"name": "keyword.control.QB64"
 		},
 		{
-			"match": "(?i:\\b(Mod|And|Not|Or|Xor|as)\\b)",
+			"match": "(?i:\\b(Mod|And|Not|Or|Xor)\\b)",
 			"name": "keyword.operator.QB64"
 		},
 		{
@@ -116,7 +115,7 @@
 			"name": "variable.other.dim.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Call|Class|Const|Dim|As|Redim|Function|End Function|Sub|End Sub|Title|Set|Let|Get|New|Type|End Type|Randomize|Option Explicit|Print|On Error Resume Next|On Error GoTo)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Call|Class|Const|Dim|As|Redim|Function|End Function|Sub|End Sub|Title|Set|Let|Get|New|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{
@@ -160,14 +159,6 @@
 		{
 			"match": "(?i:\\b(Application|ObjectContext|Request|Response|Server|Session)\\b)",
 			"name": "support.class.QB64"
-		},
-		{
-			"match": "(?i:\\b(Contents|StaticObjects|ClientCertificate|Cookies|Form|QueryString|ServerVariables)\\b)",
-			"name": "support.class.collection.QB64"
-		},
-		{
-			"match": "(?i:\\b(TotalBytes|Buffer|CacheControl|Charset|ContentType|Expires|ExpiresAbsolute|IsClientConnected|PICS|Status|ScriptTimeout|CodePage|LCID|SessionID|Timeout)\\b)",
-			"name": "support.constant.QB64"
 		},
 		{
 			"match": "(?i:\\b(Lock|Unlock|SetAbort|SetComplete|BinaryRead|AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|Write|CreateObject|HTMLEncode|MapPath|URLEncode|Abandon|Convert|Regex)\\b)",
