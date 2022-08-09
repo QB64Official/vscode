@@ -76,5 +76,14 @@
 			"End While"
 		],
 		"description": "While ... End While"
+	},
+	"Type...End Type": {
+		"prefix": "type",
+		"body": [
+			"Type ${1:TypeName}",
+			"\t$0",
+			"End Type"
+		],
+		"description": "Public Sub ..."
 	}
 }
