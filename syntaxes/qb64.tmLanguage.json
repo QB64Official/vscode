@@ -161,7 +161,7 @@
 			"name": "support.class.QB64"
 		},
 		{
-			"match": "(?i:\\b(Lock|Unlock|SetAbort|SetComplete|BinaryRead|AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|Write|CreateObject|HTMLEncode|MapPath|URLEncode|Abandon|Convert|Regex)\\b)",
+			"match": "(?i:\\b(Lock|Unlock|SetAbort|SetComplete|BinaryRead|AddHeader|AppendToLog|BinaryWrite|Clear|Cls|End|Flush|Redirect|Write|CreateObject|HTMLEncode|MapPath|URLEncode|Abandon|Convert|Regex)\\b)",
 			"name": "support.function.QB64"
 		},
 		{
