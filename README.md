@@ -5,7 +5,8 @@ A VSCode extension that adds support for [QB64](https://qb64.com/).
 This is very rough and still needs a lot of work.
 
 ## Give credit where credit is due
-* Syntax Highlighting: based on: https://github.com/sorucoder/freebasic-vscode-extension
+* Extensions Highlighting: based on: https://github.com/sorucoder/freebasic-vscode-extension
+* Syntax coloring is based on: https://github.com/microsoft/vscode/blob/main/extensions/vb/syntaxes/asp-vb-net.tmlanguage.json
 * OutLine based on: https://github.com/svaberg/SWMF-grammar
 * The snippets came from https://github.com/microsoft/vscode/blob/main/extensions/vb/snippets/vb.code-snippets
   - They have been edit for QB64
@@ -34,27 +35,13 @@ This is very rough and still needs a lot of work.
         - Example: ```"qb64.compilerPath": "c:\\QB64\\qb64.exe"```
     - Linux and Mac OS should use `/` for path separators
 8. Compile your basic projects using the task using Terminal -> Run Task (or CTRL+SHIFT+B) until debugging works
-9. If you don't get the .vscode folder, I've been told some people are having issues with it.
-    - You will need to create a launch.json - to use F5 for debugging the extension.
-    - Create a new folder named .vscode the root of the project.
-    - In that folder create a new file named launch.json
-    - Past the following code in the launch.json file
-
-    ```json
-    {
-        "version": "0.2.0",
-        "configurations": [
-            {
-                "name": "Extension",
-                "type": "extensionHost",
-                "request": "launch",
-                "args": [
-                    "--extensionDevelopmentPath=${workspaceFolder}"
-                ]
-            }
-        ]
-    }
-    ```
+~~9. If you don't get the .vscode folder, I've been told some people are having issues with it.~~
+~~    - You will need to create a launch.json - to use F5 for debugging the extension.~~
+~~    - Create a new folder named .vscode the root of the project. ~~
+~~    - In that folder create a new file named launch.json~~
+~~    - Past the following code in the launch.json file~~
+9. The launch.json & extensions.json are now auto created.  
+   -- The files are not over written so any custom changes are safe.
 
 * The syntax settings are in the file `syntaxes\qb64.Language.json`
 * The build tasks are in `tasks` folder
