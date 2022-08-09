@@ -2,12 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Extension",
-            "type": "extensionHost",
+            "name": "QB64",
+            "type": "f5anything",
             "request": "launch",
-            "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}"
-            ]
+            "command": "${config:qb64.compilerPath} -c ${fileDirname}\\${fileBasename} -o ${fileDirname}\\${fileBasenameNoExtension}.exe -x; ${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "terminalName": "QB64",
+            "terminalIndex": -1,
+            "showTerminal": true
         }
     ]
 }

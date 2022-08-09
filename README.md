@@ -72,8 +72,8 @@ This is very rough and still needs a lot of work.
 5. Right click the `qb64*.vsix` extension file and choose Install Extension
 6. The project install will be placed in root of this project
 
-## Sytax Highlighting  
-* The sytax highlighting runs are in `language-configuration.json`
+## Syntax Highlighting  
+* The syntax highlighting runs are in `language-configuration.json`
 
 ## Known Issues
 1. The task(s) for building are not auto installing when debugging - You will need to manually create the tasks for now
@@ -87,4 +87,3 @@ This is very rough and still needs a lot of work.
 * F1 to get open the help Wiki on GitHub
 * Outline - F2 toggles focus to the outline
 * Syntax coloring -- If we see keywords that are not colored.  Report and issue, I'm sure I missed some.
-* Snippets
