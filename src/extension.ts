@@ -81,9 +81,6 @@ function createDotVSCodeFile() {
 		outputChannnel.appendLine("ERROR: " + error);
 	}
 
-
-	// TODO create files here
-
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -99,48 +96,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Register Commands here
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(context); }));
-	context.subscriptions.push(vscode.commands.registerCommand('extension.buildAndRunWithoutDebug', () => { buildAndRunWithoutDebug(context, true); }));
-	context.subscriptions.push(vscode.commands.registerCommand('extension.buildOnly', () => { buildAndRunWithoutDebug(context, false); }));
-
-
-}
-
-export function buildAndRunWithoutDebug(context: vscode.ExtensionContext, runApp: boolean) {
-
-	let outputChannnel: any;
-
-	try {
-
-		if (qb64BuildChannel) {
-			outputChannnel = qb64BuildChannel
-		} else {
-			qb64BuildChannel = vscode.window.createOutputChannel("QB64: Compile");
-			outputChannnel = qb64BuildChannel;
-		}
-
-		let fileName: string = vscode.window.activeTextEditor.document.uri.fsPath;
-		let exeName: string = fileName.replace(".bas", ".exe")
-		let shellCmd = "qb64.exe -c " + fileName + " -o " + exeName + " -x -w"
-		outputChannnel.appendLine("***********************************");
-		outputChannnel.appendLine("Working Folder: " + vscode.workspace.workspaceFolders[0].uri.fsPath);
-		outputChannnel.appendLine("Compile File: " + fileName);
-		outputChannnel.appendLine("Output File: " + exeName);
-		outputChannnel.appendLine("Build Command: " + shellCmd);
-
-		new vscode.ProcessExecution(shellCmd)
-		outputChannnel.appendLine("After Build");
-		//new vscode.Task(vscode.ShellExecution(shellCmd));
-
-		//let x = new vscode.ShellExecution(shellCmd);
-
-		// ShellExecute()
-
-		if (runApp) {
-			new vscode.ShellExecution(exeName);
-		}
-	} catch (error) {
-		outputChannnel.appendLine("ERROR: " + error);
-	}
 
 }
 
