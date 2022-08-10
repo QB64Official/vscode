@@ -9,8 +9,9 @@ This is very rough and still needs a lot of work.
 * Syntax coloring is based on: https://github.com/microsoft/vscode/blob/main/extensions/vb/syntaxes/asp-vb-net.tmlanguage.json
 * OutLine based on: https://github.com/svaberg/SWMF-grammar
 * The snippets came from https://github.com/microsoft/vscode/blob/main/extensions/vb/snippets/vb.code-snippets
-  - They have been edit for QB64
-
+   - They have been edited for QB64
+* Followed for Decorations: https://vscode.rocks/decorations/
+  
 ## Features
 * Syntax highlighting for QB64 2.x
 * Code outline

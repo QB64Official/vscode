@@ -119,7 +119,7 @@
 			"name": "storage.type.QB64"
 		},
 		{
-			"match": "(?i:\\b(Private|Public|Default)\\b)",
+			"match": "(?i:\\b(ProductVersion|LegalCopyright|CompanyName|VersionInfo|FileVersion)\\b)",
 			"name": "storage.modifier.QB64"
 		},
 		{

@@ -1,9 +1,7 @@
 'use strict';
-
 import * as vscode from 'vscode';
-
 import fs = require('fs');
-
+import { Console } from 'console';
 
 // Channels
 // They have to be cached or vs creates a new channel every time 😒
@@ -12,76 +10,7 @@ var helpChannel: any;
 var formatterhannel: any;
 var qb64BuildChannel: any;
 var createFilesChannel: any;
-
-
-// Gets the selected editor text is nothing is selected return empty string.
-function getSelectedText() {
-	let editor = vscode.window.activeTextEditor;
-	return editor ? editor.document.getText(editor.selection) : "";
-}
-
-function createDotVSCodeFile() {
-	// const extensionsJson = "{\"recommendations\": [\"discretegames.f5anything\"]}";
-
-	const vscodeFolder = vscode.workspace.workspaceFolders[0].uri.fsPath + "/.vscode";
-
-	const extensionsJson = `{
-		"recommendations": [
-			"discretegames.f5anything"
-		]
-	}`
-
-	const launchJson = `{
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"name": "QB64",
-				"type": "f5anything",
-				"request": "launch",
-				"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}\\\\${fileBasename} -o ${fileDirname}\\\\${fileBasenameNoExtension}.exe -x; ${fileDirname}\\\\${fileBasenameNoExtension}.exe\","
-		+ "\n\"terminalName\": \"QB64\","
-		+ "\n\"terminalIndex\": -1, \n\"showTerminal\": true \n} \n] \n}";
-
-	let outputChannnel: any;
-	try {
-
-		if (qb64BuildChannel) {
-			outputChannnel = createFilesChannel
-		} else {
-			createFilesChannel = vscode.window.createOutputChannel("QB64: Create Files");
-			outputChannnel = createFilesChannel;
-		}
-
-		outputChannnel.appendLine("Checking for: " + vscodeFolder);
-		if (fs.existsSync(vscodeFolder)) {
-			outputChannnel.appendLine("    Found");
-		} else {
-			outputChannnel.appendLine("Creating folder: " + vscodeFolder);
-			fs.mkdirSync(vscodeFolder);
-		}
-
-		let estFile = vscodeFolder + "/extensions.json";
-		outputChannnel.appendLine("Checking for: " + estFile);
-		if (fs.existsSync(estFile)) {
-			outputChannnel.appendLine("    Found");
-		} else {
-			outputChannnel.appendLine("Creating File: " + estFile);
-			fs.writeFileSync(estFile, extensionsJson);
-		}
-
-		let launchFile = vscodeFolder + "/launch.json";
-		outputChannnel.appendLine("Checking for: " + launchFile);
-		if (fs.existsSync(launchFile)) {
-			outputChannnel.appendLine("    Found");
-		} else {
-			outputChannnel.appendLine("Creating File: " + launchFile);
-			fs.writeFileSync(launchFile, launchJson);
-		}
-	} catch (error) {
-		outputChannnel.appendLine("ERROR: " + error);
-	}
-
-}
+var decorateChannel: any;
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -91,6 +20,17 @@ export function activate(context: vscode.ExtensionContext) {
 			new Qb64ConfigDocumentSymbolProvider()
 		)
 	);
+
+	decorate(vscode.window.activeTextEditor); // Decorate on activate
+
+	vscode.workspace.onWillSaveTextDocument(event => {
+		// Decorate on change
+		const openEditor = vscode.window.visibleTextEditors.filter(
+			editor => editor.document.uri === event.document.uri
+		)[0]
+		decorate(openEditor)
+	})
+
 
 	createDotVSCodeFile();
 
@@ -213,5 +153,135 @@ class Qb64ConfigDocumentSymbolProvider implements vscode.DocumentSymbolProvider 
 			}
 			resolve(symbols);
 		});
+	}
+}
+
+function decorate(editor: vscode.TextEditor) {
+
+	const red = 0;
+	const green = 1;
+	const blue = 2;
+
+
+	const decorationTypeTodo = vscode.window.createTextEditorDecorationType({
+		backgroundColor: 'green',
+		color: 'rgb(0,0,0)'
+	})
+	let outputChannnel: any;
+
+	if (formatterhannel) {
+		outputChannnel = decorateChannel
+	} else {
+		decorateChannel = vscode.window.createOutputChannel("QB64: Decorate");
+		outputChannnel = decorateChannel;
+	}
+
+	let sourceCode = editor.document.getText()
+	let regexColor = /([_]?rgb(\d+)?\((.*)\))/i
+	let regexTodo = /TODO/i
+
+	let decorationsColor: vscode.DecorationOptions[] = []
+	let decorationsTodo: vscode.DecorationOptions[] = []
+
+	const sourceCodeArr = sourceCode.split('\n')
+
+	for (let line = 0; line < sourceCodeArr.length; line++) {
+		try {
+			let match = sourceCodeArr[line].match(regexColor)
+			if (match !== null && match.index !== undefined) {
+				let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
+				let work: vscode.Range[] = [new vscode.Range(
+					new vscode.Position(line, match.index),
+					new vscode.Position(line, match.index + match[0].length + 1)
+				)]
+				editor.setDecorations(vscode.window.createTextEditorDecorationType({ border: `1px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})` }), work)
+			} else {
+				if (sourceCodeArr[line].startsWith("'") || sourceCodeArr[line].toLowerCase().startsWith("rem ")) {
+					let match = sourceCodeArr[line].match(regexTodo)
+					if (match !== null && match.index !== undefined) {
+						let range = new vscode.Range(
+							new vscode.Position(line, match.index),
+							new vscode.Position(line, match.index + match[0].length)
+						)
+						decorationsTodo.push({ range })
+					}
+				}
+			}
+		} catch (error) {
+			outputChannnel.appendLine(error);
+		}
+	}
+
+	// editor.setDecorations(decorationTypeColor, decorationsColor)
+	editor.setDecorations(decorationTypeTodo, decorationsTodo)
+
+}
+
+
+// Gets the selected editor text is nothing is selected return empty string.
+function getSelectedText() {
+	let editor = vscode.window.activeTextEditor;
+	return editor ? editor.document.getText(editor.selection) : "";
+}
+
+function createDotVSCodeFile() {
+	// const extensionsJson = "{\"recommendations\": [\"discretegames.f5anything\"]}";
+
+	const vscodeFolder = vscode.workspace.workspaceFolders[0].uri.fsPath + "/.vscode";
+
+	const extensionsJson = `{
+		"recommendations": [
+			"discretegames.f5anything"
+		]
+	}`
+
+	const launchJson = `{
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "QB64",
+				"type": "f5anything",
+				"request": "launch",
+				"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe\","
+		+ "\n\"terminalName\": \"QB64\","
+		+ "\n\"terminalIndex\": -1, \n\"showTerminal\": true \n} \n] \n}";
+
+	let outputChannnel: any;
+	try {
+
+		if (qb64BuildChannel) {
+			outputChannnel = createFilesChannel
+		} else {
+			createFilesChannel = vscode.window.createOutputChannel("QB64: Create Files");
+			outputChannnel = createFilesChannel;
+		}
+
+		outputChannnel.appendLine("Checking for: " + vscodeFolder);
+		if (fs.existsSync(vscodeFolder)) {
+			outputChannnel.appendLine("    Found");
+		} else {
+			outputChannnel.appendLine("Creating folder: " + vscodeFolder);
+			fs.mkdirSync(vscodeFolder);
+		}
+
+		let estFile = vscodeFolder + "/extensions.json";
+		outputChannnel.appendLine("Checking for: " + estFile);
+		if (fs.existsSync(estFile)) {
+			outputChannnel.appendLine("    Found");
+		} else {
+			outputChannnel.appendLine("Creating File: " + estFile);
+			fs.writeFileSync(estFile, extensionsJson);
+		}
+
+		let launchFile = vscodeFolder + "/launch.json";
+		outputChannnel.appendLine("Checking for: " + launchFile);
+		if (fs.existsSync(launchFile)) {
+			outputChannnel.appendLine("    Found");
+		} else {
+			outputChannnel.appendLine("Creating File: " + launchFile);
+			fs.writeFileSync(launchFile, launchJson);
+		}
+	} catch (error) {
+		outputChannnel.appendLine("ERROR: " + error);
 	}
 }
