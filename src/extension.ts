@@ -1,7 +1,6 @@
 'use strict';
 import * as vscode from 'vscode';
 import fs = require('fs');
-import { Z_FIXED } from 'zlib';
 
 // Channels
 // They have to be cached or vs creates a new channel every time 😒
