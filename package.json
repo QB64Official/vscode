@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "engines": {
         "vscode": "^1.69.1"
     },
@@ -43,17 +43,18 @@
                 "qb64.isAutoSpacing": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Auto spacing & Upper/Lowercase formation."
+                    "description": "Auto spacing and indentation"
                 },
-                "qb64.areKeywordsInCapitals": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Keywords in CAPITALS."
-                },
-                "qb64.areSubsAndFuctionsIndented": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Indent SUBs and FUNCTIONs"
+                "qb64.formatMode": {
+                    "type": "string",
+                    "default": "Mix Caase",
+                    "description": "How keywords are fomatted",
+                    "enum": [
+                        "No Change",
+                        "Lower Case",
+                        "Upper Case",
+                        "Mixed Case"
+                    ]
                 },
                 "qb64.outPutExeToSourceFolder": {
                     "type": "boolean",
@@ -104,8 +105,8 @@
                 "when": "editorTextFocus"
             },
             {
-                "command": "extension.buildOnly",
-                "key": "ctrl+shift+b",
+                "command": "extension.openIncludeFile",
+                "key": "ctrl+shift+o",
                 "when": "editorTextFocus"
             },
             {
@@ -121,7 +122,23 @@
         ],
         "activationEvents": [
             "onCommand:extension.showHelp"
-        ]
+        ],
+        "commands": [
+            {
+                "command": "extension.openIncludeFile",
+                "title": "Open Include File",
+                "category": "QB64"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "command": "extension.openIncludeFile",
+                    "group": "navigation",
+                    "when": "editorLangId == 'QB64'"
+                }
+            ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

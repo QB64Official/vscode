@@ -115,12 +115,16 @@
 			"name": "variable.other.dim.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Call|Class|Const|Dim|As|Redim|Function|End Function|Sub|End Sub|Title|Set|Let|Get|New|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Call|Const|Dim|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo)\\b\\s*)",
+			"name": "storage.type.QB64"
+		},
+		{
+			"match": "(?i:\\s*\\b(Open|Close|Get|Read|Input|Random|Put)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{
 			"match": "(?i:\\b(ProductVersion|LegalCopyright|CompanyName|VersionInfo|FileVersion)\\b)",
-			"name": "storage.modifier.QB64"
+			"name": "windows.file.QB64"
 		},
 		{
 			"match": "(?i:\\s*\\b(Empty|False|Nothing|Null|True)\\b)",

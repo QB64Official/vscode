@@ -7,7 +7,9 @@
             "request": "launch",
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}"
-            ]
+            ],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "build-package"
         }
     ]
 }

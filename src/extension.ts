@@ -1,7 +1,7 @@
 'use strict';
 import * as vscode from 'vscode';
 import fs = require('fs');
-import { Console } from 'console';
+import { Z_FIXED } from 'zlib';
 
 // Channels
 // They have to be cached or vs creates a new channel every time 😒
@@ -11,6 +11,7 @@ var formatterhannel: any;
 var qb64BuildChannel: any;
 var createFilesChannel: any;
 var decorateChannel: any;
+var openIncludeFileChannel: any;
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -20,22 +21,12 @@ export function activate(context: vscode.ExtensionContext) {
 			new Qb64ConfigDocumentSymbolProvider()
 		)
 	);
-
-	decorate(vscode.window.activeTextEditor); // Decorate on activate
-
-	vscode.workspace.onWillSaveTextDocument(event => {
-		// Decorate on change
-		const openEditor = vscode.window.visibleTextEditors.filter(
-			editor => editor.document.uri === event.document.uri
-		)[0]
-		decorate(openEditor)
-	})
-
-
+	setupDecorate();
 	createDotVSCodeFile();
 
 	// Register Commands here
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(context); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(context); }));
 
 }
 
@@ -118,36 +109,36 @@ class Qb64ConfigDocumentSymbolProvider implements vscode.DocumentSymbolProvider 
 	public provideDocumentSymbols(
 
 		document: vscode.TextDocument,
-		token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
-		return new Promise((resolve, reject) => {
+		_token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
+		return new Promise(function (resolve, _reject): void {
 
 			let symbols: vscode.DocumentSymbol[] = [];
-			let nodes = [symbols]
-			let inside_marker: boolean = false
+			let nodes = [symbols];
+			let inside_marker: boolean = false;
 
 			for (let i = 0; i < document.lineCount; i++) {
 				let line = document.lineAt(i);
 
 				if (line.text.toLowerCase().startsWith("sub ") || line.text.toLowerCase().startsWith("function ")) {
 
-					let isSub: boolean = line.text.toLowerCase().startsWith("sub ")
-					let tokens: string[] = line.text.split(" ")
+					let isSub: boolean = line.text.toLowerCase().startsWith("sub ");
+					let tokens: string[] = line.text.split(" ");
 					let marker_symbol = new vscode.DocumentSymbol(
 						tokens[1].trim(),
 						isSub ? "Sub" : "Function",
 						isSub ? vscode.SymbolKind.Method : vscode.SymbolKind.Function,
-						line.range, line.range)
+						line.range, line.range);
 
-					nodes[nodes.length - 1].push(marker_symbol)
+					nodes[nodes.length - 1].push(marker_symbol);
 					if (!inside_marker) {
-						nodes.push(marker_symbol.children)
-						inside_marker = true
+						nodes.push(marker_symbol.children);
+						inside_marker = true;
 					}
 				}
 				else if (line.text.toLowerCase().startsWith("end sub") || line.text.toLowerCase().startsWith("end function")) {
 					if (inside_marker) {
-						nodes.pop()
-						inside_marker = false
+						nodes.pop();
+						inside_marker = false;
 					}
 				}
 			}
@@ -156,17 +147,79 @@ class Qb64ConfigDocumentSymbolProvider implements vscode.DocumentSymbolProvider 
 	}
 }
 
+function setupDecorate() {
+	decorate(vscode.window.activeTextEditor); // Decorate on activate/first open
+
+	// Decorate on save
+	vscode.workspace.onWillSaveTextDocument(event => {
+		// Decorate on save
+		const openEditor = vscode.window.visibleTextEditors.filter(editor => editor.document.uri === event.document.uri)[0]
+		decorate(openEditor)
+	})
+
+	// Decorate when the text editor changes
+	vscode.window.onDidChangeActiveTextEditor(async (e: { document: any; }) => {
+		if (!e || !e.document) {
+			return
+		}
+
+		decorate(vscode.window.activeTextEditor); // Decorate on activate
+
+	});
+}
+
+function openIncludeFile(context: vscode.ExtensionContext) {
+	const regexIncludeFile = /include:(.*)'/i
+	let outputChannnel: any;
+
+	if (openIncludeFileChannel) {
+		outputChannnel = openIncludeFileChannel
+	} else {
+		openIncludeFileChannel = vscode.window.createOutputChannel("QB64: OpenIncludeFile");
+		outputChannnel = openIncludeFileChannel;
+	}
+
+	try {
+		let selectedText = getSelectedTextOrLineTest();
+		let match = selectedText.match(regexIncludeFile)
+
+		if (match !== null && match.index !== undefined) {
+			let file = match[1].replace("'", ""); //.replace("\\", "/");
+			outputChannnel.appendLine("File Path Found: " + file);
+			//const path = require('path');
+			//let fullPath = path.resolve(file)
+			//let fullPath = require('path').resolve(file, vscode.window.activeTextEditor.document.fileName);
+			let fullPath = require('path').resolve(file, vscode.workspace.workspaceFolders[0].uri.fsPath) + "/" + file.substring(file.lastIndexOf("/") + 1);
+
+			if (fs.existsSync(fullPath)) {
+				outputChannnel.appendLine("Trying to open file: " + fullPath);
+				vscode.workspace.openTextDocument(fullPath).then(d => vscode.window.showTextDocument(d));
+			} else {
+				outputChannnel.appendLine("File " + fullPath + " not found.");
+			}
+		}
+	} catch (error) {
+		outputChannnel.appendLine("ERROR: " + error);
+	}
+}
+
 function decorate(editor: vscode.TextEditor) {
 
 	const red = 0;
 	const green = 1;
 	const blue = 2;
-
-
 	const decorationTypeTodo = vscode.window.createTextEditorDecorationType({
 		backgroundColor: 'green',
 		color: 'rgb(0,0,0)'
 	})
+
+	const decorationTypeIncludeLeading = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
+	const decorationTypeIncludeTrailing = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
+	const regexColor = /([_]?rgb(\d+)?\((.*)\))/i
+	const regexTodo = /TODO/i
+	const regexInclude = /'\$INCLUDE:/i
+	const regexIncludeFile = /'(.*)'/i
+
 	let outputChannnel: any;
 
 	if (formatterhannel) {
@@ -177,11 +230,11 @@ function decorate(editor: vscode.TextEditor) {
 	}
 
 	let sourceCode = editor.document.getText()
-	let regexColor = /([_]?rgb(\d+)?\((.*)\))/i
-	let regexTodo = /TODO/i
 
-	let decorationsColor: vscode.DecorationOptions[] = []
-	let decorationsTodo: vscode.DecorationOptions[] = []
+
+	let includeLeading: vscode.Range[] = []
+	let includeTrailing: vscode.Range[] = []
+	let todo: vscode.Range[] = []
 
 	const sourceCodeArr = sourceCode.split('\n')
 
@@ -190,20 +243,21 @@ function decorate(editor: vscode.TextEditor) {
 			let match = sourceCodeArr[line].match(regexColor)
 			if (match !== null && match.index !== undefined) {
 				let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
-				let work: vscode.Range[] = [new vscode.Range(
-					new vscode.Position(line, match.index),
-					new vscode.Position(line, match.index + match[0].length + 1)
-				)]
+				let work: vscode.Range[] = [CreateRange(match, line)];
 				editor.setDecorations(vscode.window.createTextEditorDecorationType({ border: `1px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})` }), work)
 			} else {
 				if (sourceCodeArr[line].startsWith("'") || sourceCodeArr[line].toLowerCase().startsWith("rem ")) {
 					let match = sourceCodeArr[line].match(regexTodo)
 					if (match !== null && match.index !== undefined) {
-						let range = new vscode.Range(
-							new vscode.Position(line, match.index),
-							new vscode.Position(line, match.index + match[0].length)
-						)
-						decorationsTodo.push({ range })
+						todo.push(CreateRange(match, line));
+					}
+					match = sourceCodeArr[line].match(regexInclude)
+					if (match !== null && match.index !== undefined) {
+						includeLeading.push(CreateRange(match, line));
+						match = sourceCodeArr[line].match(regexIncludeFile)
+						if (match !== null && match.index !== undefined) {
+							includeTrailing.push(CreateRange(match, line));
+						}
 					}
 				}
 			}
@@ -212,16 +266,34 @@ function decorate(editor: vscode.TextEditor) {
 		}
 	}
 
-	// editor.setDecorations(decorationTypeColor, decorationsColor)
-	editor.setDecorations(decorationTypeTodo, decorationsTodo)
+	editor.setDecorations(decorationTypeIncludeLeading, includeLeading)
+	editor.setDecorations(decorationTypeIncludeTrailing, includeTrailing)
+	editor.setDecorations(decorationTypeTodo, todo)
 
 }
 
+function CreateRange(match: RegExpMatchArray, line: number) {
+	return new vscode.Range(
+		new vscode.Position(line, match.index),
+		new vscode.Position(line, match.index + match[0].length));
+}
 
 // Gets the selected editor text is nothing is selected return empty string.
 function getSelectedText() {
 	let editor = vscode.window.activeTextEditor;
 	return editor ? editor.document.getText(editor.selection) : "";
+}
+
+
+// Gets the selected editor text is nothing is selected return empty string.
+function getSelectedTextOrLineTest() {
+	let editor = vscode.window.activeTextEditor;
+	let retvalue = editor ? editor.document.getText(editor.selection) : "";
+
+	if (retvalue.length < 1) {
+		retvalue = editor.document.lineAt(vscode.window.activeTextEditor.selection.active.line).text;
+	}
+	return retvalue;
 }
 
 function createDotVSCodeFile() {
