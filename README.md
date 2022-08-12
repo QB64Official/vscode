@@ -82,3 +82,4 @@ This is very rough and still needs a lot of work.
 * F1 to get open the help Wiki on GitHub
 * Outline - F2 toggles focus to the outline
 * Syntax coloring -- If we see keywords that are not colored.  Report and issue, I'm sure I missed some.
+* Open Include file.
