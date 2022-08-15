@@ -1,11 +1,11 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "ES6",
+		"target": "ES2021",
 		"outDir": "out",
 		"removeComments": false,
 		"lib": [
-			"ES2019"
+			"ES2021"
 		],
 		"sourceMap": true,
 		"rootDir": "src"

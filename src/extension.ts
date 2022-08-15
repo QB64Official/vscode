@@ -3,8 +3,8 @@ import * as vscode from 'vscode';
 import fs = require('fs');
 
 // Channels
-// They have to be cached or vs creates a new channel every time 😒
-// If we end up with a lot of changes an array might be better.
+// They have to be cached or vsc creates a new channel every time 😒
+// If we end up with a lot of changes an array of objects might be better.
 var helpChannel: any;
 var formatterhannel: any;
 var qb64BuildChannel: any;
@@ -39,23 +39,71 @@ export function showHelp(context: vscode.ExtensionContext) {
 			helpChannel = vscode.window.createOutputChannel("QB64: Help");
 			outputChannnel = helpChannel;
 		}
-		let code = getSelectedText();
-		if (code.length < 1) {
-			return;
+
+		let word = getSelectedText();
+		outputChannnel.appendLine(`Base Url: ${BASE_URL} `);
+		if (word.length > 0) {
+			word = word.split(" ")[0];
+		} else {
+
+			let editor = vscode.window.activeTextEditor;
+
+			if (!editor) {
+				outputChannnel.appendLine('Active editor not found.'); return
+			}
+
+			if (!editor.document) {
+				outputChannnel.appendLine('Active document not found.'); return
+			}
+			const stop: string = " (+-=<>[{}])\t";
+			let lineOfCode = editor.document.lineAt(editor.selection.active.line).text;
+			let cursorPostion = editor.selection.active.character;
+
+			if (lineOfCode.substring(cursorPostion, 1).trim() == "") {
+				outputChannnel.appendLine('The cursor is on a space or empty line, giving up.');
+				return;
+			}
+
+			// Get the first part of athe string
+			for (let i = cursorPostion - 1; i >= 0; i--) {
+				let currentChar = lineOfCode.substring(i - 1, i);
+				if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
+					break;
+				}
+				word = currentChar + word;
+			}
+
+			// Get the last part of athe string
+			for (let i = cursorPostion; i <= lineOfCode.length; i++) {
+				let currentChar = lineOfCode.substring(i - 1, i);
+				if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
+					break;
+				}
+				word = word + currentChar;
+			}
+
+			if (word.length < 1) {
+				outputChannnel.appendLine('Could find selected keyword');
+				return;
+			}
 		}
+		word = word.trim();
+		outputChannnel.appendLine(`Word Found: ${word} `);
 
 		// Handle cases where it's easy to select too much text or the text doesn't match the wiki page.
-		if (code.toLowerCase().startsWith("end ")) {
-			code = "End"
-		} else if (code.toLowerCase().startsWith("end ")) {
-			code = "If...Then"
-		} else if (code.toLowerCase().startsWith("sub ")) {
-			code = "Sub"
-		} else if (code.toLowerCase().startsWith("function ")) {
-			code = "Function"
+		if (word.toLowerCase().startsWith("end")) {
+			word = "End"
+		} else if (word.toLowerCase().startsWith("if")) {
+			word = "If...Then"
+		} else if (word.toLowerCase().startsWith("for") || word.toLowerCase().startsWith("next")) {
+			word = "FOR...NEXT"
+		} else if (word.toLowerCase().startsWith("sub")) {
+			word = "Sub"
+		} else if (word.toLowerCase().startsWith("function")) {
+			word = "Function"
 		}
 
-		let url = BASE_URL + encodeURIComponent(code);
+		let url = BASE_URL + encodeURIComponent(word);
 
 		outputChannnel.appendLine(`Open URL: ${url} `);
 		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
@@ -161,7 +209,6 @@ function setupDecorate() {
 		if (!e || !e.document) {
 			return
 		}
-
 		decorate(vscode.window.activeTextEditor); // Decorate on activate
 
 	});
@@ -203,25 +250,19 @@ function openIncludeFile(context: vscode.ExtensionContext) {
 }
 
 function decorate(editor: vscode.TextEditor) {
-
 	const red = 0;
 	const green = 1;
 	const blue = 2;
-	const decorationTypeTodo = vscode.window.createTextEditorDecorationType({
-		backgroundColor: 'green',
-		color: 'rgb(0,0,0)'
-	})
-
+	const config = vscode.workspace.getConfiguration("qb64")
+	const isTodoEnabled: boolean = config.get("isTodoHighlightEnabled");
+	const isRGbColorEnabled: boolean = config.get("isRgbColorEnabled");
+	const decorationTypeTodo = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
 	const decorationTypeIncludeLeading = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
 	const decorationTypeIncludeTrailing = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
-	const regexColor = /([_]?rgb(\d+)?\((.*)\))/i
-	const regexTodo = /TODO/i
 	const regexInclude = /'\$INCLUDE:/i
-	const regexIncludeFile = /'(.*)'/i
-
 	let outputChannnel: any;
 
-	if (formatterhannel) {
+	if (decorateChannel) {
 		outputChannnel = decorateChannel
 	} else {
 		decorateChannel = vscode.window.createOutputChannel("QB64: Decorate");
@@ -229,8 +270,6 @@ function decorate(editor: vscode.TextEditor) {
 	}
 
 	let sourceCode = editor.document.getText()
-
-
 	let includeLeading: vscode.Range[] = []
 	let includeTrailing: vscode.Range[] = []
 	let todo: vscode.Range[] = []
@@ -239,24 +278,33 @@ function decorate(editor: vscode.TextEditor) {
 
 	for (let line = 0; line < sourceCodeArr.length; line++) {
 		try {
-			let match = sourceCodeArr[line].match(regexColor)
-			if (match !== null && match.index !== undefined) {
-				let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
-				let work: vscode.Range[] = [CreateRange(match, line)];
-				editor.setDecorations(vscode.window.createTextEditorDecorationType({ border: `1px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})` }), work)
-			} else {
-				if (sourceCodeArr[line].startsWith("'") || sourceCodeArr[line].toLowerCase().startsWith("rem ")) {
-					let match = sourceCodeArr[line].match(regexTodo)
-					if (match !== null && match.index !== undefined) {
-						todo.push(CreateRange(match, line));
-					}
-					match = sourceCodeArr[line].match(regexInclude)
-					if (match !== null && match.index !== undefined) {
-						includeLeading.push(CreateRange(match, line));
-						match = sourceCodeArr[line].match(regexIncludeFile)
-						if (match !== null && match.index !== undefined) {
-							includeTrailing.push(CreateRange(match, line));
-						}
+			// Look for rgb				
+			let matches = sourceCodeArr[line].matchAll(/(?<=rgb|rgb32)(\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))/ig);
+
+			if (isRGbColorEnabled && matches) {
+				for (const match of matches) {
+
+					outputChannnel.appendLine(`RGB Found at ${match.index}`);
+					// Could use this to get just the numbers (\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))
+					let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
+					let work: vscode.Range[] = [CreateRange(match, line, 0)];
+					let colorDec = vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})` })
+					editor.setDecorations(colorDec, work);
+				}
+
+				// Look for include files
+				const match = sourceCodeArr[line].match(regexInclude)
+				if (match !== null && match.index !== undefined) {
+					includeLeading.push(CreateRange(match, line, 0));
+				}
+
+				// Look for todo
+				if (isTodoEnabled) {
+					const matches = sourceCodeArr[line].matchAll(/(?<='|rem)TODO:|FIXIT:|FIXME/ig);
+					// const matches = sourceCodeArr[line].matchAll(new RegExp('TODO:|FIXIT:|FIXME:', "ig"));
+					for (const match of matches) {
+						outputChannnel.appendLine(`Todo Found Found at ${match.index}`);
+						todo.push(CreateRange(match, line, 0));
 					}
 				}
 			}
@@ -271,10 +319,10 @@ function decorate(editor: vscode.TextEditor) {
 
 }
 
-function CreateRange(match: RegExpMatchArray, line: number) {
+function CreateRange(match: RegExpMatchArray, line: number, matchIndex: number) {
 	return new vscode.Range(
 		new vscode.Position(line, match.index),
-		new vscode.Position(line, match.index + match[0].length));
+		new vscode.Position(line, match.index + match[matchIndex].length));
 }
 
 // Gets the selected editor text is nothing is selected return empty string.
@@ -282,7 +330,6 @@ function getSelectedText() {
 	let editor = vscode.window.activeTextEditor;
 	return editor ? editor.document.getText(editor.selection) : "";
 }
-
 
 // Gets the selected editor text is nothing is selected return empty string.
 function getSelectedTextOrLineTest() {
