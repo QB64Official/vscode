@@ -24,7 +24,7 @@ This is very rough and still needs a lot of work.
   - ifthen
   - sub
   - func
-  - type 
+  - type
 
 ## How to edit & debug.
 1. Download the source to a folder
