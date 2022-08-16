@@ -230,11 +230,8 @@ function openIncludeFile(context: vscode.ExtensionContext) {
 		let match = selectedText.match(regexIncludeFile)
 
 		if (match !== null && match.index !== undefined) {
-			let file = match[1].replace("'", ""); //.replace("\\", "/");
+			let file = match[1].replace("'", "");
 			outputChannnel.appendLine("File Path Found: " + file);
-			//const path = require('path');
-			//let fullPath = path.resolve(file)
-			//let fullPath = require('path').resolve(file, vscode.window.activeTextEditor.document.fileName);
 			let fullPath = require('path').resolve(file, vscode.workspace.workspaceFolders[0].uri.fsPath) + "/" + file.substring(file.lastIndexOf("/") + 1);
 
 			if (fs.existsSync(fullPath)) {
@@ -259,7 +256,7 @@ function decorate(editor: vscode.TextEditor) {
 	const decorationTypeTodo = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
 	const decorationTypeIncludeLeading = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
 	const decorationTypeIncludeTrailing = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
-	const regexInclude = /'\$INCLUDE:/i
+
 	let outputChannnel: any;
 
 	if (decorateChannel) {
@@ -269,17 +266,16 @@ function decorate(editor: vscode.TextEditor) {
 		outputChannnel = decorateChannel;
 	}
 
-	let sourceCode = editor.document.getText()
 	let includeLeading: vscode.Range[] = []
 	let includeTrailing: vscode.Range[] = []
 	let todo: vscode.Range[] = []
 
-	const sourceCodeArr = sourceCode.split('\n')
+	const sourceCode = editor.document.getText().split('\n')
 
-	for (let line = 0; line < sourceCodeArr.length; line++) {
+	for (let line = 0; line < sourceCode.length; line++) {
 		try {
 			// Look for rgb				
-			let matches = sourceCodeArr[line].matchAll(/(?<=rgb|rgb32)(\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))/ig);
+			let matches = sourceCode[line].matchAll(/(?<=rgb|rgb32)(\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))/ig);
 
 			if (isRGbColorEnabled && matches) {
 				for (const match of matches) {
@@ -293,15 +289,14 @@ function decorate(editor: vscode.TextEditor) {
 				}
 
 				// Look for include files
-				const match = sourceCodeArr[line].match(regexInclude)
+				const match = sourceCode[line].match(/'\$INCLUDE:/i)
 				if (match !== null && match.index !== undefined) {
 					includeLeading.push(CreateRange(match, line, 0));
 				}
 
 				// Look for todo
 				if (isTodoEnabled) {
-					const matches = sourceCodeArr[line].matchAll(/(?<='|rem)TODO:|FIXIT:|FIXME/ig);
-					// const matches = sourceCodeArr[line].matchAll(new RegExp('TODO:|FIXIT:|FIXME:', "ig"));
+					const matches = sourceCode[line].matchAll(/(?<='*|rem*)TODO:|FIXIT:|FIXME:/ig);
 					for (const match of matches) {
 						outputChannnel.appendLine(`Todo Found Found at ${match.index}`);
 						todo.push(CreateRange(match, line, 0));
@@ -353,7 +348,8 @@ function createDotVSCodeFile() {
 		]
 	}`
 
-	const launchJson = `{
+	const launchJson =
+		`	{
 		"version": "0.2.0",
 		"configurations": [
 			{
@@ -361,8 +357,18 @@ function createDotVSCodeFile() {
 				"type": "f5anything",
 				"request": "launch",
 				"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe\","
-		+ "\n\"terminalName\": \"QB64\","
-		+ "\n\"terminalIndex\": -1, \n\"showTerminal\": true \n} \n] \n}";
+		+ `			"terminalName": "QB64",
+				"terminalIndex": -1, 
+				"showTerminal": true,
+				"linux": {
+					"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension} -x; ${fileDirname}/${fileBasenameNoExtension}\""
+		+ `		},
+				"osx": {
+					"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension} -x; ${fileDirname}/${fileBasenameNoExtension}\""
+		+ `		}
+			} 
+		]
+	}`;
 
 	let outputChannnel: any;
 	try {

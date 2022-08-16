@@ -71,7 +71,7 @@
 			"name": "meta.function.QB64"
 		},
 		{
-			"begin": "(^[ \\t]+)?(?=')",
+			"begin": "(^[ \\t]+)?(?='|rem|REM|Rem|rEm|reM|rEM|ReM)",
 			"beginCaptures": {
 				"1": {
 					"name": "punctuation.whitespace.comment.leading.QB64"
@@ -80,7 +80,7 @@
 			"end": "(?!\\G)",
 			"patterns": [
 				{
-					"begin": "'",
+					"begin": "'|",
 					"beginCaptures": {
 						"0": {
 							"name": "punctuation.definition.comment.QB64"
