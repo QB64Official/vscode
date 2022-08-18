@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "engines": {
         "vscode": "^1.69.1"
     },
@@ -22,7 +22,8 @@
     "icon": "images/qb64.ico",
     "main": "./out/extension.js",
     "activationEvents": [
-        "onLanguage:QB64"
+        "onLanguage:QB64",
+        "onCommand:extension.showHelp"
     ],
     "configurationDefaults": {
         "[QB64]": {
@@ -37,6 +38,75 @@
         }
     },
     "contributes": {
+        "debuggers": [
+            {
+                "type": "QB64",
+                "label": "QB64 Debugger",
+                "runtime": "node",
+                "configurationAttributes": {
+                    "launch": {
+                        "required": [
+                            "command"
+                        ],
+                        "properties": {
+                            "command": {
+                                "type": "string",
+                                "description": "The terminal command to run when this configuration runs.",
+                                "default": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe"
+                            },
+                            "terminalName": {
+                                "type": "string",
+                                "description": "The name given to the dedicated terminal QB64 creates for itself. Defaults to \"F5 Anything\".",
+                                "default": "QB64"
+                            },
+                            "terminalIndex": {
+                                "type": "number",
+                                "description": "The index of the terminal to send commands to. When -1 or out of range a dedicated terminal is created and used. Terminals are 0-indexed in order of creation, not by visual order. Defaults to -1.",
+                                "default": -1
+                            },
+                            "showTerminal": {
+                                "type": "boolean",
+                                "description": "Whether or not the terminal a command is sent to is given focus. Defaults to true.",
+                                "default": true
+                            }
+                        }
+                    }
+                },
+                "initialConfigurations": [
+                    {
+                        "name": "QB64: Custom Command",
+                        "type": "QB64",
+                        "request": "launch",
+                        "command": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe"
+                    }
+                ],
+                "configurationSnippets": [
+                    {
+                        "label": "QB64: Basic Configuration",
+                        "description": "Basic QB64 configuration for running a custom terminal command.",
+                        "body": {
+                            "name": "QB64: Custom Command",
+                            "type": "QB64",
+                            "request": "launch",
+                            "command": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe"
+                        }
+                    },
+                    {
+                        "label": "QB64: Full Configuration",
+                        "description": "Full QB64 configuration for running a custom terminal command with all properties present.",
+                        "body": {
+                            "name": "QB64: Custom Command",
+                            "type": "QB64",
+                            "request": "launch",
+                            "command": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe",
+                            "terminalName": "Qb64",
+                            "terminalIndex": -1,
+                            "showTerminal": true
+                        }
+                    }
+                ]
+            }
+        ],
         "configuration": {
             "title": "QB64",
             "properties": {
@@ -55,6 +125,16 @@
                     "default": true,
                     "description": "Highlight TODO in comments"
                 },
+                "qb64.isCreateGitIngoreEnabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Create a .gitignore if it does not exist"
+                },
+                "qb64.isCreateBakFileEnabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Create a *.*-bak when saving."
+                },
                 "qb64.formatMode": {
                     "type": "string",
                     "default": "Mix Case",
@@ -65,11 +145,6 @@
                         "Upper Case",
                         "Mixed Case"
                     ]
-                },
-                "qb64.outPutExeToSourceFolder": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Output Exe to source folder:"
                 },
                 "qb64.compilerPath": {
                     "type": "string",
@@ -128,15 +203,22 @@
                 "key": "f2",
                 "command": "outline.focus",
                 "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.addToGitIgnore",
+                "key": "ctrl+shit+i",
+                "when": "explorerFocus"
             }
-        ],
-        "activationEvents": [
-            "onCommand:extension.showHelp"
         ],
         "commands": [
             {
                 "command": "extension.openIncludeFile",
                 "title": "Open Include File",
+                "category": "QB64"
+            },
+            {
+                "command": "extension.addToGitIgnore",
+                "title": "Add to .gitignore",
                 "category": "QB64"
             }
         ],
@@ -146,6 +228,11 @@
                     "command": "extension.openIncludeFile",
                     "group": "navigation",
                     "when": "editorLangId == 'QB64'"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "extension.addToGitIgnore"
                 }
             ]
         }
@@ -161,5 +248,8 @@
         "@types/vscode": "^1.41.0",
         "typescript": "^4.7.4",
         "vscode-test": "^1.3.0"
+    },
+    "dependencies": {
+        "vscode-debugadapter": "^1.51.0"
     }
 }

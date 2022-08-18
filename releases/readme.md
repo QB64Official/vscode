@@ -42,3 +42,22 @@ All notable changes to the "QB64" extension will be documented in this file.
    - Launch.json support for Linux
    - TODO not highlighed on "REM" line
    - "REM" line not comment color
+
+## 0.4.0
+   - Enchantments
+    - Reworked the creation of the outline to make it faster.
+    - Issue# 19 Auto creates a .gitignore
+      - Aded context menu item to the explorer - "Add to .gitignore"
+      - Hot Key ctrl+shift+i 
+    - Issue# 20 Reworked the F5 (baked in F5 Anywhere and rebranded it QB64)
+      - You will need to delete the old automatically launch.json to use this.
+    - Issue# 05 Line decorations are set when moving off the line.
+    - Issue# 18 Auto Create back on save.
+      - The files will have the name but the extension will have "-bak" added to it.
+      - The files will not show in the explorer view because a setting.json is getting created in the .vscode older to hide them.
+      - If you want to see the backup files edit setting.json and set true to false for the files you'd like to see.
+      - These files are added to the automatically created .gitignore
+  - Fixes
+    - Fixed the highlighting of the file part of the include file. (broke in v0.3.0)    
+  - Misc
+    - Removed unsued exe to *.bas folder

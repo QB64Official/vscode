@@ -11,6 +11,9 @@ This is very rough and still needs a lot of work.
 * The snippets came from https://github.com/microsoft/vscode/blob/main/extensions/vb/snippets/vb.code-snippets
    - They have been edited for QB64
 * Followed for Decorations: https://vscode.rocks/decorations/
+* The todo list icon came from: https://www.iconfinder.com/search?q=todo&price=free&style=outline&license=gte__1
+* I just stright up stole the core of F5 anything and baked it in to get F5 working with out external extenstions
+  - https://github.com/discretegames/f5anything
   
 ## Features
 * Syntax highlighting for QB64 2.x
@@ -62,15 +65,16 @@ This is very rough and still needs a lot of work.
 1. Open VS Code and add the folder from this project to the workspace
 2. Open a terminal window in VS Code
 3. Run `npm install -g vsce` from the terminal window (if not already installed)
-4. Run `vsce package` from the terminal window
-5. Right click the `qb64*.vsix` extension file and choose Install Extension
-6. The project install will be placed in root of this project
+4. Run `npm i vscode-debugadapter` from the terminal window (if not already installed)
+5. Run `vsce package` from the terminal window
+6. Right click the `qb64*.vsix` extension file and choose Install Extension
+7. The project install will be placed in root of this project
 
 ## Syntax Highlighting  
 * The syntax highlighting is in `/syntaxes/qb64.tmLanguage.json`
 
 ## Known Issues
-1. The task(s) for building are not auto installing when debugging - You will need to manually create the tasks for now
+~~1. The task(s) for building are not auto installing when debugging - You will need to manually create the tasks for now~~
 2. Keywords are not formatted
 3. No real time problems / compiler warning
 4. Not published on VS Code extension marketplace (yet)
@@ -83,3 +87,4 @@ This is very rough and still needs a lot of work.
 * Outline - F2 toggles focus to the outline
 * Syntax coloring -- If we see keywords that are not colored.  Report and issue, I'm sure I missed some.
 * Open Include file.
+* Build & Run with F5

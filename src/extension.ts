@@ -1,16 +1,37 @@
 'use strict';
 import * as vscode from 'vscode';
+import { ProviderResult } from "vscode";
 import fs = require('fs');
+import * as gitFucnctions from './gitFucnctions';
+import * as vscodeFucnctions from './vscodeFunctions';
+import * as decoratorFunctions from './decoratorFunctions';
+import * as helpFunctions from './helpFunctions';
+import { DebugSession, TerminatedEvent } from 'vscode-debugadapter';
+import { ReadableStreamDefaultController } from 'stream/web';
+
+// TODO: Get the TODOs window working.
+// 	This needs to go in the package.json in the contributes
+// 	,
+//         "views": {
+//             "explorer": [
+//                 {
+//                     "id": "todo",
+//                     "name": "TODOs",
+//                     "icon": "images\\todo.svg",
+//                     "contextualTitle": "View TODOs"
+//                 }
+//             ]
+//         }
+
 
 // Channels
 // They have to be cached or vsc creates a new channel every time 😒
 // If we end up with a lot of changes an array of objects might be better.
-var helpChannel: any;
 var formatterhannel: any;
-var qb64BuildChannel: any;
-var createFilesChannel: any;
-var decorateChannel: any;
 var openIncludeFileChannel: any;
+var createBackupChannel: any;
+var ownTerminal: vscode.Terminal;
+
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -20,95 +41,55 @@ export function activate(context: vscode.ExtensionContext) {
 			new Qb64ConfigDocumentSymbolProvider()
 		)
 	);
-	setupDecorate();
-	createDotVSCodeFile();
+
+	vscode.workspace.onWillSaveTextDocument(event => { CreateBackup() });
+
+	decoratorFunctions.setupDecorate();
+	vscodeFucnctions.createFiles();
+	gitFucnctions.createGitignore();
 
 	// Register Commands here
-	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(context); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(context); }));
-
+	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
+	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new InlineDebugAdapterFactory()));
 }
 
-export function showHelp(context: vscode.ExtensionContext) {
-	const BASE_URL = "https://github.com/QB64Official/qb64/wiki/";
+export function addToGitIgnore(items: any) {
+	gitFucnctions.addToGitIgnore(items);
+}
+
+export function showHelp() {
+	helpFunctions.showHelp();
+}
+
+function CreateBackup() {
+
+
 	let outputChannnel: any;
+
+	if (createBackupChannel) {
+		outputChannnel = createBackupChannel
+	} else {
+		createBackupChannel = vscode.window.createOutputChannel("QB64: CreateBackup");
+		outputChannnel = createBackupChannel;
+	}
 	try {
-		if (helpChannel) {
-			outputChannnel = helpChannel
-		} else {
-			helpChannel = vscode.window.createOutputChannel("QB64: Help");
-			outputChannnel = helpChannel;
+		const config = vscode.workspace.getConfiguration("qb64")
+		const isCreateBakFileEnabled: boolean = config.get("isCreateBakFileEnabled");
+		if (!isCreateBakFileEnabled) {
+			return;
 		}
 
-		let word = getSelectedText();
-		outputChannnel.appendLine(`Base Url: ${BASE_URL} `);
-		if (word.length > 0) {
-			word = word.split(" ")[0];
-		} else {
-
-			let editor = vscode.window.activeTextEditor;
-
-			if (!editor) {
-				outputChannnel.appendLine('Active editor not found.'); return
-			}
-
-			if (!editor.document) {
-				outputChannnel.appendLine('Active document not found.'); return
-			}
-			const stop: string = " (+-=<>[{}])\t";
-			let lineOfCode = editor.document.lineAt(editor.selection.active.line).text;
-			let cursorPostion = editor.selection.active.character;
-
-			if (lineOfCode.substring(cursorPostion, 1).trim() == "") {
-				outputChannnel.appendLine('The cursor is on a space or empty line, giving up.');
-				return;
-			}
-
-			// Get the first part of athe string
-			for (let i = cursorPostion - 1; i >= 0; i--) {
-				let currentChar = lineOfCode.substring(i - 1, i);
-				if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
-					break;
-				}
-				word = currentChar + word;
-			}
-
-			// Get the last part of athe string
-			for (let i = cursorPostion; i <= lineOfCode.length; i++) {
-				let currentChar = lineOfCode.substring(i - 1, i);
-				if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
-					break;
-				}
-				word = word + currentChar;
-			}
-
-			if (word.length < 1) {
-				outputChannnel.appendLine('Could find selected keyword');
-				return;
-			}
-		}
-		word = word.trim();
-		outputChannnel.appendLine(`Word Found: ${word} `);
-
-		// Handle cases where it's easy to select too much text or the text doesn't match the wiki page.
-		if (word.toLowerCase().startsWith("end")) {
-			word = "End"
-		} else if (word.toLowerCase().startsWith("if")) {
-			word = "If...Then"
-		} else if (word.toLowerCase().startsWith("for") || word.toLowerCase().startsWith("next")) {
-			word = "FOR...NEXT"
-		} else if (word.toLowerCase().startsWith("sub")) {
-			word = "Sub"
-		} else if (word.toLowerCase().startsWith("function")) {
-			word = "Function"
+		if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId == "Log") {
+			return;
 		}
 
-		let url = BASE_URL + encodeURIComponent(word);
-
-		outputChannnel.appendLine(`Open URL: ${url} `);
-		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
-
-		// openDefaultBrowswer(url);
+		let source = vscode.window.activeTextEditor.document.fileName
+		let backupFile = source + "-bak";
+		outputChannnel.appendLine(`Tying to copy ${source} to ${backupFile}`);
+		fs.copyFileSync(source, backupFile)
+		outputChannnel.appendLine(`File ${source} copied to ${backupFile}`);
 	} catch (error) {
 		outputChannnel.appendLine("ERROR: " + error);
 	}
@@ -154,17 +135,15 @@ vscode.languages.registerDocumentFormattingEditProvider('QB64', {
 // Setup the Outline window
 class Qb64ConfigDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 	public provideDocumentSymbols(
-
 		document: vscode.TextDocument,
 		_token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
 		return new Promise(function (resolve, _reject): void {
 
 			let symbols: vscode.DocumentSymbol[] = [];
 			let nodes = [symbols];
-			let inside_marker: boolean = false;
 
 			for (let i = 0; i < document.lineCount; i++) {
-				let line = document.lineAt(i);
+				const line = document.lineAt(i);
 
 				if (line.text.toLowerCase().startsWith("sub ") || line.text.toLowerCase().startsWith("function ")) {
 
@@ -177,41 +156,11 @@ class Qb64ConfigDocumentSymbolProvider implements vscode.DocumentSymbolProvider 
 						line.range, line.range);
 
 					nodes[nodes.length - 1].push(marker_symbol);
-					if (!inside_marker) {
-						nodes.push(marker_symbol.children);
-						inside_marker = true;
-					}
-				}
-				else if (line.text.toLowerCase().startsWith("end sub") || line.text.toLowerCase().startsWith("end function")) {
-					if (inside_marker) {
-						nodes.pop();
-						inside_marker = false;
-					}
 				}
 			}
 			resolve(symbols);
 		});
 	}
-}
-
-function setupDecorate() {
-	decorate(vscode.window.activeTextEditor); // Decorate on activate/first open
-
-	// Decorate on save
-	vscode.workspace.onWillSaveTextDocument(event => {
-		// Decorate on save
-		const openEditor = vscode.window.visibleTextEditors.filter(editor => editor.document.uri === event.document.uri)[0]
-		decorate(openEditor)
-	})
-
-	// Decorate when the text editor changes
-	vscode.window.onDidChangeActiveTextEditor(async (e: { document: any; }) => {
-		if (!e || !e.document) {
-			return
-		}
-		decorate(vscode.window.activeTextEditor); // Decorate on activate
-
-	});
 }
 
 function openIncludeFile(context: vscode.ExtensionContext) {
@@ -246,86 +195,6 @@ function openIncludeFile(context: vscode.ExtensionContext) {
 	}
 }
 
-function decorate(editor: vscode.TextEditor) {
-	const red = 0;
-	const green = 1;
-	const blue = 2;
-	const config = vscode.workspace.getConfiguration("qb64")
-	const isTodoEnabled: boolean = config.get("isTodoHighlightEnabled");
-	const isRGbColorEnabled: boolean = config.get("isRgbColorEnabled");
-	const decorationTypeTodo = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
-	const decorationTypeIncludeLeading = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
-	const decorationTypeIncludeTrailing = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
-
-	let outputChannnel: any;
-
-	if (decorateChannel) {
-		outputChannnel = decorateChannel
-	} else {
-		decorateChannel = vscode.window.createOutputChannel("QB64: Decorate");
-		outputChannnel = decorateChannel;
-	}
-
-	let includeLeading: vscode.Range[] = []
-	let includeTrailing: vscode.Range[] = []
-	let todo: vscode.Range[] = []
-
-	const sourceCode = editor.document.getText().split('\n')
-
-	for (let line = 0; line < sourceCode.length; line++) {
-		try {
-			// Look for rgb				
-			let matches = sourceCode[line].matchAll(/(?<=rgb|rgb32)(\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))/ig);
-
-			if (isRGbColorEnabled && matches) {
-				for (const match of matches) {
-
-					outputChannnel.appendLine(`RGB Found at ${match.index}`);
-					// Could use this to get just the numbers (\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))
-					let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
-					let work: vscode.Range[] = [CreateRange(match, line, 0)];
-					let colorDec = vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})` })
-					editor.setDecorations(colorDec, work);
-				}
-
-				// Look for include files
-				const match = sourceCode[line].match(/'\$INCLUDE:/i)
-				if (match !== null && match.index !== undefined) {
-					includeLeading.push(CreateRange(match, line, 0));
-				}
-
-				// Look for todo
-				if (isTodoEnabled) {
-					const matches = sourceCode[line].matchAll(/(?<='*|rem*)TODO:|FIXIT:|FIXME:/ig);
-					for (const match of matches) {
-						outputChannnel.appendLine(`Todo Found Found at ${match.index}`);
-						todo.push(CreateRange(match, line, 0));
-					}
-				}
-			}
-		} catch (error) {
-			outputChannnel.appendLine(error);
-		}
-	}
-
-	editor.setDecorations(decorationTypeIncludeLeading, includeLeading)
-	editor.setDecorations(decorationTypeIncludeTrailing, includeTrailing)
-	editor.setDecorations(decorationTypeTodo, todo)
-
-}
-
-function CreateRange(match: RegExpMatchArray, line: number, matchIndex: number) {
-	return new vscode.Range(
-		new vscode.Position(line, match.index),
-		new vscode.Position(line, match.index + match[matchIndex].length));
-}
-
-// Gets the selected editor text is nothing is selected return empty string.
-function getSelectedText() {
-	let editor = vscode.window.activeTextEditor;
-	return editor ? editor.document.getText(editor.selection) : "";
-}
-
 // Gets the selected editor text is nothing is selected return empty string.
 function getSelectedTextOrLineTest() {
 	let editor = vscode.window.activeTextEditor;
@@ -337,75 +206,41 @@ function getSelectedTextOrLineTest() {
 	return retvalue;
 }
 
-function createDotVSCodeFile() {
-	// const extensionsJson = "{\"recommendations\": [\"discretegames.f5anything\"]}";
-
-	const vscodeFolder = vscode.workspace.workspaceFolders[0].uri.fsPath + "/.vscode";
-
-	const extensionsJson = `{
-		"recommendations": [
-			"discretegames.f5anything"
-		]
-	}`
-
-	const launchJson =
-		`	{
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"name": "QB64",
-				"type": "f5anything",
-				"request": "launch",
-				"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe\","
-		+ `			"terminalName": "QB64",
-				"terminalIndex": -1, 
-				"showTerminal": true,
-				"linux": {
-					"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension} -x; ${fileDirname}/${fileBasenameNoExtension}\""
-		+ `		},
-				"osx": {
-					"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension} -x; ${fileDirname}/${fileBasenameNoExtension}\""
-		+ `		}
-			} 
-		]
-	}`;
-
-	let outputChannnel: any;
-	try {
-
-		if (qb64BuildChannel) {
-			outputChannnel = createFilesChannel
+class InlineDebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
+	createDebugAdapterDescriptor(session: vscode.DebugSession): ProviderResult<vscode.DebugAdapterDescriptor> {
+		if (!session.configuration.hasOwnProperty("command")) {
+			vscode.window.showErrorMessage(`No command found for QB64 launch configuration "${session.configuration.name}". Add one like "command": "echo Hello" to your launch.json.`);
 		} else {
-			createFilesChannel = vscode.window.createOutputChannel("QB64: Create Files");
-			outputChannnel = createFilesChannel;
+			const terminal = getTerminal(session.configuration);
+			if (!session.configuration.hasOwnProperty("showTerminal") || session.configuration.showTerminal) {
+				terminal.show();
+			}
+			terminal.sendText(String(session.configuration.command));
 		}
-
-		outputChannnel.appendLine("Checking for: " + vscodeFolder);
-		if (fs.existsSync(vscodeFolder)) {
-			outputChannnel.appendLine("    Found");
-		} else {
-			outputChannnel.appendLine("Creating folder: " + vscodeFolder);
-			fs.mkdirSync(vscodeFolder);
-		}
-
-		let estFile = vscodeFolder + "/extensions.json";
-		outputChannnel.appendLine("Checking for: " + estFile);
-		if (fs.existsSync(estFile)) {
-			outputChannnel.appendLine("    Found");
-		} else {
-			outputChannnel.appendLine("Creating File: " + estFile);
-			fs.writeFileSync(estFile, extensionsJson);
-		}
-
-		let launchFile = vscodeFolder + "/launch.json";
-		outputChannnel.appendLine("Checking for: " + launchFile);
-		if (fs.existsSync(launchFile)) {
-			outputChannnel.appendLine("    Found");
-		} else {
-			outputChannnel.appendLine("Creating File: " + launchFile);
-			fs.writeFileSync(launchFile, launchJson);
-		}
-	} catch (error) {
-		outputChannnel.appendLine("ERROR: " + error);
+		return new vscode.DebugAdapterInlineImplementation(new DummyDebugSession());
 	}
+}
+
+export class DummyDebugSession extends DebugSession {
+	protected initializeRequest(): void {
+		this.sendEvent(new TerminatedEvent());
+	}
+}
+
+function getTerminal(configuration: vscode.DebugConfiguration): vscode.Terminal {
+	if (
+		configuration.hasOwnProperty("terminalIndex") && Number.isInteger(configuration.terminalIndex) &&
+		configuration.terminalIndex >= 0 && configuration.terminalIndex < vscode.window.terminals.length
+	) {
+		return vscode.window.terminals[configuration.terminalIndex];
+	}
+
+	if (!ownTerminal || ownTerminal.exitStatus) {
+		let name = "QB64";
+		if (configuration.hasOwnProperty("terminalName")) {
+			name = String(configuration.terminalName);
+		}
+		ownTerminal = vscode.window.createTerminal(name);
+	}
+	return ownTerminal;
 }
