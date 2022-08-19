@@ -63,15 +63,15 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Misc
     - Removed unsued exe to *.bas folder
 
-  ## 0.4.1
+## 0.4.1
   - Fixes
     - Aded the the word "not" to ```outputChannnel.appendLine('Could find selected keyword');```
     - Fixed the name of gitFunctions.tsWe
 
-## 0.4.1
+## 0.4.2
   - Fixes
   - #22 Changed F2 to ctrl+F2
 
-## 0.4.2
+## 0.4.3
    - Added vscode-debugadapter to the devDependencies in the package.json
    - Added 'use strict' to the ts files missing it.
