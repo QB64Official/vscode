@@ -61,3 +61,8 @@ All notable changes to the "QB64" extension will be documented in this file.
     - Fixed the highlighting of the file part of the include file. (broke in v0.3.0)    
   - Misc
     - Removed unsued exe to *.bas folder
+
+  ## 0.4.1
+  - Fixes
+    - Aded the the word "not" to ```outputChannnel.appendLine('Could find selected keyword');```
+    - Fixed the name of gitFunctions.tsWe

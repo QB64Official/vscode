@@ -54,7 +54,7 @@ export function showHelp() {
 			}
 
 			if (word.length < 1) {
-				outputChannnel.appendLine('Could find selected keyword');
+				outputChannnel.appendLine('Could not find selected keyword');
 				return;
 			}
 		}

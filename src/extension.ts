@@ -2,7 +2,7 @@
 import * as vscode from 'vscode';
 import { ProviderResult } from "vscode";
 import fs = require('fs');
-import * as gitFucnctions from './gitFucnctions';
+import * as gitFucnctions from './gitFunctions';
 import * as vscodeFucnctions from './vscodeFunctions';
 import * as decoratorFunctions from './decoratorFunctions';
 import * as helpFunctions from './helpFunctions';
