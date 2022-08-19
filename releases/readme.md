@@ -67,3 +67,7 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Fixes
     - Aded the the word "not" to ```outputChannnel.appendLine('Could find selected keyword');```
     - Fixed the name of gitFunctions.tsWe
+
+## 0.4.1
+  - Fixes
+  - #22 Changed F2 to ctrl+F2    
