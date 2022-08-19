@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "engines": {
         "vscode": "^1.69.1"
     },
@@ -195,12 +195,12 @@
                 "when": "editorTextFocus"
             },
             {
-                "key": "f2",
+                "key": "ctrl+f2",
                 "command": "workbench.action.focusFirstEditorGroup",
                 "when": "outline.active"
             },
             {
-                "key": "f2",
+                "key": "ctrl+f2",
                 "command": "outline.focus",
                 "when": "editorTextFocus"
             },
