@@ -2,7 +2,7 @@
 import * as vscode from 'vscode';
 import { ProviderResult } from "vscode";
 import fs = require('fs');
-import * as gitFucnctions from './gitFunctions';
+import * as gitFunctions from './gitFunctions';
 import * as vscodeFucnctions from './vscodeFunctions';
 import * as decoratorFunctions from './decoratorFunctions';
 import * as helpFunctions from './helpFunctions';
@@ -32,7 +32,6 @@ var openIncludeFileChannel: any;
 var createBackupChannel: any;
 var ownTerminal: vscode.Terminal;
 
-
 export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
@@ -46,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	decoratorFunctions.setupDecorate();
 	vscodeFucnctions.createFiles();
-	gitFucnctions.createGitignore();
+	gitFunctions.createGitignore();
 
 	// Register Commands here
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLintFull', () => { runLintFull(); }));
@@ -57,7 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function addToGitIgnore(items: any) {
-	gitFucnctions.addToGitIgnore(items);
+	gitFunctions.addToGitIgnore(items);
 }
 
 export function showHelp() {

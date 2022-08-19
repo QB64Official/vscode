@@ -4,6 +4,8 @@ import * as vscode from 'vscode';
 import fs = require('fs');
 import path from 'path';
 import { exec } from 'child_process';
+import { Diagnostic, DiagnosticSeverity, } from 'vscode-languageserver/node';
+
 
 /**
  * Runs the compiler/linter then calls lintCurrentFile with the output.
@@ -46,7 +48,23 @@ function lintCurrentFile(compilerOutput: string) {
 			if (!line) {
 				continue;
 			}
-
+			/*
+						if (line.indexOf("warning:") >= 0) {
+							const tokens: string[] = line.split(":");
+							let start: number = 0;
+							let stop: number = 50;
+							let diagnostic: Diagnostic = {
+								severity: DiagnosticSeverity.Warning,
+								range: {
+									start: textDocument.positionAt(m.index),
+									end: textDocument.positionAt(m.index + m[0].length)
+								},
+								message: `${m[0]} is all uppercase.`,
+								source: 'ex'
+							};
+							diagnostics.push(diagnostic);
+						}
+			*/
 		}
 
 	} catch (error) {
