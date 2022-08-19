@@ -6,8 +6,8 @@ import * as gitFucnctions from './gitFunctions';
 import * as vscodeFucnctions from './vscodeFunctions';
 import * as decoratorFunctions from './decoratorFunctions';
 import * as helpFunctions from './helpFunctions';
-import { DebugSession, TerminatedEvent } from 'vscode-debugadapter';
-import { ReadableStreamDefaultController } from 'stream/web';
+import { DebugSession, TerminatedEvent } from '@vscode/debugadapter';
+import { runLintFull } from './lintFunctions'
 
 // TODO: Get the TODOs window working.
 // 	This needs to go in the package.json in the contributes
@@ -49,6 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
 	gitFucnctions.createGitignore();
 
 	// Register Commands here
+	context.subscriptions.push(vscode.commands.registerCommand('extension.runLintFull', () => { runLintFull(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(context); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
@@ -65,9 +66,7 @@ export function showHelp() {
 
 function CreateBackup() {
 
-
 	let outputChannnel: any;
-
 	if (createBackupChannel) {
 		outputChannnel = createBackupChannel
 	} else {

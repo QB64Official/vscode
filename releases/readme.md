@@ -70,4 +70,8 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.4.1
   - Fixes
-  - #22 Changed F2 to ctrl+F2    
+  - #22 Changed F2 to ctrl+F2
+
+## 0.4.2
+   - Added vscode-debugadapter to the devDependencies in the package.json
+   - Added 'use strict' to the ts files missing it.

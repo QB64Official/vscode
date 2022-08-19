@@ -1,3 +1,4 @@
+'use strict';
 import * as vscode from 'vscode';
 import fs = require('fs');
 
@@ -459,6 +460,7 @@ out/extension.js
 out/extension.js.map
 .bak-bas
 .bak-bi
-.bak-bm 
+.bak-bm
+.cmp-out
 `;
 }

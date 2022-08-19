@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "engines": {
         "vscode": "^1.69.1"
     },
@@ -208,6 +208,11 @@
                 "command": "extension.addToGitIgnore",
                 "key": "ctrl+shit+i",
                 "when": "explorerFocus"
+            },
+            {
+                "command": "extension.runLintFull",
+                "key": "ctrl+shit+l",
+                "when": "editorTextFocus"
             }
         ],
         "commands": [
@@ -247,9 +252,10 @@
         "@types/node": "^18.7.3",
         "@types/vscode": "^1.41.0",
         "typescript": "^4.7.4",
-        "vscode-test": "^1.3.0"
+        "vscode-test": "^1.3.0",
+        "@vscode/debugadapter": "^1.57.0"
     },
     "dependencies": {
-        "vscode-debugadapter": "^1.51.0"
+        "@vscode/debugadapter": "^1.57.0"
     }
 }

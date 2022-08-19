@@ -1,9 +1,8 @@
-
-var qb64BuildChannel: any;
-var createFilesChannel: any;
+'use strict';
 import * as vscode from 'vscode';
 import fs = require('fs');
 
+var createFilesChannel: any;
 export function createFiles() {
 	// const extensionsJson = "{\"recommendations\": [\"discretegames.f5anything\"]}";
 
@@ -14,7 +13,8 @@ export function createFiles() {
 		"files.exclude": {
 			"**/*.bas-bak": true,
 			"**/*.bi-bak": true,
-			"**/*.bm-bak": true
+			"**/*.bm-bak": true,
+			"**/*.cmp-out": true,
 		}
 	}`
 
@@ -42,7 +42,7 @@ export function createFiles() {
 	let outputChannnel: any;
 	try {
 
-		if (qb64BuildChannel) {
+		if (createFilesChannel) {
 			outputChannnel = createFilesChannel
 		} else {
 			createFilesChannel = vscode.window.createOutputChannel("QB64: Create Files");
