@@ -187,7 +187,7 @@
             {
                 "command": "extension.showHelp",
                 "key": "f1",
-                "when": "editorTextFocus"
+                "when": "editorLangId == 'QB64' && editorTextFocus"
             },
             {
                 "command": "extension.openIncludeFile",
@@ -224,6 +224,11 @@
             {
                 "command": "extension.addToGitIgnore",
                 "title": "Add to .gitignore",
+                "category": "QB64"
+            },
+            {
+                "command": "extension.showHelp",
+                "title": "Open Help",
                 "category": "QB64"
             }
         ],
