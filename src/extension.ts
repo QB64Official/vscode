@@ -179,7 +179,9 @@ function openIncludeFile(context: vscode.ExtensionContext) {
 		if (match !== null && match.index !== undefined) {
 			let file = match[1].replace("'", "");
 			outputChannnel.appendLine("File Path Found: " + file);
-			let fullPath = require('path').resolve(file, vscode.workspace.workspaceFolders[0].uri.fsPath) + "/" + file.substring(file.lastIndexOf("/") + 1);
+			const path = require('path');
+			let codeFile = path.dirname(vscode.window.activeTextEditor.document.fileName);
+			let fullPath = path.resolve(file, codeFile) + "/" + file.substring(file.lastIndexOf("/") + 1);
 
 			if (fs.existsSync(fullPath)) {
 				outputChannnel.appendLine("Trying to open file: " + fullPath);

@@ -75,3 +75,4 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.4.3
    - Added vscode-debugadapter to the devDependencies in the package.json
    - Added 'use strict' to the ts files missing it.
+   - Fixed Issue #3 - Open Include File.
