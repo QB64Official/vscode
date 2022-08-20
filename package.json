@@ -23,7 +23,7 @@
     "main": "./out/extension.js",
     "activationEvents": [
         "onLanguage:QB64",
-        "onCommand:extension.showHelp"
+        "onCommand:qb64.showHelp"
     ],
     "configurationDefaults": {
         "[QB64]": {
@@ -185,12 +185,12 @@
         ],
         "keybindings": [
             {
-                "command": "extension.showHelp",
+                "command": "qb64.showHelp",
                 "key": "f1",
                 "when": "editorLangId == 'QB64' && editorTextFocus"
             },
             {
-                "command": "extension.openIncludeFile",
+                "command": "qb64.openIncludeFile",
                 "key": "ctrl+shift+o",
                 "when": "editorTextFocus"
             },
@@ -205,29 +205,29 @@
                 "when": "editorTextFocus"
             },
             {
-                "command": "extension.addToGitIgnore",
+                "command": "qb64.addToGitIgnore",
                 "key": "ctrl+shit+i",
                 "when": "explorerFocus"
             },
             {
-                "command": "extension.runLintFull",
+                "command": "qb64.runLintFull",
                 "key": "ctrl+shit+l",
                 "when": "editorTextFocus"
             }
         ],
         "commands": [
             {
-                "command": "extension.openIncludeFile",
+                "command": "qb64.openIncludeFile",
                 "title": "Open Include File",
                 "category": "QB64"
             },
             {
-                "command": "extension.addToGitIgnore",
+                "command": "qb64.addToGitIgnore",
                 "title": "Add to .gitignore",
                 "category": "QB64"
             },
             {
-                "command": "extension.showHelp",
+                "command": "qb64.showHelp",
                 "title": "Open Help",
                 "category": "QB64"
             }
@@ -235,14 +235,14 @@
         "menus": {
             "editor/context": [
                 {
-                    "command": "extension.openIncludeFile",
+                    "command": "qb64.openIncludeFile",
                     "group": "navigation",
                     "when": "editorLangId == 'QB64'"
                 }
             ],
             "explorer/context": [
                 {
-                    "command": "extension.addToGitIgnore"
+                    "command": "qb64.addToGitIgnore"
                 }
             ]
         }
