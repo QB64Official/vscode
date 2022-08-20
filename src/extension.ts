@@ -6,7 +6,7 @@ import * as gitFunctions from './gitFunctions';
 import * as vscodeFucnctions from './vscodeFunctions';
 import * as decoratorFunctions from './decoratorFunctions';
 import * as helpFunctions from './helpFunctions';
-import { DebugSession, TerminatedEvent } from '@vscode/debugadapter';
+// import { DebugSession, TerminatedEvent } from '@vscode/debugadapter';
 import { runLintFull } from './lintFunctions'
 
 // TODO: Get the TODOs window working.
@@ -52,7 +52,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(context); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
-	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new InlineDebugAdapterFactory()));
+	//context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new InlineDebugAdapterFactory()));
 }
 
 export function addToGitIgnore(items: any) {
@@ -206,26 +206,26 @@ function getSelectedTextOrLineTest() {
 	return retvalue;
 }
 
-class InlineDebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
-	createDebugAdapterDescriptor(session: vscode.DebugSession): ProviderResult<vscode.DebugAdapterDescriptor> {
-		if (!session.configuration.hasOwnProperty("command")) {
-			vscode.window.showErrorMessage(`No command found for QB64 launch configuration "${session.configuration.name}". Add one like "command": "echo Hello" to your launch.json.`);
-		} else {
-			const terminal = getTerminal(session.configuration);
-			if (!session.configuration.hasOwnProperty("showTerminal") || session.configuration.showTerminal) {
-				terminal.show();
-			}
-			terminal.sendText(String(session.configuration.command));
-		}
-		return new vscode.DebugAdapterInlineImplementation(new DummyDebugSession());
-	}
-}
+// class InlineDebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
+// 	createDebugAdapterDescriptor(session: vscode.DebugSession): ProviderResult<vscode.DebugAdapterDescriptor> {
+// 		if (!session.configuration.hasOwnProperty("command")) {
+// 			vscode.window.showErrorMessage(`No command found for QB64 launch configuration "${session.configuration.name}". Add one like "command": "echo Hello" to your launch.json.`);
+// 		} else {
+// 			const terminal = getTerminal(session.configuration);
+// 			if (!session.configuration.hasOwnProperty("showTerminal") || session.configuration.showTerminal) {
+// 				terminal.show();
+// 			}
+// 			terminal.sendText(String(session.configuration.command));
+// 		}
+// 		return new vscode.DebugAdapterInlineImplementation(new DummyDebugSession());
+// 	}
+// }
 
-export class DummyDebugSession extends DebugSession {
-	protected initializeRequest(): void {
-		this.sendEvent(new TerminatedEvent());
-	}
-}
+// export class DummyDebugSession extends DebugSession {
+// 	protected initializeRequest(): void {
+// 		this.sendEvent(new TerminatedEvent());
+// 	}
+// }
 
 function getTerminal(configuration: vscode.DebugConfiguration): vscode.Terminal {
 	if (
