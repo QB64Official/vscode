@@ -48,10 +48,10 @@ export function activate(context: vscode.ExtensionContext) {
 	gitFunctions.createGitignore();
 
 	// Register Commands here
-	context.subscriptions.push(vscode.commands.registerCommand('qb64.runLintFull', () => { runLintFull(); }));
-	context.subscriptions.push(vscode.commands.registerCommand('qb64.showHelp', () => { showHelp(); }));
-	context.subscriptions.push(vscode.commands.registerCommand('qb64.openIncludeFile', () => { openIncludeFile(context); }));
-	context.subscriptions.push(vscode.commands.registerCommand('qb64.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.runLintFull', () => { runLintFull(); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(context); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new InlineDebugAdapterFactory()));
 }
 
