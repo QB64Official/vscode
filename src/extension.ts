@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import { ProviderResult } from "vscode";
 import fs = require('fs');
 import * as gitFunctions from './gitFunctions';
-import * as vscodeFucnctions from './vscodeFunctions';
+import * as vscodeFunctions from './vscodeFunctions';
 import * as decoratorFunctions from './decoratorFunctions';
 import * as helpFunctions from './helpFunctions';
 import { DebugSession, TerminatedEvent } from '@vscode/debugadapter';
@@ -43,8 +43,8 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.workspace.onWillSaveTextDocument(event => { CreateBackup() });
 
 	decoratorFunctions.setupDecorate();
-	vscodeFucnctions.createFiles();
-	gitFunctions.createGitignore();
+	//vscodeFunctions.createFiles();
+	//gitFunctions.createGitignore();
 
 	// Register Commands here
 	context.subscriptions.push(vscode.commands.registerCommand('qb64.runLintFull', () => { runLintFull(); }));
