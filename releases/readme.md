@@ -66,7 +66,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.4.1
   - Fixes
     - Aded the the word "not" to ```outputChannnel.appendLine('Could find selected keyword');```
-    - Fixed the name of gitFunctions.tsWe
+    - Fixed the name of gitFunctions.ts
 
 ## 0.4.2
   - Fixes
@@ -76,3 +76,6 @@ All notable changes to the "QB64" extension will be documented in this file.
    - Added vscode-debugadapter to the devDependencies in the package.json
    - Added 'use strict' to the ts files missing it.
    - Fixed Issue #3 - Open Include File.
+
+## 4.4
+   - Fixed Issue #23 - F1 at start of line.

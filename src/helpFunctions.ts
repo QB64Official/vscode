@@ -27,14 +27,16 @@ export function showHelp() {
 			if (!editor.document) {
 				outputChannnel.appendLine('Active document not found.'); return
 			}
-			const stop: string = " (+-=<>[{}])\t";
+			const stop: string = " (+-=<>[{}]`)\t";
 			const lineOfCode = editor.document.lineAt(editor.selection.active.line).text;
 			const cursorPostion = editor.selection.active.character;
 
+			/*
 			if (lineOfCode.substring(cursorPostion, 1).trim() == "") {
 				outputChannnel.appendLine('The cursor is on a space or empty line, giving up.');
 				return;
 			}
+			*/
 
 			// Get the first part of athe string
 			for (let i: number = cursorPostion - 1; i >= 0; i--) {

@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.4.3",
+    "version": "0.4.4",
     "engines": {
         "vscode": "^1.69.1"
     },
@@ -211,7 +211,7 @@
             },
             {
                 "command": "extension.runLintFull",
-                "key": "ctrl+shit+l",
+                "key": "ctrl+alt+l",
                 "when": "editorTextFocus"
             }
         ],
