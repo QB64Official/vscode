@@ -79,3 +79,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 4.4
    - Fixed Issue #23 - F1 at start of line.
+
+## 0.5.0
+   - Reworked writting to the output channels
+   - Added more error trapping.   
