@@ -1,42 +1,31 @@
-'use strict';
-import * as vscode from 'vscode';
-
-var helpChannel: any;
+"use strict";
+import * as vscode from "vscode";
+import * as logFunctions from "./logFunctions";
 
 export function showHelp() {
-	const BASE_URL = "https://github.com/QB64Official/qb64/wiki/";
-	let outputChannnel: any;
+	const base_url = "https://github.com/QB64Official/qb64/wiki/";
+	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.help);
 	try {
-		if (helpChannel) {
-			outputChannnel = helpChannel
-		} else {
-			helpChannel = vscode.window.createOutputChannel("QB64: Help");
-			outputChannnel = helpChannel;
-		}
+
 		const editor = vscode.window.activeTextEditor;
 		let word = editor ? editor.document.getText(editor.selection) : "";
 
-		outputChannnel.appendLine(`Base Url: ${BASE_URL} `);
+		logFunctions.writeLine(`Base Url: ${base_url} `, outputChannnel);
 		if (word.length > 0) {
 			word = word.split(" ")[0];
 		} else {
 			if (!editor) {
-				outputChannnel.appendLine('Active editor not found.'); return
+				logFunctions.writeLine("Active editor not found", outputChannnel);
+				return;
 			}
 
 			if (!editor.document) {
-				outputChannnel.appendLine('Active document not found.'); return
+				logFunctions.writeLine("Active document not found", outputChannnel);
+				return;
 			}
 			const stop: string = " (+-=<>[{}]`)\t";
 			const lineOfCode = editor.document.lineAt(editor.selection.active.line).text;
 			const cursorPostion = editor.selection.active.character;
-
-			/*
-			if (lineOfCode.substring(cursorPostion, 1).trim() == "") {
-				outputChannnel.appendLine('The cursor is on a space or empty line, giving up.');
-				return;
-			}
-			*/
 
 			// Get the first part of athe string
 			for (let i: number = cursorPostion - 1; i >= 0; i--) {
@@ -57,12 +46,12 @@ export function showHelp() {
 			}
 
 			if (word.length < 1) {
-				outputChannnel.appendLine('Could not find selected keyword');
+				logFunctions.writeLine("Could not find selected keyword", outputChannnel);
 				return;
 			}
 		}
 		word = word.trim();
-		outputChannnel.appendLine(`Word Found: ${word} `);
+		logFunctions.writeLine(`Word Found: ${word}`, outputChannnel);
 
 		// Handle cases where it's easy to select too much text or the text doesn't match the wiki page.
 		if (word.toLowerCase().startsWith("end")) {
@@ -77,13 +66,11 @@ export function showHelp() {
 			word = "Function"
 		}
 
-		let url = BASE_URL + encodeURIComponent(word);
-
-		outputChannnel.appendLine(`Open URL: ${url} `);
+		let url = `${base_url}${encodeURIComponent(word)}`;
+		logFunctions.writeLine(`Open URL: ${url} `, outputChannnel);
 		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
 
-		// openDefaultBrowswer(url);
 	} catch (error) {
-		outputChannnel.appendLine("ERROR: " + error);
+		logFunctions.writeLine("ERROR: " + error, outputChannnel);
 	}
 }

@@ -1,12 +1,10 @@
 'use strict';
 import * as vscode from 'vscode';
 import fs = require('fs');
+import * as logFunctions from './logFunctions';
 
-var createFilesChannel: any;
 export function createFiles() {
 	// const extensionsJson = "{\"recommendations\": [\"discretegames.f5anything\"]}";
-
-	const vscodeFolder = vscode.workspace.workspaceFolders[0].uri.fsPath + "/.vscode";
 
 	const settingsJson =
 		`{
@@ -39,43 +37,42 @@ export function createFiles() {
 				} 
 			]\n}`;
 
-	let outputChannnel: any;
+	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.vscode);
 	try {
 
-		if (createFilesChannel) {
-			outputChannnel = createFilesChannel
-		} else {
-			createFilesChannel = vscode.window.createOutputChannel("QB64: Create Files");
-			outputChannnel = createFilesChannel;
+		if (!vscode.workspace.workspaceFolders || vscode.workspace.workspaceFolders.length < 1) {
+			logFunctions.writeLine("Cannot find working folder", outputChannnel);
 		}
+		const vscodeFolder = vscode.workspace.workspaceFolders[0].uri.fsPath + "/.vscode";
 
-		outputChannnel.appendLine("Checking for: " + vscodeFolder);
+		logFunctions.writeLine("Checking for: " + vscodeFolder, outputChannnel);
 		if (fs.existsSync(vscodeFolder)) {
-			outputChannnel.appendLine("    Found");
+			logFunctions.writeLine("    Found", outputChannnel);
 		} else {
-			outputChannnel.appendLine("Creating folder: " + vscodeFolder);
+			logFunctions.writeLine("Creating folder: " + vscodeFolder, outputChannnel);
 			fs.mkdirSync(vscodeFolder);
 		}
 
 		const launchFile = vscodeFolder + "/launch.json";
-		outputChannnel.appendLine("Checking for: " + launchFile);
+		logFunctions.writeLine("Checking for: " + launchFile, outputChannnel);
 		if (fs.existsSync(launchFile)) {
-			outputChannnel.appendLine("    Found");
+			logFunctions.writeLine("    Found", outputChannnel);
 		} else {
-			outputChannnel.appendLine("Creating File: " + launchFile);
+			logFunctions.writeLine("Creating File: " + launchFile, outputChannnel);
 			fs.writeFileSync(launchFile, launchJson);
 		}
 
 		const settingsFile: string = vscodeFolder + "/settings.json";
-		outputChannnel.appendLine("Checking for: " + settingsFile);
+
+		logFunctions.writeLine("Checking for: " + settingsFile, outputChannnel);
 		if (fs.existsSync(settingsFile)) {
-			outputChannnel.appendLine("    Found");
+			logFunctions.writeLine("    Found", outputChannnel);
 		} else {
-			outputChannnel.appendLine("Creating File: " + settingsFile);
+			logFunctions.writeLine("Creating File: " + settingsFile, outputChannnel);
 			fs.writeFileSync(settingsFile, settingsJson);
 		}
 
 	} catch (error) {
-		outputChannnel.appendLine("ERROR: " + error);
+		logFunctions.writeLine("ERROR: " + error, outputChannnel)
 	}
 }

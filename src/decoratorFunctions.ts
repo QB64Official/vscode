@@ -1,7 +1,8 @@
-'use strict';
-import * as vscode from 'vscode';
+"use strict";
+import * as vscode from "vscode";
+import * as logFunctions from "./logFunctions"
 
-var decorateChannel: any;
+
 
 const red = 0;
 const green = 1;
@@ -13,7 +14,7 @@ const decorationTypeTodo = vscode.window.createTextEditorDecorationType({ backgr
 const decorationTypeIncludeLeading = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
 const decorationTypeIncludeTrailing = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
 //var editor: vscode.TextEditor = vscode.window.activeTextEditor;
-var lastLine: vscode.Position
+var lastLine: vscode.Position;
 
 export function setupDecorate() {
 	decorateAll(vscode.window.activeTextEditor); // Decorate on activate/first open
@@ -29,69 +30,58 @@ export function setupDecorate() {
 		decorateAll(vscode.window.activeTextEditor);
 	});
 
-	//const editor = vscode.window.activeTextEditor;
-
-	vscode.window.onDidChangeTextEditorSelection(() => {
-		decorateSingleLine(vscode.window.activeTextEditor);
-	})
+	vscode.window.onDidChangeTextEditorSelection(() => { decorateSingleLine(vscode.window.activeTextEditor); })
 }
 
 function decorateSingleLine(editor: any) {
-
-	let outputChannnel: any;
-	if (decorateChannel) {
-		outputChannnel = decorateChannel
-	} else {
-		decorateChannel = vscode.window.createOutputChannel("QB64: Decorate");
-		outputChannnel = decorateChannel;
-	}
-
-	if (!editor || editor.document.languageId == "Log") {
-		return;
-	}
-
-	let currrentLine: vscode.Position = editor.selection.active;
+	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
+	let currrentLine: vscode.Position;
 	try {
 
+		if (!editor || editor.document.languageId == "Log") {
+			return;
+		}
+		let currrentLine: vscode.Position = editor.selection.active;
 		let includeLeading: vscode.Range[] = []
 		let includeTrailing: vscode.Range[] = []
 		let todo: vscode.Range[] = []
 
 		if ((lastLine) && lastLine.line !== currrentLine.line) {
-			outputChannnel.appendLine(`Current line chagned from ${lastLine.line + 1} to ${currrentLine.line + 1} has changed.`);
+			logFunctions.writeLine(`Current line chagned from ${lastLine.line + 1} to ${currrentLine.line + 1} has changed.`, outputChannnel);
 			decorate(editor, lastLine.line, editor.document.lineAt(lastLine.line).text, outputChannnel, includeLeading, includeTrailing, todo);
 		}
 
 	} catch (error) {
-		outputChannnel.appendLine(error);
+		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
 	} finally {
-		lastLine = currrentLine;
+		if (currrentLine) {
+			lastLine = currrentLine;
+		}
 	}
 }
 
 function decorateAll(editor: any) {
-	let outputChannnel: any;
 
-	if (decorateChannel) {
-		outputChannnel = decorateChannel
-	} else {
-		decorateChannel = vscode.window.createOutputChannel("QB64: Decorate");
-		outputChannnel = decorateChannel;
+	if (!editor) {
+		return;
 	}
 
-	let includeLeading: vscode.Range[] = []
-	let includeTrailing: vscode.Range[] = []
-	let todo: vscode.Range[] = []
+	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
+	try {
+		const sourceCode = editor.document.getText().split('\n')
+		let includeLeading: vscode.Range[] = []
+		let includeTrailing: vscode.Range[] = []
+		let todo: vscode.Range[] = []
+		for (let line = 0; line < sourceCode.length; line++) {
+			decorate(editor, line, sourceCode[line], outputChannnel, includeLeading, includeTrailing, todo);
+		}
 
-	const sourceCode = editor.document.getText().split('\n')
-
-	for (let line = 0; line < sourceCode.length; line++) {
-		decorate(editor, line, sourceCode[line], outputChannnel, includeLeading, includeTrailing, todo);
+		editor.setDecorations(decorationTypeIncludeLeading, includeLeading)
+		editor.setDecorations(decorationTypeIncludeTrailing, includeTrailing)
+		editor.setDecorations(decorationTypeTodo, todo)
+	} catch (error) {
+		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
 	}
-
-	editor.setDecorations(decorationTypeIncludeLeading, includeLeading)
-	editor.setDecorations(decorationTypeIncludeTrailing, includeTrailing)
-	editor.setDecorations(decorationTypeTodo, todo)
 }
 
 function decorate(editor: any, lineNumber: number, lineOfCode: string, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todo: vscode.Range[]) {
@@ -101,7 +91,7 @@ function decorate(editor: any, lineNumber: number, lineOfCode: string, outputCha
 			let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))/ig);
 			if (matches) {
 				for (const match of matches) {
-					outputChannnel.appendLine(`RGB Found at ${match.index}`);
+					logFunctions.writeLine(`RGB Found at ${match.index}`, outputChannnel);
 					// Could use this to get just the numbers (\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))
 					let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
 					let work: vscode.Range[] = [CreateRange(match, lineNumber, 0)];
@@ -129,7 +119,7 @@ function decorate(editor: any, lineNumber: number, lineOfCode: string, outputCha
 			}
 		}
 	} catch (error) {
-		outputChannnel.appendLine(error);
+		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
 	}
 
 }

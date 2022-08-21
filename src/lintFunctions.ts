@@ -1,10 +1,11 @@
 'use strict';
-var lintChannel: any;
+
 import * as vscode from 'vscode';
 import fs = require('fs');
 import path from 'path';
 import { exec } from 'child_process';
 import { Diagnostic, DiagnosticSeverity, } from 'vscode-languageserver/node';
+import * as logFunctions from "./logFunctions";
 
 
 /**
@@ -13,7 +14,7 @@ import { Diagnostic, DiagnosticSeverity, } from 'vscode-languageserver/node';
 export function runLintFull() {
 	const config = vscode.workspace.getConfiguration("qb64")
 	const compilerPath: boolean = config.get("compilerPath");
-	let outputChannnel: any = getOutputChannel();
+	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
 	let sourceCode = vscode.window.activeTextEditor.document.fileName
 	let exeName = path.parse(sourceCode) + '.exe';
 	let outputFileName = path.parse(exeName) + '.cmp-out';
@@ -21,7 +22,7 @@ export function runLintFull() {
 	exec(command)
 
 	if (!fs.existsSync(outputFileName)) {
-		outputChannnel.appendLine(`Cannot find compiler output file: ${outputFileName}`);
+		(`Cannot find compiler output file: ${outputFileName}`);
 		return;
 	}
 
@@ -39,7 +40,8 @@ export function runLintFull() {
  * @returns void
  */
 function lintCurrentFile(compilerOutput: string) {
-	let outputChannnel: any = getOutputChannel();
+	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
+	let diagnostics: Diagnostic[] = [];
 	try {
 
 		let lines = compilerOutput.split("\n")
@@ -48,41 +50,31 @@ function lintCurrentFile(compilerOutput: string) {
 			if (!line) {
 				continue;
 			}
+
 			/*
-						if (line.indexOf("warning:") >= 0) {
-							const tokens: string[] = line.split(":");
-							let start: number = 0;
-							let stop: number = 50;
-							let diagnostic: Diagnostic = {
-								severity: DiagnosticSeverity.Warning,
-								range: {
-									start: textDocument.positionAt(m.index),
-									end: textDocument.positionAt(m.index + m[0].length)
-								},
-								message: `${m[0]} is all uppercase.`,
-								source: 'ex'
-							};
-							diagnostics.push(diagnostic);
-						}
+			if (line.indexOf("warning:") >= 0) {
+				const tokens: string[] = line.split(":");
+
+				let start: vscode.Position = new vscode.Position(Number(tokens[2]), 0);
+				let stop: vscode.Position = new vscode.Position(Number(tokens[2]), 50);
+
+				let diagnostic: Diagnostic = {
+					severity: DiagnosticSeverity.Warning,
+					message: "",
+					range: {
+						start: start, end: stop)
+					},
+					source: 'qb64-lint'
+				};
+				diagnostics.push(diagnostic);
+			}
 			*/
+
+			//connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+
 		}
 
 	} catch (error) {
 		outputChannnel.appendLine("ERROR: " + error);
 	}
-}
-
-/**
- * @returns The output channel used by all of the lint process
- */
-function getOutputChannel() {
-
-	let outputChannnel: any;
-	if (lintChannel) {
-		outputChannnel = lintChannel
-	} else {
-		lintChannel = vscode.window.createOutputChannel("QB64: Lint");
-		outputChannnel = lintChannel;
-	}
-	return outputChannnel;
 }
