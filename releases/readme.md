@@ -69,17 +69,20 @@ All notable changes to the "QB64" extension will be documented in this file.
     - Fixed the name of gitFunctions.ts
 
 ## 0.4.2
-  - Fixes
-  - #22 Changed F2 to ctrl+F2
+  - Fixed Issue #22 Changed F2 to ctrl+F2
 
 ## 0.4.3
    - Added vscode-debugadapter to the devDependencies in the package.json
    - Added 'use strict' to the ts files missing it.
    - Fixed Issue #3 - Open Include File.
 
-## 4.4
+## 0.4.4
    - Fixed Issue #23 - F1 at start of line.
 
-## 0.5.0
+## 0.4.5
    - Reworked writting to the output channels
-   - Added more error trapping.   
+   - Added more error trapping.
+   - Fixed Issue #26 - Space in filename/folder
+   - Added .json-bak to the default gitignore and settings.json
+   - Changed the auto backup to only backup *.bas || *.bm || *.bi
+   - Defaulted the cwd in launch.json to the directory the *.bas file is in.

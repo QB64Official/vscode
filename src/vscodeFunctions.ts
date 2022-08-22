@@ -2,6 +2,7 @@
 import * as vscode from 'vscode';
 import fs = require('fs');
 import * as logFunctions from './logFunctions';
+import { stringify } from 'querystring';
 
 export function createFiles() {
 	// const extensionsJson = "{\"recommendations\": [\"discretegames.f5anything\"]}";
@@ -13,6 +14,7 @@ export function createFiles() {
 			"**/*.bi-bak": true,
 			"**/*.bm-bak": true,
 			"**/*.cmp-out": true,
+			"**/*.json-bak": true
 		}
 	}`
 
@@ -23,16 +25,16 @@ export function createFiles() {
 				{
 					"name": "QB64 Build and Run",
 					"type": "QB64",
-					"request": "launch",
-					"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe\","
+					"request": "launch",					
+					"command": "` + "${config:qb64.compilerPath} -c " + String.raw`\"` + "${fileDirname}/${fileBasename}" + String.raw`\"` + " -o " + String.raw`\"` + "${fileDirname}/${fileBasenameNoExtension}.exe" + String.raw`\"` + " -x; start " + String.raw`\"` + "${fileDirname}/${fileBasenameNoExtension}.exe" + String.raw`\"` + "\","
 		+ `			"terminalName": "QB64",
 					"terminalIndex": -1, 
 					"showTerminal": true,
 					"linux": {
-						"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension} -x; ${fileDirname}/${fileBasenameNoExtension}\""
+						"command": "` + "${config:qb64.compilerPath} -c '${fileDirname}/${fileBasename}' -o '${fileDirname}/${fileBasenameNoExtension}' -x; ${fileDirname}/${fileBasenameNoExtension}\""
 		+ `		},
 					"osx": {
-						"command": "` + "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension} -x; ${fileDirname}/${fileBasenameNoExtension}\""
+						"command": "` + "${config:qb64.compilerPath} -c '${fileDirname}/${fileBasename}' -o '${fileDirname}/${fileBasenameNoExtension}' -x; ${fileDirname}/${fileBasenameNoExtension}\""
 		+ `		}
 				} 
 			]\n}`;

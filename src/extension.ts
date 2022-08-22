@@ -83,6 +83,12 @@ function CreateBackup() {
 			return;
 		}
 
+		let filename: string = vscode.window.activeTextEditor.document.fileName;
+
+		if (!(filename.endsWith(".bas") || filename.endsWith(".bm") || filename.endsWith(".bi"))) {
+			return;
+		}
+
 		let source = vscode.window.activeTextEditor.document.fileName
 		let backupFile = source + "-bak";
 		outputChannnel.appendLine(`Tying to copy ${source} to ${backupFile}`);

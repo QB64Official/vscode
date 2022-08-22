@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.5.0",
+    "version": "0.4.5",
     "engines": {
         "vscode": "^1.69.1"
     },
@@ -56,7 +56,7 @@
                             },
                             "terminalName": {
                                 "type": "string",
-                                "description": "The name given to the dedicated terminal QB64 creates for itself. Defaults to \"F5 Anything\".",
+                                "description": "The name given to the dedicated terminal QB64 creates for itself. Defaults to QB64.",
                                 "default": "QB64"
                             },
                             "terminalIndex": {
@@ -68,6 +68,11 @@
                                 "type": "boolean",
                                 "description": "Whether or not the terminal a command is sent to is given focus. Defaults to true.",
                                 "default": true
+                            },
+                            "cwd": {
+                                "type": "string",
+                                "description": "Full path to the directory where the program will run. Defaults to ${fileDirname}",
+                                "default": "${fileDirname}"
                             }
                         }
                     }

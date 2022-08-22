@@ -447,5 +447,6 @@ out/extension.js.map
 .bak-bi
 .bak-bm
 .cmp-out
+.json-bak
 `;
 }
