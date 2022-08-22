@@ -82,7 +82,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.4.5
    - Reworked writting to the output channels
    - Added more error trapping.
-   - Fixed Issue #26 - Space in filename/folder
+   - Fixed Issue #26 - Space in filename (space in folder name in Windows).
    - Added .json-bak to the default gitignore and settings.json
    - Changed the auto backup to only backup *.bas || *.bm || *.bi
    - Defaulted the cwd in launch.json to the directory the *.bas file is in.
