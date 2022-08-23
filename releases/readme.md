@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Change Log
 
 All notable changes to the "QB64" extension will be documented in this file.
