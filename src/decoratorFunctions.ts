@@ -19,9 +19,6 @@ var lastLine: vscode.Position;
 export function setupDecorate() {
 	decorateAll(vscode.window.activeTextEditor); // Decorate on activate/first open
 
-	// Do think this is necessary any more
-	// vscode.workspace.onWillSaveTextDocument(event => { decorateAll() });
-
 	// Decorate when the text editor changes
 	vscode.window.onDidChangeActiveTextEditor(async (e: { document: any; }) => {
 		if (!e || !e.document) {

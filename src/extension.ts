@@ -7,7 +7,7 @@ import * as vscodeFucnctions from './vscodeFunctions';
 import * as decoratorFunctions from './decoratorFunctions';
 import * as helpFunctions from './helpFunctions';
 import { DebugSession, TerminatedEvent } from '@vscode/debugadapter';
-import { runLintFull } from './lintFunctions'
+import * as lintFunctions from './lintFunctions'
 
 // TODO: Get the TODOs window working.
 // 	This needs to go in the package.json in the contributes
@@ -33,6 +33,7 @@ var createBackupChannel: any;
 var ownTerminal: vscode.Terminal;
 
 export function activate(context: vscode.ExtensionContext) {
+	const config = vscode.workspace.getConfiguration("qb64")
 
 	context.subscriptions.push(
 		vscode.languages.registerDocumentSymbolProvider(
@@ -41,15 +42,25 @@ export function activate(context: vscode.ExtensionContext) {
 		)
 	);
 
-	vscode.workspace.onWillSaveTextDocument(event => { CreateBackup() });
+	vscode.workspace.onWillSaveTextDocument(event => {
+		if (config.get("isCreateBakFileEnabled")) {
+			CreateBackup();
+		}
+	});
+
+	vscode.workspace.onDidSaveTextDocument(event => {
+		if (config.get("isLintOnSaveEnabled")) {
+			runLint();
+		}
+	});
 
 	decoratorFunctions.setupDecorate();
 	vscodeFucnctions.createFiles();
 	gitFunctions.createGitignore();
 
 	// Register Commands here
-	context.subscriptions.push(vscode.commands.registerCommand('extension.runLintFull', () => { runLintFull(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(context); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new InlineDebugAdapterFactory()));
@@ -63,6 +74,10 @@ export function showHelp() {
 	helpFunctions.showHelp();
 }
 
+export function runLint() {
+	lintFunctions.runLint();
+}
+
 function CreateBackup() {
 
 	let outputChannnel: any;
@@ -73,11 +88,6 @@ function CreateBackup() {
 		outputChannnel = createBackupChannel;
 	}
 	try {
-		const config = vscode.workspace.getConfiguration("qb64")
-		const isCreateBakFileEnabled: boolean = config.get("isCreateBakFileEnabled");
-		if (!isCreateBakFileEnabled) {
-			return;
-		}
 
 		if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId == "Log") {
 			return;

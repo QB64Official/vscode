@@ -140,6 +140,11 @@
                     "default": true,
                     "description": "Create a *.*-bak when saving."
                 },
+                "qb64.isLintOnSaveEnabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Lint the *.bas when saving."
+                },
                 "qb64.formatMode": {
                     "type": "string",
                     "default": "Mix Case",
@@ -215,8 +220,8 @@
                 "when": "explorerFocus"
             },
             {
-                "command": "extension.runLintFull",
-                "key": "ctrl+alt+l",
+                "command": "extension.runLint",
+                "key": "f12",
                 "when": "editorTextFocus"
             }
         ],
@@ -235,6 +240,11 @@
                 "command": "extension.showHelp",
                 "title": "Open Help",
                 "category": "QB64"
+            },
+            {
+                "command": "extension.runLint",
+                "title": "Lint",
+                "category": "QB64"
             }
         ],
         "menus": {
@@ -242,6 +252,10 @@
                 {
                     "command": "extension.openIncludeFile",
                     "group": "navigation",
+                    "when": "editorLangId == 'QB64'"
+                },
+                {
+                    "command": "extension.runLint",
                     "when": "editorLangId == 'QB64'"
                 }
             ],
