@@ -41,7 +41,7 @@ Please utilize the [Issues](https://github.com/QB64Official/vscode/issues) and f
 
 ## License
 
-The VS Code for QB64 extension is subject to these license terms. The source code to this extension is available on https://github.com/QB64Official/vscode and licensed under the [MIT license](blob/master/LICENSE.txt).
+The VS Code for QB64 extension is subject to these license terms. The source code to this extension is available on https://github.com/QB64Official/vscode and licensed under the [MIT license](blob/master/LICENSE).
 
 ## Code of Conduct
 
