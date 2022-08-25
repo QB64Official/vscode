@@ -1,6 +1,5 @@
 'use strict';
 import * as vscode from 'vscode';
-import { ProviderResult } from "vscode";
 import fs = require('fs');
 import * as gitFunctions from './gitFunctions';
 import * as vscodeFucnctions from './vscodeFunctions';
@@ -8,6 +7,7 @@ import * as decoratorFunctions from './decoratorFunctions';
 import * as helpFunctions from './helpFunctions';
 import { DebugSession, TerminatedEvent } from '@vscode/debugadapter';
 import * as lintFunctions from './lintFunctions'
+import * as logFunctions from './logFunctions'
 
 // TODO: Get the TODOs window working.
 // 	This needs to go in the package.json in the contributes
@@ -27,9 +27,7 @@ import * as lintFunctions from './lintFunctions'
 // Channels
 // They have to be cached or vsc creates a new channel every time 😒
 // If we end up with a lot of changes an array of objects might be better.
-var formatterhannel: any;
 var openIncludeFileChannel: any;
-var createBackupChannel: any;
 var ownTerminal: vscode.Terminal;
 
 export function activate(context: vscode.ExtensionContext) {
@@ -79,17 +77,10 @@ export function runLint() {
 }
 
 function CreateBackup() {
-
-	let outputChannnel: any;
-	if (createBackupChannel) {
-		outputChannnel = createBackupChannel
-	} else {
-		createBackupChannel = vscode.window.createOutputChannel("QB64: CreateBackup");
-		outputChannnel = createBackupChannel;
-	}
+	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.createBackup);
 	try {
 
-		if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId == "Log") {
+		if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId != "QB64") {
 			return;
 		}
 
@@ -111,19 +102,13 @@ function CreateBackup() {
 
 // Code Formatter
 // Seems like a good place to find includes and make the double click to open work.
-vscode.languages.registerDocumentFormattingEditProvider('QB64', {
+vscode.languages.registerDocumentFormattingEditProvider(
+	{ scheme: 'file', language: 'QB64' }, {
 	provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
 
 		let retvalue: vscode.TextEdit[] = [];
 		let line: vscode.TextLine;
-		let outputChannnel: any;
-
-		if (formatterhannel) {
-			outputChannnel = formatterhannel
-		} else {
-			formatterhannel = vscode.window.createOutputChannel("QB64: Formatter");
-			outputChannnel = formatterhannel;
-		}
+		let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.formatter);
 
 		for (let i = 0; i < document.lineCount; i++) {
 			line = document.lineAt(i);
@@ -223,7 +208,7 @@ function getSelectedTextOrLineTest() {
 }
 
 class InlineDebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
-	createDebugAdapterDescriptor(session: vscode.DebugSession): ProviderResult<vscode.DebugAdapterDescriptor> {
+	createDebugAdapterDescriptor(session: vscode.DebugSession): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
 		if (!session.configuration.hasOwnProperty("command")) {
 			vscode.window.showErrorMessage(`No command found for QB64 launch configuration "${session.configuration.name}". Add one like "command": "echo Hello" to your launch.json.`);
 		} else {

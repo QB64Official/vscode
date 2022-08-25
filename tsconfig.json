@@ -9,10 +9,10 @@
 		],
 		"sourceMap": true,
 		"rootDir": "src",
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"alwaysStrict": true,
 	},
 	"exclude": [
-		"node_modules",
 		".vscode-test"
 	]
 }

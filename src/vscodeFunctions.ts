@@ -5,7 +5,6 @@ import * as logFunctions from './logFunctions';
 import { stringify } from 'querystring';
 
 export function createFiles() {
-	// const extensionsJson = "{\"recommendations\": [\"discretegames.f5anything\"]}";
 
 	const settingsJson =
 		`{
@@ -15,7 +14,8 @@ export function createFiles() {
 			"**/*.bm-bak": true,
 			"**/*.cmp-out": true,
 			"**/*.json-bak": true
-		}
+		},
+		"files.defaultLanguage": "QB64"
 	}`
 
 	const launchJson =

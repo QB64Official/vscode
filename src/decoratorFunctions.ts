@@ -13,7 +13,6 @@ const isRGbColorEnabled: boolean = config.get("isRgbColorEnabled");
 const decorationTypeTodo = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
 const decorationTypeIncludeLeading = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
 const decorationTypeIncludeTrailing = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
-//var editor: vscode.TextEditor = vscode.window.activeTextEditor;
 var lastLine: vscode.Position;
 
 export function setupDecorate() {

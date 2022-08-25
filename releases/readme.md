@@ -46,13 +46,13 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.4.0
    - Enchantments
     - Reworked the creation of the outline to make it faster.
-    - Issue# 19 Auto creates a .gitignore
+    - Issue [#19](Auto creates a .gitignore)
       - Aded context menu item to the explorer - "Add to .gitignore"
       - Hot Key ctrl+shift+i 
-    - Issue# 20 Reworked the F5 (baked in F5 Anywhere and rebranded it QB64)
+    - Issue [#20](Reworked the F5 (baked in F5 Anywhere and rebranded it QB64)
       - You will need to delete the old automatically launch.json to use this.
-    - Issue# 05 Line decorations are set when moving off the line.
-    - Issue# 18 Auto Create back on save.
+    - Issue [#05](Line decorations are set when moving off the line.)
+    - Issue [#18](Auto Create back on save.)
       - The files will have the name but the extension will have "-bak" added to it.
       - The files will not show in the explorer view because a setting.json is getting created in the .vscode older to hide them.
       - If you want to see the backup files edit setting.json and set true to false for the files you'd like to see.
@@ -68,15 +68,15 @@ All notable changes to the "QB64" extension will be documented in this file.
     - Fixed the name of gitFunctions.ts
 
 ## 0.4.2
-  - Fixed Issue #22 Changed F2 to ctrl+F2
+  - Fixed Issue [#22](https://github.com/QB64Official/vscode/issues/22)
 
 ## 0.4.3
    - Added vscode-debugadapter to the devDependencies in the package.json
    - Added 'use strict' to the ts files missing it.
-   - Fixed Issue #3 - Open Include File.
+   - Fixed Issue [#3](https://github.com/QB64Official/vscode/issues/3x3)
 
 ## 0.4.4
-   - Fixed Issue #23 - F1 at start of line.
+   - Fixed Issue [#23](https://github.com/QB64Official/vscode/issues/23)
 
 ## 0.4.5
    - Reworked writting to the output channels
@@ -87,5 +87,17 @@ All notable changes to the "QB64" extension will be documented in this file.
    - Defaulted the cwd in launch.json to the directory the *.bas file is in.
 
 ## 0.5.0
-   - Added diagnostic (`F12`)
-   - Added setting (`Lint the *.bas when saving.`) to enable diagnostic on save, default: `false`
+  - Enchantments
+   - Set the default language in the settings.json to QB64.
+     - If you already have a setting.json in the .vdcode folder it will *not* be changed.
+   - Issue [#31](https://github.com/QB64Official/vscode/issues/31)
+     - Hot Key (`F12`)
+     - Added setting (`Lint the *.bas when saving.`) to enable diagnostic on save, default value: `false`
+  - Fixes
+    - Issue [#29](https://github.com/QB64Official/vscode/issues/29)
+    - Issue [#30](https://github.com/QB64Official/vscode/issues/30)
+    - Issue [#32](https://github.com/QB64Official/vscode/issues/32)
+    - Issue [#33](https://github.com/QB64Official/vscode/issues/33)
+    - Issue [#34](https://github.com/QB64Official/vscode/issues/34)
+  - Miscellaneous
+    - Upated the descriotions for the settings to be easier to find when searching for settings.

@@ -5,8 +5,6 @@ import path from "path";
 import { exec } from "child_process";
 import * as logFunctions from "./logFunctions";
 import os from 'os';
-import { integer } from "vscode-languageserver";
-import { stderr } from "process";
 
 var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('QB64-lint')
 
@@ -80,7 +78,7 @@ function lintCurrentFile(compilerOutput: string) {
 		let diagnostics: vscode.Diagnostic[] = [];
 
 		let lines = compilerOutput.split("\n")
-		let errorLineNumber: integer = -1;
+		let errorLineNumber: number = -1;
 		for (let lineIndex = 3; lineIndex < lines.length; lineIndex++) {
 			const lintLine = lines[lineIndex];
 			if (!lintLine || lintLine.startsWith("[")) {
