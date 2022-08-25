@@ -94,10 +94,10 @@ All notable changes to the "QB64" extension will be documented in this file.
      - Hot Key (`F12`)
      - Added setting (`Lint the *.bas when saving.`) to enable diagnostic on save, default value: `false`
   - Fixes
-    - Issue [#29](https://github.com/QB64Official/vscode/issues/29)
-    - Issue [#30](https://github.com/QB64Official/vscode/issues/30)
-    - Issue [#32](https://github.com/QB64Official/vscode/issues/32)
-    - Issue [#33](https://github.com/QB64Official/vscode/issues/33)
-    - Issue [#34](https://github.com/QB64Official/vscode/issues/34)
+    - Issue [#29](https://github.com/QB64Official/vscode/issues/29) Cannot find module '@vscode/debugadapter'
+    - Issue [#30](https://github.com/QB64Official/vscode/issues/30) extension.<function name> not found
+    - Issue [#32](https://github.com/QB64Official/vscode/issues/32) Change the Publisher Name
+    - Issue [#33](https://github.com/QB64Official/vscode/issues/33) Document selector without scheme
+    - Issue [#34](https://github.com/QB64Official/vscode/issues/34) Use package @vscode/test-electron
   - Miscellaneous
     - Upated the descriotions for the settings to be easier to find when searching for settings.
