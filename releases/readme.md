@@ -68,15 +68,15 @@ All notable changes to the "QB64" extension will be documented in this file.
     - Fixed the name of gitFunctions.ts
 
 ## 0.4.2
-  - Fixed Issue [#22](https://github.com/QB64Official/vscode/issues/22)
+  - Fixed Issue [#22](https://github.com/QB64Official/vscode/issues/22) F2 should not go to the Outline if the active window is the Explorer
 
 ## 0.4.3
    - Added vscode-debugadapter to the devDependencies in the package.json
    - Added 'use strict' to the ts files missing it.
-   - Fixed Issue [#3](https://github.com/QB64Official/vscode/issues/3x3)
+   - Fixed Issue [#3](https://github.com/QB64Official/vscode/issues/3) Opening include containing a subfolder fails.
 
 ## 0.4.4
-   - Fixed Issue [#23](https://github.com/QB64Official/vscode/issues/23)
+   - Fixed Issue [#23](https://github.com/QB64Official/vscode/issues/23) F1 (again) the help doesn't open if the cursor is to close to the beginging of the line.
 
 ## 0.4.5
    - Reworked writting to the output channels
@@ -90,7 +90,7 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Enchantments
    - Set the default language in the settings.json to QB64.
      - If you already have a setting.json in the .vdcode folder it will *not* be changed.
-   - Issue [#31](https://github.com/QB64Official/vscode/issues/31)
+   - Issue [#31](https://github.com/QB64Official/vscode/issues/31) Add diagnostics markings
      - Hot Key (`F12`)
      - Added setting (`Lint the *.bas when saving.`) to enable diagnostic on save, default value: `false`
   - Fixes
