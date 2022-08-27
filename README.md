@@ -58,3 +58,4 @@ This project has adopted the code of conduct defined by the [Contributor Covenan
 * The todo list icon came from: https://www.iconfinder.com/search?q=todo&price=free&style=outline&license=gte__1
 * I just stright up stole the core of F5 anything and baked it in to get F5 working with out external extenstions
   - https://github.com/discretegames/f5anything
+* To get an absolute from a relative is used code based off of https://www.geeksforgeeks.org/convert-relative-path-url-to-absolute-path-url-using-javascript/

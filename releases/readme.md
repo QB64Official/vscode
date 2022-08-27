@@ -101,3 +101,8 @@ All notable changes to the "QB64" extension will be documented in this file.
     - Issue [#34](https://github.com/QB64Official/vscode/issues/34) Use package @vscode/test-electron
   - Miscellaneous
     - Upated the descriotions for the settings to be easier to find when searching for settings.
+
+## 0.5.1
+  - Fixes
+    - Issue [#36](https://github.com/QB64Official/vscode/issues/36) Error when building 0.5.0
+    - Issue [#37](https://github.com/QB64Official/vscode/issues/37) Open Include Files doesn't always work

@@ -1,13 +1,13 @@
-'use strict';
-import * as vscode from 'vscode';
-import fs = require('fs');
-import * as gitFunctions from './gitFunctions';
-import * as vscodeFucnctions from './vscodeFunctions';
-import * as decoratorFunctions from './decoratorFunctions';
-import * as helpFunctions from './helpFunctions';
-import { DebugSession, TerminatedEvent } from '@vscode/debugadapter';
-import * as lintFunctions from './lintFunctions'
-import * as logFunctions from './logFunctions'
+"use strict";
+import * as vscode from "vscode";
+import fs = require("fs");
+import * as gitFunctions from "./gitFunctions";
+import * as vscodeFucnctions from "./vscodeFunctions";
+import * as decoratorFunctions from "./decoratorFunctions";
+import * as helpFunctions from "./helpFunctions";
+import { DebugSession, TerminatedEvent } from "vscode-debugadapter";
+import * as lintFunctions from "./lintFunctions"
+import * as logFunctions from "./logFunctions"
 
 // TODO: Get the TODOs window working.
 // 	This needs to go in the package.json in the contributes
@@ -27,7 +27,6 @@ import * as logFunctions from './logFunctions'
 // Channels
 // They have to be cached or vsc creates a new channel every time 😒
 // If we end up with a lot of changes an array of objects might be better.
-var openIncludeFileChannel: any;
 var ownTerminal: vscode.Terminal;
 
 export function activate(context: vscode.ExtensionContext) {
@@ -163,26 +162,21 @@ class Qb64ConfigDocumentSymbolProvider implements vscode.DocumentSymbolProvider 
 }
 
 function openIncludeFile(context: vscode.ExtensionContext) {
-	const regexIncludeFile = /include:(.*)'/i
-	let outputChannnel: any;
 
-	if (openIncludeFileChannel) {
-		outputChannnel = openIncludeFileChannel
-	} else {
-		openIncludeFileChannel = vscode.window.createOutputChannel("QB64: OpenIncludeFile");
-		outputChannnel = openIncludeFileChannel;
-	}
+	// The replace of \\ with / is to keep the file name from looking hokey on the oupput window.
+
+	const regexIncludeFile = /include:(.*)'/i
+	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.openIncludeFile);
 
 	try {
 		let selectedText = getSelectedTextOrLineTest();
 		let match = selectedText.match(regexIncludeFile)
 
 		if (match !== null && match.index !== undefined) {
-			let file = match[1].replace("'", "");
-			outputChannnel.appendLine("File Path Found: " + file);
+			let file = match[1].replace("'", "").replaceAll("\\", "/");
+			outputChannnel.appendLine("Include File Found: " + file);
 			const path = require('path');
-			let codeFile = path.dirname(vscode.window.activeTextEditor.document.fileName);
-			let fullPath = path.resolve(file, codeFile) + "/" + file.substring(file.lastIndexOf("/") + 1);
+			let fullPath = absolutePath(path.dirname(vscode.window.activeTextEditor.document.fileName).replaceAll("\\", "/",) + "/", file);
 
 			if (fs.existsSync(fullPath)) {
 				outputChannnel.appendLine("Trying to open file: " + fullPath);
@@ -194,6 +188,29 @@ function openIncludeFile(context: vscode.ExtensionContext) {
 	} catch (error) {
 		outputChannnel.appendLine("ERROR: " + error);
 	}
+}
+
+/**
+ * Gets an absolute path from a relative path.
+ * @param base Base folder
+ * @param relative 
+ * @returns 
+ */
+function absolutePath(base: string, relative: string) {
+	let work: string[] = base.split("/");
+	let relativeArrary = relative.split("/");
+	work.pop(); // ignore the current file name (or no string)
+	// (ignore if "base" is the current folder without having slash in trail)
+	for (let i = 0; i < relativeArrary.length; i++) {
+		if (relativeArrary[i] == ".")
+			continue;
+		if (relativeArrary[i] == "..") {
+			work.pop();
+		} else {
+			work.push(relativeArrary[i]);
+		}
+	}
+	return work.join("/");
 }
 
 // Gets the selected editor text is nothing is selected return empty string.
