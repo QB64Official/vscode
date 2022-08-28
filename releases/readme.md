@@ -106,3 +106,5 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Fixes
     - Issue [#36](https://github.com/QB64Official/vscode/issues/36) Error when building 0.5.0
     - Issue [#37](https://github.com/QB64Official/vscode/issues/37) Open Include Files doesn't always work
+  - Polish
+    - Issue [#38](https://github.com/QB64Official/vscode/issues/38) Add icon to the explorer view for QB64 files.
