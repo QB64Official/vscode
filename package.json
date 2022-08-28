@@ -178,6 +178,10 @@
                     ".bi",
                     ".bm"
                 ],
+                "icon": {
+                    "light": "./images/qb64.ico",
+                    "dark": "./images/qb64.ico"
+                },
                 "configuration": "./language-configuration.json"
             }
         ],
