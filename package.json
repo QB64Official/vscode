@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "engines": {
         "vscode": "^1.70.0"
     },
@@ -179,8 +179,8 @@
                     ".bm"
                 ],
                 "icon": {
-                    "light": "./images/qb64.ico",
-                    "dark": "./images/qb64.ico"
+                    "light": "./images/qb64-light.svg",
+                    "dark": "./images/qb64-dark.svg"
                 },
                 "configuration": "./language-configuration.json"
             }
