@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "engines": {
         "vscode": "^1.70.0"
     },
@@ -125,6 +125,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Decorate|Enable: Create the color box in the RGB statement"
+                },
+                "qb64.isCurrentRowHighlightEnabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Decorate|Enable: Hightlight the current row."
                 },
                 "qb64.isTodoHighlightEnabled": {
                     "type": "boolean",

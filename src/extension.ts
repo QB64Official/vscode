@@ -8,6 +8,7 @@ import * as helpFunctions from "./helpFunctions";
 import { DebugSession, TerminatedEvent } from "vscode-debugadapter";
 import * as lintFunctions from "./lintFunctions"
 import * as logFunctions from "./logFunctions"
+import * as commonFunctions from "./commonFunctions"
 
 // TODO: Get the TODOs window working.
 // 	This needs to go in the package.json in the contributes
@@ -31,27 +32,24 @@ var ownTerminal: vscode.Terminal;
 
 export function activate(context: vscode.ExtensionContext) {
 	const config = vscode.workspace.getConfiguration("qb64")
+	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
 
-	context.subscriptions.push(
-		vscode.languages.registerDocumentSymbolProvider(
-			{ scheme: "file", language: "QB64" },
-			new Qb64ConfigDocumentSymbolProvider()
-		)
-	);
+	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(documentSelector, new Qb64ConfigDocumentSymbolProvider()));
 
-	vscode.workspace.onWillSaveTextDocument(event => {
+	vscode.workspace.onWillSaveTextDocument(() => {
 		if (config.get("isCreateBakFileEnabled")) {
 			CreateBackup();
 		}
 	});
 
-	vscode.workspace.onDidSaveTextDocument(event => {
+	vscode.workspace.onDidSaveTextDocument(() => {
 		if (config.get("isLintOnSaveEnabled")) {
 			runLint();
 		}
 	});
 
 	decoratorFunctions.setupDecorate();
+	vscodeFucnctions.createFiles();
 	vscodeFucnctions.createFiles();
 	gitFunctions.createGitignore();
 
@@ -169,14 +167,14 @@ function openIncludeFile(context: vscode.ExtensionContext) {
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.openIncludeFile);
 
 	try {
-		let selectedText = getSelectedTextOrLineTest();
+		let selectedText = commonFunctions.getSelectedTextOrLineTest();
 		let match = selectedText.match(regexIncludeFile)
 
 		if (match !== null && match.index !== undefined) {
 			let file = match[1].replace("'", "").replaceAll("\\", "/");
 			outputChannnel.appendLine("Include File Found: " + file);
 			const path = require('path');
-			let fullPath = absolutePath(path.dirname(vscode.window.activeTextEditor.document.fileName).replaceAll("\\", "/",) + "/", file);
+			let fullPath = commonFunctions.getAbsolutePath(path.dirname(vscode.window.activeTextEditor.document.fileName).replaceAll("\\", "/",) + "/", file);
 
 			if (fs.existsSync(fullPath)) {
 				outputChannnel.appendLine("Trying to open file: " + fullPath);
@@ -188,40 +186,6 @@ function openIncludeFile(context: vscode.ExtensionContext) {
 	} catch (error) {
 		outputChannnel.appendLine("ERROR: " + error);
 	}
-}
-
-/**
- * Gets an absolute path from a relative path.
- * @param base Base folder
- * @param relative 
- * @returns 
- */
-function absolutePath(base: string, relative: string) {
-	let work: string[] = base.split("/");
-	let relativeArrary = relative.split("/");
-	work.pop(); // ignore the current file name (or no string)
-	// (ignore if "base" is the current folder without having slash in trail)
-	for (let i = 0; i < relativeArrary.length; i++) {
-		if (relativeArrary[i] == ".")
-			continue;
-		if (relativeArrary[i] == "..") {
-			work.pop();
-		} else {
-			work.push(relativeArrary[i]);
-		}
-	}
-	return work.join("/");
-}
-
-// Gets the selected editor text is nothing is selected return empty string.
-function getSelectedTextOrLineTest() {
-	let editor = vscode.window.activeTextEditor;
-	let retvalue = editor ? editor.document.getText(editor.selection) : "";
-
-	if (retvalue.length < 1) {
-		retvalue = editor.document.lineAt(vscode.window.activeTextEditor.selection.active.line).text;
-	}
-	return retvalue;
 }
 
 class InlineDebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {

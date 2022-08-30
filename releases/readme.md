@@ -10,6 +10,10 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.5.3
+  - Polish
+  - Issue [#41](https://github.com/QB64Official/vscode/issues/41) Highlight current line of code
+
 ## 0.5.2
   - Polish
     - Issue [#40](https://github.com/QB64Official/vscode/issues/40) Use updated images for the explorer
