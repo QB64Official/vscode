@@ -10,6 +10,14 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.6.0
+  - Enchantments
+  - Issue [#35](https://github.com/QB64Official/vscode/issues/35) Utilize local QB64 help (markdown) when available
+    - There are 2 setting that go with this
+      - 1 "OffLineHelpPath" this is the path to the markdown files. Leave empty to use online help.
+        - If the markdown file is not found the online help will be called.
+      - 2 "isOpenInEditModeEnabled" if this is true the markdown file will be opened in edit mode, otherwise it will be opened in preview mode.
+
 ## 0.5.3
   - Polish
   - Issue [#41](https://github.com/QB64Official/vscode/issues/41) Highlight current line of code

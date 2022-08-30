@@ -1,16 +1,16 @@
 "use strict";
+import * as fs from "fs";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 
 export function showHelp() {
-	const base_url = "https://github.com/QB64Official/qb64/wiki/";
+
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.help);
 	try {
 
 		const editor = vscode.window.activeTextEditor;
 		let word = editor ? editor.document.getText(editor.selection) : "";
 
-		logFunctions.writeLine(`Base Url: ${base_url} `, outputChannnel);
 		if (word.length > 0) {
 			word = word.split(" ")[0];
 		} else {
@@ -66,9 +66,27 @@ export function showHelp() {
 			word = "Function"
 		}
 
-		let url = `${base_url}${encodeURIComponent(word)}`;
-		logFunctions.writeLine(`Open URL: ${url} `, outputChannnel);
-		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
+		const config = vscode.workspace.getConfiguration("qb64")
+		var path = require('path');
+		let helpPath: string = config.get("OffLineHelpPath");
+		let helpFile = path.join(helpPath, word + ".md").replaceAll("\\", "/");
+
+		if (helpPath.length > 0 && fs.existsSync(helpFile)) {
+			logFunctions.writeLine(`Offline Help Found: ${helpFile} `, outputChannnel);
+			if (config.get("isOpenInEditModeEnabled")) {
+				logFunctions.writeLine(`Open ${helpFile} in edit mode`, outputChannnel);
+				vscode.workspace.openTextDocument(helpFile).then(d => vscode.window.showTextDocument(d));
+			} else {
+				logFunctions.writeLine(`Open ${helpFile} in view mode`, outputChannnel);
+				vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.file(helpFile));
+			}
+		} else {
+			const base_url = "https://github.com/QB64Official/qb64/wiki/";
+			logFunctions.writeLine(`Base Url: ${base_url} `, outputChannnel);
+			let url = `${base_url}${encodeURIComponent(word)}`;
+			logFunctions.writeLine(`Open URL: ${url} `, outputChannnel);
+			vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
+		}
 
 	} catch (error) {
 		logFunctions.writeLine("ERROR: " + error, outputChannnel);
