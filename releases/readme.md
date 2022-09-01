@@ -10,6 +10,38 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.6.1
+  - Enchantments
+    - Issue [#35](https://github.com/QB64Official/vscode/issues/35) Utilize local QB64 help (markdown) when available
+      - `BREAKING CHANGE` Changed to only have 1 path setting. This setting for the QB64 folder. 
+         The path for settings "Path: Full path to the QB64 compiler" and "Help|Path to the off line help files" have been removed.
+         There is a new setting "QB64 Install Folder"  the compiler path and the help path are both infered from the install folder.
+         To fix the break.  You'll either need to delete the launch.json (recommended) from the .vscode folder with *.bas file or edit the launch.json.
+         If you want to manually change the launch.json.  Here's what it needs to look like:
+          
+          ``` json
+          {
+            "version": "0.2.0",
+            "configurations": [
+              {
+                "name": "QB64 Build and Run",
+                "type": "QB64",
+                "request": "launch",
+                "command": "${config:qb64.installPath}/qb64.exe -c \"${fileDirname}/${fileBasename}\" -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" -x; start \"${fileDirname}/${fileBasenameNoExtension}.exe\"",
+                "terminalName": "QB64",
+                "terminalIndex": -1,
+                "showTerminal": true,
+                "linux": {
+                  "command": "${config:qb64.installPath}/qb64 -c '${fileDirname}/${fileBasename}' -o '${fileDirname}/${fileBasenameNoExtension}' -x; ${fileDirname}/${fileBasenameNoExtension}"
+                },
+                "osx": {
+                  "command": "${config:qb64.installPath}qb64 -c '${fileDirname}/${fileBasename}' -o '${fileDirname}/${fileBasenameNoExtension}' -x; ${fileDirname}/${fileBasenameNoExtension}"
+                }
+              }
+            ]
+          }
+          ```
+
 ## 0.6.0
   - Enchantments
   - Issue [#35](https://github.com/QB64Official/vscode/issues/35) Utilize local QB64 help (markdown) when available
@@ -20,7 +52,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.5.3
   - Polish
-  - Issue [#41](https://github.com/QB64Official/vscode/issues/41) Highlight current line of code
+    - Issue [#41](https://github.com/QB64Official/vscode/issues/41) Highlight current line of code
 
 ## 0.5.2
   - Polish
@@ -71,7 +103,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.4.1
   - Fixes
-    - Aded the the word "not" to ```outputChannnel.appendLine('Could find selected keyword');```
+    - Aded the the word "not" to `outputChannnel.appendLine('Could find selected keyword');`
     - Fixed the name of gitFunctions.ts
 
 ## 0.4.0

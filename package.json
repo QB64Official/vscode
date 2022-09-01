@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "engines": {
         "vscode": "^1.70.0"
     },
@@ -162,17 +162,12 @@
                         "Mixed Case"
                     ]
                 },
-                "qb64.compilerPath": {
-                    "type": "string",
-                    "default": "qb64.exe",
-                    "description": "Path: Full path to the QB64 compiler.  If you have the folder QB64 in your path you can just leave this as QB64.exe"
-                },
-                "qb64.OffLineHelpPath": {
+                "qb64.installPath": {
                     "type": "string",
                     "default": "",
-                    "description": "Help|Path to the off line help files"
+                    "description": "Path: Full path to the QB64 directory(folder)."
                 },
-                "qb64.isOpenInEditModeEnabled": {
+                "qb64.isOpenHelpInEditModeEnabled": {
                     "type": "bool",
                     "default": false,
                     "description": "Help|Enable: Open offline help in edit mode."
