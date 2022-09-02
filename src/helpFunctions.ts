@@ -66,6 +66,12 @@ export function showHelp() {
 			word = "Function"
 		}
 
+		/*
+		-- Don't use the following it loses the type symbol
+		const currectWordRange = editor.document.getWordRangeAtPosition(editor.selection.active);
+		const wrod = editor.document.getText(cwr);
+		*/
+
 		const config = vscode.workspace.getConfiguration("qb64");
 		var path = require('path');
 		let helpPath: string = config.get("installPath");
