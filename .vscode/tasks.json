@@ -2,15 +2,57 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "build-package",
+			"label": "build",
+			"dependsOn": [
+				"esbuild",
+				"vsce",
+				"changelog"
+			]
+		},
+		{
+			"label": "vsce",
 			"type": "shell",
 			"command": "vsce",
-			"group": {
-				"kind": "build"
-			},
 			"args": [
 				"package"
 			],
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
+		},
+		{
+			"label": "esbuild",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"esbuild"
+			],
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
+		},
+		{
+			"label": "changelog",
+			"type": "shell",
+			"windows": {
+				"command": "xcopy",
+				"args": [
+					"releases\\readme.md",
+					"changelog.md",
+					"/y",
+					"/f"
+				],
+			},
+			"linux": {
+				"command": "cp",
+				"args": [
+					"releases/readme.md",
+					"changelog.md",
+				],
+			},
 			"presentation": {
 				"reveal": "always",
 				"panel": "shared"

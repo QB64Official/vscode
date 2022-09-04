@@ -1,8 +1,7 @@
-'use strict';
-import * as vscode from 'vscode';
-import fs = require('fs');
-import * as logFunctions from './logFunctions';
-import { stringify } from 'querystring';
+"use strict";
+import * as vscode from "vscode";
+import * as fs from "fs";
+import * as logFunctions from "./logFunctions";
 
 export function createFiles() {
 

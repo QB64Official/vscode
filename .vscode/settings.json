@@ -2,6 +2,22 @@
 	"files.exclude": {
 		"out": true,
 		"node_modules": true,
-		"**/.gitignore": true
+		"**/.gitignore": true,
+		"releases/qb64-0.1.0.vsix": true,
+		"releases/qb64-0.2.0.vsix": true,
+		"releases/qb64-0.2.1.vsix": true,
+		"releases/qb64-0.3.0.vsix": true,
+		"releases/qb64-0.3.1.vsix": true,
+		"releases/qb64-0.4.0.vsix": true,
+		"releases/qb64-0.4.1.vsix": true,
+		"releases/qb64-0.4.2.vsix": true,
+		"releases/qb64-0.4.3.vsix": true,
+		"releases/qb64-0.4.4.vsix": true,
+		"releases/qb64-0.4.5.vsix": true,
+		"releases/qb64-0.5.0.vsix": true,
+		"releases/qb64-0.5.1.vsix": true,
+		"releases/qb64-0.5.2.vsix": true,
+		"releases/qb64-0.5.3.vsix": true,
+		"releases/qb64-0.6.0.vsix": true,
 	}
 }

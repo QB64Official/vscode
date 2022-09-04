@@ -9,7 +9,7 @@
                 "--extensionDevelopmentPath=${workspaceFolder}"
             ],
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "build-package"
+            "preLaunchTask": "build"
         }
     ]
 }

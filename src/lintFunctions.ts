@@ -1,6 +1,6 @@
 "use strict";
 import * as vscode from "vscode";
-import fs = require("fs");
+import * as fs from "fs";
 import path from "path";
 import { exec } from "child_process";
 import * as logFunctions from "./logFunctions";

@@ -1,18 +1,19 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
-		"target": "ES2021",
+		"module": "CommonJS",
+		"target": "ES2022",
 		"outDir": "out",
 		"removeComments": false,
+		"moduleResolution": "nodenext",
 		"lib": [
-			"ES2021"
+			"ES2022"
 		],
-		"sourceMap": true,
 		"rootDir": "src",
 		"esModuleInterop": true,
-		"alwaysStrict": true,
+		"alwaysStrict": true
 	},
 	"exclude": [
-		".vscode-test"
+		".vscode-test",
+		".releases"
 	]
 }

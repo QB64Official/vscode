@@ -1,14 +1,17 @@
 "use strict";
 import * as vscode from "vscode";
-import fs = require("fs");
+import * as debugadapter from "@vscode/debugadapter";
+import * as fs from "fs";
 import * as gitFunctions from "./gitFunctions";
 import * as vscodeFucnctions from "./vscodeFunctions";
 import * as decoratorFunctions from "./decoratorFunctions";
 import * as helpFunctions from "./helpFunctions";
-import { DebugSession, TerminatedEvent } from "vscode-debugadapter";
 import * as lintFunctions from "./lintFunctions"
 import * as logFunctions from "./logFunctions"
 import * as commonFunctions from "./commonFunctions"
+
+// To swith to debug mode the scripts in the package.json need to be changed.
+// https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
 
 // TODO: Get the TODOs window working.
 // 	This needs to go in the package.json in the contributes
@@ -24,10 +27,6 @@ import * as commonFunctions from "./commonFunctions"
 //             ]
 //         }
 
-
-// Channels
-// They have to be cached or vsc creates a new channel every time 😒
-// If we end up with a lot of changes an array of objects might be better.
 var ownTerminal: vscode.Terminal;
 
 export function activate(context: vscode.ExtensionContext) {
@@ -203,9 +202,9 @@ class InlineDebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory 
 	}
 }
 
-export class DummyDebugSession extends DebugSession {
+export class DummyDebugSession extends debugadapter.DebugSession {
 	protected initializeRequest(): void {
-		this.sendEvent(new TerminatedEvent());
+		this.sendEvent(new debugadapter.TerminatedEvent());
 	}
 }
 

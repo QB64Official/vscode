@@ -75,7 +75,7 @@ export function showHelp() {
 		const config = vscode.workspace.getConfiguration("qb64");
 		var path = require('path');
 		let helpPath: string = config.get("installPath");
-		let helpFile = path.join(helpPath, "help", word + ".md").replaceAll("\\", "/");
+		let helpFile = path.join(helpPath, "internal", "help", word + ".md").replaceAll("\\", "/");
 
 		if (helpPath.length > 0 && fs.existsSync(helpFile)) {
 			logFunctions.writeLine(`Offline Help Found: ${helpFile} `, outputChannnel);

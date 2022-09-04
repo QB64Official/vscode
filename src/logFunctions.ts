@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 
-// Setup the channels here.
+// Channels
+// They have to be cached or vsc creates a new channel every time 😒
 // Add them all and in alphabetical order that way they show in grouped and in alphabetical order in the output view.
 const vscodeChannel: any = vscode.window.createOutputChannel("QB64: .vscode");
 const createBackupChannel: any = vscode.window.createOutputChannel("QB64: CreateBackup");
@@ -17,9 +18,9 @@ export enum channelType {
 	lint = 3,
 	decorator = 4,
 	git = 5,
-	createBackup = 5,
-	formatter = 6,
-	openIncludeFile = 7,
+	createBackup = 6,
+	formatter = 7,
+	openIncludeFile = 8,
 }
 
 /**
@@ -46,7 +47,7 @@ export function getChannel(type: channelType) {
 		case channelType.createBackup:
 			return createBackupChannel;
 
-		case channelType.createBackup:
+		case channelType.formatter:
 			return formatterhannel;
 
 		case channelType.openIncludeFile:
