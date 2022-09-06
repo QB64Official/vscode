@@ -46,8 +46,9 @@ export function showHelp() {
 			}
 
 			if (word.length < 1) {
-				logFunctions.writeLine("Could not find selected keyword", outputChannnel);
-				return;
+				const defaultHelpLanding = "VS-Code-Extension";
+				logFunctions.writeLine(`Could not find selected keyword. Setting word to ${defaultHelpLanding}`, outputChannnel);
+				word = defaultHelpLanding;
 			}
 		}
 		word = word.trim();

@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.6.2",
+    "version": "0.7.0",
     "engines": {
         "vscode": "^1.70.0"
     },
@@ -253,7 +253,7 @@
             },
             {
                 "command": "extension.showHelp",
-                "title": "Open Help",
+                "title": "Help",
                 "category": "QB64"
             },
             {
@@ -271,6 +271,10 @@
                 },
                 {
                     "command": "extension.runLint",
+                    "when": "editorLangId == 'QB64'"
+                },
+                {
+                    "command": "extension.showHelp",
                     "when": "editorLangId == 'QB64'"
                 }
             ],

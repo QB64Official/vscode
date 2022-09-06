@@ -10,6 +10,11 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.7.0
+  - Enchantments
+    - Issue [[#8](https://github.com/QB64Official/vscode/issues/8)] Add help to the context menu
+      - Also added defualt landing help location if no keyword is selected.
+
 ## 0.6.2
   - Bugs
     - Issue [#42](https://github.com/QB64Official/vscode/issues/42) Cannot find module 'vscode-debugadapter'

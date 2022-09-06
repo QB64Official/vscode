@@ -19,5 +19,9 @@
 		"releases/qb64-0.5.2.vsix": true,
 		"releases/qb64-0.5.3.vsix": true,
 		"releases/qb64-0.6.0.vsix": true,
+		"releases/qb64-0.6.1.vsix": true,
+		".vscodeignore": true,
+		"LICENSE": true,
+		"src/webpack.config.js": true,
 	}
 }
