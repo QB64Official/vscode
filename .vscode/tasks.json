@@ -53,6 +53,13 @@
 					"changelog.md",
 				],
 			},
+			"osx": {
+				"command": "cp",
+				"args": [
+					"releases/readme.md",
+					"changelog.md",
+				],
+			},
 			"presentation": {
 				"reveal": "always",
 				"panel": "shared"

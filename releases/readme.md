@@ -11,8 +11,10 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Point: Bug Fixes|Polish
 
 ## 0.7.0
+  - Bugs
+    - Issue [#45](https://github.com/QB64Official/vscode/issues/45) Creating changelog.md does not work on OSX
   - Enchantments
-    - Issue [[#8](https://github.com/QB64Official/vscode/issues/8)] Add help to the context menu
+    - Issue [#8](https://github.com/QB64Official/vscode/issues/8)] Add help to the context menu
       - Also added defualt landing help location if no keyword is selected.
 
 ## 0.6.2
