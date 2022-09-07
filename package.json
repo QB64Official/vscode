@@ -24,7 +24,8 @@
         "onLanguage:QB64",
         "onCommand:extension.showHelp",
         "onCommand:extension.openIncludeFile",
-        "onCommand:extension.runLint"
+        "onCommand:extension.runLint",
+        "onCommand:extension.showAsciiChart"
     ],
     "configurationDefaults": {
         "[QB64]": {
@@ -241,6 +242,11 @@
             }
         ],
         "commands": [
+            {
+                "command": "extension.showAsciiChart",
+                "title": "Show the Ascii Chart",
+                "category": "QB64"
+            },
             {
                 "command": "extension.openIncludeFile",
                 "title": "Open Include File",

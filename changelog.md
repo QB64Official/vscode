@@ -16,6 +16,9 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Enchantments
     - Issue [#8](https://github.com/QB64Official/vscode/issues/8)] Add help to the context menu
       - Also added defualt landing help location if no keyword is selected.
+    - Issue [#16](https://github.com/QB64Official/vscode/issues/16)] Add ASCII Chart
+      - The ASCII Chart can only be opened from the Command Palette `ctrl+shift+p`
+      - After open the Command Palette type ascii chart, then select ascii chart from the list.
 
 ## 0.6.2
   - Bugs

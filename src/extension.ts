@@ -9,6 +9,7 @@ import * as helpFunctions from "./helpFunctions";
 import * as lintFunctions from "./lintFunctions"
 import * as logFunctions from "./logFunctions"
 import * as commonFunctions from "./commonFunctions"
+import * as webViewFunctions from "./webViewFunctions"
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -53,11 +54,14 @@ export function activate(context: vscode.ExtensionContext) {
 	gitFunctions.createGitignore();
 
 	// Register Commands here
+	webViewFunctions.setupAsciiChart(context);
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(context); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new InlineDebugAdapterFactory()));
+
+
 }
 
 export function addToGitIgnore(items: any) {
