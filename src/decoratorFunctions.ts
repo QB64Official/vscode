@@ -15,10 +15,10 @@ const decorationTypeCurrentRow = vscode.window.createTextEditorDecorationType(
 		fontWeight: "bold",
 		borderRadius: "5px",
 		dark: {
-			border: "1px solid rgb(215,215,215)",
+			border: "1px solid rgb(215,215,215); opacity: 0.5;",
 		},
 		light: {
-			border: "1px solid rgb(115,115,115)",
+			border: "1px solid rgb(115,115,115); opacity: 0.5;",
 		}
 	}
 );
