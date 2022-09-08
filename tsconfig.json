@@ -5,6 +5,7 @@
 		"outDir": "out",
 		"removeComments": false,
 		"moduleResolution": "nodenext",
+		"sourceMap": true,
 		"lib": [
 			"ES2022"
 		],

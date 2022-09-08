@@ -154,7 +154,7 @@
                 },
                 "qb64.formatMode": {
                     "type": "string",
-                    "default": "Mix Case",
+                    "default": "Lower Case",
                     "description": "How keywords are fomatted",
                     "enum": [
                         "No Change",
@@ -239,6 +239,11 @@
                 "command": "extension.runLint",
                 "key": "f12",
                 "when": "editorLangId == 'QB64' && editorTextFocus"
+            },
+            {
+                "command": "extension.openCurrentFileInQB64",
+                "key": "alt+q",
+                "when": "editorLangId == 'QB64' && editorTextFocus"
             }
         ],
         "commands": [
@@ -266,6 +271,11 @@
                 "command": "extension.runLint",
                 "title": "Lint",
                 "category": "QB64"
+            },
+            {
+                "command": "extension.openCurrentFileInQB64",
+                "title": "Open Current File in QB64",
+                "category": "QB64"
             }
         ],
         "menus": {
@@ -281,6 +291,10 @@
                 },
                 {
                     "command": "extension.showHelp",
+                    "when": "editorLangId == 'QB64'"
+                },
+                {
+                    "command": "extension.openCurrentFileInQB64",
                     "when": "editorLangId == 'QB64'"
                 }
             ],

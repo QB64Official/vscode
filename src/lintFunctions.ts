@@ -1,8 +1,8 @@
 "use strict";
 import * as vscode from "vscode";
-import * as fs from "fs";
 import path from "path";
 import { exec } from "child_process";
+import * as commonFunctions from "./commonFunctions";
 import * as logFunctions from "./logFunctions";
 import os from 'os';
 
@@ -21,7 +21,20 @@ export function runLint() {
 
 		logFunctions.writeLine("Starting Lint", outputChannnel);
 		const config = vscode.workspace.getConfiguration("qb64")
-		const compilerPath: boolean = config.get("compilerPath");
+		let compilerPath: string = config.get("installPath");
+
+		if (!compilerPath) {
+			logFunctions.writeLine("The QB64 Install path is not set.", outputChannnel);
+			return;
+		}
+
+		if (os.platform() == "win32") {
+			compilerPath = path.join(compilerPath, "qb64.exe");
+		} else {
+			compilerPath = path.join(compilerPath, "qb64");
+		}
+
+		compilerPath = compilerPath.replaceAll("\\", "/");
 
 		let sourceCode = vscode.window.activeTextEditor.document.fileName;
 		let baseFilename = path.dirname(sourceCode) + "/" + path.basename(sourceCode);
@@ -86,13 +99,13 @@ function lintCurrentFile(compilerOutput: string) {
 			}
 
 			errorLineNumber = -1;
-			if (lintLine.startsWith("Illegal")) {
+			if (lintLine.startsWith("Illegal") || lintLine.startsWith("DIM: Expected")) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
 					const element = lines[x];
 					if (element.startsWith("LINE ")) {
-						let work: string[] = element.split(":")
-						code = work[1].replace("\r", "").replace("\t", "");
+						const work: string[] = element.split(":")
+						code = commonFunctions.escapeRegExp(work[1])
 						errorLineNumber = Number(work[0].split(" ").pop()) - 1;
 						break;
 					}
@@ -107,13 +120,17 @@ function lintCurrentFile(compilerOutput: string) {
 					let diagnostic: vscode.Diagnostic = new vscode.Diagnostic(
 						CreateRange(match, errorLineNumber),
 						lintLine.replace("\r", "") + "\n" + lines[lineIndex + 1].replace("\r", ""),
-						vscode.DiagnosticSeverity.Warning,
+						vscode.DiagnosticSeverity.Error,
 					);
 					diagnostic.code = 102;
 					diagnostic.source = lintSource;
 					diagnostics.push(diagnostic)
+				} else {
+					logFunctions.writeLine("Found Not Match", outputChannnel);
 				}
+
 			} else if (lintLine.indexOf("warning") >= 0) {
+
 				let tokens: string[] = lintLine.split(":");
 
 				if (path.basename(document.uri.fsPath) != tokens[0]) {

@@ -22,6 +22,14 @@ export function getSelectedTextOrLineTest(): string {
 }
 
 /**
+ * Escapes RegExp text value.  Found at https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript
+ * @param text 
+ * @returns 
+ */
+export function escapeRegExp(text) { return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'); }
+
+
+/**
  * Gets an absolute path from a relative path.
  * @param base Base folder
  * @param relative The relative file path.
