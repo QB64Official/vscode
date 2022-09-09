@@ -2,6 +2,7 @@
 import * as fs from "fs";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
+import * as commonFunctions from "./commonFunctions";
 
 export function showHelp() {
 
@@ -14,36 +15,8 @@ export function showHelp() {
 		if (word.length > 0) {
 			word = word.split(" ")[0];
 		} else {
-			if (!editor) {
-				logFunctions.writeLine("Active editor not found", outputChannnel);
-				return;
-			}
 
-			if (!editor.document) {
-				logFunctions.writeLine("Active document not found", outputChannnel);
-				return;
-			}
-			const stop: string = " (+-=<>[{}]`)\t";
-			const lineOfCode = editor.document.lineAt(editor.selection.active.line).text;
-			const cursorPostion = editor.selection.active.character;
-
-			// Get the first part of athe string
-			for (let i: number = cursorPostion - 1; i >= 0; i--) {
-				let currentChar = lineOfCode.substring(i - 1, i);
-				if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
-					break;
-				}
-				word = currentChar + word;
-			}
-
-			// Get the last part of athe string
-			for (let i: number = cursorPostion; i <= lineOfCode.length; i++) {
-				let currentChar = lineOfCode.substring(i - 1, i);
-				if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
-					break;
-				}
-				word = word + currentChar;
-			}
+			word = commonFunctions.getQB64Word(editor);
 
 			if (word.length < 1) {
 				const defaultHelpLanding = "VS-Code-Extension";

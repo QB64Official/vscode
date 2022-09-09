@@ -118,7 +118,7 @@ function lintCurrentFile(compilerOutput: string) {
 				const match = sourceCode[errorLineNumber].match(new RegExp("(" + code + ")"));
 				if (match) {
 					let diagnostic: vscode.Diagnostic = new vscode.Diagnostic(
-						CreateRange(match, errorLineNumber),
+						commonFunctions.createRange(match, errorLineNumber),
 						lintLine.replace("\r", "") + "\n" + lines[lineIndex + 1].replace("\r", ""),
 						vscode.DiagnosticSeverity.Error,
 					);
@@ -155,10 +155,4 @@ function lintCurrentFile(compilerOutput: string) {
 	} catch (error) {
 		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
 	}
-}
-
-function CreateRange(match: RegExpMatchArray, line: number) {
-	return new vscode.Range(
-		new vscode.Position(line, match.index),
-		new vscode.Position(line, match.index + match[0].length));
 }

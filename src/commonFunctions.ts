@@ -51,3 +51,56 @@ export function getAbsolutePath(base: string, relative: string): string {
 	}
 	return work.join("/");
 }
+
+/**
+ * Creates a new range object from a regex match.
+ * @param match Match with the start and stop for the range
+ * @param lineNumber Line Number in the source file that range is for
+ * @returns 
+ */
+export function createRange(match: RegExpMatchArray, lineNumber: number) {
+	return new vscode.Range(
+		new vscode.Position(lineNumber, match.index),
+		new vscode.Position(lineNumber, match.index + match[0].length));
+}
+
+/**
+ * Gets the QB64 word at the current curson postion in the current from the passed editor.
+ * @param editor 
+ * @returns The selected word/word under the cursor
+ */
+export function getQB64Word(editor: vscode.TextEditor) {
+
+	if (!editor) {
+		return "";
+	}
+
+	if (!editor.document) {
+		return "";
+	}
+
+	const stop: string = " (+-=<>[{}]`)\t";
+	const lineOfCode = editor.document.lineAt(editor.selection.active.line).text;
+	const cursorPostion = editor.selection.active.character;
+	let retvalue: string = "";
+
+	// Get the first part of athe string
+	for (let i: number = cursorPostion - 1; i >= 0; i--) {
+		let currentChar = lineOfCode.substring(i - 1, i);
+		if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
+			break;
+		}
+		retvalue = currentChar + retvalue;
+	}
+
+	// Get the last part of athe string
+	for (let i: number = cursorPostion; i <= lineOfCode.length; i++) {
+		let currentChar = lineOfCode.substring(i - 1, i);
+		if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
+			break;
+		}
+		retvalue = retvalue + currentChar;
+	}
+
+	return retvalue;
+}

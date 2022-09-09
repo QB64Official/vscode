@@ -15,6 +15,8 @@ All notable changes to the "QB64" extension will be documented in this file.
     - Issue [#46](https://github.com/QB64Official/vscode/issues/46) Lint doesn't work for new installs
     - Issue [#45](https://github.com/QB64Official/vscode/issues/45) Creating changelog.md does not work on OSX    
   - Enchantments
+    - Issue [#44](https://github.com/QB64Official/vscode/issues/44) Goto Usage
+      - Follows the standered VS Code `ReferenceProvider` patteren
     - Issue [#47](https://github.com/QB64Official/vscode/issues/47) Lint doesn't mark DIM: Expected as an error
     - Issue [#48] Open current file in QB64.exe
       - Hot Key `alt+q`

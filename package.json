@@ -237,7 +237,7 @@
             },
             {
                 "command": "extension.runLint",
-                "key": "f12",
+                "key": "ctrl+alt+l",
                 "when": "editorLangId == 'QB64' && editorTextFocus"
             },
             {

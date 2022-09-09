@@ -15,7 +15,7 @@ DISCLAIMER: This is very rough and still needs a lot of work.
 * Build Only
 * Highlights TODOs in the comments
 * Box around (_)rgb(32) commands the color of the command.
-* `F12` to run the lint - this is expermental.  Please report any issues.
+* `ctrl+alt+l` to run the lint - this is expermental.  Please report any issues.
 * Snippets
   - ifelse
   - ifthen

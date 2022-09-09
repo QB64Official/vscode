@@ -6,11 +6,12 @@ import * as gitFunctions from "./gitFunctions";
 import * as vscodeFucnctions from "./vscodeFunctions";
 import * as decoratorFunctions from "./decoratorFunctions";
 import * as helpFunctions from "./helpFunctions";
-import * as lintFunctions from "./lintFunctions"
-import * as logFunctions from "./logFunctions"
-import * as commonFunctions from "./commonFunctions"
-import * as webViewFunctions from "./webViewFunctions"
-import * as openInQB64Functions from "./openInQB64Functions"
+import * as lintFunctions from "./lintFunctions";
+import * as logFunctions from "./logFunctions";
+import * as commonFunctions from "./commonFunctions";
+import * as webViewFunctions from "./webViewFunctions";
+import * as openInQB64Functions from "./openInQB64Functions";
+import { ReferenceProvider } from "./ReferenceProvider";
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -62,6 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(context); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new InlineDebugAdapterFactory()));
+	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
 }
 
 export function openCurrentFileInQB64() {

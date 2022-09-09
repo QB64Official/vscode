@@ -10,8 +10,14 @@ const formatterhannel = vscode.window.createOutputChannel("QB64: Formatter");
 const gitChannel: any = vscode.window.createOutputChannel("QB64: Git");
 const helpChannel: any = vscode.window.createOutputChannel("QB64: Help");
 const lintChannel: any = vscode.window.createOutputChannel("QB64: Lint");
+const referenceProviderChannel: any = vscode.window.createOutputChannel("QB64: ReferenceProvider");
 const openIncludeFileChannel: any = vscode.window.createOutputChannel("QB64: Open Include File");;
-const openInQB64Channel: any = vscode.window.createOutputChannel("QB64: Open In QB64");;
+const openInQB64Channel: any = vscode.window.createOutputChannel("QB64: Open In QB64");
+
+
+
+
+
 
 export enum channelType {
 	help = 1,
@@ -23,6 +29,7 @@ export enum channelType {
 	formatter = 7,
 	openIncludeFile = 8,
 	openInQB64 = 9,
+	referenceProvider = 10,
 }
 
 /**
@@ -57,6 +64,9 @@ export function getChannel(type: channelType) {
 
 		case channelType.openInQB64:
 			return openInQB64Channel;
+
+		case channelType.referenceProvider:
+			return referenceProviderChannel;
 
 		default:
 			throw `Unknown channelType of ${type}`;
