@@ -24,6 +24,9 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 		}
 
 		const word = commonFunctions.getQB64Word(vscode.window.activeTextEditor)
+		if (word.length < 1) {
+			return null;
+		}
 		logFunctions.writeLine(`Searching for definition of: ${word}`, this.outputChannnel)
 		let searchResults = this.doSearch(word, document, token);
 
