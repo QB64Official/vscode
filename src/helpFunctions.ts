@@ -39,17 +39,24 @@ export function showHelp() {
 		} else if (word.toLowerCase().startsWith("function")) {
 			word = "Function"
 		}
+		openHelp(word, outputChannnel);
 
-		/*
-		-- Don't use the following it loses the type symbol
-		const currectWordRange = editor.document.getWordRangeAtPosition(editor.selection.active);
-		const wrod = editor.document.getText(cwr);
-		*/
+	} catch (error) {
+		logFunctions.writeLine("ERROR: " + error, outputChannnel);
+	}
+}
 
+/**
+ * Opens the help
+ * @param keyword Keyword to open the help with
+ * @param outputChannnel 
+ */
+export function openHelp(keyword: string, outputChannnel: any) {
+	try {
 		const config = vscode.workspace.getConfiguration("qb64");
 		var path = require('path');
 		let helpPath: string = config.get("installPath");
-		let helpFile = path.join(helpPath, "internal", "help", word + ".md").replaceAll("\\", "/");
+		let helpFile = path.join(helpPath, "internal", "help", keyword + ".md").replaceAll("\\", "/");
 
 		if (helpPath.length > 0 && fs.existsSync(helpFile)) {
 			logFunctions.writeLine(`Offline Help Found: ${helpFile} `, outputChannnel);
@@ -63,12 +70,12 @@ export function showHelp() {
 		} else {
 			const base_url = "https://github.com/QB64Official/qb64/wiki/";
 			logFunctions.writeLine(`Base Url: ${base_url} `, outputChannnel);
-			let url = `${base_url}${encodeURIComponent(word)}`;
+			let url = `${base_url}${encodeURIComponent(keyword)}`;
 			logFunctions.writeLine(`Open URL: ${url} `, outputChannnel);
 			vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
 		}
-
 	} catch (error) {
 		logFunctions.writeLine("ERROR: " + error, outputChannnel);
 	}
 }
+

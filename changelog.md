@@ -13,8 +13,14 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.7.0
   - Bugs
     - Issue [#46](https://github.com/QB64Official/vscode/issues/46) Lint doesn't work for new installs
-    - Issue [#45](https://github.com/QB64Official/vscode/issues/45) Creating changelog.md does not work on OSX    
+    - Issue [#45](https://github.com/QB64Official/vscode/issues/45) Creating changelog.md does not work on OSX
+    - Fixed spelling of isCreateGitIgnoreEnabled in package.json and gitFunctions.ts
+    - Fixed the colorbox would not color if there were spaces around the number in the `rgb` commmand
+    - Fixed `ERROR: TypeError: Cannot read properties of undefined (reading 'line')` in decoratorFunctions->decorateSingleLine
   - Enchantments
+    - Issue [#9](https://github.com/QB64Official/vscode/issues/9) Add "go to definition"
+    - Issue [#44](https://github.com/QB64Official/vscode/issues/44) Goto Usage
+      - Follows the standered VS Code `ReferenceProvider` patteren
     - Issue [#47](https://github.com/QB64Official/vscode/issues/47) Lint doesn't mark DIM: Expected as an error
     - Issue [#48] Open current file in QB64.exe
       - Hot Key `alt+q`

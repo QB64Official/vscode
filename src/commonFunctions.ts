@@ -58,10 +58,10 @@ export function getAbsolutePath(base: string, relative: string): string {
  * @param lineNumber Line Number in the source file that range is for
  * @returns 
  */
-export function createRange(match: RegExpMatchArray, lineNumber: number) {
+export function createRange(match: RegExpMatchArray, lineNumber: number, matchIndex: number = 0) {
 	return new vscode.Range(
 		new vscode.Position(lineNumber, match.index),
-		new vscode.Position(lineNumber, match.index + match[0].length));
+		new vscode.Position(lineNumber, match.index + match[matchIndex].length));
 }
 
 /**
@@ -79,7 +79,7 @@ export function getQB64Word(editor: vscode.TextEditor) {
 		return "";
 	}
 
-	const stop: string = " (+-=<>[{}]`)\t";
+	const stop: string = " (+-=<>[{}]`);:.,\t";
 	const lineOfCode = editor.document.lineAt(editor.selection.active.line).text;
 	const cursorPostion = editor.selection.active.character;
 	let retvalue: string = "";

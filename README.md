@@ -7,6 +7,7 @@ DISCLAIMER: This is very rough and still needs a lot of work.
 ## Features
 
 * Utilize `F1` to *open help* via the QB64 Wiki
+* Go to Definition `F12`
 * `CTRL+Click` to *follow* (open) an Include file
 * `F5` to Build & Run
 * Syntax highlighting for QB64 2.x

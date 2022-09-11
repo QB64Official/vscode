@@ -9,10 +9,10 @@ export function createGitignore() {
 	try {
 
 		const config = vscode.workspace.getConfiguration("qb64")
-		const isCreateGitIngoreEnabled: boolean = config.get("isCreateGitIngoreEnabled");
+		const isCreateGitIgnoreEnabled: boolean = config.get("isCreateGitIgnoreEnabled");
 
-		if (!isCreateGitIngoreEnabled) {
-			logFunctions.writeLine("isCreateGitIngoreEnabled: False", outputChannnel);
+		if (!isCreateGitIgnoreEnabled) {
+			logFunctions.writeLine("isCreateGitIgnoreEnabled: False", outputChannnel);
 			return
 		}
 		const giPath: string = vscode.workspace.workspaceFolders[0].uri.fsPath + "/.gitignore"

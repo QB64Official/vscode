@@ -1,7 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
-import * as commonFunctions from "./commonFunctions";
-import * as logFunctions from "./logFunctions";
+import * as commonFunctions from "../commonFunctions";
+import * as logFunctions from "../logFunctions";
 
 // 
 //  https://github.com/gayanhewa/vscode-find-all-references/blob/master/src/Providers/ReferenceProvider.ts
@@ -9,6 +9,7 @@ import * as logFunctions from "./logFunctions";
 
 export class ReferenceProvider implements vscode.ReferenceProvider {
 	outputChannnel = logFunctions.getChannel(logFunctions.channelType.referenceProvider);
+	config = vscode.workspace.getConfiguration("qb64");
 
 	provideReferences(document: vscode.TextDocument, position: vscode.Position, context: vscode.ReferenceContext, token: vscode.CancellationToken): vscode.ProviderResult<vscode.Location[]> {
 		/*
@@ -18,13 +19,11 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
 			-- Search All Files
 			-- Ingnore Symbols
 		*/
-		let options: {}
-
-		return this.processSearch(document, position, options);
+		return this.processSearch(document, position, token);
 
 	}
 
-	private processSearch(document: vscode.TextDocument, position: vscode.Position, options: any): Thenable<vscode.Location[]> {
+	private processSearch(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Thenable<vscode.Location[]> {
 		return new Promise<vscode.Location[]>((resolve, reject) => {
 
 			const word = commonFunctions.getQB64Word(vscode.window.activeTextEditor)
@@ -36,6 +35,9 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
 			let list: vscode.Location[] = [];
 
 			for (let lineNumber = 0; lineNumber < sourceLines.length; lineNumber++) {
+				if (token.isCancellationRequested) {
+					return null;
+				}
 				try {
 					const line = sourceLines[lineNumber];
 					logFunctions.writeLine(`Checking: Line: ${lineNumber} | Line Of Code: ${line.replaceAll("\n", "").replaceAll("\r", "")} | Search: ${word}`, this.outputChannnel);

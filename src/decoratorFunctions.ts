@@ -1,8 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions"
-
-
+import * as commonFunctions from "./commonFunctions"
 
 const red = 0;
 const green = 1;
@@ -41,20 +40,29 @@ export function setupDecorate() {
 
 function decorateSingleLine(editor: any) {
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
-	if (!editor || editor.document.languageId == "Log") {
+
+	if (!editor || editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
 		return;
 	}
-	let currrentLine: vscode.Position = editor.selection.active;
+
+	const currrentLine: vscode.Position = editor.selection.active;
+
 	try {
-		const config = vscode.workspace.getConfiguration("qb64")
+
+		if (!currrentLine) {
+			return;
+		}
+
+		const config = vscode.workspace.getConfiguration("qb64");
+
 		let includeLeading: vscode.Range[] = []
 		let includeTrailing: vscode.Range[] = []
 		let todo: vscode.Range[] = []
 
-		if ((!lastLine) || lastLine.line !== currrentLine.line) {
-			logFunctions.writeLine(`Current line chagned from ${lastLine.line + 1} to ${currrentLine.line + 1} has changed.`, outputChannnel);
+		if (lastLine && lastLine.line != currrentLine.line) {
 			decorate(editor, lastLine.line, editor.document.lineAt(lastLine.line).text, outputChannnel, includeLeading, includeTrailing, todo);
 		}
+
 		if (config.get("isCurrentRowHighlightEnabled")) {
 
 			let current: vscode.Range[] = [new vscode.Range(
@@ -67,7 +75,7 @@ function decorateSingleLine(editor: any) {
 
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
+		logFunctions.writeLine(`ERROR in decorateSingleLine: ${error}`, outputChannnel);
 	} finally {
 		if (currrentLine) {
 			lastLine = currrentLine;
@@ -77,7 +85,7 @@ function decorateSingleLine(editor: any) {
 
 function decorateAll(editor: any) {
 
-	if (!editor) {
+	if (!editor || editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
 		return;
 	}
 
@@ -96,21 +104,27 @@ function decorateAll(editor: any) {
 		editor.setDecorations(decorationTypeTodo, todo);
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
+		logFunctions.writeLine(`ERROR in decorateAll: ${error}`, outputChannnel);
 	}
 }
 
 function decorate(editor: any, lineNumber: number, lineOfCode: string, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todo: vscode.Range[]) {
+
+	if (!editor || editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
+		return;
+	}
+
 	try {
+		logFunctions.writeLine(`decorate | lineNumber: ${lineNumber + 1} | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
 		const config = vscode.workspace.getConfiguration("qb64")
 		if (config.get("isRgbColorEnabled")) {
-			let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))/ig);
+			let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 			if (matches) {
 				for (const match of matches) {
-					logFunctions.writeLine(`RGB Found at ${match.index}`, outputChannnel);
+					logFunctions.writeLine(`lineNumber: ${lineNumber} | RGB Match Found at Column: ${match.index}`, outputChannnel);
 					// Could use this to get just the numbers (\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))
 					let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
-					let work: vscode.Range[] = [CreateRange(match, lineNumber, 0)];
+					let work: vscode.Range[] = [commonFunctions.createRange(match, lineNumber, 0)];
 					let colorDec = vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})`, borderRadius: "5px" });
 					editor.setDecorations(colorDec, work);
 				}
@@ -120,10 +134,10 @@ function decorate(editor: any, lineNumber: number, lineOfCode: string, outputCha
 		// Look for include files
 		let match = lineOfCode.match(/'\$INCLUDE:/i)
 		if (match !== null && match.index !== undefined) {
-			includeLeading.push(CreateRange(match, lineNumber, 0));
+			includeLeading.push(commonFunctions.createRange(match, lineNumber, 0));
 			match = lineOfCode.match(/'(.*)'/i)
 			if (match !== null && match.index !== undefined) {
-				includeTrailing.push(CreateRange(match, lineNumber, 0));
+				includeTrailing.push(commonFunctions.createRange(match, lineNumber, 0));
 			}
 		}
 
@@ -131,23 +145,12 @@ function decorate(editor: any, lineNumber: number, lineOfCode: string, outputCha
 		if (config.get("isTodoHighlightEnabled")) {
 			const matches = lineOfCode.matchAll(/(?<='*|rem*)TODO:|FIXIT:|FIXME:/ig);
 			for (const match of matches) {
-				todo.push(CreateRange(match, lineNumber, 0));
+				todo.push(commonFunctions.createRange(match, lineNumber, 0));
 			}
 		}
-		logFunctions.writeLine(`lineNumber: ${lineNumber}`, outputChannnel);
-		logFunctions.writeLine(`editor.selection.active.line: ${editor.selection.active.line}`, outputChannnel);
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
+		logFunctions.writeLine(`ERROR in decorate: ${error}`, outputChannnel);
 	}
 }
-
-function CreateRange(match: RegExpMatchArray, line: number, matchIndex: number) {
-	return new vscode.Range(
-		new vscode.Position(line, match.index),
-		new vscode.Position(line, match.index + match[matchIndex].length));
-}
-
-function border(arg0: { fontWeight: string; dark: any; }, arg1: { border: string; }, border: any, arg3: string, borderRadius: any, arg5: string) {
-	throw new Error("Function not implemented.");
-}
+1
