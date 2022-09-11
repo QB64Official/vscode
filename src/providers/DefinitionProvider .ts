@@ -27,17 +27,17 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 		if (word.length < 1) {
 			return null;
 		}
-		logFunctions.writeLine(`Searching for definition of: ${word}`, this.outputChannnel)
-		let searchResults = this.doSearch(word, document, token);
 
-		if (searchResults) {
-			return searchResults;
-		} else {
-			logFunctions.writeLine(`Open Help for: ${word}`, this.outputChannnel);
-			openHelp(word, this.outputChannnel);
-			return null;
-		}
-
+		return this.doSearch(word, document, token).then(searchResults => {
+			if (searchResults && searchResults.length > 0) {
+				logFunctions.writeLine(`searchResults (${searchResults.length}): ${searchResults[0].uri}`, this.outputChannnel);
+				return new Promise<vscode.Location[]>((resolve) => { resolve(searchResults); });
+			} else {
+				logFunctions.writeLine(`Open Help for: ${word}`, this.outputChannnel);
+				openHelp(word, this.outputChannnel);
+				return null;
+			}
+		});
 	}
 
 	/**
@@ -45,22 +45,20 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 	 */
 	private doSearch(word: string, document: vscode.TextDocument, token: vscode.CancellationToken): Promise<vscode.Location[]> {
 
-		return new Promise<vscode.Location[]>(async (resolve) => {
+		return new Promise<vscode.Location[]>(async (resolve, reject) => {
 			try {
 				let includedFiles: string[] = []
-				// let match = lineOfCode.match(/'\$INCLUDE:/i)
-				// const regex = /(?<=sub|dim|function)\b + escapedWord + /i				
-				// const regex: string = `(?<=sub|dim|function|type)${escapedWord}`
-				// Todo: Check Include files.
-				// TODO: Figure out regex read behind does not work new RegExp()			
-				const escapedWord = commonFunctions.escapeRegExp(word);
-				const definitionResource = vscode.Uri.file(document.fileName);
 				const sourceLines = document.getText().split("\n");
 
 				for (let lineNumber = 0; lineNumber < sourceLines.length; lineNumber++) {
 					if (token.isCancellationRequested) {
 						return resolve(null);
 					}
+
+					if (document == vscode.window.activeTextEditor.document && lineNumber == vscode.window.activeTextEditor.selection.active.line) {
+						continue;
+					}
+
 					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "");
 
 					if (line.startsWith("'$include:")) {
@@ -77,14 +75,10 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						continue;
 					}
 
-					if (word == "QUIT1") {
-						logFunctions.writeLine(`Line (${lineNumber + 1}): ${line}`, this.outputChannnel);
-					}
-
-					const matches = line.match(new RegExp(`\\b${escapedWord}\\b`, "i"));
+					const matches = line.match(new RegExp(`\\b${commonFunctions.escapeRegExp(word)}\\b`, "i"));
 					if (matches) {
 						logFunctions.writeLine(`Found ${word} on line ${lineNumber + 1}`, this.outputChannnel);
-						return resolve([new vscode.Location(definitionResource, commonFunctions.createRange(matches, lineNumber))]);
+						return resolve([new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(matches, lineNumber))]);
 					}
 				}
 
@@ -98,16 +92,16 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 							if (fs.existsSync(fullPath)) {
 								logFunctions.writeLine(`Looking for ${word} in ${fullPath}`, this.outputChannnel);
 								let includeFileDocument = await vscode.workspace.openTextDocument(fullPath);
-								let found: vscode.Location[] = await this.doSearch(word, includeFileDocument, token);
-								if (found) {
+								let searchResults: vscode.Location[] = await this.doSearch(word, includeFileDocument, token);
+								if (searchResults) {
 									logFunctions.writeLine(`Found ${word} in ${fullPath}`, this.outputChannnel)
 									vscode.window.showTextDocument(includeFileDocument).then(() => {
-										let range = found[0].range;
-										logFunctions.writeLine(`Open ${fullPath} at line ${found[0].range.start.line + 1}`, this.outputChannnel);
+										let range = searchResults[0].range;
+										logFunctions.writeLine(`Open ${fullPath} at line ${searchResults[0].range.start.line + 1}`, this.outputChannnel);
 										vscode.window.activeTextEditor.selection = new vscode.Selection(range.start, range.end);
 										vscode.window.activeTextEditor.revealRange(range);
 									});
-									return resolve(found);
+									return resolve(searchResults);
 								} else {
 									logFunctions.writeLine(`Closing ${fullPath}`, this.outputChannnel);
 									vscode.commands.executeCommand('workbench.action.closeActiveEditor');
@@ -117,11 +111,11 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 							}
 						}
 					} catch (error) {
-						logFunctions.writeLine("ERROR: " + error, this.outputChannnel);
+						logFunctions.writeLine("ERROR in doSearch: " + error, this.outputChannnel);
 					}
 				}
 			} catch (error) {
-				logFunctions.writeLine(`ERROR: ${error}`, this.outputChannnel)
+				logFunctions.writeLine(`ERROR in doSearch: ${error}`, this.outputChannnel)
 			} finally {
 				return resolve(null);
 			}
