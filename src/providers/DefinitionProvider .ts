@@ -45,7 +45,7 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 	 */
 	private doSearch(word: string, document: vscode.TextDocument, token: vscode.CancellationToken): Promise<vscode.Location[]> {
 
-		return new Promise<vscode.Location[]>(async (resolve, reject) => {
+		return new Promise<vscode.Location[]>(async (resolve) => {
 			try {
 				let includedFiles: string[] = []
 				const sourceLines = document.getText().split("\n");

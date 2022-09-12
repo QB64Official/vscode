@@ -54,12 +54,24 @@ export function showHelp() {
 export function openHelp(keyword: string, outputChannnel: any) {
 	try {
 		const config = vscode.workspace.getConfiguration("qb64");
+
+		if (!keyword || keyword.length < 1) {
+			return;
+		}
+
 		var path = require('path');
 		let helpPath: string = config.get("installPath");
-		let helpFile = path.join(helpPath, "internal", "help", keyword + ".md").replaceAll("\\", "/");
+		let helpFile = path.join(helpPath, "internal", "help", `${keyword}.md`).replaceAll("\\", "/");
 
-		if (helpPath.length > 0 && fs.existsSync(helpFile)) {
-			logFunctions.writeLine(`Offline Help Found: ${helpFile} `, outputChannnel);
+		if (!fs.existsSync(helpFile)) {
+			logFunctions.writeLine(`Keyword ${keyword} not found adding "_" and trying again`, outputChannnel);
+			keyword = `_${keyword}`
+			helpFile = path.join(helpPath, "internal", "help", `${keyword}.md`).replaceAll("\\", "/");
+			logFunctions.writeLine(`New local path: ${helpFile}`, outputChannnel);
+		}
+
+		if (fs.existsSync(helpFile)) {
+			logFunctions.writeLine(`Offline Help Found: ${helpFile}`, outputChannnel);
 			if (config.get("isOpenHelpInEditModeEnabled")) {
 				logFunctions.writeLine(`Open ${helpFile} in edit mode`, outputChannnel);
 				vscode.workspace.openTextDocument(helpFile).then(d => vscode.window.showTextDocument(d));

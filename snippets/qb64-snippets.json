@@ -1,14 +1,32 @@
 {
+	"Print": {
+		"prefix": "Print",
+		"body": [
+			"Print $0"
+		],
+		"description": "Print "
+	},
+	"#IfElse": {
+		"prefix": "ifelse",
+		"body": [
+			"#if $0 then",
+			"",
+			"#else",
+			"",
+			"#end If"
+		],
+		"description": "#If... "
+	},
 	"If Else": {
 		"prefix": "ifelse",
 		"body": [
 			"if $0 then",
 			"",
-			"Else",
+			"else",
 			"",
-			"End If"
+			"end if"
 		],
-		"description": "If...Then "
+		"description": "If...else "
 	},
 	"If Then": {
 		"prefix": "ifthen",
@@ -17,7 +35,7 @@
 			"",
 			"End If"
 		],
-		"description": "If...Then "
+		"description": "if...then "
 	},
 	"For Next Loop": {
 		"prefix": "for",

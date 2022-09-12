@@ -13,6 +13,8 @@ import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
 import { ReferenceProvider } from "./providers/ReferenceProvider";
 import { DefinitionProvider } from "./providers/DefinitionProvider ";
+import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
+import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEditProvider";
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -36,8 +38,6 @@ var ownTerminal: vscode.Terminal;
 export function activate(context: vscode.ExtensionContext) {
 	const config = vscode.workspace.getConfiguration("qb64")
 	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
-
-	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(documentSelector, new Qb64ConfigDocumentSymbolProvider()));
 
 	vscode.workspace.onWillSaveTextDocument(() => {
 		if (config.get("isCreateBakFileEnabled")) {
@@ -66,7 +66,8 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new InlineDebugAdapterFactory()));
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(commonFunctions.getDocumentSelector(), new DefinitionProvider()));
-
+	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(documentSelector, new DocumentSymbolProvider()));
+	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
 }
 
 export function openCurrentFileInQB64() {
@@ -109,6 +110,7 @@ function CreateBackup() {
 	}
 }
 
+/*
 // Code Formatter
 // Seems like a good place to find includes and make the double click to open work.
 vscode.languages.registerDocumentFormattingEditProvider(
@@ -139,37 +141,7 @@ vscode.languages.registerDocumentFormattingEditProvider(
 		return retvalue;
 	}
 });
-
-// Setup the Outline window
-class Qb64ConfigDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
-	public provideDocumentSymbols(
-		document: vscode.TextDocument,
-		_token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
-		return new Promise(function (resolve, _reject): void {
-
-			let symbols: vscode.DocumentSymbol[] = [];
-			let nodes = [symbols];
-
-			for (let i = 0; i < document.lineCount; i++) {
-				const line = document.lineAt(i);
-
-				if (line.text.toLowerCase().startsWith("sub ") || line.text.toLowerCase().startsWith("function ")) {
-
-					let isSub: boolean = line.text.toLowerCase().startsWith("sub ");
-					let tokens: string[] = line.text.split(" ");
-					let marker_symbol = new vscode.DocumentSymbol(
-						tokens[1].trim(),
-						isSub ? "Sub" : "Function",
-						isSub ? vscode.SymbolKind.Method : vscode.SymbolKind.Function,
-						line.range, line.range);
-
-					nodes[nodes.length - 1].push(marker_symbol);
-				}
-			}
-			resolve(symbols);
-		});
-	}
-}
+*/
 
 function openIncludeFile(context: vscode.ExtensionContext) {
 

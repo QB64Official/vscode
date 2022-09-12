@@ -11,27 +11,31 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Point: Bug Fixes|Polish
 
 ## 0.7.0
-  - Bugs
+  - Bugs  
+    - Issue [#49](https://github.com/QB64Official/vscode/issues/49) When $NOPREFIX versions of keywords are in use, F1 for help can't find keywords
     - Issue [#46](https://github.com/QB64Official/vscode/issues/46) Lint doesn't work for new installs
     - Issue [#45](https://github.com/QB64Official/vscode/issues/45) Creating changelog.md does not work on OSX
     - Fixed spelling of isCreateGitIgnoreEnabled in package.json and gitFunctions.ts
     - Fixed the colorbox would not color if there were spaces around the number in the `rgb` commmand
     - Fixed `ERROR: TypeError: Cannot read properties of undefined (reading 'line')` in decoratorFunctions->decorateSingleLine
-  - Enchantments
-    - Issue [#9](https://github.com/QB64Official/vscode/issues/9) Add "go to definition"
-    - Issue [#44](https://github.com/QB64Official/vscode/issues/44) Goto Usage
-      - Follows the standered VS Code `ReferenceProvider` patteren
-    - Issue [#47](https://github.com/QB64Official/vscode/issues/47) Lint doesn't mark DIM: Expected as an error
-    - Issue [#48] Open current file in QB64.exe
+  - Enchantments    
+    - Issue [#50](https://github.com/QB64Official/vscode/issues/50) Replace ? with Print
+      - Replaces `? ` with `print ` on save. When the line starts with `? `        
+    - Issue [#48](https://github.com/QB64Official/vscode/issues/48) Open current file in QB64.exe
       - Hot Key `alt+q`
       - Also on the contect menu
-    - Issue [#8](https://github.com/QB64Official/vscode/issues/8)] Add help to the context menu
-      - Also added defualt landing help location if no keyword is selected.
-    - Issue [#16](https://github.com/QB64Official/vscode/issues/16)] Add ASCII Chart
+    - Issue [#47](https://github.com/QB64Official/vscode/issues/47) Lint doesn't mark DIM: Expected as an error
+    - Issue [#44](https://github.com/QB64Official/vscode/issues/44) Goto Usage
+      - Follows the standered VS Code `ReferenceProvider` patteren
+    - Issue [#16](https://github.com/QB64Official/vscode/issues/16) Add ASCII Chart
       - The ASCII Chart can only be opened from the Command Palette `ctrl+shift+p`
-      - After open the Command Palette type ascii chart, then select ascii chart from the list.
+      - After open the Command Palette type ascii chart, then select ascii chart from the list.    
+    - Issue [#9](https://github.com/QB64Official/vscode/issues/9) Add "go to definition"
+    - Issue [#8](https://github.com/QB64Official/vscode/issues/8) Add help to the context menu
+      - Also added defualt landing help location if no keyword is selected.
   - Polish
       - Set the opacity to 0.5 for the active row marker.
+      - Added more keywords to the syntax hightlighter
 
 ## 0.6.2
   - Bugs

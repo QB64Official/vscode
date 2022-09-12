@@ -22,9 +22,6 @@
     "main": "./out/main.js",
     "activationEvents": [
         "onLanguage:QB64",
-        "onCommand:extension.showHelp",
-        "onCommand:extension.openIncludeFile",
-        "onCommand:extension.runLint",
         "onCommand:extension.showAsciiChart"
     ],
     "configurationDefaults": {
