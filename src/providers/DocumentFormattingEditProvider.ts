@@ -14,15 +14,15 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			line = document.lineAt(i);
 			let lineText = line.text.trimEnd();
 
+			if (lineText.trimStart().startsWith("? ")) {
+				lineText = lineText.replace("? ", "print ");
+			}
+
 			if (lineText.endsWith(";") && lineText.toLowerCase().indexOf("print") < 0 && lineText.indexOf("print") < 0) {
 				// Time to remove the ";" that is not needed at the end of the line
 				do {
 					lineText = lineText.substring(0, lineText.length - 1).trimEnd();
 				} while (lineText.endsWith(";"))
-			}
-
-			if (lineText.trimStart().startsWith("? ")) {
-				lineText = lineText.replace("? ", "print ");
 			}
 
 			if (lineText != line.text) {
