@@ -61,7 +61,7 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 
 					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "");
 
-					if (line.startsWith("'$include:")) {
+					if (line.match(/include:(.*)'/i)) {
 						includedFiles.push(line);
 						continue;
 					}
