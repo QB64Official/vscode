@@ -1,6 +1,5 @@
 "use strict";
 import * as vscode from "vscode";
-import * as debugadapter from "@vscode/debugadapter";
 import * as fs from "fs";
 import * as gitFunctions from "./gitFunctions";
 import * as vscodeFucnctions from "./vscodeFunctions";
@@ -15,6 +14,7 @@ import { ReferenceProvider } from "./providers/ReferenceProvider";
 import { DefinitionProvider } from "./providers/DefinitionProvider ";
 import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
 import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEditProvider";
+import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescriptorFactory";
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -33,7 +33,6 @@ import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEd
 //             ]
 //         }
 
-var ownTerminal: vscode.Terminal;
 
 export function activate(context: vscode.ExtensionContext) {
 	const config = vscode.workspace.getConfiguration("qb64")
@@ -61,9 +60,9 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64', () => { openCurrentFileInQB64(); }));
-	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(context); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
-	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new InlineDebugAdapterFactory()));
+	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(commonFunctions.getDocumentSelector(), new DefinitionProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(documentSelector, new DocumentSymbolProvider()));
@@ -110,40 +109,7 @@ function CreateBackup() {
 	}
 }
 
-/*
-// Code Formatter
-// Seems like a good place to find includes and make the double click to open work.
-vscode.languages.registerDocumentFormattingEditProvider(
-	{ scheme: 'file', language: 'QB64' }, {
-	provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
-
-		let retvalue: vscode.TextEdit[] = [];
-		let line: vscode.TextLine;
-		let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.formatter);
-
-		for (let i = 0; i < document.lineCount; i++) {
-			line = document.lineAt(i);
-			let lineText = line.text.trimEnd();
-
-			if (lineText.endsWith(";") && lineText.toLowerCase().indexOf("print") < 0 && lineText.indexOf("print") < 0) {
-				// Time to remove the ";" that is not needed at the end of the line
-				do {
-					lineText = lineText.substring(0, lineText.length - 1).trimEnd();
-				} while (lineText.endsWith(";"))
-			}
-
-			if (lineText != line.text) {
-				outputChannnel.appendLine(`Line: ${i}| C | ${line.text.trimEnd()} `);
-				outputChannnel.appendLine(`Line: ${i}| N | ${lineText} `);
-				retvalue.push(vscode.TextEdit.replace(line.range, lineText));
-			}
-		}
-		return retvalue;
-	}
-});
-*/
-
-function openIncludeFile(context: vscode.ExtensionContext) {
+function openIncludeFile() {
 
 	// The replace of \\ with / is to keep the file name from looking hokey on the oupput window.
 
@@ -170,43 +136,4 @@ function openIncludeFile(context: vscode.ExtensionContext) {
 	} catch (error) {
 		outputChannnel.appendLine("ERROR: " + error);
 	}
-}
-
-class InlineDebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
-	createDebugAdapterDescriptor(session: vscode.DebugSession): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
-		if (!session.configuration.hasOwnProperty("command")) {
-			vscode.window.showErrorMessage(`No command found for QB64 launch configuration "${session.configuration.name}". Add one like "command": "echo Hello" to your launch.json.`);
-		} else {
-			const terminal = getTerminal(session.configuration);
-			if (!session.configuration.hasOwnProperty("showTerminal") || session.configuration.showTerminal) {
-				terminal.show();
-			}
-			terminal.sendText(String(session.configuration.command));
-		}
-		return new vscode.DebugAdapterInlineImplementation(new DummyDebugSession());
-	}
-}
-
-export class DummyDebugSession extends debugadapter.DebugSession {
-	protected initializeRequest(): void {
-		this.sendEvent(new debugadapter.TerminatedEvent());
-	}
-}
-
-function getTerminal(configuration: vscode.DebugConfiguration): vscode.Terminal {
-	if (
-		configuration.hasOwnProperty("terminalIndex") && Number.isInteger(configuration.terminalIndex) &&
-		configuration.terminalIndex >= 0 && configuration.terminalIndex < vscode.window.terminals.length
-	) {
-		return vscode.window.terminals[configuration.terminalIndex];
-	}
-
-	if (!ownTerminal || ownTerminal.exitStatus) {
-		let name = "QB64";
-		if (configuration.hasOwnProperty("terminalName")) {
-			name = String(configuration.terminalName);
-		}
-		ownTerminal = vscode.window.createTerminal(name);
-	}
-	return ownTerminal;
 }

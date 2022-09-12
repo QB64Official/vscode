@@ -19,6 +19,7 @@ All notable changes to the "QB64" extension will be documented in this file.
     - Fixed the colorbox would not color if there were spaces around the number in the `rgb` commmand
     - Fixed `ERROR: TypeError: Cannot read properties of undefined (reading 'line')` in decoratorFunctions->decorateSingleLine
   - Enchantments    
+    - Issue [#51](https://github.com/QB64Official/vscode/issues/51) Restructure project to use providers
     - Issue [#50](https://github.com/QB64Official/vscode/issues/50) Replace ? with Print
       - Replaces `? ` with `print ` on save. When the line starts with `? `        
     - Issue [#48](https://github.com/QB64Official/vscode/issues/48) Open current file in QB64.exe

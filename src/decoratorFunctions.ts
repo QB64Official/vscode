@@ -153,4 +153,3 @@ function decorate(editor: any, lineNumber: number, lineOfCode: string, outputCha
 		logFunctions.writeLine(`ERROR in decorate: ${error}`, outputChannnel);
 	}
 }
-1
