@@ -2,7 +2,6 @@
 import * as vscode from "vscode";
 import * as commonFunctions from "../commonFunctions";
 import * as logFunctions from "../logFunctions";
-import * as fs from "fs";
 
 // 
 //  https://github.com/gayanhewa/vscode-find-all-references/blob/master/src/Providers/ReferenceProvider.ts

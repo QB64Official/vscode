@@ -69,7 +69,7 @@ export function createRange(match: RegExpMatchArray, lineNumber: number, matchIn
  * @param editor 
  * @returns The selected word/word under the cursor
  */
-export function getQB64Word(editor: vscode.TextEditor) {
+export function getQB64Word(editor: vscode.TextEditor): string {
 
 	if (!editor) {
 		return "";
@@ -78,10 +78,44 @@ export function getQB64Word(editor: vscode.TextEditor) {
 	if (!editor.document) {
 		return "";
 	}
+	/*
+		const stop: string = " (+-=<>[{}]`);:.,\t";
+		const lineOfCode = editor.document.lineAt(editor.selection.active.line).text;
+		const cursorPostion = editor.selection.active.character;
+		let retvalue: string = "";
+	
+		// Get the first part of athe string
+		for (let i: number = cursorPostion - 1; i >= 0; i--) {
+			let currentChar = lineOfCode.substring(i - 1, i);
+			if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
+				break;
+			}
+			retvalue = currentChar + retvalue;
+		}
+	
+		// Get the last part of athe string
+		for (let i: number = cursorPostion; i <= lineOfCode.length; i++) {
+			let currentChar = lineOfCode.substring(i - 1, i);
+			if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
+				break;
+			}
+			retvalue = retvalue + currentChar;
+		}
+	*/
+	return getQB64WordFromDocument(editor.document, editor.selection.active);
+}
+
+/**
+ * * Gets the QB64 word at the current postion in the passed document
+ * @param document 
+ * @param position 
+ * @returns 
+ */
+export function getQB64WordFromDocument(document: vscode.TextDocument, position: vscode.Position): string {
 
 	const stop: string = " (+-=<>[{}]`);:.,\t";
-	const lineOfCode = editor.document.lineAt(editor.selection.active.line).text;
-	const cursorPostion = editor.selection.active.character;
+	const lineOfCode = document.lineAt(position.line).text;
+	const cursorPostion = position.character;
 	let retvalue: string = "";
 
 	// Get the first part of athe string
@@ -103,4 +137,5 @@ export function getQB64Word(editor: vscode.TextEditor) {
 	}
 
 	return retvalue;
+
 }

@@ -10,6 +10,10 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.8.0
+- Enchantments    
+    - Issue [#52](https://github.com/QB64Official/vscode/issues/52) Add hovertext to keywords
+
 ## 0.7.0
   - Bugs  
     - Issue [#49](https://github.com/QB64Official/vscode/issues/49) When $NOPREFIX versions of keywords are in use, F1 for help can't find keywords

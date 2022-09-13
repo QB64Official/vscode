@@ -11,10 +11,11 @@ import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
 import { ReferenceProvider } from "./providers/ReferenceProvider";
-import { DefinitionProvider } from "./providers/DefinitionProvider ";
+import { DefinitionProvider } from "./providers/DefinitionProvider";
 import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
 import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEditProvider";
 import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescriptorFactory";
+import { HoverProvider } from "./providers/HoverProvider";
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -62,11 +63,14 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64', () => { openCurrentFileInQB64(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
-	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
+	// Register Providers here
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(commonFunctions.getDocumentSelector(), new DefinitionProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(documentSelector, new DocumentSymbolProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
+	context.subscriptions.push(vscode.languages.registerHoverProvider(documentSelector, new HoverProvider()));
+	// Register Miscellaneous
+	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
 }
 
 export function openCurrentFileInQB64() {
