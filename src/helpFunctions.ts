@@ -38,7 +38,10 @@ export function showHelp() {
 			word = "Sub"
 		} else if (word.toLowerCase().startsWith("function")) {
 			word = "Function"
+		} else if (word.toLowerCase().startsWith("select") || (word.toLowerCase().startsWith("case"))) {
+			word = "SELECT-CASE"
 		}
+
 		openHelp(word, outputChannnel);
 
 	} catch (error) {
