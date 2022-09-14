@@ -121,7 +121,7 @@ export function getQB64WordFromDocument(document: vscode.TextDocument, position:
 	// Get the first part of athe string
 	for (let i: number = cursorPostion - 1; i >= 0; i--) {
 		let currentChar = lineOfCode.substring(i - 1, i);
-		if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
+		if (currentChar == "" || stop.indexOf(currentChar) > -1) {
 			break;
 		}
 		retvalue = currentChar + retvalue;
@@ -130,12 +130,12 @@ export function getQB64WordFromDocument(document: vscode.TextDocument, position:
 	// Get the last part of athe string
 	for (let i: number = cursorPostion; i <= lineOfCode.length; i++) {
 		let currentChar = lineOfCode.substring(i - 1, i);
-		if (currentChar == "" || stop.indexOf(currentChar) >= 0) {
+		if (currentChar == "" || stop.indexOf(currentChar) > -1) {
 			break;
 		}
 		retvalue = retvalue + currentChar;
 	}
 
-	return retvalue;
+	return retvalue.replaceAll("'", "");
 
 }

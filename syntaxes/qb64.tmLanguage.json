@@ -115,7 +115,7 @@
 			"name": "variable.other.dim.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Call|Const|Dim|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|FileExists|_FileExists|String|Long|_INTEGER64|INTEGER64|_Bit|Bit|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Call|Const|Dim|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{

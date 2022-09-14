@@ -7,37 +7,40 @@ import * as fs from "fs";
 
 export class DefinitionProvider implements vscode.DefinitionProvider {
 	outputChannnel = logFunctions.getChannel(logFunctions.channelType.definitionProvider);
-	config = vscode.workspace.getConfiguration("qb64");
+	config: vscode.WorkspaceConfiguration = null;
 
-	constructor(goConfig?: vscode.WorkspaceConfiguration) {
-		this.config = goConfig;
+	constructor(config?: vscode.WorkspaceConfiguration) {
+		if (config) {
+			this.config = config;
+		} else {
+			this.config = vscode.workspace.getConfiguration("qb64");
+		}
 	}
 
-	public provideDefinition(
+	public async provideDefinition(
 		document: vscode.TextDocument,
 		position: vscode.Position,
 		token: vscode.CancellationToken
-	): Thenable<vscode.Location[]> {
+	): Promise<vscode.Location[]> {
 
 		if (!document || !vscode.window.activeTextEditor) {
 			return null;
 		}
 
-		const word = commonFunctions.getQB64Word(vscode.window.activeTextEditor)
+		const word = commonFunctions.getQB64WordFromDocument(document, position);
 		if (word.length < 1) {
 			return null;
 		}
 
-		return this.doSearch(word, document, token).then(searchResults => {
-			if (searchResults && searchResults.length > 0) {
-				logFunctions.writeLine(`searchResults (${searchResults.length}): ${searchResults[0].uri}`, this.outputChannnel);
-				return new Promise<vscode.Location[]>((resolve) => { resolve(searchResults); });
-			} else {
-				logFunctions.writeLine(`Open Help for: ${word}`, this.outputChannnel);
-				openHelp(word, this.outputChannnel);
-				return null;
-			}
-		});
+		const searchResults = await this.doSearch(word, document, token);
+		if (searchResults && searchResults.length > 0) {
+			logFunctions.writeLine(`searchResults (${searchResults.length}): ${searchResults[0].uri}`, this.outputChannnel);
+			return new Promise<vscode.Location[]>((resolve) => { resolve(searchResults); });
+		} else {
+			logFunctions.writeLine(`Open Help for: ${word}`, this.outputChannnel);
+			openHelp(word, this.outputChannnel);
+			return null;
+		}
 	}
 
 	/**
