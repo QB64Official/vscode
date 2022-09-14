@@ -1,4 +1,6 @@
+import { unescapeLeadingUnderscores } from "typescript";
 import * as vscode from "vscode";
+import * as logFunctions from "./logFunctions"
 
 /**
  * Gets a new vscode.DocumentSelector
@@ -26,7 +28,7 @@ export function getSelectedTextOrLineTest(): string {
  * @param text 
  * @returns 
  */
-export function escapeRegExp(text) { return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'); }
+export function escapeRegExp(text: string) { return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'); }
 
 
 /**
@@ -92,7 +94,7 @@ export function getQB64WordFromDocument(document: vscode.TextDocument, position:
 
 	const stop: string = " (+-=<>[{}]`);:.,\t";
 	const lineOfCode = document.lineAt(position.line).text;
-	const cursorPostion = position.character;
+	const cursorPostion = position.character + 1;
 	let retvalue: string = "";
 
 	// Get the first part of athe string
@@ -112,7 +114,5 @@ export function getQB64WordFromDocument(document: vscode.TextDocument, position:
 		}
 		retvalue = retvalue + currentChar;
 	}
-
 	return retvalue.replaceAll("'", "");
-
 }

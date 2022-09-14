@@ -78,11 +78,17 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						continue;
 					}
 
-					const matches = line.match(new RegExp(`\\b${commonFunctions.escapeRegExp(word)}\\b`, "i"));
-					if (matches) {
-						logFunctions.writeLine(`Found ${word} on line ${lineNumber + 1}`, this.outputChannnel);
-						return resolve([new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(matches, lineNumber))]);
+					//const match = line.match(new RegExp(`\\b${commonFunctions.escapeRegExp(word)}\\b`, "i"));
+					let match = line.match(new RegExp(`\\W${commonFunctions.escapeRegExp(word)}\\W`, "i"));
+					if (match) {
+						return resolve([new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber))]);
 					}
+
+					match = line.match(new RegExp(`\\b${commonFunctions.escapeRegExp(word)}\\b`, "i"));
+					if (match) {
+						return resolve([new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber))]);
+					}
+
 				}
 
 				for (let fileIndex = 0; fileIndex < includedFiles.length; fileIndex++) {

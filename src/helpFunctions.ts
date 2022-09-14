@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
+import { workerData } from "worker_threads";
 
 export function showHelp() {
 
@@ -15,7 +16,6 @@ export function showHelp() {
 		if (word.length > 0) {
 			word = word.split(" ")[0];
 		} else {
-
 			word = commonFunctions.getQB64Word(editor);
 
 			if (word.length < 1) {
@@ -26,21 +26,6 @@ export function showHelp() {
 		}
 		word = word.trim();
 		logFunctions.writeLine(`Word Found: ${word}`, outputChannnel);
-
-		// Handle cases where it's easy to select too much text or the text doesn't match the wiki page.
-		if (word.toLowerCase().startsWith("end")) {
-			word = "End"
-		} else if (word.toLowerCase().startsWith("if")) {
-			word = "If...Then"
-		} else if (word.toLowerCase().startsWith("for") || word.toLowerCase().startsWith("next")) {
-			word = "FOR...NEXT"
-		} else if (word.toLowerCase().startsWith("sub")) {
-			word = "Sub"
-		} else if (word.toLowerCase().startsWith("function")) {
-			word = "Function"
-		} else if (word.toLowerCase().startsWith("select") || (word.toLowerCase().startsWith("case"))) {
-			word = "SELECT-CASE"
-		}
 
 		openHelp(word, outputChannnel);
 
@@ -92,20 +77,52 @@ export function openHelp(keyword: string, outputChannnel: any) {
  */
 export function getHelpFile(keyword: string, outputChannnel: any): string {
 	const config = vscode.workspace.getConfiguration("qb64");
-	var path = require('path');
+	const path = require('path');
 	let helpPath: string = config.get("installPath");
 	let helpFile = path.join(helpPath, "internal", "help", `${keyword}.md`).replaceAll("\\", "/");
-
 	if (fs.existsSync(helpFile)) {
+		logFunctions.writeLine(`Found help file ${helpFile}`, outputChannnel);
+		return helpFile
+	}
+
+	helpFile = path.join(helpPath, "internal", "help", `${helpify(keyword)}.md`).replaceAll("\\", "/")
+	if (fs.existsSync(helpFile)) {
+		logFunctions.writeLine(`Found help file ${helpFile}`, outputChannnel);
 		return helpFile
 	}
 
 	logFunctions.writeLine(`Keyword ${keyword} not found adding "_" and trying again`, outputChannnel);
 	keyword = `_${keyword}`
 	helpFile = path.join(helpPath, "internal", "help", `${keyword}.md`).replaceAll("\\", "/");
-	logFunctions.writeLine(`New local path: ${helpFile}`, outputChannnel);
 	if (fs.existsSync(helpFile)) {
+		logFunctions.writeLine(`Found help file ${helpFile}`, outputChannnel);
 		return helpFile;
 	}
 	return "";
+}
+
+/**
+ * Takes a keyword and makes it match the markdown file.
+ * @param word 
+ * @returns 
+ */
+export function helpify(word: string): string {
+	word = word.trim().toLowerCase();
+	// Handle cases where it's easy to select too much text or the text doesn't match the wiki page.
+	if (word.startsWith("end")) {
+		word = "End"
+	} else if (word.startsWith("if")) {
+		word = "If...Then"
+	} else if (word.startsWith("for") || word.startsWith("next")) {
+		word = "FOR...NEXT"
+	} else if (word.startsWith("sub")) {
+		word = "Sub"
+	} else if (word.startsWith("function")) {
+		word = "Function"
+	} else if (word.startsWith("select") || (word.startsWith("case"))) {
+		word = "SELECT-CASE"
+	} else if (word.startsWith("do")) {
+		word = "DO...LOOP"
+	}
+	return word;
 }

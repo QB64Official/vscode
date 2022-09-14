@@ -4,9 +4,6 @@ import * as commonFunctions from "../commonFunctions";
 import * as logFunctions from "../logFunctions";
 import * as fs from "fs";
 import { getHelpFile } from "../helpFunctions"
-//import { doSearch } from "./DefinitionProvider";
-
-
 
 export class HoverProvider implements vscode.HoverProvider {
 
@@ -44,15 +41,24 @@ export class HoverProvider implements vscode.HoverProvider {
 						}
 					}
 				} else {
-					logFunctions.writeLine("Not Location", this.outputChannnel);
+					logFunctions.writeLine("Variable|Const declaration", this.outputChannnel);
+					/*
+					const regex = new RegExp("dim", 'gi'); // global, insensitive
+					const hovertext = defLine.replace(regex, "#$&");
+					const markdownString = new vscode.MarkdownString();
+					markdownString.appendMarkdown(hovertext);
+					logFunctions.writeLine(`Hover Text: ${hovertext}`, this.outputChannnel);
+					return new vscode.Hover(markdownString);
+					*/
 					contents = defLine;
 				}
 
 				if (contents) {
 					logFunctions.writeLine(`contents: ${contents}`, this.outputChannnel);
 				} else {
-					logFunctions.writeLine(`contents are empty`, this.outputChannnel);
+					logFunctions.writeLine("contents are empty", this.outputChannnel);
 				}
+
 				const markdownString = new vscode.MarkdownString();
 				markdownString.appendText(contents);
 				return new vscode.Hover(markdownString);
@@ -65,6 +71,10 @@ export class HoverProvider implements vscode.HoverProvider {
 			logFunctions.writeLine(`ERROR in HoverProvider.provideHover: ${error}`, this.outputChannnel);
 		}
 		return null;
+	}
+
+	private applyMarkdown(word: string): string {
+		return "";
 	}
 
 	private doSearch(document: vscode.TextDocument, word: string, token: vscode.CancellationToken): vscode.Location {
@@ -88,19 +98,24 @@ export class HoverProvider implements vscode.HoverProvider {
 					continue;
 				}
 
-				if (!(line.startsWith("sub")
-					|| line.startsWith("dim")
-					|| line.startsWith("function")
-					|| line.startsWith("type")
-					|| line.startsWith("const")
+				if (!(line.startsWith("sub ")
+					|| line.startsWith("dim ")
+					|| line.startsWith("function ")
+					|| line.startsWith("type ")
+					|| line.startsWith("const ")
 				)) {
 					continue;
 				}
 
-				const matches = line.match(new RegExp(`\\b${commonFunctions.escapeRegExp(word)}\\b`, "i"));
-				if (matches) {
+				let match = line.match(new RegExp(`\\W${commonFunctions.escapeRegExp(word)}\\W`, "i"));
+				if (match) {
 					logFunctions.writeLine(`Found ${word} on line ${lineNumber} in ${vscode.Uri.file(document.fileName)}`, this.outputChannnel);
-					return new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(matches, lineNumber))
+					return new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber))
+				}
+				match = line.match(new RegExp(`\\b${commonFunctions.escapeRegExp(word)}\\b`, "i"));
+				if (match) {
+					logFunctions.writeLine(`Found ${word} on line ${lineNumber} in ${vscode.Uri.file(document.fileName)}`, this.outputChannnel);
+					return new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber))
 				}
 			}
 
