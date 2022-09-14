@@ -31,6 +31,27 @@ export class HoverProvider implements vscode.HoverProvider {
 				let contents: string = "";
 				const sourcecode: string[] = fs.readFileSync(location.uri.fsPath).toString().split("\n");
 				const defLine = sourcecode[location.range.start.line].toLowerCase();
+				const previousLine = sourcecode[location.range.start.line - 1].toLowerCase();
+
+				if (previousLine.startsWith("'") || previousLine.startsWith("rem")) {
+					for (let index = location.range.start.line - 1; index > -1; index--) {
+
+						const currentLine = sourcecode[index];
+						const lowerLine = currentLine.toLowerCase();
+						logFunctions.writeLine(`Line: ${index}: ${lowerLine.replace("\r", "")} `, this.outputChannnel);
+						if (lowerLine.replace("\r", "").endsWith("------------") || (!lowerLine.startsWith("'") && !lowerLine.startsWith("rem"))) {
+							logFunctions.writeLine(`${contents}`, this.outputChannnel);
+							break;
+						}
+						// logFunctions.writeLine(`Line: ${index}: ${currentLine.replace("\r", "")} `, this.outputChannnel);
+						contents = `${currentLine.slice(lowerLine.startsWith("'") ? 1 : 3)}\n${contents}`;
+
+					}
+					const markdownString = new vscode.MarkdownString();
+					markdownString.appendMarkdown(contents);
+					return new vscode.Hover(markdownString);
+				}
+
 				if (defLine.startsWith("sub ") || defLine.startsWith("function ") || defLine.startsWith("type ")) {
 					for (let index = location.range.start.line; index < sourcecode.length; index++) {
 						const currentLine = sourcecode[index].replace("\r", "");
@@ -40,18 +61,13 @@ export class HoverProvider implements vscode.HoverProvider {
 							break;
 						}
 					}
-				} else {
-					logFunctions.writeLine("Variable|Const declaration", this.outputChannnel);
-					/*
-					const regex = new RegExp("dim", 'gi'); // global, insensitive
-					const hovertext = defLine.replace(regex, "#$&");
 					const markdownString = new vscode.MarkdownString();
-					markdownString.appendMarkdown(hovertext);
-					logFunctions.writeLine(`Hover Text: ${hovertext}`, this.outputChannnel);
+					markdownString.appendCodeblock(contents);
 					return new vscode.Hover(markdownString);
-					*/
-					contents = defLine;
 				}
+
+				logFunctions.writeLine("Variable|Const declaration", this.outputChannnel);
+				contents = defLine.trim();
 
 				if (contents) {
 					logFunctions.writeLine(`contents: ${contents}`, this.outputChannnel);
@@ -60,7 +76,7 @@ export class HoverProvider implements vscode.HoverProvider {
 				}
 
 				const markdownString = new vscode.MarkdownString();
-				markdownString.appendText(contents);
+				markdownString.appendCodeblock(contents);
 				return new vscode.Hover(markdownString);
 			} else {
 				logFunctions.writeLine("location does not have a value", this.outputChannnel);
@@ -73,9 +89,6 @@ export class HoverProvider implements vscode.HoverProvider {
 		return null;
 	}
 
-	private applyMarkdown(word: string): string {
-		return "";
-	}
 
 	private doSearch(document: vscode.TextDocument, word: string, token: vscode.CancellationToken): vscode.Location {
 		try {

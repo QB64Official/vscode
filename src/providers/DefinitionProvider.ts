@@ -78,7 +78,6 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						continue;
 					}
 
-					//const match = line.match(new RegExp(`\\b${commonFunctions.escapeRegExp(word)}\\b`, "i"));
 					let match = line.match(new RegExp(`\\W${commonFunctions.escapeRegExp(word)}\\W`, "i"));
 					if (match) {
 						return resolve([new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber))]);
