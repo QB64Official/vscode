@@ -14,7 +14,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 - Enchantments    
     - Issue [#55](https://github.com/QB64Official/vscode/issues/55) Add Add a setting to disable the hovertext
       - This also adds ```editor.multiCursorModifier": "ctrlCmd"``` to the auto created setting.json
-    - Issue [#54](https://github.com/QB64Official/vscode/issues/54) Add hovertext to keywords
+    - Issue [#54](https://github.com/QB64Official/vscode/issues/54) Make open include file part of goto definition
     - Issue [#53](https://github.com/QB64Official/vscode/issues/53) Add hovertext for "definition" -- In Progress
     - Issue [#52](https://github.com/QB64Official/vscode/issues/52) Add hovertext to keywords -- In Progress
 
