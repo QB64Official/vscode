@@ -57,6 +57,7 @@ export class HoverProvider implements vscode.HoverProvider {
 					}
 
 					if (defLine.startsWith("sub ") || defLine.startsWith("function ") || defLine.startsWith("type ")) {
+						6
 						for (let index = location.range.start.line; index < sourcecode.length; index++) {
 							const currentLine = sourcecode[index].replace("\r", "");
 							const lowerLine = currentLine.toLowerCase();
