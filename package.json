@@ -144,6 +144,11 @@
                     "default": true,
                     "description": "Enable: Create a *.*-bak when saving."
                 },
+                "qb64.isHoverTextFileEnabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Enable: Enable hover text"
+                },
                 "qb64.isLintOnSaveEnabled": {
                     "type": "boolean",
                     "default": false,
@@ -213,11 +218,6 @@
                 "when": "editorLangId == 'QB64' && editorTextFocus"
             },
             {
-                "command": "extension.openIncludeFile",
-                "key": "ctrl+shift+o",
-                "when": "editorLangId == 'QB64' && editorTextFocus"
-            },
-            {
                 "command": "workbench.action.focusFirstEditorGroup",
                 "key": "ctrl+f2",
                 "when": "outline.active"
@@ -250,11 +250,6 @@
                 "category": "QB64"
             },
             {
-                "command": "extension.openIncludeFile",
-                "title": "Open Include File",
-                "category": "QB64"
-            },
-            {
                 "command": "extension.addToGitIgnore",
                 "title": "Add to .gitignore",
                 "category": "QB64"
@@ -277,11 +272,6 @@
         ],
         "menus": {
             "editor/context": [
-                {
-                    "command": "extension.openIncludeFile",
-                    "group": "navigation",
-                    "when": "editorLangId == 'QB64'"
-                },
                 {
                     "command": "extension.runLint",
                     "when": "editorLangId == 'QB64'"

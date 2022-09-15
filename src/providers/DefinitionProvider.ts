@@ -6,6 +6,7 @@ import { openHelp } from "../helpFunctions";
 import * as fs from "fs";
 
 export class DefinitionProvider implements vscode.DefinitionProvider {
+	regexIncludeFile = /include:(.*)'/i
 	outputChannnel = logFunctions.getChannel(logFunctions.channelType.definitionProvider);
 	config: vscode.WorkspaceConfiguration = null;
 
@@ -22,25 +23,47 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 		position: vscode.Position,
 		token: vscode.CancellationToken
 	): Promise<vscode.Location[]> {
+		try {
+			if (!document || !vscode.window.activeTextEditor) {
+				return null;
+			}
 
-		if (!document || !vscode.window.activeTextEditor) {
-			return null;
-		}
+			let selectedText = commonFunctions.getSelectedTextOrLineTest();
+			let match = selectedText.match(this.regexIncludeFile)
 
-		const word = commonFunctions.getQB64WordFromDocument(document, position);
-		if (word.length < 1) {
-			return null;
-		}
+			if (match !== null && match.index !== undefined) {
+				let file = match[1].replace("'", "").replaceAll("\\", "/");
+				this.outputChannnel.appendLine("Include File Found: " + file);
+				const path = require('path');
+				let fullPath = commonFunctions.getAbsolutePath(path.dirname(vscode.window.activeTextEditor.document.fileName).replaceAll("\\", "/",) + "/", file);
+				if (fs.existsSync(fullPath)) {
+					return new Promise<vscode.Location[]>((resolve) => {
+						let range = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 0));
+						return resolve([new vscode.Location(vscode.Uri.file(fullPath), range)]);
+					});
+				} else {
+					this.outputChannnel.appendLine("File " + fullPath + " not found.");
+					return null;
+				}
+			}
 
-		const searchResults = await this.doSearch(word, document, token);
-		if (searchResults && searchResults.length > 0) {
-			logFunctions.writeLine(`searchResults (${searchResults.length}): ${searchResults[0].uri}`, this.outputChannnel);
-			return new Promise<vscode.Location[]>((resolve) => { resolve(searchResults); });
-		} else {
-			logFunctions.writeLine(`Open Help for: ${word}`, this.outputChannnel);
-			openHelp(word, this.outputChannnel);
-			return null;
+			const word = commonFunctions.getQB64WordFromDocument(document, position);
+			if (word.length < 1) {
+				return null;
+			}
+			const searchResults = await this.doSearch(word, document, token);
+			if (searchResults && searchResults.length > 0) {
+				logFunctions.writeLine(`searchResults (${searchResults.length}): ${searchResults[0].uri}`, this.outputChannnel);
+				return new Promise<vscode.Location[]>((resolve) => { resolve(searchResults); });
+			} else {
+				logFunctions.writeLine(`Open Help for: ${word}`, this.outputChannnel);
+				openHelp(word, this.outputChannnel);
+				return null;
+			}
+		} catch (error) {
+			this.outputChannnel.appendLine("ERROR: " + error);
 		}
+		return null;
 	}
 
 	/**
@@ -64,7 +87,7 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 
 					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "");
 
-					if (line.match(/include:(.*)'/i)) {
+					if (line.match(this.regexIncludeFile)) {
 						includedFiles.push(line);
 						continue;
 					}
@@ -93,13 +116,13 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 				for (let fileIndex = 0; fileIndex < includedFiles.length; fileIndex++) {
 					try {
 						let selectedText: string = includedFiles[fileIndex];
-						let match = selectedText.match(/include:(.*)'/i)
+						let match = selectedText.match(this.regexIncludeFile)
 						if (match) {
 							const path = require('path');
 							const fullPath = commonFunctions.getAbsolutePath(path.dirname(document.fileName).replaceAll("\\", "/",) + "/", match[1].replace("'", "").replaceAll("\\", "/"));
 							if (fs.existsSync(fullPath)) {
 								logFunctions.writeLine(`Looking for ${word} in ${fullPath}`, this.outputChannnel);
-								let includeFileDocument = await vscode.workspace.openTextDocument(fullPath);
+								let includeFileDocument = await vscode.workspace.openTextDocument(fullPath); // Change to use then
 								let searchResults: vscode.Location[] = await this.doSearch(word, includeFileDocument, token);
 								if (searchResults) {
 									logFunctions.writeLine(`Found ${word} in ${fullPath}`, this.outputChannnel)
@@ -110,9 +133,6 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 										vscode.window.activeTextEditor.revealRange(range);
 									});
 									return resolve(searchResults);
-								} else {
-									logFunctions.writeLine(`Closing ${fullPath}`, this.outputChannnel);
-									vscode.commands.executeCommand('workbench.action.closeActiveEditor');
 								}
 							} else {
 								logFunctions.writeLine("File " + fullPath + " not found.", this.outputChannnel);

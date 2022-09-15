@@ -61,7 +61,6 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64', () => { openCurrentFileInQB64(); }));
-	context.subscriptions.push(vscode.commands.registerCommand('extension.openIncludeFile', () => { openIncludeFile(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
 	// Register Providers here
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
@@ -108,35 +107,6 @@ function CreateBackup() {
 		outputChannnel.appendLine(`Tying to copy ${source} to ${backupFile}`);
 		fs.copyFileSync(source, backupFile)
 		outputChannnel.appendLine(`File ${source} copied to ${backupFile}`);
-	} catch (error) {
-		outputChannnel.appendLine("ERROR: " + error);
-	}
-}
-
-function openIncludeFile() {
-
-	// The replace of \\ with / is to keep the file name from looking hokey on the oupput window.
-
-	const regexIncludeFile = /include:(.*)'/i
-	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.openIncludeFile);
-
-	try {
-		let selectedText = commonFunctions.getSelectedTextOrLineTest();
-		let match = selectedText.match(regexIncludeFile)
-
-		if (match !== null && match.index !== undefined) {
-			let file = match[1].replace("'", "").replaceAll("\\", "/");
-			outputChannnel.appendLine("Include File Found: " + file);
-			const path = require('path');
-			let fullPath = commonFunctions.getAbsolutePath(path.dirname(vscode.window.activeTextEditor.document.fileName).replaceAll("\\", "/",) + "/", file);
-
-			if (fs.existsSync(fullPath)) {
-				outputChannnel.appendLine("Trying to open file: " + fullPath);
-				vscode.workspace.openTextDocument(fullPath).then(d => vscode.window.showTextDocument(d));
-			} else {
-				outputChannnel.appendLine("File " + fullPath + " not found.");
-			}
-		}
 	} catch (error) {
 		outputChannnel.appendLine("ERROR: " + error);
 	}

@@ -14,7 +14,8 @@ export function createFiles() {
 			"**/*.cmp-out": true,
 			"**/*.json-bak": true
 		},
-		"files.defaultLanguage": "QB64"
+		"files.defaultLanguage": "QB64",
+		"editor.multiCursorModifier": "ctrlCmd"
 	}`
 
 	const launchJson =
