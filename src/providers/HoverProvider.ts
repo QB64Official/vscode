@@ -32,11 +32,9 @@ export class HoverProvider implements vscode.HoverProvider {
 				return new vscode.Hover(markdownString);
 			}
 
-			logFunctions.writeLine(`Before doSearch`, this.outputChannnel);
 			return this.doSearch(document, word, token).then(location => {
-				logFunctions.writeLine(`After doSearch`, this.outputChannnel);
 				if (location) {
-					logFunctions.writeLine(`In location`, this.outputChannnel);
+					logFunctions.writeLine(`location found for ${word}`, this.outputChannnel);
 					let contents: string = "";
 					const sourcecode: string[] = fs.readFileSync(location.uri.fsPath).toString().split("\n");
 					const defLine = sourcecode[location.range.start.line].toLowerCase();
@@ -95,13 +93,14 @@ export class HoverProvider implements vscode.HoverProvider {
 	private async doSearch(document: vscode.TextDocument, word: string, token: vscode.CancellationToken): Promise<vscode.Location> {
 		return new Promise<vscode.Location>(async (resolve) => {
 			try {
-				let includedFiles: string[] = []
+				logFunctions.writeLine(`checking document: ${document.fileName}`, this.outputChannnel);
+				const regexIncludeFile = /include:(.*)'/i
 				const sourceLines = document.getText().split("\n");
+				let includedFiles: string[] = []
 				for (let lineNumber = 0; lineNumber < sourceLines.length; lineNumber++) {
-					logFunctions.writeLine(`document: ${document.fileName} | ${lineNumber}`, this.outputChannnel);
 					if (token.isCancellationRequested) {
 						logFunctions.writeLine("token.isCancellationRequested", this.outputChannnel);
-						return resolve(null);
+						return Promise.reject(null);
 					}
 
 					if (document == vscode.window.activeTextEditor.document && lineNumber == vscode.window.activeTextEditor.selection.active.line) {
@@ -110,7 +109,7 @@ export class HoverProvider implements vscode.HoverProvider {
 
 					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "");
 
-					if (line.match(/include:(.*)'/i)) {
+					if (line.match(regexIncludeFile)) {
 						includedFiles.push(line);
 						continue;
 					}
@@ -138,30 +137,19 @@ export class HoverProvider implements vscode.HoverProvider {
 
 				for (let fileIndex = 0; fileIndex < includedFiles.length; fileIndex++) {
 					let selectedText: string = includedFiles[fileIndex];
-					logFunctions.writeLine(`${selectedText} | ${fileIndex}`, this.outputChannnel);
-					let match = selectedText.match(/include:(.*)'/i)
+					let match = selectedText.match(regexIncludeFile)
 					if (match) {
-						logFunctions.writeLine(`Include file: selectedText`, this.outputChannnel);
+						logFunctions.writeLine(`Checking include file: ${selectedText}`, this.outputChannnel);
 						const path = require('path');
 						const fullPath = commonFunctions.getAbsolutePath(path.dirname(document.fileName).replaceAll("\\", "/",) + "/", match[1].replace("'", "").replaceAll("\\", "/"));
 						if (fs.existsSync(fullPath)) {
-							let result = vscode.workspace.openTextDocument(fullPath).then(includeFileDocument => {
-								return new Promise<vscode.Location>(async (resolve) => {
-									let searchResults: vscode.Location = await this.doSearch(includeFileDocument, word, token);
-									logFunctions.writeLine("Before workbench.action.closeActiveEditor", this.outputChannnel);
-									// workbench.action.nextEditor
-									// vscode.commands.executeCommand('workbench.action.closeActiveEditor');
-									if (searchResults) {
-										logFunctions.writeLine("Return searchResults", this.outputChannnel);
-										return resolve(searchResults);
-									} else {
-										return resolve(null);
-									}
-								});
-							});
-							if (result) {
-								logFunctions.writeLine("Return Result", this.outputChannnel);
-								return resolve(result);
+							let includeFileDocument: vscode.TextDocument = await vscode.workspace.openTextDocument(fullPath)
+							let searchResults: vscode.Location = await this.doSearch(includeFileDocument, word, token);
+							if (searchResults) {
+								logFunctions.writeLine(`found ${word} in ${includeFileDocument.fileName}`, this.outputChannnel);
+								return resolve(searchResults);
+							} else {
+								logFunctions.writeLine(`word: ${word} not found in ${includeFileDocument.fileName}`, this.outputChannnel);
 							}
 						}
 					}
