@@ -87,7 +87,10 @@ export function showHelp(markDownFileToShow: string) {
 }
 
 export function runLint() {
+	//const currentDocument: vscode.TextDocument = vscode.window.activeTextEditor.document;
 	lintFunctions.runLint();
+	//vscode.window.showTextDocument(currentDocument);
+	//vscode.commands.executeCommand("type", { text: "ctrl+1" });
 }
 
 function CreateBackup() {

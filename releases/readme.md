@@ -13,7 +13,9 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.8.0
 - Bugs
   - Issue [#56](https://github.com/QB64Official/vscode/issues/56) Typo in "Decorate|Enable: Hightlight the current row"
-- Enchantments    
+- Enchantments
+  - Issue [#59](https://github.com/QB64Official/vscode/issues/59) Write lint output to the terminal.
+    - A new terminal is not created, but the focus is set to the lint output channel.
   - Issue [#58](https://github.com/QB64Official/vscode/issues/58) Add setting to enable/disable opening online help
     - The setting name is `isOpenOnLineHelpEnabled`
     - **Note** This will stop "create new wiki page from opening"

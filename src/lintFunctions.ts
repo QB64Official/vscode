@@ -13,13 +13,12 @@ var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createD
  */
 export function runLint() {
 	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
+
 	try {
 		if (!vscode.window.activeTextEditor) {
 			logFunctions.writeLine("Cannot find activeTextEditor", outputChannnel);
 			return;
 		}
-
-		logFunctions.writeLine("Starting Lint", outputChannnel);
 		const config = vscode.workspace.getConfiguration("qb64")
 		let compilerPath: string = config.get("installPath");
 
@@ -44,27 +43,25 @@ export function runLint() {
 			exeName = exeName + '.exe';
 		}
 
-		let command = `${compilerPath} -c "${sourceCode}" -o "${exeName}" -x -w `;
+		const command = `${compilerPath} -c "${sourceCode}" -o "${exeName}" -x -w `;
 		logFunctions.writeLine(`Run: ${command}`, outputChannnel);
 		exec(command, (error, stdout, stderr) => {
+			outputChannnel.clear();
+			outputChannnel.show();
 			if (error) {
 				logFunctions.writeLine(error.message, outputChannnel);
-				vscode.window.showErrorMessage(error.message);
 			}
-
 			if (stderr) {
 				logFunctions.writeLine(stderr, outputChannnel);
-				vscode.window.showErrorMessage(stderr);
 			}
-
 			if (stdout) {
 				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
 				lintCurrentFile(stdout);
 			} else {
 				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
 			}
-
 		});
+		
 	} catch (error) {
 		logFunctions.writeLine(`ERROR in runLint: ${error}`, outputChannnel);
 	}
