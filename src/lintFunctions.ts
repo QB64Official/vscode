@@ -56,7 +56,7 @@ export function runLint() {
 			}
 
 			if (stdout) {
-				logFunctions.writeLine("QB64 stdout:\n", outputChannnel);
+
 				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
 				lintCurrentFile(stdout);
 			} else {

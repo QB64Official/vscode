@@ -5,28 +5,31 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import { workerData } from "worker_threads";
 
-export function showHelp() {
+export function showHelp(markDownFileToShow: string) {
 
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.help);
 	try {
 
 		const editor = vscode.window.activeTextEditor;
-		let word = editor ? editor.document.getText(editor.selection) : "";
-
-		if (word.length > 0) {
-			word = word.split(" ")[0];
+		let word: string = "";
+		if (markDownFileToShow && markDownFileToShow.length > 0) {
+			word = markDownFileToShow;
 		} else {
-			word = commonFunctions.getQB64Word(editor);
+			word = editor ? editor.document.getText(editor.selection) : "";
+			if (word.length > 0) {
+				word = word.split(" ")[0];
+			} else {
+				word = commonFunctions.getQB64Word(editor);
 
-			if (word.length < 1) {
-				const defaultHelpLanding = "VS-Code-Extension";
-				logFunctions.writeLine(`Could not find selected keyword. Setting word to ${defaultHelpLanding}`, outputChannnel);
-				word = defaultHelpLanding;
+				if (word.length < 1) {
+					const defaultHelpLanding = "VS-Code-Extension";
+					logFunctions.writeLine(`Could not find selected keyword. Setting word to ${defaultHelpLanding}`, outputChannnel);
+					word = defaultHelpLanding;
+				}
 			}
+			word = word.trim();
+			logFunctions.writeLine(`Word Found: ${word}`, outputChannnel);
 		}
-		word = word.trim();
-		logFunctions.writeLine(`Word Found: ${word}`, outputChannnel);
-
 		openHelp(word, outputChannnel);
 
 	} catch (error) {
@@ -58,11 +61,13 @@ export function openHelp(keyword: string, outputChannnel: any) {
 				vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.file(helpFile));
 			}
 		} else {
-			const base_url = "https://github.com/QB64Official/qb64/wiki/";
-			logFunctions.writeLine(`Base Url: ${base_url} `, outputChannnel);
-			let url = `${base_url}${encodeURIComponent(keyword)}`;
-			logFunctions.writeLine(`Open URL: ${url} `, outputChannnel);
-			vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
+			if (config.get("isOpenOnLineHelpEnabled")) {
+				const base_url = "https://github.com/QB64Official/qb64/wiki/";
+				logFunctions.writeLine(`Base Url: ${base_url} `, outputChannnel);
+				let url = `${base_url}${encodeURIComponent(keyword)}`;
+				logFunctions.writeLine(`Open URL: ${url} `, outputChannnel);
+				vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
+			}
 		}
 	} catch (error) {
 		logFunctions.writeLine("ERROR: " + error, outputChannnel);

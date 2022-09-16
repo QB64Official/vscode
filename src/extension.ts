@@ -58,7 +58,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Register Commands here
 	webViewFunctions.setupAsciiChart(context);
-	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(""); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexAlphabetical', () => { showHelp("Keyword-Reference---Alphabetical"); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexUsage', () => { showHelp("Keyword-Reference---By-Usage"); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64', () => { openCurrentFileInQB64(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
@@ -80,8 +82,8 @@ export function addToGitIgnore(items: any) {
 	gitFunctions.addToGitIgnore(items);
 }
 
-export function showHelp() {
-	helpFunctions.showHelp();
+export function showHelp(markDownFileToShow: string) {
+	helpFunctions.showHelp(markDownFileToShow);
 }
 
 export function runLint() {

@@ -134,6 +134,11 @@
                     "default": true,
                     "description": "Decorate|Enable: Highlight TODO in comments"
                 },
+                "qb64.isOpenOnLineHelpEnabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable: Open online help if offline help is not found when pressing F1"
+                },
                 "qb64.isCreateGitIgnoreEnabled": {
                     "type": "boolean",
                     "default": true,
@@ -147,7 +152,7 @@
                 "qb64.isHoverTextFileEnabled": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Enable: Enable hover text"
+                    "description": "Enable: Enable hovertext"
                 },
                 "qb64.isLintOnSaveEnabled": {
                     "type": "boolean",
@@ -218,6 +223,16 @@
                 "when": "editorLangId == 'QB64' && editorTextFocus"
             },
             {
+                "command": "extension.showHelpIndexAlphabetical",
+                "key": "ctrl+f1",
+                "when": "editorLangId == 'QB64' && editorTextFocus"
+            },
+            {
+                "command": "extension.showHelpIndexUsage",
+                "key": "shift+f1",
+                "when": "editorLangId == 'QB64' && editorTextFocus"
+            },
+            {
                 "command": "workbench.action.focusFirstEditorGroup",
                 "key": "ctrl+f2",
                 "when": "outline.active"
@@ -257,6 +272,16 @@
             {
                 "command": "extension.showHelp",
                 "title": "Help",
+                "category": "QB64"
+            },
+            {
+                "command": "extension.showHelpIndexAlphabetical",
+                "title": "Help Alphabetical",
+                "category": "QB64"
+            },
+            {
+                "command": "extension.showHelpIndexUsage",
+                "title": "Help Usage",
                 "category": "QB64"
             },
             {
