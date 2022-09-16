@@ -11,12 +11,14 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Point: Bug Fixes|Polish
 
 ## 0.8.0
+- Bugs
+    - Issue [#56](https://github.com/QB64Official/vscode/issues/56) Typo in Decorate|Enable: Hightlight the current row  
 - Enchantments    
-    - Issue [#55](https://github.com/QB64Official/vscode/issues/55) Add Add a setting to disable the hovertext
-      - This also adds ```editor.multiCursorModifier": "ctrlCmd"``` to the auto created setting.json
-    - Issue [#54](https://github.com/QB64Official/vscode/issues/54) Make open include file part of goto definition
-    - Issue [#53](https://github.com/QB64Official/vscode/issues/53) Add hovertext for "definition" -- In Progress
-    - Issue [#52](https://github.com/QB64Official/vscode/issues/52) Add hovertext to keywords -- In Progress
+   - Issue [#55](https://github.com/QB64Official/vscode/issues/55) Add Add a setting to disable the hovertext
+     - This also adds ```editor.multiCursorModifier": "ctrlCmd"``` to the auto created setting.json
+   - Issue [#54](https://github.com/QB64Official/vscode/issues/54) Make open include file part of goto definition
+   - Issue [#53](https://github.com/QB64Official/vscode/issues/53) Add hovertext for "definition" -- In Progress
+   - Issue [#52](https://github.com/QB64Official/vscode/issues/52) Add hovertext to keywords -- In Progress
 
 ## 0.7.0
   - Bugs  
