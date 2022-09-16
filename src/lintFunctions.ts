@@ -49,22 +49,24 @@ export function runLint() {
 		exec(command, (error, stdout, stderr) => {
 			if (error) {
 				logFunctions.writeLine(error.message, outputChannnel);
+				vscode.window.showErrorMessage(error.message);
 			}
 
 			if (stderr) {
 				logFunctions.writeLine(stderr, outputChannnel);
+				vscode.window.showErrorMessage(stderr);
 			}
 
 			if (stdout) {
-
 				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
 				lintCurrentFile(stdout);
 			} else {
 				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
 			}
+
 		});
 	} catch (error) {
-		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
+		logFunctions.writeLine(`ERROR in runLint: ${error}`, outputChannnel);
 	}
 }
 
