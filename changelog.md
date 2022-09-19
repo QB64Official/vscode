@@ -14,6 +14,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 - Bugs
   - Issue [#56](https://github.com/QB64Official/vscode/issues/56) Typo in "Decorate|Enable: Hightlight the current row"
 - Enchantments
+  - Issue [#60](https://github.com/QB64Official/vscode/issues/60) Lanch.json OSX/Linux - Change for VSCode issue.
   - Issue [#59](https://github.com/QB64Official/vscode/issues/59) Write lint output to the terminal.
     - A new terminal is not created, but the focus is set to the lint output channel.
   - Issue [#58](https://github.com/QB64Official/vscode/issues/58) Add setting to enable/disable opening online help
@@ -24,8 +25,8 @@ All notable changes to the "QB64" extension will be documented in this file.
     - The setting name is `qb64.isHoverTextFileEnabled`
     - Also added `editor.multiCursorModifier": "ctrlCmd"` to the auto created setting.json
   - Issue [#54](https://github.com/QB64Official/vscode/issues/54) Make open include file part of goto definition
-  - Issue [#53](https://github.com/QB64Official/vscode/issues/53) Add hovertext for "definition" -- In Progress
-  - Issue [#52](https://github.com/QB64Official/vscode/issues/52) Add hovertext to keywords -- In Progress
+  - Issue [#53](https://github.com/QB64Official/vscode/issues/53) Add hovertext for "definition"
+  - Issue [#52](https://github.com/QB64Official/vscode/issues/52) Add hovertext to keywords
 
 ## 0.7.0
   - Bugs  

@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 import * as commonFunctions from "../commonFunctions";
 import * as logFunctions from "../logFunctions";
 import * as fs from "fs";
-import { getHelpFile } from "../helpFunctions"
+import { TokenInfo } from "../TokenInfo"
 
 export class HoverProvider implements vscode.HoverProvider {
 
@@ -22,24 +22,23 @@ export class HoverProvider implements vscode.HoverProvider {
 		}
 
 		try {
-
-			const word = commonFunctions.getQB64WordFromDocument(document, position);
-			const helpFile = getHelpFile(word, this.outputChannnel);
-
-			if (helpFile.length > 0) {
-				const markdownString = new vscode.MarkdownString();
-				markdownString.appendMarkdown(fs.readFileSync(helpFile).toString());
+			const keywordInfo = new TokenInfo(commonFunctions.getQB64WordFromDocument(document, position));
+			if (keywordInfo.offlinehelp.length > 0) {
+				const markdownString = new vscode.MarkdownString(keywordInfo.getHoverText());
 				return new vscode.Hover(markdownString);
 			}
+			logFunctions.writeLine(`offline hover not found: ${keywordInfo.word}`, this.outputChannnel);
 
-			return this.doSearch(document, word, token).then(location => {
+			return this.doSearch(document, keywordInfo.word, token).then(location => {
 				if (location) {
-					logFunctions.writeLine(`location found for ${word}`, this.outputChannnel);
+					logFunctions.writeLine(`location found for ${keywordInfo.word}`, this.outputChannnel);
 					let contents: string = "";
 					const sourcecode: string[] = fs.readFileSync(location.uri.fsPath).toString().split("\n");
 					const defLine = sourcecode[location.range.start.line].toLowerCase();
-					const previousLine = sourcecode[location.range.start.line - 1].toLowerCase();
-
+					let previousLine: string = "";
+					if (location.range.start.line > 0) {
+						previousLine = sourcecode[location.range.start.line - 1].toLowerCase();
+					}
 					if (previousLine.startsWith("'") || previousLine.startsWith("rem")) {
 						for (let index = location.range.start.line - 1; index > -1; index--) {
 							const currentLine = sourcecode[index];
@@ -51,13 +50,11 @@ export class HoverProvider implements vscode.HoverProvider {
 							}
 							contents = `${currentLine.slice(lowerLine.startsWith("'") ? 1 : 3)}\n${contents}`;
 						}
-						const markdownString = new vscode.MarkdownString();
-						markdownString.appendMarkdown(contents);
+						const markdownString = new vscode.MarkdownString(contents);
 						return new vscode.Hover(markdownString);
 					}
 
 					if (defLine.startsWith("sub ") || defLine.startsWith("function ") || defLine.startsWith("type ")) {
-						6
 						for (let index = location.range.start.line; index < sourcecode.length; index++) {
 							const currentLine = sourcecode[index].replace("\r", "");
 							const lowerLine = currentLine.toLowerCase();
@@ -71,15 +68,16 @@ export class HoverProvider implements vscode.HoverProvider {
 						return new vscode.Hover(markdownString);
 					}
 
+					logFunctions.writeLine("30", this.outputChannnel);
 					logFunctions.writeLine("Variable|Const declaration", this.outputChannnel);
-					contents = defLine.trim();
+					contents = sourcecode[location.range.start.line].trim();
 
 					if (contents) {
 						logFunctions.writeLine(`contents: ${contents}`, this.outputChannnel);
 					} else {
 						logFunctions.writeLine("contents are empty", this.outputChannnel);
 					}
-
+					logFunctions.writeLine("40", this.outputChannnel);
 					const markdownString = new vscode.MarkdownString();
 					markdownString.appendCodeblock(contents);
 					return new vscode.Hover(markdownString);

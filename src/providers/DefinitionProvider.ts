@@ -2,7 +2,7 @@
 import * as vscode from "vscode";
 import * as commonFunctions from "../commonFunctions";
 import * as logFunctions from "../logFunctions";
-import { openHelp } from "../helpFunctions";
+import { TokenInfo } from "../TokenInfo";
 import * as fs from "fs";
 
 export class DefinitionProvider implements vscode.DefinitionProvider {
@@ -57,7 +57,7 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 				return new Promise<vscode.Location[]>((resolve) => { resolve(searchResults); });
 			} else {
 				logFunctions.writeLine(`Open Help for: ${word}`, this.outputChannnel);
-				openHelp(word, this.outputChannnel);
+				new TokenInfo(word).showHelp();
 				return null;
 			}
 		} catch (error) {
@@ -92,12 +92,7 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						continue;
 					}
 
-					if (!(line.startsWith("sub")
-						|| line.startsWith("dim")
-						|| line.startsWith("function")
-						|| line.startsWith("type")
-						|| line.startsWith("const")
-					)) {
+					if (!(line.startsWith("sub") || line.startsWith("dim") || line.startsWith("function") || line.startsWith("type") || line.startsWith("const"))) {
 						continue;
 					}
 

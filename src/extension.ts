@@ -4,12 +4,12 @@ import * as fs from "fs";
 import * as gitFunctions from "./gitFunctions";
 import * as vscodeFucnctions from "./vscodeFunctions";
 import * as decoratorFunctions from "./decoratorFunctions";
-import * as helpFunctions from "./helpFunctions";
 import * as lintFunctions from "./lintFunctions";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
+import { TokenInfo } from "./TokenInfo";
 import { ReferenceProvider } from "./providers/ReferenceProvider";
 import { DefinitionProvider } from "./providers/DefinitionProvider";
 import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
@@ -58,9 +58,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Register Commands here
 	webViewFunctions.setupAsciiChart(context);
-	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(""); }));
-	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexAlphabetical', () => { showHelp("Keyword-Reference---Alphabetical"); }));
-	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexUsage', () => { showHelp("Keyword-Reference---By-Usage"); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexAlphabetical', () => { showHelpByName("Keyword-Reference---Alphabetical"); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexUsage', () => { showHelpByName("Keyword-Reference---By-Usage"); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64', () => { openCurrentFileInQB64(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
@@ -82,9 +82,27 @@ export function addToGitIgnore(items: any) {
 	gitFunctions.addToGitIgnore(items);
 }
 
-export function showHelp(markDownFileToShow: string) {
-	helpFunctions.showHelp(markDownFileToShow);
+export function showHelp() {
+	new TokenInfo().showHelp();
 }
+
+export function showHelpByName(itemName: string) {
+	const config = vscode.workspace.getConfiguration("qb64")
+	const path = require('path');
+
+	let helpPath: string = config.get("installPath");
+	let helpFile = path.join(helpPath, "internal", "help", `${itemName}.md`).replaceAll("\\", "/");
+	if (fs.existsSync(helpFile)) {
+		if (config.get("isOpenHelpInEditModeEnabled")) {
+			vscode.workspace.openTextDocument(helpFile).then(d => vscode.window.showTextDocument(d));
+		} else {
+			vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.file(helpFile));
+		}
+	} else if (config.get("isOpenOnLineHelpEnabled")) {
+		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(itemName)}`));
+	}
+}
+
 
 export function runLint() {
 	//const currentDocument: vscode.TextDocument = vscode.window.activeTextEditor.document;
