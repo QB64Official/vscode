@@ -6,5 +6,6 @@
 		".vscodeignore": true,
 		"LICENSE": true,
 		"src/webpack.config.js": true,
+		"db/qb64.sqbpro": true
 	}
 }

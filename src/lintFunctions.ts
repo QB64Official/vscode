@@ -19,7 +19,8 @@ export function runLint() {
 			logFunctions.writeLine("Cannot find activeTextEditor", outputChannnel);
 			return;
 		}
-		const config = vscode.workspace.getConfiguration("qb64")
+
+		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
 		let compilerPath: string = config.get("installPath");
 
 		if (!compilerPath) {
@@ -47,7 +48,10 @@ export function runLint() {
 		logFunctions.writeLine(`Run: ${command}`, outputChannnel);
 		exec(command, (error, stdout, stderr) => {
 			outputChannnel.clear();
-			outputChannnel.show();
+			if (config.get("isShowLintChannelEnabled")) {
+				outputChannnel.show();
+			}
+
 			if (error) {
 				logFunctions.writeLine(error.message, outputChannnel);
 			}
@@ -60,8 +64,9 @@ export function runLint() {
 			} else {
 				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
 			}
+
 		});
-		
+
 	} catch (error) {
 		logFunctions.writeLine(`ERROR in runLint: ${error}`, outputChannnel);
 	}

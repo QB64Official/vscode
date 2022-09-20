@@ -27,11 +27,11 @@ export class HoverProvider implements vscode.HoverProvider {
 				const markdownString = new vscode.MarkdownString(keywordInfo.getHoverText());
 				return new vscode.Hover(markdownString);
 			}
-			logFunctions.writeLine(`offline hover not found: ${keywordInfo.word}`, this.outputChannnel);
+			logFunctions.writeLine(`offline hover not found: ${keywordInfo.token}`, this.outputChannnel);
 
-			return this.doSearch(document, keywordInfo.word, token).then(location => {
+			return this.doSearch(document, keywordInfo.token, token).then(location => {
 				if (location) {
-					logFunctions.writeLine(`location found for ${keywordInfo.word}`, this.outputChannnel);
+					logFunctions.writeLine(`location found for ${keywordInfo.token}`, this.outputChannnel);
 					let contents: string = "";
 					const sourcecode: string[] = fs.readFileSync(location.uri.fsPath).toString().split("\n");
 					const defLine = sourcecode[location.range.start.line].toLowerCase();

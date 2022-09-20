@@ -114,10 +114,10 @@
         "configuration": {
             "title": "QB64",
             "properties": {
-                "qb64.isAutoSpacing": {
+                "qb64.isFormatEnabled": {
                     "type": "boolean",
-                    "default": true,
-                    "description": "Enable: Auto spacing and indentation"
+                    "default": false,
+                    "description": "Format|Enable: Formatting"
                 },
                 "qb64.isRgbColorEnabled": {
                     "type": "boolean",
@@ -158,6 +158,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Lint|Enable: Lint the *.bas when saving."
+                },
+                "qb64.isShowLintChannelEnabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Lint|Enable: Show the lint channel when running lint."
                 },
                 "qb64.formatMode": {
                     "type": "string",
