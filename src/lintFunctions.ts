@@ -46,12 +46,12 @@ export function runLint() {
 
 		const command = `${compilerPath} -c "${sourceCode}" -o "${exeName}" -x -w `;
 		logFunctions.writeLine(`Run: ${command}`, outputChannnel);
-		exec(command, (error, stdout, stderr) => {
-			outputChannnel.clear();
-			if (config.get("isShowLintChannelEnabled")) {
-				outputChannnel.show();
-			}
+		outputChannnel.clear();
+		if (config.get("isShowLintChannelEnabled")) {
+			outputChannnel.show(true)
+		}
 
+		exec(command, (error, stdout, stderr) => {
 			if (error) {
 				logFunctions.writeLine(error.message, outputChannnel);
 			}
@@ -64,7 +64,6 @@ export function runLint() {
 			} else {
 				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
 			}
-
 		});
 
 	} catch (error) {
