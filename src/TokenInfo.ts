@@ -40,7 +40,6 @@ export class TokenInfo {
 		let helpPath: string = config.get("installPath");
 		let helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
-			logFunctions.writeLine(`Found help file ${helpFile}`, this.outputChannnel);
 			this.offlinehelp = helpFile;
 			this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
 			this.keywordNoPrfix = this.keyword.startsWith("_") ? this.keyword.slice(1) : this.keyword;
@@ -48,11 +47,10 @@ export class TokenInfo {
 			return
 		}
 
-		logFunctions.writeLine(`Keyword ${this.keyword} not found adding "_" and trying again`, this.outputChannnel);
+		//logFunctions.writeLine(`Keyword ${this.keyword} not found adding "_" and trying again`, this.outputChannnel);
 		this.keyword = `_${token}`;
 		helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
-			logFunctions.writeLine(`Found help file ${helpFile}`, this.outputChannnel);
 			this.offlinehelp = helpFile;
 			this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
 			this.keywordNoPrfix = this.keyword.slice(1);
@@ -60,7 +58,7 @@ export class TokenInfo {
 			return
 		}
 
-		logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
+		//logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
 		this.keyword = `${token}`;
 		helpFile = path.join(helpPath, "internal", "help", `${this.helpify()}.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
@@ -74,14 +72,13 @@ export class TokenInfo {
 
 		this.keyword = token;
 		this.isKeyword = false;
-		this.WordFormatted = this.getWordFormatted(config);
-
+		this.WordFormatted = token;
 		/*
-		logFunctions.writeLine(`keywordInfo.word: ${this.word}`, this.outputChannnel);
-		logFunctions.writeLine(`keywordInfo.keyword: ${this.keyword}`, this.outputChannnel);
-		logFunctions.writeLine(`keywordInfo.keywordNoPrfix: ${this.keywordNoPrfix}`, this.outputChannnel);
-		logFunctions.writeLine(`keywordInfo.offlinehelp: ${this.offlinehelp}`, this.outputChannnel);
-		logFunctions.writeLine(`keywordInfo.isKeyword: ${this.isKeyword}`, this.outputChannnel);
+				logFunctions.writeLine(`keywordInfo.word: ${this.token}`, this.outputChannnel);
+				logFunctions.writeLine(`keywordInfo.keyword: ${this.keyword}`, this.outputChannnel);
+				logFunctions.writeLine(`keywordInfo.keywordNoPrfix: ${this.keywordNoPrfix}`, this.outputChannnel);
+				logFunctions.writeLine(`keywordInfo.offlinehelp: ${this.offlinehelp}`, this.outputChannnel);
+				logFunctions.writeLine(`keywordInfo.isKeyword: ${this.isKeyword}`, this.outputChannnel);
 		*/
 	}
 
