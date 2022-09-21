@@ -83,12 +83,13 @@ export class TokenInfo {
 	}
 
 	/**
-	 * Is this same token?
+	 * Is this same token (ignores case)?
 	 * @param token Token value to check
-	 * @returns 
+	 * @returns true if the tokens are the same
 	 */
 	public isSameToken(token: string): boolean {
-		return token == this.keyword || token == this.keywordNoPrfix || token == this.token;
+		token = token.toLowerCase();
+		return token == this.token.toLowerCase() || token == this.keywordNoPrfix.toLowerCase() || token == this.token.toLowerCase();
 	}
 
 

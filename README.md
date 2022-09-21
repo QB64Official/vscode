@@ -7,9 +7,12 @@ DISCLAIMER: This is very rough and still needs a lot of work.
 ## Features
 
 * Utilize `F1` to *open help* via the QB64 Wiki
+* Ctrl+F1 to *open keyword list alphabetical*
+* Shift+F1 to *open keyword list by usage*
 * Go to Definition `F12`
-* `CTRL+Click` to *follow* (open) an Include file
+* `F12` to *follow* (open) an Include file
 * `F5` to Build & Run
+* `ctrl+shift+b` to build the current file
 * Syntax highlighting for QB64 2.x
 * Code outline (`CTRL+F2`)
 * Code folding

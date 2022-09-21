@@ -5,6 +5,51 @@ import * as logFunctions from "./logFunctions";
 
 export function createFiles() {
 
+	const buildTaskJson =
+		`{
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "build",
+				"type": "shell",
+				"command": ` + "\"${config:qb64.installPath}/qb64.exe\"" + `,
+				"args": [
+					"-c",
+					"` + "'${fileDirname}/${fileBasename}'\"" + `,
+					"-x",
+					"-o",
+					"` + "'${fileDirname}/${fileBasenameNoExtension}.exe'\"" + `
+				],
+				"linux": {
+					"args": [
+						"-c",
+						"` + "'${fileDirname}/${fileBasename}'\"" + `,
+						"-x",
+						"-o",
+						"` + "'{fileDirname}/${fileBasenameNoExtension}'\"" + `
+					]
+				},
+				"osx": {
+					"args": [
+						"-c",
+						"` + "'{fileDirname}/${fileBasename}'\"" + `,
+						"-x",
+						"-o",
+						"` + "'${fileDirname}/${fileBasenameNoExtension}'\"" + `
+					]
+				},
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				},
+				"presentation": {
+					"reveal": "always",
+					"panel": "new"
+				}
+			}
+		]
+	}`
+
 	const settingsJson =
 		`{
 		"files.exclude": {
@@ -26,8 +71,8 @@ export function createFiles() {
 				"name": "QB64 Build and Run",
 				"type": "QB64",
 				"request": "launch",					
-				"command": "` + "${config:qb64.installPath}/qb64.exe -c " + String.raw`\"` + "${fileDirname}/${fileBasename}" + String.raw`\"` + " -o " + String.raw`\"` + "${fileDirname}/${fileBasenameNoExtension}.exe" + String.raw`\"` + " -x; start " + String.raw`\"` + "${fileDirname}/${fileBasenameNoExtension}.exe" + String.raw`\"` + "\"," + "\n\t"
-		+ `		"terminalName": "QB64",
+				"command": "` + "${config:qb64.installPath}/qb64.exe -c '${fileDirname}/${fileBasename}' -o '${fileDirname}/${fileBasenameNoExtension}.exe' -x; start '${fileDirname}/${fileBasenameNoExtension}.exe'" + `
+				"terminalName": "QB64",
 				"terminalIndex": -1, 
 				"showTerminal": true,
 				"linux": {
@@ -66,13 +111,21 @@ export function createFiles() {
 		}
 
 		const settingsFile: string = vscodeFolder + "/settings.json";
-
 		logFunctions.writeLine("Checking for: " + settingsFile, outputChannnel);
 		if (fs.existsSync(settingsFile)) {
 			logFunctions.writeLine("    Found", outputChannnel);
 		} else {
 			logFunctions.writeLine("Creating File: " + settingsFile, outputChannnel);
 			fs.writeFileSync(settingsFile, settingsJson);
+		}
+
+		const buuildTaskFile: string = vscodeFolder + "/tasks.json";
+		logFunctions.writeLine("Checking for: " + buuildTaskFile, outputChannnel);
+		if (fs.existsSync(buuildTaskFile)) {
+			logFunctions.writeLine("    Found", outputChannnel);
+		} else {
+			logFunctions.writeLine("Creating File: " + buuildTaskFile, outputChannnel);
+			fs.writeFileSync(buuildTaskFile, buildTaskJson);
 		}
 
 	} catch (error) {

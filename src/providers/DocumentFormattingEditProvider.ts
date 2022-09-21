@@ -135,9 +135,25 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					.replaceAll("*", " * ")
 					.replaceAll("/", " / ").trim();
 
+
+				// const search = /\s\s+/g; // Good
+				// const search = /  (?!")\s\s+/g;
+				// const search = /(?!")\s\s+/g; // Not Good
+
+				const search = /(?!")\s{2}/g; // Iffy
+
+				//const search = new RegExp("s/(\".*\")|\s*/\1 ", "g");
+
 				do {
-					newLine = newLine.replaceAll(/  /g, " ");
+					newLine = newLine.replaceAll(search, " ");
+				} while (newLine.match(search))
+
+				/*
+				do {
+					// newLine = newLine.replaceAll(/  /g, " ");
+					newLine = newLine.replaceAll(/(?<!=")(  )/g, " ");
 				} while (newLine.indexOf("  ") > 0)
+				*/
 
 				if (level > 0) {
 					if (this.shouldIndentLine(lowerLine) || lowerLine.startsWith("case ") || lowerLine.startsWith("else")) {
