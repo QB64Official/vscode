@@ -15,8 +15,8 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Issue [#56](https://github.com/QB64Official/vscode/issues/56) Typo in "Decorate|Enable: Hightlight the current row"
 - Enchantments
   - Issue [#62](https://github.com/QB64Official/vscode/issues/62) Allow ctrl+shift+b to build current file
-    - A task.json is created in the .vscode folder with a build task.
-    - If you already have a task.json you will need to add the build task
+    - A tasks.json is created in the .vscode folder with a build task.
+    - If you already have a tasks.json you will need to add the build task
   - Issue [#61](https://github.com/QB64Official/vscode/issues/61) Code Formatter
     - Setting to enable/disable `qb64.isFormatEnabled` default value is false.
   - Issue [#60](https://github.com/QB64Official/vscode/issues/60) Lanch.json OSX/Linux - Change for VSCode issue.
