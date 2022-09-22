@@ -8,12 +8,21 @@ import { TokenInfo } from "../TokenInfo";
 export class DocumentFormattingEditProvider implements vscode.DocumentFormattingEditProvider {
 
 	/**
+	 * Is the line of code a single line if
+	 * @param lowerLine 
+	 * @returns 
+	 */
+	private isSingleLineIf(lowerLine: string): boolean {
+		return lowerLine.startsWith("if") && lowerLine.indexOf(" then ") > 0 && !lowerLine.replace("\r", "").endsWith("then");
+	}
+
+	/**
 	 * Should the line be indented
 	 * @param lowerLine 
 	 * @returns 
 	 */
-	private shouldIndentLine(lowerLine: string) {
-		return lowerLine.startsWith("if") || lowerLine.startsWith("sub ") || lowerLine.startsWith("function ") || lowerLine.startsWith("do") || lowerLine.startsWith("for ") || lowerLine.startsWith("while") || lowerLine.startsWith("type ") || lowerLine.startsWith("select ")
+	private shouldIndentLine(lowerLine: string): boolean {
+		return lowerLine.startsWith("if ") || lowerLine.startsWith("sub ") || lowerLine.startsWith("function ") || lowerLine == "do" || lowerLine.startsWith("do ") || lowerLine.startsWith("for ") || lowerLine.startsWith("while") || lowerLine.startsWith("type ") || lowerLine.startsWith("select ")
 	}
 
 	/**
@@ -22,13 +31,18 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 	 * @returns 
 	 */
 	private shouldRemoveLineIndent(lowerLine: string) {
-		return lowerLine.startsWith("loop") || lowerLine.startsWith("end if") || lowerLine == "endif" || lowerLine.startsWith("end sub") || lowerLine == "endsub" || lowerLine.startsWith("end function") || lowerLine == "endfunction" || lowerLine == "next" || lowerLine == "wend" || lowerLine == "end type" || lowerLine == "endtype" || lowerLine == "end select" || lowerLine == "endselect"
+		return lowerLine == "loop" || lowerLine.startsWith("loop ") || lowerLine.startsWith("end if") || lowerLine == "endif" || lowerLine.startsWith("end sub") || lowerLine == "endsub" || lowerLine.startsWith("end function") || lowerLine == "endfunction" || lowerLine == "next" || lowerLine == "wend" || lowerLine == "end type" || lowerLine == "endtype" || lowerLine == "end select" || lowerLine == "endselect" || lowerLine == "next" || lowerLine.startsWith("next ");
 	}
+
+	private shouldProcessLine(lowerLine: string) {
+		return !(lowerLine.startsWith("rem") || lowerLine.startsWith("'"));
+	}
+
 
 	provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
 		let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.formatter);
 		let retvalue: vscode.TextEdit[] = [];
-
+		const operators = '(+-=<>[{}]`);:.,';
 		const qb64Config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
 		const vscodeConig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
 		const indent = vscodeConig.get("insertSpaces") ? " ".repeat(vscodeConig.get("tabSize")) : "\t"
@@ -53,19 +67,15 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			let level: number = 0;
 			let inCase: boolean = false;
 
-			for (let i = 0; i < document.lineCount; i++) {
+			for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
 
 				if (token.isCancellationRequested) {
 					return null;
 				}
 
-				let originalLine: vscode.TextLine = document.lineAt(i);
+				let originalLine: vscode.TextLine = document.lineAt(lineNumber);
 				let newLine = originalLine.text.trim();
 				const lowerLine = newLine.toLowerCase();
-
-				if (lowerLine.startsWith("rem") || lowerLine.startsWith("'")) {
-					continue;
-				}
 
 				if (lowerLine == "endif") {
 					newLine = "end if";
@@ -77,97 +87,124 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					newLine = "end type";
 				} else if (lowerLine == "endselect") {
 					newLine = "end select";
-				}
-
-				if (this.shouldIndentLine(lowerLine)) {
-					logFunctions.writeLine(`Add Indent: ${lowerLine}`, outputChannnel);
-					level++;
-				} else if (this.shouldRemoveLineIndent(lowerLine)) {
-					logFunctions.writeLine(`Remove Indent: ${lowerLine}`, outputChannnel);
-					level--;
 				} else if (newLine.startsWith("? ")) {
 					newLine = newLine.replace("? ", "print ");
-				} else if (lowerLine.startsWith("case") && !inCase) {
-					inCase = true;
-					level++
 				}
-
-				if (lowerLine.startsWith("end select") || lowerLine.startsWith("endselect")) {
-					if (inCase) {
-						inCase = false;
-						level--
-					}
-				}
-
-				if (newLine.endsWith(";") && lowerLine.indexOf("print") < 0) {
-					do {
-						newLine = newLine.substring(0, newLine.length - 1).trimEnd();
-					} while (newLine.endsWith(";"))
-				}
-
-				newLine = newLine.replaceAll(",", " , ").replaceAll("=", " = ").replaceAll("(", " ( ").replaceAll(")", " ) ").replace('"', ' "').replaceAll("+", " + ").replaceAll("-", " - ").replaceAll("*", " * ").replaceAll("/", " / ");
-				let words: string[] = newLine.split(" ");
-				for (let index = 0; index < words.length; index++) {
-
-					if (token.isCancellationRequested) {
-						return null;
-					}
-
-					words[index] = words[index].trim();
-
-					if (words[index].length < 1 || words[index].trim().toLowerCase().startsWith("rem") || words[index].trim().startsWith("'")) {
-						continue;
-					}
-
-					if (words[index].indexOf('"') >= 0) {
-						continue;
-					}
-
-					let tokenInfo: TokenInfo = null;
-					if (tokenCache.has(words[index])) {
-						tokenInfo = tokenCache.get(words[index]);
-					} else {
-						tokenInfo = new TokenInfo(words[index], outputChannnel);
-						tokenCache.set(words[index], tokenInfo);
-					}
-					words[index] = tokenInfo.WordFormatted;
-				}
-
-				newLine = words.join(" ")
-					.replaceAll("( ", "(")
-					.replaceAll(" (", "(")
-					.replaceAll(") ", ")")
-					.replaceAll(" )", ")")
-					.replaceAll(", ", ",")
-					.replaceAll(",", " ,")
-					.replaceAll("=", " = ")
-					.replaceAll("+", " + ")
-					.replaceAll("-", " - ")
-					.replaceAll("*", " * ")
-					.replaceAll("/", " / ").trim();
-
-
-				// const search = /\s\s+/g; // Good
-				// const search = /  (?!")\s\s+/g;
-				// const search = /(?!")\s\s+/g; // Not Good
-
-				const search = /(?!")\s{2}/g; // Iffy
-
-				//const search = new RegExp("s/(\".*\")|\s*/\1 ", "g");
-
-				do {
-					newLine = newLine.replaceAll(search, " ");
-				} while (newLine.match(search))
 
 				/*
-				do {
-					// newLine = newLine.replaceAll(/  /g, " ");
-					newLine = newLine.replaceAll(/(?<!=")(  )/g, " ");
-				} while (newLine.indexOf("  ") > 0)
+				if (lineNumber > 240 && lineNumber < 260) {
+					logFunctions.writeLine(`Line ${lineNumber} | Indent: ${level} | isSingleLineIf: ${this.isSingleLineIf(lowerLine)} | Code: ${lowerLine}`, outputChannnel);
+				}
 				*/
 
+				if (!(this.isSingleLineIf(lowerLine))) {
+					if (this.shouldIndentLine(lowerLine)) {
+						// if (lineNumber > 240 && lineNumber < 260) {
+						// 	logFunctions.writeLine(`Line ${lineNumber} | Indent: + 1 | isSingleLineIf: ${this.isSingleLineIf(lowerLine)} | Code: ${lowerLine}`, outputChannnel);
+						// }
+						level++;
+					} else if (this.shouldRemoveLineIndent(lowerLine)) {
+						// if (lineNumber > 240 && lineNumber < 260) {
+						// 	logFunctions.writeLine(`Line ${lineNumber} | Indent: - 1 | isSingleLineIf: ${this.isSingleLineIf(lowerLine)} | Code: ${lowerLine}`, outputChannnel);
+						// }
+						level--;
+					} else if (lowerLine.startsWith("case ") && !inCase) {
+						inCase = true;
+						level++
+					}
+
+					if (lowerLine.startsWith("end select") || lowerLine.startsWith("endselect")) {
+						if (inCase) {
+							inCase = false;
+							level--
+						}
+					}
+				}
+
+				if (this.shouldProcessLine(lowerLine)) {
+
+					if (newLine.endsWith(";") && lowerLine.indexOf("print") < 0) {
+						do {
+							newLine = newLine.substring(0, newLine.length - 1).trimEnd();
+						} while (newLine.endsWith(";"))
+					}
+
+					newLine = newLine.replaceAll(",", " , ").replaceAll("=", " = ").replaceAll("(", " ( ").replaceAll(")", " ) ").replace('"', ' "').replaceAll("+", " + ").replaceAll("-", " - ").replaceAll("*", " * ").replaceAll("/", " / ");
+					let words: string[] = newLine.split(" ");
+					for (let index = 0; index < words.length; index++) {
+
+						if (token.isCancellationRequested) {
+							return null;
+						}
+
+						words[index] = words[index].trim();
+
+						if (words[index].length < 1 || words[index].trim().toLowerCase().startsWith("rem") || words[index].trim().startsWith("'")) {
+							continue;
+						}
+
+						if (words[index].indexOf('"') >= 0) {
+							continue;
+						}
+
+						if (operators.indexOf(words[index]) < 0) {
+							let tokenInfo: TokenInfo = null;
+							if (tokenCache.has(words[index].toLowerCase())) {
+								tokenInfo = tokenCache.get(words[index].toLowerCase());
+							} else {
+								tokenInfo = new TokenInfo(words[index], outputChannnel);
+								tokenCache.set(words[index].toLocaleLowerCase(), tokenInfo);
+							}
+
+							if (tokenInfo) {
+								words[index] = tokenInfo.WordFormatted;
+							} else {
+								logFunctions.writeLine(`Line: ${lineNumber} | Unable to find ${words[index]}`, outputChannnel)
+							}
+						}
+
+					}
+
+					if (lowerLine.startsWith("defint")) {
+						newLine = newLine.replace(" - ", "-");
+					} else {
+						newLine = words.join(" ")
+							.replaceAll("( ", "(")
+							.replaceAll(" (", "(")
+							.replaceAll(") ", ")")
+							.replaceAll(" )", ")")
+							.replaceAll(", ", ",")
+							.replaceAll(" ,", ",")
+							.replaceAll("=", " = ")
+							.replaceAll("+", " + ")
+							.replaceAll("-", " - ")
+							.replaceAll("*", " * ")
+							.replaceAll("/", " / ")
+							.replaceAll(" (", "(")
+							.trim();
+					}
+					const search = /\s\s+/g; // Good
+					// const search = /  (?!")\s\s+/g;
+					// const search = /(?!")\s\s+/g; // Not Good
+
+					newLine = newLine.replaceAll(search, " ");
+					/*
+					const search = /(?!")\s{2}/g; // Iffy			
+					do {
+						newLine = newLine.replaceAll(search, " ");
+					} while (newLine.match(search))
+					*/
+
+					/*
+					do {
+						// newLine = newLine.replaceAll(/  /g, " ");
+						newLine = newLine.replaceAll(/(?<!=")(  )/g, " ");
+					} while (newLine.indexOf("  ") > 0)
+					*/
+				}
+
 				if (level > 0) {
-					if (this.shouldIndentLine(lowerLine) || lowerLine.startsWith("case ") || lowerLine.startsWith("else")) {
+					if ((this.shouldIndentLine(lowerLine) || lowerLine.startsWith("case ") || lowerLine.startsWith("else")) && !this.isSingleLineIf(lowerLine)) {
 						newLine = `${indent.repeat(level - 1)}${newLine}`;
 					} else {
 						newLine = `${indent.repeat(level)}${newLine}`;
@@ -175,10 +212,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				}
 
 				if (newLine !== originalLine.text) {
-					// logFunctions.writeLine(`Changing line ${i} from ${originalLine.text} to ${newLine}`, outputChannnel);
 					retvalue.push(vscode.TextEdit.replace(originalLine.range, newLine));
-
 				}
+
 			}
 		} catch (error) {
 			logFunctions.writeLine(`ERROR in provideDocumentFormattingEdits: ${error}`, outputChannnel);

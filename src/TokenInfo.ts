@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
+import { workerData } from "worker_threads";
 
 export class TokenInfo {
 	private outputChannnel: any = null;
@@ -47,6 +48,7 @@ export class TokenInfo {
 			return
 		}
 
+
 		//logFunctions.writeLine(`Keyword ${this.keyword} not found adding "_" and trying again`, this.outputChannnel);
 		this.keyword = `_${token}`;
 		helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
@@ -70,28 +72,21 @@ export class TokenInfo {
 			return
 		}
 
+
+
 		this.keyword = token;
 		this.isKeyword = false;
 		this.WordFormatted = token;
+
+
 		/*
-				logFunctions.writeLine(`keywordInfo.word: ${this.token}`, this.outputChannnel);
-				logFunctions.writeLine(`keywordInfo.keyword: ${this.keyword}`, this.outputChannnel);
-				logFunctions.writeLine(`keywordInfo.keywordNoPrfix: ${this.keywordNoPrfix}`, this.outputChannnel);
-				logFunctions.writeLine(`keywordInfo.offlinehelp: ${this.offlinehelp}`, this.outputChannnel);
-				logFunctions.writeLine(`keywordInfo.isKeyword: ${this.isKeyword}`, this.outputChannnel);
+		logFunctions.writeLine(`keywordInfo.token: ${this.token}`, this.outputChannnel);
+		logFunctions.writeLine(`keywordInfo.keyword: ${this.keyword}`, this.outputChannnel);
+		logFunctions.writeLine(`keywordInfo.keywordNoPrfix: ${this.keywordNoPrfix}`, this.outputChannnel);
+		logFunctions.writeLine(`keywordInfo.offlinehelp: ${this.offlinehelp}`, this.outputChannnel);
+		logFunctions.writeLine(`keywordInfo.isKeyword: ${this.isKeyword}`, this.outputChannnel);
 		*/
 	}
-
-	/**
-	 * Is this same token (ignores case)?
-	 * @param token Token value to check
-	 * @returns true if the tokens are the same
-	 */
-	public isSameToken(token: string): boolean {
-		token = token.toLowerCase();
-		return token == this.token.toLowerCase() || token == this.keywordNoPrfix.toLowerCase() || token == this.token.toLowerCase();
-	}
-
 
 	/**
 	 * Gets the hovertext to show
@@ -137,19 +132,19 @@ export class TokenInfo {
 	 */
 	private helpify(): string {
 		let word = this.keyword.trim().toLowerCase();
-		if (word.startsWith("end")) {
+		if (word == "end") {
 			word = "End"
-		} else if (word.startsWith("if")) {
+		} else if (word == "if" || word == "then") {
 			word = "If...Then"
-		} else if (word.startsWith("for") || word.startsWith("next")) {
+		} else if (word == "for" || word == "next") {
 			word = "FOR...NEXT"
-		} else if (word.startsWith("sub")) {
-			word = "Sub"
-		} else if (word.startsWith("function")) {
+		} else if (word = "sub") {
+			word = "Sub-(explanatory).md"
+		} else if (word == "function") {
 			word = "Function"
-		} else if (word.startsWith("select") || (word.startsWith("case"))) {
+		} else if (word == "select" || word == "case") {
 			word = "SELECT-CASE"
-		} else if (word.startsWith("do")) {
+		} else if (word == "do" || word == "loop") {
 			word = "DO...LOOP"
 		}
 		return word;

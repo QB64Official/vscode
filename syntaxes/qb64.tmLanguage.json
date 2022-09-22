@@ -115,11 +115,11 @@
 			"name": "variable.other.dim.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Call|Screenhide|_Screenhide|Cls|Const|Dim|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Call|Screenhide|DECLARE|DEF|SEG|resume|gosub|DEFINT|_Screenhide|Cls|Const|Dim|As|Shared|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Open|Close|Get|Read|Input|Random|Put)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Open|Poke|Data|Close|Get|Read|Input|Random|Put)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{
@@ -127,7 +127,7 @@
 			"name": "storage.type.QB64"
 		},
 		{
-			"match": "(?i:\\b(sndbal|sndclose|sndcopy|sndgetpos|sndlen|sndlimit|sndloop|sndopen|sndopenraw|sndpause|sndpaused|sndplay|sndplaycopy|sndplayfile|sndplaying|sndrate|sndraw|sndrawdone|sndrawlen|sndsetpos|sndstop|sndvol)\\b)",
+			"match": "(?i:\\b(play|sndbal|sndclose|sndcopy|sndgetpos|sndlen|sndlimit|sndloop|sndopen|sndopenraw|sndpause|sndpaused|sndplay|sndplaycopy|sndplayfile|sndplaying|sndrate|sndraw|sndrawdone|sndrawlen|sndsetpos|sndstop|sndvol)\\b)",
 			"name": "storage.type.QB64"
 		},
 		{
