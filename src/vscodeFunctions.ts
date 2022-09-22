@@ -21,15 +21,17 @@ export function createFiles() {
 					"` + "'${fileDirname}/${fileBasenameNoExtension}.exe'\"" + `
 				],
 				"linux": {
+					"command": ` + "\"${config:qb64.installPath}/qb64\"" + `,
 					"args": [
 						"-c",
 						"` + "'${fileDirname}/${fileBasename}'\"" + `,
 						"-x",
 						"-o",
-						"` + "'{fileDirname}/${fileBasenameNoExtension}'\"" + `
+						"` + "'${fileDirname}/${fileBasenameNoExtension}'\"" + `
 					]
 				},
 				"osx": {
+					"command": ` + "\"${config:qb64.installPath}/qb64\"" + `,
 					"args": [
 						"-c",
 						"` + "'{fileDirname}/${fileBasename}'\"" + `,
@@ -71,16 +73,16 @@ export function createFiles() {
 				"name": "QB64 Build and Run",
 				"type": "QB64",
 				"request": "launch",					
-				"command": "` + "${config:qb64.installPath}/qb64.exe -c '${fileDirname}/${fileBasename}' -o '${fileDirname}/${fileBasenameNoExtension}.exe' -x; start '${fileDirname}/${fileBasenameNoExtension}.exe'" + `
+				"command": "` + "${config:qb64.installPath}/qb64.exe -c '${fileDirname}/${fileBasename}' -o '${fileDirname}/${fileBasenameNoExtension}.exe' -x; start '${fileDirname}/${fileBasenameNoExtension}.exe'" + `",
 				"terminalName": "QB64",
 				"terminalIndex": -1, 
 				"showTerminal": true,
 				"linux": {
-					"command": "` + "${config:qb64.installPath}/qb64 '${fileDirname}/${fileBasename}' -c -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + ",\n"
-		+ `		},
+					"command": "` + "${config:qb64.installPath}/qb64 '${fileDirname}/${fileBasename}' -c -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + `,
+				},
 				"osx": {
-					"command": "` + "${config:qb64.installPath}/qb64 '${fileDirname}/${fileBasename}' -c -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + ",\n"
-		+ `		}
+					"command": "` + "${config:qb64.installPath}/qb64 '${fileDirname}/${fileBasename}' -c -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + `,
+				}
 			} 
 		]
 	}`;

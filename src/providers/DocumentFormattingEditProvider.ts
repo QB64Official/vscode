@@ -29,12 +29,23 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.formatter);
 		let retvalue: vscode.TextEdit[] = [];
 
-		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
-		const indent = "\t";
+		const qb64Config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
+		const vscodeConig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
+		const indent = vscodeConig.get("insertSpaces") ? " ".repeat(vscodeConig.get("tabSize")) : "\t"
+
+		if (indent == "\t") {
+			logFunctions.writeLine("Indent using tabs", outputChannnel);
+		} else {
+			logFunctions.writeLine(`Indent using spaces (${indent.length})`, outputChannnel);
+		}
+
+		// "editor.tabSize": 4,
+		// "editor.insertSpaces": false,
+		// const indent = "\t";
 
 		try {
 
-			if (!config.get("isFormatEnabled")) {
+			if (!qb64Config.get("isFormatEnabled")) {
 				return null;
 			}
 
