@@ -173,41 +173,22 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 						newLine = newLine.replace(" - ", "-");
 					} else {
 
-						newLine = words.join(" ");
-						newLine = newLine.replaceAll(/[s+],[s+]/g, ",").replaceAll(",", ", ");
-						newLine = newLine.replaceAll(/[s+]\=[s+]/g, "=").replaceAll("=", " = ");
-						newLine = newLine.replaceAll(/[s+]\([s+]/g, "(");
-						newLine = newLine.replaceAll(/[s+]\)[s+]/g, ")");
-
-						// Todo figure out negtive numbers vs minus
-						// Negtive Numbers
-						// (?<=\s=\s)
+						// Leaving (-) for now.  The user can handle them.
+						newLine = words.join(" ")
+							.replaceAll(/\s*([=*/,+-\=\(\)]\.)\s*/g, "$1")
+							.replaceAll("=", " = ")
+							.replaceAll("+", " + ")
+							.replaceAll(",", ", ")
+							.replaceAll(/\s\s+/g, " ")
 
 						// Handles negtive number
-						newLine = newLine.replaceAll(/[s+]-[s+]/g, "-").replaceAll("-", " -");
+						//newLine = newLine.replaceAll(/[s+]-[s+]/g, "-").replaceAll("-", " -");
 
 						// Handles substraction
-						// newLine = newLine.replaceAll(/-(?=\D)|(?<=\D)(?<!^)-/g, "-").replaceAll("-", " - ");
+						// newLine = newLine.replaceAll(/-(?=\D)|(?<=\D)(?<!^)-/g, "-").replaceAll("-", " - ");	
 
-						/*
-						const matches = newLine.matchAll(/-(?=\D)|(?<=\D)(?<!^)-/g);
-						if (matches) {
-							logFunctions.writeLine(`${lineNumber} | ${newLine}`, outputChannnel);
-							for (const match of matches) {
-								logFunctions.writeLine(`${match}`, outputChannnel);
-							}
-						}
-						*/
-
-
-
-						newLine = newLine.replaceAll(/\s\s+/g, " ").trim();
 					}
-					/*
-					do {
-						newLine = newLine.replaceAll(/(?<!=")(  )/g, " ");
-					} while (newLine.indexOf("  ") > 0)
-					*/
+
 				}
 
 				if (level > 0) {
