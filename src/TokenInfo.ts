@@ -48,7 +48,6 @@ export class TokenInfo {
 			return
 		}
 
-
 		//logFunctions.writeLine(`Keyword ${this.keyword} not found adding "_" and trying again`, this.outputChannnel);
 		this.keyword = `_${token}`;
 		helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
@@ -72,12 +71,9 @@ export class TokenInfo {
 			return
 		}
 
-
-
 		this.keyword = token;
 		this.isKeyword = false;
 		this.WordFormatted = token;
-
 
 		/*
 		logFunctions.writeLine(`keywordInfo.token: ${this.token}`, this.outputChannnel);

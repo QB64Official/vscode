@@ -64,7 +64,6 @@ function decorateSingleLine(editor: any) {
 		}
 
 		if (config.get("isCurrentRowHighlightEnabled")) {
-
 			let current: vscode.Range[] = [new vscode.Range(
 				new vscode.Position(currrentLine.line, 0),
 				new vscode.Position(currrentLine.line, editor.document.lineAt(currrentLine.line).text.length))

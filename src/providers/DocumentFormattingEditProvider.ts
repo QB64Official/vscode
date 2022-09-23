@@ -35,7 +35,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 	}
 
 	private shouldProcessLine(lowerLine: string) {
-		return !(lowerLine.startsWith("rem") || lowerLine.startsWith("'"));
+		return !(lowerLine.startsWith("rem") || lowerLine.startsWith("'") || lowerLine.lastIndexOf('"') >= 0);
 	}
 
 
@@ -129,7 +129,11 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 						} while (newLine.endsWith(";"))
 					}
 
-					newLine = newLine.replaceAll(",", " , ").replaceAll("=", " = ").replaceAll("(", " ( ").replaceAll(")", " ) ").replace('"', ' "').replaceAll("+", " + ").replaceAll("-", " - ").replaceAll("*", " * ").replaceAll("/", " / ");
+					for (let opInder = 0; opInder < operators.length; opInder++) {
+						const operator = operators[opInder];
+						newLine.replaceAll(operator, ` ${operator} `);
+					}
+
 					let words: string[] = newLine.split(" ");
 					for (let index = 0; index < words.length; index++) {
 
@@ -168,36 +172,39 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					if (lowerLine.startsWith("defint")) {
 						newLine = newLine.replace(" - ", "-");
 					} else {
-						newLine = words.join(" ")
-							.replaceAll("( ", "(")
-							.replaceAll(" (", "(")
-							.replaceAll(") ", ")")
-							.replaceAll(" )", ")")
-							.replaceAll(", ", ",")
-							.replaceAll(" ,", ",")
-							.replaceAll("=", " = ")
-							.replaceAll("+", " + ")
-							.replaceAll("-", " - ")
-							.replaceAll("*", " * ")
-							.replaceAll("/", " / ")
-							.replaceAll(" (", "(")
-							.trim();
+
+						newLine = words.join(" ");
+						newLine = newLine.replaceAll(/[s+],[s+]/g, ",").replaceAll(",", ", ");
+						newLine = newLine.replaceAll(/[s+]\=[s+]/g, "=").replaceAll("=", " = ");
+						newLine = newLine.replaceAll(/[s+]\([s+]/g, "(");
+						newLine = newLine.replaceAll(/[s+]\)[s+]/g, ")");
+
+						// Todo figure out negtive numbers vs minus
+						// Negtive Numbers
+						// (?<=\s=\s)
+
+						// Handles negtive number
+						newLine = newLine.replaceAll(/[s+]-[s+]/g, "-").replaceAll("-", " -");
+
+						// Handles substraction
+						// newLine = newLine.replaceAll(/-(?=\D)|(?<=\D)(?<!^)-/g, "-").replaceAll("-", " - ");
+
+						/*
+						const matches = newLine.matchAll(/-(?=\D)|(?<=\D)(?<!^)-/g);
+						if (matches) {
+							logFunctions.writeLine(`${lineNumber} | ${newLine}`, outputChannnel);
+							for (const match of matches) {
+								logFunctions.writeLine(`${match}`, outputChannnel);
+							}
+						}
+						*/
+
+
+
+						newLine = newLine.replaceAll(/\s\s+/g, " ").trim();
 					}
-					const search = /\s\s+/g; // Good
-					// const search = /  (?!")\s\s+/g;
-					// const search = /(?!")\s\s+/g; // Not Good
-
-					newLine = newLine.replaceAll(search, " ");
-					/*
-					const search = /(?!")\s{2}/g; // Iffy			
-					do {
-						newLine = newLine.replaceAll(search, " ");
-					} while (newLine.match(search))
-					*/
-
 					/*
 					do {
-						// newLine = newLine.replaceAll(/  /g, " ");
 						newLine = newLine.replaceAll(/(?<!=")(  )/g, " ");
 					} while (newLine.indexOf("  ") > 0)
 					*/
