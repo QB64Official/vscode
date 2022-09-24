@@ -41,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.workspace.onWillSaveTextDocument(() => {
 		if (config.get("isCreateBakFileEnabled")) {
-			CreateBackup();
+			createBackup();
 		}
 	});
 
@@ -59,6 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// Register Commands here
 	webViewFunctions.setupAsciiChart(context);
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.openCompileLog', () => { openCompileLog(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexAlphabetical', () => { showHelpByName("Keyword-Reference---Alphabetical"); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexUsage', () => { showHelpByName("Keyword-Reference---By-Usage"); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
@@ -75,10 +76,79 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
 }
 
+/**
+ * Tries to find compilelog.txt and open it.
+ */
+export function openCompileLog() {
+	const config = vscode.workspace.getConfiguration("qb64")
+	try {
+		let qb64InstallPath: string = config.get("installPath");
+		if (qb64InstallPath) {
+			qb64InstallPath = qb64InstallPath.replaceAll("\\", "/");
+			if (findAndOpenCompileLog(qb64InstallPath, "temp")) {
+				return
+			} else if (findAndOpenCompileLog(qb64InstallPath, "temp1")) {
+				return
+			} else if (findAndOpenCompileLog(qb64InstallPath, "temp2")) {
+				return
+			} else if (findAndOpenCompileLog(qb64InstallPath, "temp3")) {
+				return
+			} else if (findAndOpenCompileLog(qb64InstallPath, "temp4")) {
+				return
+			} else if (findAndOpenCompileLog(qb64InstallPath, "temp5")) {
+				return
+			} else if (findAndOpenCompileLog(qb64InstallPath, "temp6")) {
+				return
+			} else if (findAndOpenCompileLog(qb64InstallPath, "temp7")) {
+				return
+			} else if (findAndOpenCompileLog(qb64InstallPath, "temp8")) {
+				return
+			} else if (findAndOpenCompileLog(qb64InstallPath, "temp9")) {
+				return
+			} else {
+				vscode.window.showErrorMessage("Unable to open compilelog.txt");
+			}
+		} else {
+			vscode.window.showErrorMessage("The setting qb64.installPath must be set.")
+		}
+	} catch (error) {
+		vscode.window.showErrorMessage(`Error IN openCompileLog: ${error}`);
+	}
+}
+
+/**
+ * Looks in the temp folder for compilelog.txt, if it's found the file is opened
+ * @param qb64InstallPath The QB64 install path
+ * @param tempFolderName Name of the temp folder to check
+ * @returns True if the file was found and opened
+ */
+function findAndOpenCompileLog(qb64InstallPath: string, tempFolderName: string) {
+	try {
+		const logPath = `${qb64InstallPath}/internal/${tempFolderName}/compilelog.txt`;
+		if (logPath) {
+			vscode.commands.executeCommand('vscode.open', vscode.Uri.file(logPath));
+			return true;
+		}
+		return false;
+	} catch (error) {
+		vscode.window.showErrorMessage(`Error in findAndOpenCompileLog: ${error}`);
+	}
+}
+
+
+
+
+/**
+ * Opens the current file in QB64
+ */
 export function openCurrentFileInQB64() {
 	openInQB64Functions.openCurrentFileInQB64();
 }
 
+/**
+ * Add the items to .GitIgnore
+ * @param items The items selected in the explorer view
+ */
 export function addToGitIgnore(items: any) {
 	gitFunctions.addToGitIgnore(items);
 }
@@ -104,26 +174,29 @@ export function showHelpByName(itemName: string) {
 	}
 }
 
-
+/**
+ * Compiles the current file then lints the current file.
+ */
 export function runLint() {
-	//const currentDocument: vscode.TextDocument = vscode.window.activeTextEditor.document;
 	lintFunctions.runLint();
-	//vscode.window.showTextDocument(currentDocument);
-	//vscode.commands.executeCommand("type", { text: "ctrl+1" });
 }
 
-function CreateBackup() {
+/**
+ * Creates a backup of the current file.
+ * @returns True if the file was created
+ */
+function createBackup() {
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.createBackup);
 	try {
 
 		if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId != "QB64") {
-			return;
+			return false;
 		}
 
 		let filename: string = vscode.window.activeTextEditor.document.fileName;
 
 		if (!(filename.endsWith(".bas") || filename.endsWith(".bm") || filename.endsWith(".bi"))) {
-			return;
+			return false;
 		}
 
 		let source = vscode.window.activeTextEditor.document.fileName
@@ -131,7 +204,9 @@ function CreateBackup() {
 		outputChannnel.appendLine(`Tying to copy ${source} to ${backupFile}`);
 		fs.copyFileSync(source, backupFile)
 		outputChannnel.appendLine(`File ${source} copied to ${backupFile}`);
+		return true;
 	} catch (error) {
-		outputChannnel.appendLine("ERROR: " + error);
+		outputChannnel.appendLine(`ERROR: in createBackup:  ${error}`);
+		return false;
 	}
 }

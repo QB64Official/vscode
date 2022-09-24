@@ -73,7 +73,7 @@ export function createFiles() {
 				"name": "QB64 Build and Run",
 				"type": "QB64",
 				"request": "launch",					
-				"command": "` + "${config:qb64.installPath}/qb64.exe -c '${fileDirname}/${fileBasename}' -o '${fileDirname}/${fileBasenameNoExtension}.exe' -x; start '${fileDirname}/${fileBasenameNoExtension}.exe'" + `",
+				"command": "` + "${config:qb64.installPath}/qb64.exe -c -x '${fileDirname}/${fileBasename}' -o '${fileDirname}/${fileBasenameNoExtension}.exe' -x; start '${fileDirname}/${fileBasenameNoExtension}.exe'" + `",
 				"terminalName": "QB64",
 				"terminalIndex": -1, 
 				"showTerminal": true,

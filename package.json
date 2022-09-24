@@ -228,6 +228,11 @@
                 "when": "editorLangId == 'QB64' && editorTextFocus"
             },
             {
+                "command": "extension.openCompileLog",
+                "key": "ctrl+alt+shift+l",
+                "when": "editorLangId == 'QB64' && editorTextFocus"
+            },
+            {
                 "command": "extension.showHelpIndexAlphabetical",
                 "key": "ctrl+f1",
                 "when": "editorLangId == 'QB64' && editorTextFocus"
@@ -264,6 +269,11 @@
             }
         ],
         "commands": [
+            {
+                "command": "extension.openCompileLog",
+                "title": "Open compilelog.txt",
+                "category": "QB64"
+            },
             {
                 "command": "extension.showAsciiChart",
                 "title": "Show the Ascii Chart",

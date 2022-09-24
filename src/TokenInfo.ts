@@ -33,6 +33,7 @@ export class TokenInfo {
 			this.outputChannnel = logFunctions.getChannel(logFunctions.channelType.help);
 		}
 
+		logFunctions.writeLine("Starting Hover", this.outputChannnel);
 		this.token = token;
 		this.keyword = token;
 		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
@@ -59,8 +60,9 @@ export class TokenInfo {
 			return
 		}
 
-		//logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
+		logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
 		this.keyword = `${token}`;
+		logFunctions.writeLine(`helpify file ${helpFile}`, this.outputChannnel);
 		helpFile = path.join(helpPath, "internal", "help", `${this.helpify()}.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
 			logFunctions.writeLine(`helpify file ${helpFile}`, this.outputChannnel);
@@ -75,13 +77,12 @@ export class TokenInfo {
 		this.isKeyword = false;
 		this.WordFormatted = token;
 
-		/*
 		logFunctions.writeLine(`keywordInfo.token: ${this.token}`, this.outputChannnel);
 		logFunctions.writeLine(`keywordInfo.keyword: ${this.keyword}`, this.outputChannnel);
 		logFunctions.writeLine(`keywordInfo.keywordNoPrfix: ${this.keywordNoPrfix}`, this.outputChannnel);
 		logFunctions.writeLine(`keywordInfo.offlinehelp: ${this.offlinehelp}`, this.outputChannnel);
 		logFunctions.writeLine(`keywordInfo.isKeyword: ${this.isKeyword}`, this.outputChannnel);
-		*/
+
 	}
 
 	/**
@@ -119,7 +120,8 @@ export class TokenInfo {
 				vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(this.onlineHelp));
 			}
 		} catch (error) {
-			logFunctions.writeLine("ERROR: " + error, this.outputChannnel);
+			logFunctions.writeLine(`ERROR in showHelp: ${error}`, this.outputChannnel);
+			vscode.window.showErrorMessage(`"ERROR: ${error}`)
 		}
 	}
 
@@ -128,20 +130,25 @@ export class TokenInfo {
 	 */
 	private helpify(): string {
 		let word = this.keyword.trim().toLowerCase();
+
+		logFunctions.writeLine(`Helpify Before: ${word}`, this.outputChannnel);
+
 		if (word == "end") {
 			word = "End"
 		} else if (word == "if" || word == "then") {
 			word = "If...Then"
 		} else if (word == "for" || word == "next") {
 			word = "FOR...NEXT"
-		} else if (word = "sub") {
-			word = "Sub-(explanatory).md"
+		} else if (word == "sub") {
+			word = "Sub-(explanatory)"
 		} else if (word == "function") {
 			word = "Function"
 		} else if (word == "select" || word == "case") {
 			word = "SELECT-CASE"
 		} else if (word == "do" || word == "loop") {
 			word = "DO...LOOP"
+		} else if (word == "declare") {
+			word = "DECLARE-LIBRARY";
 		}
 		return word;
 	}

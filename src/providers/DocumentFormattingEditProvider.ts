@@ -99,14 +99,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 				if (!(this.isSingleLineIf(lowerLine))) {
 					if (this.shouldIndentLine(lowerLine)) {
-						// if (lineNumber > 240 && lineNumber < 260) {
-						// 	logFunctions.writeLine(`Line ${lineNumber} | Indent: + 1 | isSingleLineIf: ${this.isSingleLineIf(lowerLine)} | Code: ${lowerLine}`, outputChannnel);
-						// }
 						level++;
 					} else if (this.shouldRemoveLineIndent(lowerLine)) {
-						// if (lineNumber > 240 && lineNumber < 260) {
-						// 	logFunctions.writeLine(`Line ${lineNumber} | Indent: - 1 | isSingleLineIf: ${this.isSingleLineIf(lowerLine)} | Code: ${lowerLine}`, outputChannnel);
-						// }
 						level--;
 					} else if (lowerLine.startsWith("case ") && !inCase) {
 						inCase = true;
@@ -166,7 +160,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 								logFunctions.writeLine(`Line: ${lineNumber} | Unable to find ${words[index]}`, outputChannnel)
 							}
 						}
-
 					}
 
 					if (lowerLine.startsWith("defint")) {
