@@ -54,10 +54,10 @@ export function createFiles() {
 				"type": "shell",
 				"command": "` + "${config:qb64.installPath}/internal/clean.bat" + `",
 				"linux": {
-					"command":"` + "${config:qb64.installPath}/internal/clean.sn" + `",
+					"command":"` + "${config:qb64.installPath}/internal/clean.sh" + `",
 				},
 				"osx": {
-					"command":"` + "${config:qb64.installPath}/internal/clean.sn" + `",
+					"command":"` + "${config:qb64.installPath}/internal/clean.sh" + `",
 				},
 				"group": {
 					"kind": "build",
