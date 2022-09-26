@@ -45,11 +45,11 @@ export function runLint() {
 		}
 
 		const command = `${compilerPath} -c "${sourceCode}" -o "${exeName}" -x -w `;
-		logFunctions.writeLine(`Run: ${command}`, outputChannnel);
 		outputChannnel.clear();
 		if (config.get("isShowLintChannelEnabled")) {
 			outputChannnel.show(true)
 		}
+		logFunctions.writeLine(`Running: ${command}`, outputChannnel);
 
 		exec(command, (error, stdout, stderr) => {
 			if (error) {

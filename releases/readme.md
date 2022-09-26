@@ -14,6 +14,10 @@ All notable changes to the "QB64" extension will be documented in this file.
 - Bugs
   - Issue [#56](https://github.com/QB64Official/vscode/issues/56) Typo in "Decorate|Enable: Hightlight the current row"
 - Enchantments
+  - Issue [#64](https://github.com/QB64Official/vscode/issues/64) Add an option to run QB64's clean script.
+    - Run open the command palete  `ctrl+shift+p`
+    - Select `Tasks: Run Task`
+    - Select `Clean QB64`
   - Issue [#63](https://github.com/QB64Official/vscode/issues/63) Add the ablity to open complielog.txt
   - Issue [#62](https://github.com/QB64Official/vscode/issues/62) Allow ctrl+shift+b to build current file
     - A tasks.json is created in the .vscode folder with a build task.

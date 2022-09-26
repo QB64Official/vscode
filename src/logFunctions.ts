@@ -15,6 +15,7 @@ const lintChannel: any = vscode.window.createOutputChannel("QB64: Lint", "QB64")
 const referenceProviderChannel: any = vscode.window.createOutputChannel("QB64: Reference Provider", "QB64");
 const openIncludeFileChannel: any = vscode.window.createOutputChannel("QB64: Open Include File", "QB64");;
 const openInQB64Channel: any = vscode.window.createOutputChannel("QB64: Open In QB64", "QB64");
+const scriptChannel: any = vscode.window.createOutputChannel("QB64: Script", "QB64");
 
 export enum channelType {
 	help = 1,
@@ -28,7 +29,8 @@ export enum channelType {
 	openInQB64 = 9,
 	referenceProvider = 10,
 	definitionProvider = 11,
-	hoverProvider = 12
+	hoverProvider = 12,
+	script = 13,
 }
 
 /**
@@ -72,6 +74,9 @@ export function getChannel(type: channelType) {
 
 		case channelType.hoverProvider:
 			return hoverProviderChannel;
+
+		case channelType.script:
+			return scriptChannel;
 
 		default:
 			throw `Unknown channelType of ${type}`;

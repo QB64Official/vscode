@@ -5,7 +5,7 @@ import * as logFunctions from "./logFunctions";
 
 export function createFiles() {
 
-	const buildTaskJson =
+	const tasksJson =
 		`{
 		"version": "2.0.0",
 		"tasks": [
@@ -48,6 +48,25 @@ export function createFiles() {
 					"reveal": "always",
 					"panel": "new"
 				}
+			},
+			{
+				"label": "Clean QB64",
+				"type": "shell",
+				"command": "` + "${config:qb64.installPath}/internal/clean.bat" + `",
+				"linux": {
+					"command":"` + "${config:qb64.installPath}/internal/clean.sn" + `",
+				},
+				"osx": {
+					"command":"` + "${config:qb64.installPath}/internal/clean.sn" + `",
+				},
+				"group": {
+					"kind": "build",
+					"isDefault": false
+				},
+				"presentation": {
+					"reveal": "always",
+					"panel": "new"
+				}
 			}
 		]
 	}`
@@ -73,7 +92,7 @@ export function createFiles() {
 				"name": "QB64 Build and Run",
 				"type": "QB64",
 				"request": "launch",					
-				"command": "` + "${config:qb64.installPath}/qb64.exe -c -x '${fileDirname}/${fileBasename}' -o '${fileDirname}/${fileBasenameNoExtension}.exe' -x; start '${fileDirname}/${fileBasenameNoExtension}.exe'" + `",
+				"command": "` + "${config:qb64.installPath}/qb64.exe -c -x \"${fileDirname}/${fileBasename}\" -o \"${fileDirname}/${fileBasenameNoExtension}.exe\" -x; start \"${fileDirname}/${fileBasenameNoExtension}.exe\"" + `",
 				"terminalName": "QB64",
 				"terminalIndex": -1, 
 				"showTerminal": true,
@@ -127,7 +146,7 @@ export function createFiles() {
 			logFunctions.writeLine("    Found", outputChannnel);
 		} else {
 			logFunctions.writeLine("Creating File: " + buuildTaskFile, outputChannnel);
-			fs.writeFileSync(buuildTaskFile, buildTaskJson);
+			fs.writeFileSync(buuildTaskFile, tasksJson);
 		}
 
 	} catch (error) {
