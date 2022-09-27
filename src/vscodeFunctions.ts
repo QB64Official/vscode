@@ -52,6 +52,9 @@ export function createFiles() {
 			{
 				"label": "Clean QB64",
 				"type": "shell",
+				"options": {
+					"cwd": "` + "${config:qb64.installPath}/internal" + `",
+				},
 				"command": "` + "${config:qb64.installPath}/internal/clean.bat" + `",
 				"linux": {
 					"command":"` + "${config:qb64.installPath}/internal/clean.sh" + `",
