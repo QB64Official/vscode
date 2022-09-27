@@ -179,9 +179,11 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 						// Handles substraction
 						// newLine = newLine.replaceAll(/-(?=\D)|(?<=\D)(?<!^)-/g, "-").replaceAll("-", " - ");	
-
 					}
+				}
 
+				if (lineNumber > 0 && document.lineAt(lineNumber - 1).text.trim().endsWith("_")) {
+					newLine = `${indent}${newLine}`;
 				}
 
 				if (level > 0) {
