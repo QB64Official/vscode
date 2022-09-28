@@ -40,6 +40,7 @@ export class TokenInfo {
 
 		let helpPath: string = config.get("installPath");
 		let helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
+		// logFunctions.writeLine(`${this.keyword} | Help file ${helpFile}`, this.outputChannnel);
 		if (fs.existsSync(helpFile)) {
 			this.offlinehelp = helpFile;
 			this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
@@ -48,7 +49,7 @@ export class TokenInfo {
 			return
 		}
 
-		//logFunctions.writeLine(`Keyword ${this.keyword} not found adding "_" and trying again`, this.outputChannnel);
+		// logFunctions.writeLine(`Keyword ${this.keyword} not found adding "_" and trying again`, this.outputChannnel);
 		this.keyword = `_${token}`;
 		helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
@@ -64,7 +65,6 @@ export class TokenInfo {
 		// logFunctions.writeLine(`helpify file ${helpFile}`, this.outputChannnel);
 		helpFile = path.join(helpPath, "internal", "help", `${this.helpify()}.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
-			logFunctions.writeLine(`helpify file ${helpFile}`, this.outputChannnel);
 			this.offlinehelp = helpFile;
 			this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
 			this.keywordNoPrfix = this.keyword;
@@ -131,7 +131,7 @@ export class TokenInfo {
 	private helpify(): string {
 		let word = this.keyword.trim().toLowerCase();
 
-		logFunctions.writeLine(`Helpify Before: ${word}`, this.outputChannnel);
+		// logFunctions.writeLine(`Helpify Before: ${word}`, this.outputChannnel);
 
 		if (word == "end") {
 			word = "End"

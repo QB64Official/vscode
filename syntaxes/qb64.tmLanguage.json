@@ -92,12 +92,8 @@
 			]
 		},
 		{
-			"match": "(?i:\\b(If|Then|Else|ElseIf|Else If|End If|Not|While|Wend|For|To|Each|Case|Select|End Select|Return|Continue|Do|Until|Loop|Next|With|Exit Do|Exit For|Exit Function|Exit Property|Exit Sub|IIf|Limit|_Limit|Delay|_Delay|End|System)\\b)",
+			"match": "(?i:\\b(If|Then|Else|ElseIf|Else If|End If|Not|Or|And|Xor|Mod|While|Wend|For|To|Each|Case|Select|End Select|Return|Continue|Do|Until|Loop|Next|With|Exit Do|Exit For|Exit Function|Exit Property|Exit Sub|IIf|Limit|_Limit|Delay|_Delay|End|System)\\b)",
 			"name": "keyword.control.QB64"
-		},
-		{
-			"match": "(?i:\\b(Mod|And|Not|Or|Xor)\\b)",
-			"name": "keyword.operator.QB64"
 		},
 		{
 			"captures": {
@@ -115,7 +111,7 @@
 			"name": "variable.other.dim.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Call|Screenhide|DECLARE|DEF|SEG|resume|Rest|gosub|DEFINT|_Screenhide|Cls|Const|Dim|As|Shared|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Call|Screenhide|DECLARE|DEF|SEG|resume|Rest|Timer|gosub|DEFINT|_Screenhide|Cls|Const|Dim|As|Shared|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{
@@ -176,7 +172,7 @@
 			"name": "support.type.QB64"
 		},
 		{
-			"match": "(?i:\\b(Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exists|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetObject|GetRef|Hex|Hour|InputBox|InStr|InStrRev|Int|Fix|IsArray|IsDate|IsEmpty|IsNull|IsNumeric|IsObject|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|Maths|Mid|Minute|Month|MonthName|MsgBox|Now|Oct|Remove|RemoveAll|Replace|Rgb|_Rgb|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Split|Sqr|StrComp|String|StrReverse|Tan|Time|Timer|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year)\\b)",
+			"match": "(?i:\\b(Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exists|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetObject|GetRef|Hex|Hour|InputBox|InStr|InStrRev|Int|Fix|IsArray|IsDate|IsEmpty|IsNull|IsNumeric|IsObject|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|Maths|Mid|Minute|Month|MonthName|MsgBox|Now|Oct|Remove|RemoveAll|Replace|Rgb|_Rgb|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Split|Sqr|StrComp|String|StrReverse|Tan|Time|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year)\\b)",
 			"name": "support.function.QB64"
 		},
 		{
