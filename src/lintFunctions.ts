@@ -102,13 +102,14 @@ function lintCurrentFile(compilerOutput: string) {
 			}
 
 			errorLineNumber = -1;
-			if (lintLine.startsWith("Illegal") || lintLine.startsWith("DIM: Expected")) {
+			if (lintLine.startsWith("Illegal") || lintLine.startsWith("DIM: Expected") || lintLine.startsWith("Expected =")) {
+				logFunctions.writeLine(`In Error: ${lintLine}`, outputChannnel);
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
 					const element = lines[x];
 					if (element.startsWith("LINE ")) {
 						const work: string[] = element.split(":")
-						code = commonFunctions.escapeRegExp(work[1])
+						code = commonFunctions.escapeRegExp(work[1].replace("\r", ""))
 						errorLineNumber = Number(work[0].split(" ").pop()) - 1;
 						break;
 					}
@@ -117,21 +118,18 @@ function lintCurrentFile(compilerOutput: string) {
 				if (code.length < 1 || errorLineNumber < 0) {
 					continue;
 				}
-
-				const match = sourceCode[errorLineNumber].match(new RegExp("(" + code + ")"));
+				let diagnostic: vscode.Diagnostic
+				const match = sourceCode[errorLineNumber].match(new RegExp("(" + code + ")", "i"));
+				const message = lintLine.replace("\r", "") + "\n" + lines[lineIndex + 1].replace("\r", "");
 				if (match) {
-					let diagnostic: vscode.Diagnostic = new vscode.Diagnostic(
-						commonFunctions.createRange(match, errorLineNumber),
-						lintLine.replace("\r", "") + "\n" + lines[lineIndex + 1].replace("\r", ""),
-						vscode.DiagnosticSeverity.Error,
-					);
-					diagnostic.code = 102;
-					diagnostic.source = lintSource;
-					diagnostics.push(diagnostic)
+					diagnostic = new vscode.Diagnostic(commonFunctions.createRange(match, errorLineNumber), message);
 				} else {
-					logFunctions.writeLine("Found Not Match", outputChannnel);
+					diagnostic = new vscode.Diagnostic(new vscode.Range(new vscode.Position(errorLineNumber, 0), new vscode.Position(errorLineNumber, 9999)), message);
 				}
-
+				diagnostic.severity = vscode.DiagnosticSeverity.Error;
+				diagnostic.code = 102;
+				diagnostic.source = lintSource;
+				diagnostics.push(diagnostic)
 			} else if (lintLine.indexOf("warning") >= 0) {
 
 				let tokens: string[] = lintLine.split(":");

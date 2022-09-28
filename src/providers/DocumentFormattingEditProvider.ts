@@ -42,7 +42,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 	provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
 		let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.formatter);
 		let retvalue: vscode.TextEdit[] = [];
-		const operators = '(+-=<>[{}]`);:.,';
+		// const operators = ",(+-=<>[{}]`);:.";
 		const qb64Config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
 		const vscodeConig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
 		const indent = vscodeConig.get("insertSpaces") ? " ".repeat(vscodeConig.get("tabSize")) : "\t"
@@ -123,12 +123,19 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 						} while (newLine.endsWith(";"))
 					}
 
-					for (let opInder = 0; opInder < operators.length; opInder++) {
-						const operator = operators[opInder];
-						newLine.replaceAll(operator, ` ${operator} `);
+
+					const matches = newLine.matchAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|\/|{|}|`|;|\*|:\s+/g);
+					if (matches) {
+						for (const match of matches) {
+							newLine = newLine.replaceAll(match[0], ` ${match[0]} `);
+						}
 					}
 
+					// newLine = newLine.replaceAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|{|}|`|;|\*|:\s+/g, " $1 ");
+
+					logFunctions.writeLine(newLine, outputChannnel); // This is wrong should have spaces around the comma
 					let words: string[] = newLine.split(" ");
+
 					for (let index = 0; index < words.length; index++) {
 
 						if (token.isCancellationRequested) {
@@ -145,41 +152,31 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 							continue;
 						}
 
-						if (operators.indexOf(words[index]) < 0) {
-							let tokenInfo: TokenInfo = null;
-							if (tokenCache.has(words[index].toLowerCase())) {
-								tokenInfo = tokenCache.get(words[index].toLowerCase());
-							} else {
-								tokenInfo = new TokenInfo(words[index], outputChannnel);
-								tokenCache.set(words[index].toLocaleLowerCase(), tokenInfo);
-							}
-
-							if (tokenInfo) {
-								words[index] = tokenInfo.WordFormatted;
-							} else {
-								logFunctions.writeLine(`Line: ${lineNumber} | Unable to find ${words[index]}`, outputChannnel)
-							}
+						//if (operators.indexOf(words[index]) < 0) {
+						let tokenInfo: TokenInfo = null;
+						if (tokenCache.has(words[index].toLowerCase())) {
+							tokenInfo = tokenCache.get(words[index].toLowerCase());
+						} else {
+							tokenInfo = new TokenInfo(words[index], outputChannnel);
+							tokenCache.set(words[index].toLocaleLowerCase(), tokenInfo);
 						}
+
+						if (tokenInfo) {
+							words[index] = tokenInfo.WordFormatted;
+						} else {
+							logFunctions.writeLine(`Line: ${lineNumber} | Unable to find ${words[index]}`, outputChannnel)
+						}
+						words[index] = words[index].trim();
+						//}
 					}
 
-					if (lowerLine.startsWith("defint")) {
-						newLine = newLine.replace(" - ", "-");
-					} else {
-
-						// Leaving (-) for now.  The user can handle them.
-						newLine = words.join(" ")
-							.replaceAll(/\s*([=*/,+-\=\(\)]\.)\s*/g, "$1")
-							.replaceAll("=", " = ")
-							.replaceAll("+", " + ")
-							.replaceAll(",", ", ")
-							.replaceAll(/\s\s+/g, " ")
-
-						// Handles negtive number
-						//newLine = newLine.replaceAll(/[s+]-[s+]/g, "-").replaceAll("-", " -");
-
-						// Handles substraction
-						// newLine = newLine.replaceAll(/-(?=\D)|(?<=\D)(?<!^)-/g, "-").replaceAll("-", " - ");	
-					}
+					newLine = words.join(" ")
+						.replaceAll(" - ", "-").replaceAll(/(?<=[0-9]|=)[-]/g, " - ")
+						.replaceAll(/\s+,\s+/g, ",").replaceAll(",", ", ")
+						.replaceAll(/\s+\(\s+/g, "(")
+						.replaceAll(/\s+\)\s+/g, ") ")
+						.replaceAll(/\s\s+/g, " ")
+						.trim();
 				}
 
 				if (lineNumber > 0 && document.lineAt(lineNumber - 1).text.trim().endsWith("_")) {

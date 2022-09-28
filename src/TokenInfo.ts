@@ -33,7 +33,6 @@ export class TokenInfo {
 			this.outputChannnel = logFunctions.getChannel(logFunctions.channelType.help);
 		}
 
-		logFunctions.writeLine("Starting Hover", this.outputChannnel);
 		this.token = token;
 		this.keyword = token;
 		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
@@ -60,9 +59,9 @@ export class TokenInfo {
 			return
 		}
 
-		logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
+		//logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
 		this.keyword = `${token}`;
-		logFunctions.writeLine(`helpify file ${helpFile}`, this.outputChannnel);
+		// logFunctions.writeLine(`helpify file ${helpFile}`, this.outputChannnel);
 		helpFile = path.join(helpPath, "internal", "help", `${this.helpify()}.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
 			logFunctions.writeLine(`helpify file ${helpFile}`, this.outputChannnel);
@@ -77,12 +76,13 @@ export class TokenInfo {
 		this.isKeyword = false;
 		this.WordFormatted = token;
 
+		/*
 		logFunctions.writeLine(`keywordInfo.token: ${this.token}`, this.outputChannnel);
 		logFunctions.writeLine(`keywordInfo.keyword: ${this.keyword}`, this.outputChannnel);
 		logFunctions.writeLine(`keywordInfo.keywordNoPrfix: ${this.keywordNoPrfix}`, this.outputChannnel);
 		logFunctions.writeLine(`keywordInfo.offlinehelp: ${this.offlinehelp}`, this.outputChannnel);
 		logFunctions.writeLine(`keywordInfo.isKeyword: ${this.isKeyword}`, this.outputChannnel);
-
+		*/
 	}
 
 	/**
