@@ -110,8 +110,12 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replace(/-(?=[A-Za-z])/i, "- ");
 
 		if (code.toLowerCase().startsWith("defint")) {
-			code = code.replace(/s*-\s*/, '-');
+			code = code.replace(/\s*-\s*/, '-');
+		} else if (code.toLowerCase().startsWith("$resize")) {
+			code = code.replace(/\s*:\s*/, ':');
 		}
+
+
 		return code.trim();
 	}
 
