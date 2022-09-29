@@ -7,7 +7,22 @@ import { TokenInfo } from "../TokenInfo";
 // Seems like a good place to find includes and make the double click to open work.
 export class DocumentFormattingEditProvider implements vscode.DocumentFormattingEditProvider {
 	outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.formatter);
+	//regexOperators = /\s+,|\(|\)|\+|-|=|<|>|\[|\]|\/|{|}|`|;|:|\*|:\s+/g;
 
+	/**
+	 * Add spaces around the operators
+	 * @param code Code Snipette
+	 * @returns 
+	 */
+	private addOperatorSpaces(code: string): string {
+		const matches = code.matchAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|\/|{|}|`|;|:|\*|:\s+/g);
+		if (matches) {
+			for (const match of matches) {
+				code = code.replaceAll(match[0], ` ${match[0]} `);
+			}
+		}
+		return code;
+	}
 
 	/**
 	 * Is the line of code a single line if
@@ -19,24 +34,11 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		if (!lowerLine.startsWith("if") || lowerLine.replace("\r", "").endsWith("then")) {
 			return false
 		}
-
-		const spot = lowerLine.indexOf("'", lowerLine.indexOf("then"));
-		const work = lowerLine.substring(spot);
-		logFunctions.writeLine(`Work: ${work}`, this.outputChannnel)
+		const work = lowerLine.substring(lowerLine.indexOf("'", lowerLine.indexOf("then")));
 		if (work.match(/then\s*'/)) {
 			return false;
 		}
 		return true;
-
-		/*
-				if (lowerLine.indexOf("'", lowerLine.indexOf("then")) > 0) {
-					logFunctions.writeLine(`Line: ${lowerLine}`, this.outputChannnel)
-					return true;
-				} else {
-					logFunctions.writeLine(`Line: ${lowerLine} | Spot: ${lowerLine.indexOf("'", lowerLine.indexOf("then"))}`, this.outputChannnel)
-					return false;
-				}
-		*/
 	}
 
 	/**
@@ -66,10 +68,52 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		return lowerLine == "loop" || lowerLine.startsWith("loop ") || lowerLine.startsWith("end if") || lowerLine == "endif" || lowerLine.startsWith("end sub") || lowerLine == "endsub" || lowerLine.startsWith("end function") || lowerLine == "endfunction" || lowerLine == "next" || lowerLine == "wend" || lowerLine == "end type" || lowerLine == "endtype" || lowerLine == "end select" || lowerLine == "endselect" || lowerLine == "next" || lowerLine.startsWith("next ");
 	}
 
+	/**
+	 * Should this line of code get processed.
+	 * @param lowerLine 
+	 * @returns 
+	 */
 	private shouldProcessLine(lowerLine: string) {
-		return !(lowerLine.startsWith("rem") || lowerLine.startsWith("'") || lowerLine.lastIndexOf('"') >= 0);
+		return !(lowerLine.startsWith("rem") || lowerLine.startsWith("'"));
 	}
 
+	/**
+	 * Format all the elements in the array.
+	 * @param words 
+	 * @param tokenCache 
+	 */
+	private formatArray(words: string[], tokenCache: Map<string, TokenInfo>) {
+		for (let index = 0; index < words.length; index++) {
+			words[index] = words[index].trim();
+			if (words[index].length < 1 || words[index].trim().toLowerCase().startsWith("rem") || words[index].trim().startsWith("'")) {
+				continue;
+			}
+			words[index] = this.formatWord(words[index], tokenCache);
+		}
+	}
+
+	private cleanUpCode(code: string): string {
+		code = code.replaceAll(/\s*-\s*/g, "-")
+			.replaceAll(/\s*:\s*/g, " : ")
+			.replaceAll(/\s*;\s*/g, ";")
+			.replaceAll(/\s*,\s*/g, ",").replaceAll(",", ", ")
+			.replaceAll(/\s*\(\s*/g, "(")
+			.replaceAll(/\s*\)\s*/g, ") ")
+			.replaceAll(/\s*\) \)/g, "))")
+			.replaceAll("=", " = ")
+			.replaceAll(/\s*\*\s*/g, " * ")
+			.replaceAll(") ,", "),")
+			.replaceAll(/<\s*\=/g, " <= ")
+			.replaceAll(/>\s*\=/g, " >= ")
+			.replaceAll(/\s\s+/g, " ")
+			.replace(/^put\(/i, "put (")
+			.replace(/-(?=[A-Za-z])/i, "- ");
+
+		if (code.toLowerCase().startsWith("defint")) {
+			code = code.replace(/s*-\s*/, '-');
+		}
+		return code.trim();
+	}
 
 	provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
 		let retvalue: vscode.TextEdit[] = [];
@@ -121,7 +165,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 				if (!isSingleLineIf) {
 					if (this.shouldIndentLine(lowerLine)) {
-						// logFunctions.writeLine(`Indent: ${lowerLine}`, outputChannnel);
 						level++;
 					} else if (this.shouldRemoveLineIndent(lowerLine)) {
 						level--;
@@ -150,68 +193,37 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 				// newLine = newLine.replaceAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|{|}|`|;|\*|:\s+/g, " $1 ");
 				// This just puts $1 in the code not the match WTF 😒
-				const matches = newLine.matchAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|\/|{|}|`|;|:|\*|:\s+/g);
-				if (matches) {
-					for (const match of matches) {
-						newLine = newLine.replaceAll(match[0], ` ${match[0]} `);
-					}
-				}
 
-				let words: string[] = newLine.split(" ");
+				// let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 
-				for (let index = 0; index < words.length; index++) {
+				if (lowerLine.indexOf('"') > -1 && !lowerLine.match(/(?<='|rem)"/i)) {
+					logFunctions.writeLine("In Quote", this.outputChannnel);
+					const start: number = newLine.indexOf('"') - 1;
+					logFunctions.writeLine(`Start: ${start} | words = ${newLine.substring(0, start)}`, this.outputChannnel);
+					logFunctions.writeLine(`       ${newLine}`, this.outputChannnel);
 
-					if (token.isCancellationRequested) {
-						return null;
-					}
+					let words: string[] = this.addOperatorSpaces(newLine.substring(0, start)).split(" ");
+					this.formatArray(words, tokenCache);
+					logFunctions.writeLine(`words2 = ${words.join(" ")}`, this.outputChannnel);
+					const work = this.cleanUpCode(words.join(" "));
+					newLine = work + newLine.substring(start);
 
-					words[index] = words[index].trim();
-
-					if (words[index].length < 1 || words[index].trim().toLowerCase().startsWith("rem") || words[index].trim().startsWith("'")) {
-						continue;
-					}
-
-					if (words[index].indexOf('"') >= 0) {
-						continue;
-					}
-
-					// TODO: Break the following code out to a function so strings can be handled.
-
-					if (words[index] != ")" && (words[index] != "(") && (words[index] != "+") && (words[index] != "-") && (words[index] != "*") && (words[index] != "=") && (words[index] != ":") && (words[index] != ";")) {
-						let tokenInfo: TokenInfo = null;
-						if (tokenCache.has(words[index].toLowerCase())) {
-							tokenInfo = tokenCache.get(words[index].toLowerCase());
-						} else {
-							tokenInfo = new TokenInfo(words[index], this.outputChannnel);
-							tokenCache.set(words[index].toLocaleLowerCase(), tokenInfo);
-						}
-
-						if (tokenInfo) {
-							words[index] = tokenInfo.WordFormatted;
-						} else {
-							logFunctions.writeLine(`Line: ${lineNumber} | Unable to find ${words[index]}`, this.outputChannnel)
-						}
-					}
-				}
-
-				newLine = words.join(" ")
-					.replaceAll(/\s*-\s*/g, "-")
-					.replaceAll(/\s*:\s*/g, ":")
-					.replaceAll(/\s*;\s*/g, ";")
-					.replaceAll(/\s*,\s*/g, ",").replaceAll(",", ", ")
-					.replaceAll(/\s*\(\s*/g, "(")
-					.replaceAll(/\s*\)\s*/g, ") ").replaceAll(") , ", "), ").replaceAll(") )", "))").replaceAll(") ) )", ")))")
-					.replaceAll("=", " = ")
-					.replaceAll(/<\s*\=/g, " <= ")
-					.replaceAll(/>\s*\=/g, " <= ")
-					.replaceAll(/\s\s+/g, " ");
-
-
-				if (!lowerLine.startsWith("data")) {
-					newLine = newLine.replaceAll(/(?<=[0-9])-/g, " - ")
 				} else {
-					logFunctions.writeLine(`Data: ${lowerLine}`, this.outputChannnel)
+					newLine = this.addOperatorSpaces(newLine);
+					let words: string[] = newLine.split(" ");
+					this.formatArray(words, tokenCache);
+					newLine = this.cleanUpCode(words.join(" "));
+
+					if (!lowerLine.startsWith("data")) {
+						newLine = newLine.replaceAll(/(?<=[0-9])-/g, " - ")
+					} else {
+						if (newLine.startsWith("data-")) {
+							newLine = newLine.replace("data-", "data -");
+						}
+					}
+
 				}
+
 				newLine = newLine.trim();
 
 				if (lineNumber > 0 && document.lineAt(lineNumber - 1).text.trim().endsWith("_")) {
@@ -236,4 +248,26 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		}
 		return retvalue;
 	}
+
+	private formatWord(word: string, tokenCache: Map<string, TokenInfo>): string {
+		// TODO: Break the following code out to a function so strings can be handled.
+
+		if (word != ")" && (word != "(") && (word != "+") && (word != "-") && (word != "*") && (word != "=") && word != ":" && (word != ";")) {
+			let tokenInfo: TokenInfo = null;
+			if (tokenCache.has(word.toLowerCase())) {
+				tokenInfo = tokenCache.get(word.toLowerCase());
+			} else {
+				tokenInfo = new TokenInfo(word, this.outputChannnel);
+				tokenCache.set(word.toLocaleLowerCase(), tokenInfo);
+			}
+
+			if (tokenInfo) {
+				return tokenInfo.WordFormatted;
+			} else {
+				logFunctions.writeLine(`Unable to find ${word}`, this.outputChannnel)
+			}
+		}
+		return word;
+	}
+
 }

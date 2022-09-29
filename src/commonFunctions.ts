@@ -30,7 +30,6 @@ export function getSelectedTextOrLineTest(): string {
  */
 export function escapeRegExp(text: string) { return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'); }
 
-
 /**
  * Gets an absolute path from a relative path.
  * @param base Base folder
