@@ -105,6 +105,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(") ,", "),")
 			.replaceAll(/<\s*\=/g, " <= ")
 			.replaceAll(/>\s*\=/g, " >= ")
+			.replaceAll(/>\s*\=/g, " >= ")
+			.replaceAll(/\s*<\s*>/g, " <> ")
 			.replaceAll(/\s\s+/g, " ")
 			.replace(/^put\(/i, "put (")
 			.replace(/-(?=[A-Za-z])/i, "- ");
@@ -148,7 +150,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					return null;
 				}
 
-				const originalLine: vscode.TextLine = document.lineAt(lineNumber);
+				let originalLine: vscode.TextLine = document.lineAt(lineNumber);
 				let newLine = originalLine.text.trim();
 				const lowerLine = newLine.toLowerCase();
 				const isSingleLineIf: boolean = this.isSingleLineIf(lowerLine);
@@ -224,7 +226,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 								newLine = newLine.replace("data-", "data -");
 							}
 						}
-
 					}
 
 					newLine = newLine.trim();
@@ -233,7 +234,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 						newLine = `${indent}${newLine}`;
 					}
 				}
-
 				if (level > 0) {
 					if ((this.shouldIndentLine(lowerLine) || lowerLine.startsWith("case ") || lowerLine.startsWith("else")) && !isSingleLineIf) {
 						newLine = `${indent.repeat(level - 1)}${newLine}`;
