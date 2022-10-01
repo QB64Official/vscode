@@ -185,55 +185,53 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					}
 				}
 
-				if (!this.shouldProcessLine(lowerLine)) {
-					continue
-				}
+				if (this.shouldProcessLine(lowerLine)) {
 
-				if (newLine.endsWith(";") && lowerLine.indexOf("print") < 0) {
-					do {
-						newLine = newLine.substring(0, newLine.length - 1).trimEnd();
-					} while (newLine.endsWith(";"))
-				}
 
-				// newLine = newLine.replaceAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|{|}|`|;|\*|:\s+/g, " $1 ");
-				// This just puts $1 in the code not the match WTF 😒
+					if (newLine.endsWith(";") && lowerLine.indexOf("print") < 0) {
+						do {
+							newLine = newLine.substring(0, newLine.length - 1).trimEnd();
+						} while (newLine.endsWith(";"))
+					}
 
-				// let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
+					// newLine = newLine.replaceAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|{|}|`|;|\*|:\s+/g, " $1 ");
+					// This just puts $1 in the code not the match WTF 😒
 
-				if (lowerLine.indexOf('"') > -1 && !lowerLine.match(/(?<='|rem)"/i)) {
-					logFunctions.writeLine("In Quote", this.outputChannnel);
-					const start: number = newLine.indexOf('"') - 1;
-					logFunctions.writeLine(`Start: ${start} | words = ${newLine.substring(0, start)}`, this.outputChannnel);
-					logFunctions.writeLine(`       ${newLine}`, this.outputChannnel);
+					// let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 
-					let words: string[] = this.addOperatorSpaces(newLine.substring(0, start)).split(" ");
-					this.formatArray(words, tokenCache);
-					logFunctions.writeLine(`words2 = ${words.join(" ")}`, this.outputChannnel);
-					const work = this.cleanUpCode(words.join(" "));
-					newLine = work + newLine.substring(start);
+					if (lowerLine.indexOf('"') > -1 && !lowerLine.match(/(?<='|rem)"/i)) {
+						logFunctions.writeLine("In Quote", this.outputChannnel);
+						const start: number = newLine.indexOf('"') - 1;
+						logFunctions.writeLine(`Start: ${start} | words = ${newLine.substring(0, start)}`, this.outputChannnel);
+						logFunctions.writeLine(`       ${newLine}`, this.outputChannnel);
 
-				} else {
-					newLine = this.addOperatorSpaces(newLine);
-					let words: string[] = newLine.split(" ");
-					this.formatArray(words, tokenCache);
-					newLine = this.cleanUpCode(words.join(" "));
+						let words: string[] = this.addOperatorSpaces(newLine.substring(0, start)).split(" ");
+						this.formatArray(words, tokenCache);
+						logFunctions.writeLine(`words2 = ${words.join(" ")}`, this.outputChannnel);
+						const work = this.cleanUpCode(words.join(" "));
+						newLine = work + newLine.substring(start);
 
-					if (!lowerLine.startsWith("data")) {
-						newLine = newLine.replaceAll(/(?<=[0-9])-/g, " - ")
 					} else {
-						if (newLine.startsWith("data-")) {
-							newLine = newLine.replace("data-", "data -");
+						newLine = this.addOperatorSpaces(newLine);
+						let words: string[] = newLine.split(" ");
+						this.formatArray(words, tokenCache);
+						newLine = this.cleanUpCode(words.join(" "));
+
+						if (!lowerLine.startsWith("data")) {
+							newLine = newLine.replaceAll(/(?<=[0-9])-/g, " - ")
+						} else {
+							if (newLine.startsWith("data-")) {
+								newLine = newLine.replace("data-", "data -");
+							}
 						}
 					}
 
+					newLine = newLine.trim();
+
+					if (lineNumber > 0 && document.lineAt(lineNumber - 1).text.trim().endsWith("_")) {
+						newLine = `${indent}${newLine}`;
+					}
 				}
-
-				newLine = newLine.trim();
-
-				if (lineNumber > 0 && document.lineAt(lineNumber - 1).text.trim().endsWith("_")) {
-					newLine = `${indent}${newLine}`;
-				}
-
 				if (level > 0) {
 					if ((this.shouldIndentLine(lowerLine) || lowerLine.startsWith("case ") || lowerLine.startsWith("else")) && !isSingleLineIf) {
 						newLine = `${indent.repeat(level - 1)}${newLine}`;
