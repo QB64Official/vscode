@@ -105,6 +105,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(") ,", "),")
 			.replaceAll(/<\s*\=/g, " <= ")
 			.replaceAll(/>\s*\=/g, " >= ")
+			.replaceAll(/>\s*\=/g, " >= ")
+			.replaceAll(/\s*<\s*>/g, " <> ")
 			.replaceAll(/\s\s+/g, " ")
 			.replace(/^put\(/i, "put (")
 			.replace(/-(?=[A-Za-z])/i, "- ");

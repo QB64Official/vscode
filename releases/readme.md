@@ -10,6 +10,10 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.8.1
+- Bugs
+  - Issue [#65](https://github.com/QB64Official/vscode/issues/65) Formatting <> is getting formatted as < >
+
 ## 0.8.0
 - Bugs
   - Issue [#56](https://github.com/QB64Official/vscode/issues/56) Typo in "Decorate|Enable: Hightlight the current row"
