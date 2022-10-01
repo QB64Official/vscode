@@ -148,7 +148,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					return null;
 				}
 
-				let originalLine: vscode.TextLine = document.lineAt(lineNumber);
+				const originalLine: vscode.TextLine = document.lineAt(lineNumber);
 				let newLine = originalLine.text.trim();
 				const lowerLine = newLine.toLowerCase();
 				const isSingleLineIf: boolean = this.isSingleLineIf(lowerLine);
@@ -185,53 +185,53 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					}
 				}
 
-				if (!this.shouldProcessLine(lowerLine)) {
-					continue
-				}
+				if (this.shouldProcessLine(lowerLine)) {
 
-				if (newLine.endsWith(";") && lowerLine.indexOf("print") < 0) {
-					do {
-						newLine = newLine.substring(0, newLine.length - 1).trimEnd();
-					} while (newLine.endsWith(";"))
-				}
 
-				// newLine = newLine.replaceAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|{|}|`|;|\*|:\s+/g, " $1 ");
-				// This just puts $1 in the code not the match WTF 😒
-
-				// let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
-
-				if (lowerLine.indexOf('"') > -1 && !lowerLine.match(/(?<='|rem)"/i)) {
-					logFunctions.writeLine("In Quote", this.outputChannnel);
-					const start: number = newLine.indexOf('"') - 1;
-					logFunctions.writeLine(`Start: ${start} | words = ${newLine.substring(0, start)}`, this.outputChannnel);
-					logFunctions.writeLine(`       ${newLine}`, this.outputChannnel);
-
-					let words: string[] = this.addOperatorSpaces(newLine.substring(0, start)).split(" ");
-					this.formatArray(words, tokenCache);
-					logFunctions.writeLine(`words2 = ${words.join(" ")}`, this.outputChannnel);
-					const work = this.cleanUpCode(words.join(" "));
-					newLine = work + newLine.substring(start);
-
-				} else {
-					newLine = this.addOperatorSpaces(newLine);
-					let words: string[] = newLine.split(" ");
-					this.formatArray(words, tokenCache);
-					newLine = this.cleanUpCode(words.join(" "));
-
-					if (!lowerLine.startsWith("data")) {
-						newLine = newLine.replaceAll(/(?<=[0-9])-/g, " - ")
-					} else {
-						if (newLine.startsWith("data-")) {
-							newLine = newLine.replace("data-", "data -");
-						}
+					if (newLine.endsWith(";") && lowerLine.indexOf("print") < 0) {
+						do {
+							newLine = newLine.substring(0, newLine.length - 1).trimEnd();
+						} while (newLine.endsWith(";"))
 					}
 
-				}
+					// newLine = newLine.replaceAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|{|}|`|;|\*|:\s+/g, " $1 ");
+					// This just puts $1 in the code not the match WTF 😒
 
-				newLine = newLine.trim();
+					// let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 
-				if (lineNumber > 0 && document.lineAt(lineNumber - 1).text.trim().endsWith("_")) {
-					newLine = `${indent}${newLine}`;
+					if (lowerLine.indexOf('"') > -1 && !lowerLine.match(/(?<='|rem)"/i)) {
+						logFunctions.writeLine("In Quote", this.outputChannnel);
+						const start: number = newLine.indexOf('"') - 1;
+						logFunctions.writeLine(`Start: ${start} | words = ${newLine.substring(0, start)}`, this.outputChannnel);
+						logFunctions.writeLine(`       ${newLine}`, this.outputChannnel);
+
+						let words: string[] = this.addOperatorSpaces(newLine.substring(0, start)).split(" ");
+						this.formatArray(words, tokenCache);
+						logFunctions.writeLine(`words2 = ${words.join(" ")}`, this.outputChannnel);
+						const work = this.cleanUpCode(words.join(" "));
+						newLine = work + newLine.substring(start);
+
+					} else {
+						newLine = this.addOperatorSpaces(newLine);
+						let words: string[] = newLine.split(" ");
+						this.formatArray(words, tokenCache);
+						newLine = this.cleanUpCode(words.join(" "));
+
+						if (!lowerLine.startsWith("data")) {
+							newLine = newLine.replaceAll(/(?<=[0-9])-/g, " - ")
+						} else {
+							if (newLine.startsWith("data-")) {
+								newLine = newLine.replace("data-", "data -");
+							}
+						}
+
+					}
+
+					newLine = newLine.trim();
+
+					if (lineNumber > 0 && document.lineAt(lineNumber - 1).text.trim().endsWith("_")) {
+						newLine = `${indent}${newLine}`;
+					}
 				}
 
 				if (level > 0) {
