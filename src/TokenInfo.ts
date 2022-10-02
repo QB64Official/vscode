@@ -7,6 +7,7 @@ import { workerData } from "worker_threads";
 
 export class TokenInfo {
 	private outputChannnel: any = null;
+	private readonly lineOfCode: string = "";
 	public readonly keyword: string = "";
 	public readonly keywordNoPrfix: string = "";
 	public readonly token: string = "";
@@ -15,7 +16,7 @@ export class TokenInfo {
 	public readonly WordFormatted: string = ""; // Should be read only or have a private setter.
 	public readonly isKeyword: boolean = true;
 
-	constructor(token?: string, outputChannnelToUse?: any) {
+	constructor(token?: string, lineOfCode?: string, outputChannnelToUse?: any) {
 		if (!token || token.length < 1) {
 			const editor = vscode.window.activeTextEditor;
 			let word: string = "";
@@ -24,6 +25,14 @@ export class TokenInfo {
 				token = word.split(" ")[0];
 			} else {
 				token = commonFunctions.getQB64Word(editor);
+			}
+		}
+
+		if (lineOfCode && lineOfCode.length > 0) {
+			this.lineOfCode = lineOfCode
+		} else {
+			if (vscode.window.activeTextEditor) {
+				this.lineOfCode = vscode.window.activeTextEditor.document.lineAt(vscode.window.activeTextEditor.selection.active.line).text;
 			}
 		}
 
@@ -41,23 +50,26 @@ export class TokenInfo {
 		let helpPath: string = config.get("installPath");
 		let helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
 		// logFunctions.writeLine(`${this.keyword} | Help file ${helpFile}`, this.outputChannnel);
-		if (fs.existsSync(helpFile)) {
-			this.offlinehelp = helpFile;
-			this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
-			this.keywordNoPrfix = this.keyword.startsWith("_") ? this.keyword.slice(1) : this.keyword;
-			this.WordFormatted = this.getWordFormatted(config);
-			return
-		}
 
-		// logFunctions.writeLine(`Keyword ${this.keyword} not found adding "_" and trying again`, this.outputChannnel);
-		this.keyword = `_${token}`;
-		helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
-		if (fs.existsSync(helpFile)) {
-			this.offlinehelp = helpFile;
-			this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
-			this.keywordNoPrfix = this.keyword.slice(1);
-			this.WordFormatted = this.getWordFormatted(config);
-			return
+		if (this.lineOfCode.toLowerCase().trim().indexOf("for") < 0) {
+			if (fs.existsSync(helpFile)) {
+				this.offlinehelp = helpFile;
+				this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
+				this.keywordNoPrfix = this.keyword.startsWith("_") ? this.keyword.slice(1) : this.keyword;
+				this.WordFormatted = this.getWordFormatted(config);
+				return
+			}
+
+			// logFunctions.writeLine(`Keyword ${this.keyword} not found adding "_" and trying again`, this.outputChannnel);
+			this.keyword = `_${token}`;
+			helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
+			if (fs.existsSync(helpFile)) {
+				this.offlinehelp = helpFile;
+				this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
+				this.keywordNoPrfix = this.keyword.slice(1);
+				this.WordFormatted = this.getWordFormatted(config);
+				return
+			}
 		}
 
 		//logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
@@ -131,14 +143,16 @@ export class TokenInfo {
 	private helpify(): string {
 		let word = this.keyword.trim().toLowerCase();
 
-		// logFunctions.writeLine(`Helpify Before: ${word}`, this.outputChannnel);
+		logFunctions.writeLine(`Helpify Before: ${word}`, this.outputChannnel);
 
 		if (word == "end") {
 			word = "End"
 		} else if (word == "if" || word == "then") {
 			word = "If...Then"
-		} else if (word == "for" || word == "next") {
+		} else if (this.lineOfCode.trim().toLowerCase().startsWith("for ") || word == "next") {
 			word = "FOR...NEXT"
+		} else if (word == "for") {
+			word = "FOR-(file-statement)"
 		} else if (word == "sub") {
 			word = "Sub-(explanatory)"
 		} else if (word == "function") {
@@ -150,6 +164,7 @@ export class TokenInfo {
 		} else if (word == "declare") {
 			word = "DECLARE-LIBRARY";
 		}
+		logFunctions.writeLine(`After Before: ${word}`, this.outputChannnel);
 		return word;
 	}
 

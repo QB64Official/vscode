@@ -100,7 +100,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/\s*\(\s*/g, "(")
 			.replaceAll(/\s*\)\s*/g, ") ")
 			.replaceAll(/\s*\) \)/g, "))")
-			.replaceAll("=", " = ")
+			.replaceAll(/\s*\.\s*/g, ".")
+			.replaceAll(/\s*=\s*/g, " = ")
 			.replaceAll(/\s*\*\s*/g, " * ")
 			.replaceAll(") ,", "),")
 			.replaceAll(/<\s*\=/g, " <= ")
@@ -261,7 +262,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			if (tokenCache.has(word.toLowerCase())) {
 				tokenInfo = tokenCache.get(word.toLowerCase());
 			} else {
-				tokenInfo = new TokenInfo(word, this.outputChannnel);
+				tokenInfo = new TokenInfo(word, "", this.outputChannnel);
 				tokenCache.set(word.toLocaleLowerCase(), tokenInfo);
 			}
 

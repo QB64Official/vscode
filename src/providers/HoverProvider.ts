@@ -22,7 +22,7 @@ export class HoverProvider implements vscode.HoverProvider {
 		}
 
 		try {
-			const keywordInfo = new TokenInfo(commonFunctions.getQB64WordFromDocument(document, position), this.outputChannnel);
+			const keywordInfo = new TokenInfo(commonFunctions.getQB64WordFromDocument(document, position), document.lineAt(position.line).text, this.outputChannnel);
 			if (keywordInfo.offlinehelp.length > 0) {
 				const markdownString = new vscode.MarkdownString(keywordInfo.getHoverText());
 				return new vscode.Hover(markdownString);
