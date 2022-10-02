@@ -57,11 +57,11 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 				return new Promise<vscode.Location[]>((resolve) => { resolve(searchResults); });
 			} else {
 				logFunctions.writeLine(`Open Help for: ${word}`, this.outputChannnel);
-				new TokenInfo(word).showHelp();
+				new TokenInfo(word, "", this.outputChannnel).showHelp();
 				return null;
 			}
 		} catch (error) {
-			this.outputChannnel.appendLine("ERROR: " + error);
+			this.outputChannnel.appendLine("ERROR in DefinitionProvider: " + error);
 		}
 		return null;
 	}
