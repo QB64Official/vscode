@@ -12,6 +12,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.8.1
 - Bugs
+  - Issue [#66](https://github.com/QB64Official/vscode/issues/66) Decimals points have leading spaces after formatting
   - Issue [#65](https://github.com/QB64Official/vscode/issues/65) Formatting <> is getting formatted as < >
 
 ## 0.8.0
