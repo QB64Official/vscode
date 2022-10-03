@@ -10,8 +10,13 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
-## 0.8.1
+## 0.8.2
 - Bugs
+  - Issue [#68](https://github.com/QB64Official/vscode/issues/68) Format: Spaces are added around
+  - Enchantments
+  - Issue [#69](https://github.com/QB64Official/vscode/issues/69) Format: MetaCommands as mixed Case
+
+## 0.8.1
   - Issue [#67](https://github.com/QB64Official/vscode/issues/67) Help / Hovertext always opens for...next
   - Issue [#66](https://github.com/QB64Official/vscode/issues/66) Decimals points have leading spaces after formatting
   - Issue [#65](https://github.com/QB64Official/vscode/issues/65) Formatting <> is getting formatted as < >

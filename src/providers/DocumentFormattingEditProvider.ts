@@ -114,7 +114,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 		if (code.toLowerCase().startsWith("defint")) {
 			code = code.replace(/\s*-\s*/, '-');
-		} else if (code.toLowerCase().startsWith("$resize")) {
+		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo")) {
 			code = code.replace(/\s*:\s*/, ':');
 		}
 
@@ -129,11 +129,13 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		const vscodeConig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
 		const indent = vscodeConig.get("insertSpaces") ? " ".repeat(vscodeConig.get("tabSize")) : "\t"
 
+		/*
 		if (indent == "\t") {
 			logFunctions.writeLine("Indent using tabs", this.outputChannnel);
 		} else {
 			logFunctions.writeLine(`Indent using spaces (${indent.length})`, this.outputChannnel);
 		}
+		*/
 
 		try {
 

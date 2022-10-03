@@ -84,7 +84,35 @@ export function createFiles() {
 			"**/*.json-bak": true
 		},
 		"files.defaultLanguage": "QB64",
-		"editor.multiCursorModifier": "ctrlCmd"
+		"editor.multiCursorModifier": "ctrlCmd",
+		"editor.tokenColorCustomizations": {
+			"textMateRules": [
+				{
+					"scope": [
+						"graphics.QB64"
+					],
+					"settings": {
+						"foreground": "#00ff2a"
+					}
+				},
+				{
+					"scope": [
+						"sound.QB64"
+					],
+					"settings": {
+						"foreground": "#f0b411"
+					}
+				},
+				{
+					"scope": [
+						"keyword.control.QB64"
+					],
+					"settings": {
+						"foreground": "#d611f0"
+					}
+				}
+			]
+		},
 	}`
 
 	const launchJson =
