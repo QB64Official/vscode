@@ -10,10 +10,15 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.8.3
+- Enchantments
+  - Issue [#71](https://github.com/QB64Official/vscode/issues/71) Lint: Add more errors
+
 ## 0.8.2
 - Bugs
   - Issue [#68](https://github.com/QB64Official/vscode/issues/68) Format: Spaces are added around
-  - Enchantments
+- Enchantments
+  - Issue [#70](https://github.com/QB64Official/vscode/issues/70) Highlighting add more keyword colors
   - Issue [#69](https://github.com/QB64Official/vscode/issues/69) Format: MetaCommands as mixed Case
 
 ## 0.8.1

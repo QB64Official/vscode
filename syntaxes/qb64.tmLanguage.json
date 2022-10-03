@@ -113,15 +113,15 @@
 					"name": "sound.QB64"
 				}
 			},
-			"match": "(?i:(dim)\\s*(?:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)\\s*(,?)))",
+			"match": "(?i:(dim|shared)\\s*(?:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)\\s*(,?)))",
 			"name": "variable.other.dim.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Call|Screenhide|_Screenhide|DECLARE|DEF|SEG|resume|Rest|Timer|gosub|DEFINT|Cls|Const|Shared|Dim|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Call|Screenhide|_Screenhide|DECLARE|DEF|SEG|resume|Rest|Timer|gosub|DEFINT|Cls|Const|Shared|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Open|Poke|Data|Close|Get|Read|Input|Random|Put)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Open|Poke|Data|Close|Get|Read|Input|Random|Put|Write|Append)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{
@@ -174,7 +174,7 @@
 			"name": "variable.other.QB64"
 		},
 		{
-			"match": "(?i:\\b(Lock|Unlock|SetAbort|SetComplete|BinaryRead|AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|Write|HTMLEncode|MapPath|URLEncode|Abandon|Convert|Regex)\\b)",
+			"match": "(?i:\\b(Lock|Unlock|SetAbort|SetComplete|BinaryRead|AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|HTMLEncode|MapPath|URLEncode|Abandon|Convert|Regex)\\b)",
 			"name": "support.function.QB64"
 		},
 		{
