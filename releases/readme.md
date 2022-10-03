@@ -12,6 +12,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.8.3
 - Bugs
+  - Issue [#73](https://github.com/QB64Official/vscode/issues/73) Goto Definition does not work with symbols
   - Issue [#72](https://github.com/QB64Official/vscode/issues/72) The fomatting of FileVersion breaks the compile
 - Enchantments
   - Issue [#71](https://github.com/QB64Official/vscode/issues/71) Lint: Add more errors
@@ -24,6 +25,7 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Issue [#69](https://github.com/QB64Official/vscode/issues/69) Format: MetaCommands as mixed Case
 
 ## 0.8.1
+- Bugs
   - Issue [#67](https://github.com/QB64Official/vscode/issues/67) Help / Hovertext always opens for...next
   - Issue [#66](https://github.com/QB64Official/vscode/issues/66) Decimals points have leading spaces after formatting
   - Issue [#65](https://github.com/QB64Official/vscode/issues/65) Formatting <> is getting formatted as < >

@@ -109,6 +109,9 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("File '")
 				|| lintLine.startsWith("Syntax error")
 				|| lintLine.startsWith("RETURN linelabel")
+				|| lintLine.startsWith("Type symbols after")
+				|| lintLine.startsWith("Name already in use")
+				|| lintLine.startsWith("Variable")
 			) {
 
 				logFunctions.writeLine(`In Error: ${lintLine}`, outputChannnel);
@@ -140,7 +143,7 @@ function lintCurrentFile(compilerOutput: string) {
 				diagnostics.push(diagnostic)
 			} else if (lintLine.indexOf("warning") >= 0) {
 
-				let tokens: string[] = lintLine.split(":");
+				const tokens: string[] = lintLine.split(":");
 
 				if (path.basename(document.uri.fsPath) != tokens[0]) {
 					continue;
