@@ -96,7 +96,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		code = code.replaceAll(/\s*-\s*/g, "-")
 			.replaceAll(/\s*:\s*/g, " : ")
 			.replaceAll(/\s*;\s*/g, ";")
-			.replaceAll(/\s*,\s*/g, ",").replaceAll(",", ", ")
+			.replaceAll(/\s*,\s*/g, ",")
+			.replaceAll(",", ", ")
 			.replaceAll(/\s*\(\s*/g, "(")
 			.replaceAll(/\s*\)\s*/g, ") ")
 			.replaceAll(/\s*\) \)/g, "))")
@@ -110,15 +111,15 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/\s*<\s*>/g, " <> ")
 			.replaceAll(/\s\s+/g, " ")
 			.replace(/^put\(/i, "put (")
-			.replace(/-(?=[A-Za-z])/i, "- ");
+			.replace(/-(?=[A-Za-z])/i, "- ")
+			.replaceAll(/'\.\/\s*/g, "'./");
 
 		if (code.toLowerCase().startsWith("defint")) {
 			code = code.replace(/\s*-\s*/, '-');
-		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo")) {
-			code = code.replace(/\s*:\s*/, ':');
+		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo") || code.toLowerCase().startsWith("$exeicon")) {
+			//code = code.replace(/\s*:\s*/, ':');
+			code = code.replaceAll(/\s*/g, "");
 		}
-
-
 		return code.trim();
 	}
 

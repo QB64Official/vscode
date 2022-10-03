@@ -102,7 +102,15 @@ function lintCurrentFile(compilerOutput: string) {
 			}
 
 			errorLineNumber = -1;
-			if (lintLine.startsWith("Illegal") || lintLine.startsWith("DIM: Expected") || lintLine.startsWith("Expected =") || lintLine.startsWith("Cannot convert type") || lintLine.startsWith("Undefined") || lintLine.startsWith("Expected")) {
+			if (lintLine.startsWith("Illegal") || lintLine.startsWith("DIM: Expected") || lintLine.startsWith("Expected =")
+				|| lintLine.startsWith("Cannot convert type")
+				|| lintLine.startsWith("Undefined")
+				|| lintLine.startsWith("Expected")
+				|| lintLine.startsWith("File '")
+				|| lintLine.startsWith("Syntax error")
+				|| lintLine.startsWith("RETURN linelabel")
+			) {
+
 				logFunctions.writeLine(`In Error: ${lintLine}`, outputChannnel);
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {

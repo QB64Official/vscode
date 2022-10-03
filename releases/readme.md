@@ -11,6 +11,8 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Point: Bug Fixes|Polish
 
 ## 0.8.3
+- Bugs
+  - Issue [#72](https://github.com/QB64Official/vscode/issues/72) The fomatting of FileVersion breaks the compile
 - Enchantments
   - Issue [#71](https://github.com/QB64Official/vscode/issues/71) Lint: Add more errors
 
