@@ -116,6 +116,7 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("Variable")
 				|| lintLine.startsWith("Unexpected")
 				|| lintLine.startsWith("Invalid expression")
+				|| lintLine.startsWith("Element not defined")
 			) {
 
 				let code: string = "";
