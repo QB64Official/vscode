@@ -154,8 +154,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					return null;
 				}
 
-				let originalLine: vscode.TextLine = document.lineAt(lineNumber);
-				let newLine = originalLine.text.trim();
+				const originalLine: vscode.TextLine = document.lineAt(lineNumber);
+				let newLine = originalLine.text.trim().replaceAll(" && ", " and ").replaceAll(" || ", "  or ").replaceAll(" != ", " <> ");
 				const lowerLine = newLine.toLowerCase();
 				const isSingleLineIf: boolean = this.isSingleLineIf(lowerLine);
 
