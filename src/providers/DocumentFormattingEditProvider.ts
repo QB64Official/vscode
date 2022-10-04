@@ -117,8 +117,12 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		if (code.toLowerCase().startsWith("defint")) {
 			code = code.replace(/\s*-\s*/, '-');
 		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo") || code.toLowerCase().startsWith("$exeicon")) {
-			//code = code.replace(/\s*:\s*/, ':');
-			code = code.replaceAll(/\s*/g, "");
+			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0) {
+				code = code.replace(/\s*:\s*/, ':');
+				code = code.replace(/\s*=\s*/, '=');
+			} else {
+				code = code.replaceAll(/\s*/g, "");
+			}
 		}
 		return code.trim();
 	}
@@ -206,14 +210,14 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					// let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 
 					if (lowerLine.indexOf('"') > -1 && !lowerLine.match(/(?<='|rem)"/i)) {
-						logFunctions.writeLine("In Quote", this.outputChannnel);
+						//logFunctions.writeLine("In Quote", this.outputChannnel);
 						const start: number = newLine.indexOf('"') - 1;
 						logFunctions.writeLine(`Start: ${start} | words = ${newLine.substring(0, start)}`, this.outputChannnel);
 						logFunctions.writeLine(`       ${newLine}`, this.outputChannnel);
 
 						let words: string[] = this.addOperatorSpaces(newLine.substring(0, start)).split(" ");
 						this.formatArray(words, tokenCache);
-						logFunctions.writeLine(`words2 = ${words.join(" ")}`, this.outputChannnel);
+						//logFunctions.writeLine(`words2 = ${words.join(" ")}`, this.outputChannnel);
 						const work = this.cleanUpCode(words.join(" "));
 						newLine = work + newLine.substring(start);
 

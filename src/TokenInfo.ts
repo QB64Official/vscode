@@ -180,7 +180,7 @@ export class TokenInfo {
 			return this.token;
 		}
 
-		logFunctions.writeLine(`getWordFormatted: started: "${this.token}" | ${config.get("isFormatMetaComamndsMixedCaseEnabled")}`, this.outputChannnel);
+		// logFunctions.writeLine(`getWordFormatted: started: "${this.token}" | ${config.get("isFormatMetaComamndsMixedCaseEnabled")}`, this.outputChannnel);
 
 		const lowerToken = this.token.toLowerCase();
 
