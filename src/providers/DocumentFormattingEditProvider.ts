@@ -99,12 +99,12 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/\s*,\s*/g, ",")
 			.replaceAll(",", ", ")
 			.replaceAll(/\s*\(\s*/g, "(")
-			.replaceAll(/\s*\)\s*/g, ") ")
-			.replaceAll(/\s*\) \)/g, "))")
+			.replaceAll(/\s*\)\s*/g, ") ").replaceAll(") ,", "),")
+			.replaceAll(/\s*\)\s*\)/g, "))")
+			.replaceAll(/\s*\)\)\s*\)/g, ")))")
 			.replaceAll(/\s*\.\s*/g, ".")
 			.replaceAll(/\s*=\s*/g, " = ")
 			.replaceAll(/\s*\*\s*/g, " * ")
-			.replaceAll(") ,", "),")
 			.replaceAll(/<\s*\=/g, " <= ")
 			.replaceAll(/>\s*\=/g, " >= ")
 			.replaceAll(/>\s*\=/g, " >= ")
@@ -159,23 +159,35 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				}
 
 				const originalLine: vscode.TextLine = document.lineAt(lineNumber);
-				let newLine = originalLine.text.trim().replaceAll(" && ", " and ").replaceAll(" || ", "  or ").replaceAll(" != ", " <> ");
-				const lowerLine = newLine.toLowerCase();
-				const isSingleLineIf: boolean = this.isSingleLineIf(lowerLine);
+				let newLine = originalLine.text.trim().replaceAll(" && ", " and ").replaceAll(" || ", "  or ").replaceAll(" != ", " <> ").replaceAll(" == ", " = ");
+				let lowerLine = newLine.toLowerCase();
+				const isSingleLineIf: boolean = this.isSingleLineIf(newLine.toLowerCase());
 
 				if (lowerLine == "endif") {
 					newLine = "end if";
+					lowerLine = newLine.toLowerCase();
 				} else if (lowerLine == "endsub") {
 					newLine = "end sub";
+					lowerLine = newLine.toLowerCase();
 				} else if (lowerLine == "endfunction") {
 					newLine = "end function";
+					lowerLine = newLine.toLowerCase();
 				} else if (lowerLine == "endtype") {
 					newLine = "end type";
+					lowerLine = newLine.toLowerCase();
 				} else if (lowerLine == "endselect") {
 					newLine = "end select";
+					lowerLine = newLine.toLowerCase();
 				} else if (newLine.startsWith("? ")) {
 					newLine = newLine.replace("? ", "print ");
+					lowerLine = newLine.toLowerCase();
+				} else if (lowerLine.startsWith("if ") && lowerLine.indexOf(" then") < 0) {
+					newLine = `${newLine} then`
+					lowerLine = newLine.toLowerCase();
 				}
+
+
+
 
 				if (!isSingleLineIf) {
 					if (this.shouldIndentLine(lowerLine)) {
