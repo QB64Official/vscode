@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.8.1",
+    "version": "0.8.3",
     "engines": {
         "vscode": "^1.70.0"
     },
@@ -118,6 +118,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Format|Enable: Formatting"
+                },
+                "qb64.isFormatMetaComamndsMixedCaseEnabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Format|Enable: Format meta commands as mixed case.  If isFormatEnabled is false this is also disabled."
                 },
                 "qb64.isRgbColorEnabled": {
                     "type": "boolean",

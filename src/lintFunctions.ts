@@ -102,14 +102,35 @@ function lintCurrentFile(compilerOutput: string) {
 			}
 
 			errorLineNumber = -1;
-			if (lintLine.startsWith("Illegal") || lintLine.startsWith("DIM: Expected") || lintLine.startsWith("Expected =") || lintLine.startsWith("Cannot convert type")) {
-				logFunctions.writeLine(`In Error: ${lintLine}`, outputChannnel);
+			if (lintLine.startsWith("Illegal")
+				|| lintLine.startsWith("DIM: Expected")
+				|| lintLine.startsWith("Expected =")
+				|| lintLine.startsWith("Cannot convert type")
+				|| lintLine.startsWith("Undefined")
+				|| lintLine.startsWith("Expected")
+				|| lintLine.startsWith("File '")
+				|| lintLine.startsWith("Syntax error")
+				|| lintLine.startsWith("RETURN linelabel")
+				|| lintLine.startsWith("Type symbols after")
+				|| lintLine.startsWith("Name already in use")
+				|| lintLine.startsWith("Variable")
+				|| lintLine.startsWith("Unexpected")
+				|| lintLine.startsWith("Invalid expression")
+				|| lintLine.startsWith("Element not defined")
+				|| lintLine.startsWith("Name already in use")
+			) {
+
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
 					const element = lines[x];
 					if (element.startsWith("LINE ")) {
 						const work: string[] = element.split(":")
-						code = commonFunctions.escapeRegExp(work[1].replace("\r", ""))
+						if (work.length > 0) {
+							code = commonFunctions.escapeRegExp(work[1].replace("\r", "")).trim();
+							if (!code || code.length < 1) {
+								code = lintLine;
+							}
+						}
 						errorLineNumber = Number(work[0].split(" ").pop()) - 1;
 						break;
 					}
@@ -132,7 +153,7 @@ function lintCurrentFile(compilerOutput: string) {
 				diagnostics.push(diagnostic)
 			} else if (lintLine.indexOf("warning") >= 0) {
 
-				let tokens: string[] = lintLine.split(":");
+				const tokens: string[] = lintLine.split(":");
 
 				if (path.basename(document.uri.fsPath) != tokens[0]) {
 					continue;

@@ -49,8 +49,8 @@ export class TokenInfo {
 
 		let helpPath: string = config.get("installPath");
 		let helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
-		// logFunctions.writeLine(`${this.keyword} | Help file ${helpFile}`, this.outputChannnel);
 
+		// logFunctions.writeLine(`${this.keyword} | Help file ${helpFile}`, this.outputChannnel);
 		if (this.lineOfCode.toLowerCase().trim().indexOf("for") < 0) {
 			if (fs.existsSync(helpFile)) {
 				this.offlinehelp = helpFile;
@@ -72,7 +72,7 @@ export class TokenInfo {
 			}
 		}
 
-		//logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
+		// logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
 		this.keyword = `${token}`;
 		// logFunctions.writeLine(`helpify file ${helpFile}`, this.outputChannnel);
 		helpFile = path.join(helpPath, "internal", "help", `${this.helpify()}.md`).replaceAll("\\", "/");
@@ -143,10 +143,12 @@ export class TokenInfo {
 	private helpify(): string {
 		let word = this.keyword.trim().toLowerCase();
 
-		logFunctions.writeLine(`Helpify Before: ${word}`, this.outputChannnel);
+		// logFunctions.writeLine(`Helpify Before: ${word}`, this.outputChannnel);
 
 		if (word == "end") {
 			word = "End"
+		} else if (word == "companyname" || word == "fileversion#" || word == "productversion" || word == "legalcopyright") {
+			word = "$VERSIONINFO"
 		} else if (word == "if" || word == "then") {
 			word = "If...Then"
 		} else if (this.lineOfCode.trim().toLowerCase().startsWith("for ") || word == "next") {
@@ -164,7 +166,7 @@ export class TokenInfo {
 		} else if (word == "declare") {
 			word = "DECLARE-LIBRARY";
 		}
-		logFunctions.writeLine(`After Before: ${word}`, this.outputChannnel);
+		// logFunctions.writeLine(`After Before: ${word}`, this.outputChannnel);
 		return word;
 	}
 
@@ -176,6 +178,38 @@ export class TokenInfo {
 	private getWordFormatted(config: vscode.WorkspaceConfiguration) {
 		if (!this.isKeyword) {
 			return this.token;
+		}
+
+		// logFunctions.writeLine(`getWordFormatted: started: "${this.token}" | ${config.get("isFormatMetaComamndsMixedCaseEnabled")}`, this.outputChannnel);
+
+		const lowerToken = this.token.toLowerCase();
+
+		if (config.get("isFormatMetaComamndsMixedCaseEnabled")
+			&& (this.token.startsWith("$")
+				|| this.token.startsWith("'$")
+				|| lowerToken == "companyname"
+				|| lowerToken == "fileversion#"
+				|| lowerToken == "productversion"
+				|| lowerToken == "legalcopyright")
+		) {
+			return this.token
+				.replace(/\$CHECKING/i, "$Checking")
+				.replace(/CompanyName/i, "CompanyName")
+				.replace(/\$CONSOLE/i, "$Console")
+				.replace(/\$DYNAMIC/i, "$Dynamic")
+				.replace(/\$EXEICON/i, "$ExeIcon")
+				.replace(/FileVersion#/i, "FileVersion#")
+				.replace(/FILEFLAGSMASK/i, "FileFlagMask")
+				.replace(/FILETYPE/i, "FileType")
+				.replace(/FILESUBTYPE  /i, "FileSubType")
+				.replace(/INCLUDE/i, "Include")
+				.replace(/LegalCopyright/i, "LegalCopyright")
+				.replace(/ProductVersion/i, "ProductVersion")
+				.replace(/\$SCREENHIDE/i, "$ScreenHide")
+				.replace(/\$SCREENSHOW/i, "$ScreenShow")
+				.replace(/\$STATIC/i, "$Static")
+				.replace(/\$VERSIONINFO/i, "$VersionInfo")
+				.replace(/\$VIRTUALKEYBOARD/i, "$VirtualKeyboard");
 		}
 
 		switch (config.get("formatMode")) {
@@ -196,6 +230,7 @@ export class TokenInfo {
 			default:
 				return this.token;
 		}
+
 
 	}
 

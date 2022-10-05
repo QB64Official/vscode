@@ -96,7 +96,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		code = code.replaceAll(/\s*-\s*/g, "-")
 			.replaceAll(/\s*:\s*/g, " : ")
 			.replaceAll(/\s*;\s*/g, ";")
-			.replaceAll(/\s*,\s*/g, ",").replaceAll(",", ", ")
+			.replaceAll(/\s*,\s*/g, ",")
+			.replaceAll(",", ", ")
 			.replaceAll(/\s*\(\s*/g, "(")
 			.replaceAll(/\s*\)\s*/g, ") ")
 			.replaceAll(/\s*\) \)/g, "))")
@@ -110,15 +111,19 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/\s*<\s*>/g, " <> ")
 			.replaceAll(/\s\s+/g, " ")
 			.replace(/^put\(/i, "put (")
-			.replace(/-(?=[A-Za-z])/i, "- ");
+			.replace(/-(?=[A-Za-z])/i, "- ")
+			.replaceAll(/'\.\/\s*/g, "'./");
 
 		if (code.toLowerCase().startsWith("defint")) {
 			code = code.replace(/\s*-\s*/, '-');
-		} else if (code.toLowerCase().startsWith("$resize")) {
-			code = code.replace(/\s*:\s*/, ':');
+		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo") || code.toLowerCase().startsWith("$exeicon")) {
+			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0) {
+				code = code.replace(/\s*:\s*/, ':');
+				code = code.replace(/\s*=\s*/, '=');
+			} else {
+				code = code.replaceAll(/\s*/g, "");
+			}
 		}
-
-
 		return code.trim();
 	}
 
@@ -129,11 +134,13 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		const vscodeConig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
 		const indent = vscodeConig.get("insertSpaces") ? " ".repeat(vscodeConig.get("tabSize")) : "\t"
 
+		/*
 		if (indent == "\t") {
 			logFunctions.writeLine("Indent using tabs", this.outputChannnel);
 		} else {
 			logFunctions.writeLine(`Indent using spaces (${indent.length})`, this.outputChannnel);
 		}
+		*/
 
 		try {
 
@@ -151,8 +158,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					return null;
 				}
 
-				let originalLine: vscode.TextLine = document.lineAt(lineNumber);
-				let newLine = originalLine.text.trim();
+				const originalLine: vscode.TextLine = document.lineAt(lineNumber);
+				let newLine = originalLine.text.trim().replaceAll(" && ", " and ").replaceAll(" || ", "  or ").replaceAll(" != ", " <> ");
 				const lowerLine = newLine.toLowerCase();
 				const isSingleLineIf: boolean = this.isSingleLineIf(lowerLine);
 
@@ -203,14 +210,14 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					// let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 
 					if (lowerLine.indexOf('"') > -1 && !lowerLine.match(/(?<='|rem)"/i)) {
-						logFunctions.writeLine("In Quote", this.outputChannnel);
+						//logFunctions.writeLine("In Quote", this.outputChannnel);
 						const start: number = newLine.indexOf('"') - 1;
 						logFunctions.writeLine(`Start: ${start} | words = ${newLine.substring(0, start)}`, this.outputChannnel);
 						logFunctions.writeLine(`       ${newLine}`, this.outputChannnel);
 
 						let words: string[] = this.addOperatorSpaces(newLine.substring(0, start)).split(" ");
 						this.formatArray(words, tokenCache);
-						logFunctions.writeLine(`words2 = ${words.join(" ")}`, this.outputChannnel);
+						//logFunctions.writeLine(`words2 = ${words.join(" ")}`, this.outputChannnel);
 						const work = this.cleanUpCode(words.join(" "));
 						newLine = work + newLine.substring(start);
 
