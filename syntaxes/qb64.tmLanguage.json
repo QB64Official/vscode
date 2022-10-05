@@ -117,7 +117,7 @@
 			"name": "variable.other.dim.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Call|Screenhide|_Screenhide|DECLARE|DEF|SEG|resume|Rest|Timer|gosub|DEFINT|Cls|Const|Shared|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Call|Screenhide|_Screenhide|_screenshow|screenshow|DECLARE|DEF|SEG|resume|Rest|Timer|gosub|DEFINT|Cls|Const|Shared|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{
