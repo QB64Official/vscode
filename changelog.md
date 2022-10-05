@@ -12,6 +12,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.8.3
 - Bugs
+  - Issue [#74](https://github.com/QB64Official/vscode/issues/74) The auto created launch.json does not work.
   - Issue [#73](https://github.com/QB64Official/vscode/issues/73) Goto Definition does not work with symbols
   - Issue [#72](https://github.com/QB64Official/vscode/issues/72) The fomatting of FileVersion breaks the compile
 - Enchantments

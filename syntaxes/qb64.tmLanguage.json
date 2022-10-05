@@ -92,7 +92,7 @@
 			]
 		},
 		{
-			"match": "(?i:\\b(If|Then|Else|ElseIf|Else If|End If|Not|Or|And|Xor|Mod|While|Wend|For|To|Each|Case|Select|End Select|Return|Continue|_Continue|Do|Until|Loop|Next|With|Exit Do|Exit For|Exit Function|Exit Property|Exit Sub|IIf|Limit|_Limit|Delay|_Delay)\\b)",
+			"match": "(?i:\\b(If|Then|Else|ElseIf|Else If|End If|Not|Or|And|Xor|Mod|While|Wend|For|To|Each|Case|Select|End Select|Return|Continue|_Continue|Do|Until|Loop|Next|With|Exit Do|Exit For|Exit Function|Exit Property|Exit Sub|IIf|Limit|_Limit|Delay|_Delay|Key|Off)\\b)",
 			"name": "keyword.control.QB64"
 		},
 		{
