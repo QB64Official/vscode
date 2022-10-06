@@ -103,24 +103,26 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/\s*\)\s*/g, ") ").replaceAll(") ,", "),")
 			.replaceAll(/\s*\)\s*\)/g, "))")
 			.replaceAll(/\s*\)\)\s*\)/g, ")))")
-			.replaceAll(/\s*\.\s*/g, ".")
-			.replaceAll(/\s*=\s*/g, " = ")
-			.replaceAll(/\s*\*\s*/g, " * ")
+			.replaceAll(/=/g, " = ")
+			.replaceAll(/\*/g, " * ")
 			.replaceAll(/<\s*\=/g, " <= ")
 			.replaceAll(/>\s*\=/g, " >= ")
 			.replaceAll(/>\s*\=/g, " >= ")
 			.replaceAll(/\s*<\s*>/g, " <> ")
-			.replaceAll(/\s\s+/g, " ")
+			.replaceAll(/\s*\.\s*/g, ".")
+			.replaceAll(/'\.\/\s*/g, "'./")
+			.replace(/(?<=[A-Za-z])\s\./i, ".")
+			.replaceAll(/\+/g, " + ")
 			.replace(/^put\(/i, `${new TokenInfo("put").WordFormatted} (`)
 			.replace(/^if\(/i, `${new TokenInfo("if").WordFormatted} (`)
-			.replace(/\s*or\(/i, ` ${new TokenInfo("or").WordFormatted} (`)
-			.replace(/\s*and\(/i, ` ${new TokenInfo("and").WordFormatted} (`)
-			.replace(/-(?=[A-Za-z])/i, "- ")
-			.replace(/(?<=[A-Za-z]|\))-/i, " - ")
-			.replaceAll(/'\.\/\s*/g, "'./")
-			.replace(/(?<=[A-Za-z])\./i, ".");
+			.replaceAll(/(\sand\()/gi, ` ${new TokenInfo("and").WordFormatted} (`)
+			.replaceAll(/(\sor\()/gi, ` ${new TokenInfo("or").WordFormatted} (`)
+			.replace(/-(?=[A-Za-z])/i, "- ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
+			.replaceAll(/\s\s+/g, " ");
 
-		if (code.toLowerCase().startsWith("defint")) {
+		if (code.toLowerCase().endsWith(" :")) {
+			code = code.replace(" :", ":"); // TODO: needs to only replace the one at the end of the line
+		} else if (code.toLowerCase().startsWith("defint")) {
 			code = code.replace(/\s*-\s*/, '-');
 		} else if (code.toLowerCase().startsWith("rest.")) {
 			code = code.replace(".", " .")

@@ -122,6 +122,9 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("Missing (")
 				|| lintLine.startsWith("_DEFINE: ")
 				|| lintLine.startsWith("Command not implemented")
+				|| lintLine.startsWith("2nd sub argument")
+				|| lintLine.startsWith("Cannot convert")
+				|| lintLine.startsWith("Invalid name")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
