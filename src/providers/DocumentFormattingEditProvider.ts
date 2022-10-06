@@ -93,7 +93,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 	}
 
 	private cleanUpCode(code: string): string {
-		code = code.replaceAll(/\s*-\s*/g, "-")
+		code = code
+			.replaceAll(/\s*-\s*/g, "-")
 			.replaceAll(/\s*:\s*/g, " : ")
 			.replaceAll(/\s*;\s*/g, ";")
 			.replaceAll(/\s*,\s*/g, ",")
@@ -110,9 +111,12 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/>\s*\=/g, " >= ")
 			.replaceAll(/\s*<\s*>/g, " <> ")
 			.replaceAll(/\s\s+/g, " ")
-			.replace(/^put\(/i, "put (")
+			.replace(/^put\(/i, `${new TokenInfo("put").WordFormatted} (`)
+			.replace(/^if\(/i, `${new TokenInfo("if").WordFormatted} (`)
+			.replace(/\sor\(/i, ` ${new TokenInfo("or").WordFormatted} (`)
 			.replace(/-(?=[A-Za-z])/i, "- ")
-			.replaceAll(/'\.\/\s*/g, "'./");
+			.replaceAll(/'\.\/\s*/g, "'./")
+			.replace(/(?<=[A-Za-z])\./i, " .");
 
 		if (code.toLowerCase().startsWith("defint")) {
 			code = code.replace(/\s*-\s*/, '-');
@@ -184,10 +188,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				} else if (lowerLine.startsWith("if ") && lowerLine.indexOf(" then") < 0) {
 					newLine = `${newLine} then`
 					lowerLine = newLine.toLowerCase();
+				} else {
+					newLine = newLine.replace("++", "+ 1");
 				}
-
-
-
 
 				if (!isSingleLineIf) {
 					if (this.shouldIndentLine(lowerLine)) {

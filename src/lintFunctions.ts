@@ -118,8 +118,11 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("Invalid expression")
 				|| lintLine.startsWith("Element not defined")
 				|| lintLine.startsWith("Name already in use")
+				|| lintLine.startsWith("Unknown type")
+				|| lintLine.startsWith("Missing (")
+				|| lintLine.startsWith("_DEFINE: ")
+				|| lintLine.startsWith("Command not implemented")
 			) {
-
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
 					const element = lines[x];
@@ -139,8 +142,9 @@ function lintCurrentFile(compilerOutput: string) {
 				if (code.length < 1 || errorLineNumber < 0) {
 					continue;
 				}
+
 				let diagnostic: vscode.Diagnostic
-				const match = sourceCode[errorLineNumber].match(new RegExp("(" + code + ")", "i"));
+				const match = sourceCode[errorLineNumber].match(new RegExp("(" + commonFunctions.escapeRegExp(code) + ")", "i"));
 				const message = lintLine.replace("\r", "") + "\n" + lines[lineIndex + 1].replace("\r", "");
 				if (match) {
 					diagnostic = new vscode.Diagnostic(commonFunctions.createRange(match, errorLineNumber), message);
