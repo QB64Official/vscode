@@ -113,13 +113,17 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/\s\s+/g, " ")
 			.replace(/^put\(/i, `${new TokenInfo("put").WordFormatted} (`)
 			.replace(/^if\(/i, `${new TokenInfo("if").WordFormatted} (`)
-			.replace(/\sor\(/i, ` ${new TokenInfo("or").WordFormatted} (`)
+			.replace(/\s*or\(/i, ` ${new TokenInfo("or").WordFormatted} (`)
+			.replace(/\s*and\(/i, ` ${new TokenInfo("and").WordFormatted} (`)
 			.replace(/-(?=[A-Za-z])/i, "- ")
+			.replace(/(?<=[A-Za-z]|\))-/i, " - ")
 			.replaceAll(/'\.\/\s*/g, "'./")
-			.replace(/(?<=[A-Za-z])\./i, " .");
+			.replace(/(?<=[A-Za-z])\./i, ".");
 
 		if (code.toLowerCase().startsWith("defint")) {
 			code = code.replace(/\s*-\s*/, '-');
+		} else if (code.toLowerCase().startsWith("rest.")) {
+			code = code.replace(".", " .")
 		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo") || code.toLowerCase().startsWith("$exeicon")) {
 			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0) {
 				code = code.replace(/\s*:\s*/, ':');
@@ -188,8 +192,12 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				} else if (lowerLine.startsWith("if ") && lowerLine.indexOf(" then") < 0) {
 					newLine = `${newLine} then`
 					lowerLine = newLine.toLowerCase();
+				} else if (lowerLine.startsWith("elseif ") && lowerLine.indexOf(" then") < 0) {
+					newLine = `${newLine} then`
+					lowerLine = newLine.toLowerCase();
 				} else {
 					newLine = newLine.replace("++", "+ 1");
+					newLine = newLine.replace(/(?<=[A-Za-z])--/i, " - 1")
 				}
 
 				if (!isSingleLineIf) {
