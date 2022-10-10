@@ -124,7 +124,8 @@ function lintCurrentFile(compilerOutput: string) {
 			if (lintLine.startsWith("Illegal ")
 				|| lintLine.startsWith("DIM: ")
 				|| lintLine.startsWith("Cannot ")
-				|| lintLine.startsWith("Undefine d")
+				|| lintLine.startsWith("Undefine ")
+				|| lintLine.startsWith("Undefined ")
 				|| lintLine.startsWith("Expected")
 				|| lintLine.startsWith("File ")
 				|| lintLine.startsWith("Syntax ")
@@ -141,9 +142,11 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("2nd sub argument")
 				|| lintLine.startsWith("Cannot ")
 				|| lintLine.startsWith("Invalid ")
-				|| lintLine.startsWith("Variable")
+				|| lintLine.startsWith("Variable ")
 				|| lintLine.startsWith("Array")
 				|| lintLine.startsWith("THEN ")
+				|| lintLine.startsWith("Incorrect ")
+				|| lintLine.startsWith("1st ")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
