@@ -13,6 +13,10 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.8.4
 - Bugs
   - Issue [#75](https://github.com/QB64Official/vscode/issues/75) Function Snippet has a `return`
+- Updated the linter to include more error types
+- Added more keywords to the syntax highlighter
+- Enchantments
+  - Issue [#76](https://github.com/QB64Official/vscode/issues/76) Delete Binary after lint
 
 ## 0.8.3
 - Bugs
