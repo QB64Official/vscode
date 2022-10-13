@@ -61,6 +61,8 @@ export function runLint() {
 			if (stdout) {
 				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
 				lintCurrentFile(stdout);
+				logFunctions.writeLine(`Delete file ${exeName}`, outputChannnel);
+				deleteFile(exeName, outputChannnel);
 			} else {
 				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
 			}
@@ -69,6 +71,23 @@ export function runLint() {
 	} catch (error) {
 		logFunctions.writeLine(`ERROR in runLint: ${error}`, outputChannnel);
 	}
+}
+
+/**
+ * Deletes a file see (https://stackoverflow.com/questions/5315138/node-js-remove-file)
+ * @param fileName {string} File to delete
+ * @returns void
+ */
+function deleteFile(fileName: string, outputChannnel: any) {
+	const { unlink } = require('fs/promises');
+	(async function (path) {
+		try {
+			await unlink(path);
+			logFunctions.writeLine(`File ${path} Deleted`, outputChannnel)
+		} catch (error) {
+			logFunctions.writeLine(`ERROR in deleteFile: ${error.message}`, outputChannnel)
+		}
+	})(fileName);
 }
 
 /**
@@ -102,14 +121,44 @@ function lintCurrentFile(compilerOutput: string) {
 			}
 
 			errorLineNumber = -1;
-			if (lintLine.startsWith("Illegal") || lintLine.startsWith("DIM: Expected") || lintLine.startsWith("Expected =") || lintLine.startsWith("Cannot convert type")) {
-				logFunctions.writeLine(`In Error: ${lintLine}`, outputChannnel);
+			if (lintLine.startsWith("Illegal ")
+				|| lintLine.startsWith("DIM: ")
+				|| lintLine.startsWith("Cannot ")
+				|| lintLine.startsWith("Undefine ")
+				|| lintLine.startsWith("Undefined ")
+				|| lintLine.startsWith("Expected")
+				|| lintLine.startsWith("File ")
+				|| lintLine.startsWith("Syntax ")
+				|| lintLine.startsWith("RETURN ")
+				|| lintLine.startsWith("Type ")
+				|| lintLine.startsWith("Name ")
+				|| lintLine.startsWith("Unexpected ")
+				|| lintLine.startsWith("Invalid expression")
+				|| lintLine.startsWith("Element not defined")
+				|| lintLine.startsWith("Unknown ")
+				|| lintLine.startsWith("Missing ")
+				|| lintLine.startsWith("_DEFINE: ")
+				|| lintLine.startsWith("Command ")
+				|| lintLine.startsWith("2nd sub argument")
+				|| lintLine.startsWith("Cannot ")
+				|| lintLine.startsWith("Invalid ")
+				|| lintLine.startsWith("Variable ")
+				|| lintLine.startsWith("Array")
+				|| lintLine.startsWith("THEN ")
+				|| lintLine.startsWith("Incorrect ")
+				|| lintLine.startsWith("1st ")
+			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
 					const element = lines[x];
 					if (element.startsWith("LINE ")) {
 						const work: string[] = element.split(":")
-						code = commonFunctions.escapeRegExp(work[1].replace("\r", ""))
+						if (work.length > 0) {
+							code = commonFunctions.escapeRegExp(work[1].replace("\r", "")).trim();
+							if (!code || code.length < 1) {
+								code = lintLine;
+							}
+						}
 						errorLineNumber = Number(work[0].split(" ").pop()) - 1;
 						break;
 					}
@@ -118,8 +167,9 @@ function lintCurrentFile(compilerOutput: string) {
 				if (code.length < 1 || errorLineNumber < 0) {
 					continue;
 				}
+
 				let diagnostic: vscode.Diagnostic
-				const match = sourceCode[errorLineNumber].match(new RegExp("(" + code + ")", "i"));
+				const match = sourceCode[errorLineNumber].match(new RegExp("(" + commonFunctions.escapeRegExp(code) + ")", "i"));
 				const message = lintLine.replace("\r", "") + "\n" + lines[lineIndex + 1].replace("\r", "");
 				if (match) {
 					diagnostic = new vscode.Diagnostic(commonFunctions.createRange(match, errorLineNumber), message);
@@ -132,9 +182,10 @@ function lintCurrentFile(compilerOutput: string) {
 				diagnostics.push(diagnostic)
 			} else if (lintLine.indexOf("warning") >= 0) {
 
-				let tokens: string[] = lintLine.split(":");
+				const tokens: string[] = lintLine.split(":");
 
 				if (path.basename(document.uri.fsPath) != tokens[0]) {
+					// Somehow highlight the file in the explorer view and maybel the include statement that goes with it.
 					continue;
 				}
 				errorLineNumber = Number(tokens[1]) - 1;

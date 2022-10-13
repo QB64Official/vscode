@@ -10,6 +10,29 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.8.4
+- Bugs
+  - Issue [#75](https://github.com/QB64Official/vscode/issues/75) Function Snippet has a `return`
+- Updated the linter to include more error types
+- Added more keywords to the syntax highlighter
+- Enchantments
+  - Issue [#76](https://github.com/QB64Official/vscode/issues/76) Delete Binary after lint
+
+## 0.8.3
+- Bugs
+  - Issue [#74](https://github.com/QB64Official/vscode/issues/74) The auto created launch.json does not work.
+  - Issue [#73](https://github.com/QB64Official/vscode/issues/73) Goto Definition does not work with symbols
+  - Issue [#72](https://github.com/QB64Official/vscode/issues/72) The fomatting of FileVersion breaks the compile
+- Enchantments
+  - Issue [#71](https://github.com/QB64Official/vscode/issues/71) Lint: Add more errors
+
+## 0.8.2
+- Bugs
+  - Issue [#68](https://github.com/QB64Official/vscode/issues/68) Format: Spaces are added around
+- Enchantments
+  - Issue [#70](https://github.com/QB64Official/vscode/issues/70) Highlighting add more keyword colors
+  - Issue [#69](https://github.com/QB64Official/vscode/issues/69) Format: MetaCommands as mixed Case
+
 ## 0.8.1
 - Bugs
   - Issue [#67](https://github.com/QB64Official/vscode/issues/67) Help / Hovertext always opens for...next

@@ -70,9 +70,8 @@
 	"Function...": {
 		"prefix": "func",
 		"body": [
-			"Function ${1:FunctionName}(${2:ParameterList}) As ${3:ReturnType}",
+			"Function ${1:FunctionName}(${2:ParameterList})",
 			"\t$0",
-			"\tReturn ${1:FunctionName}",
 			"End Function"
 		],
 		"description": "Public Function..."
