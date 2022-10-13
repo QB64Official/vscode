@@ -13,6 +13,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.8.5
 - Bugs
   - Issue [#77](https://github.com/QB64Official/vscode/issues/77) Command is not getting syntax colored
+  - Issue [#79](https://github.com/QB64Official/vscode/issues/79) Add "String expression or variable name required in LEN statement" to Lint
 - Enchantments
   - Issue [#78](https://github.com/QB64Official/vscode/issues/78) UpperCase constants
 
