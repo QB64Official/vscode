@@ -10,6 +10,12 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.8.5
+- Bugs
+  - Issue [#77](https://github.com/QB64Official/vscode/issues/77) Command is not getting syntax colored
+- Enchantments
+  - Issue [#78](https://github.com/QB64Official/vscode/issues/78) UpperCase constants
+
 ## 0.8.4
 - Bugs
   - Issue [#75](https://github.com/QB64Official/vscode/issues/75) Function Snippet has a `return`

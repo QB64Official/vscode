@@ -88,7 +88,12 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			if (words[index].length < 1 || words[index].trim().toLowerCase().startsWith("rem") || words[index].trim().startsWith("'")) {
 				continue;
 			}
-			words[index] = this.formatWord(words[index], tokenCache);
+			if (index > 0 && words[index - 1].toLowerCase() == "const") {
+				words[index] = words[index].toUpperCase();
+			}
+			else {
+				words[index] = this.formatWord(words[index], tokenCache);
+			}
 		}
 	}
 
@@ -117,8 +122,12 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replace(/^if\(/i, `${new TokenInfo("if").WordFormatted} (`)
 			.replaceAll(/(\sand\()/gi, ` ${new TokenInfo("and").WordFormatted} (`)
 			.replaceAll(/(\sor\()/gi, ` ${new TokenInfo("or").WordFormatted} (`)
-			.replace(/-(?=[A-Za-z])/i, "- ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
+			.replace(/-(?=[A-Za-z])/i, " - ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
 			.replaceAll(/\s\s+/g, " ");
+
+
+		//
+		//.replace(/-(?<=[A-Za-z10-9])\s*-\s*(?=[A-Za-z])/i, " - ")
 
 		if (code.toLowerCase().endsWith(" :")) {
 			code = code.replace(" :", ":"); // TODO: needs to only replace the one at the end of the line
