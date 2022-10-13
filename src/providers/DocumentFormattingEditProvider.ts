@@ -93,29 +93,39 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 	}
 
 	private cleanUpCode(code: string): string {
-		code = code.replaceAll(/\s*-\s*/g, "-")
+		code = code
+			.replaceAll(/\s*-\s*/g, "-")
 			.replaceAll(/\s*:\s*/g, " : ")
 			.replaceAll(/\s*;\s*/g, ";")
 			.replaceAll(/\s*,\s*/g, ",")
 			.replaceAll(",", ", ")
 			.replaceAll(/\s*\(\s*/g, "(")
-			.replaceAll(/\s*\)\s*/g, ") ")
-			.replaceAll(/\s*\) \)/g, "))")
-			.replaceAll(/\s*\.\s*/g, ".")
-			.replaceAll(/\s*=\s*/g, " = ")
-			.replaceAll(/\s*\*\s*/g, " * ")
-			.replaceAll(") ,", "),")
+			.replaceAll(/\s*\)\s*/g, ") ").replaceAll(") ,", "),")
+			.replaceAll(/\s*\)\s*\)/g, "))")
+			.replaceAll(/\s*\)\)\s*\)/g, ")))")
+			.replaceAll(/=/g, " = ")
+			.replaceAll(/\*/g, " * ")
 			.replaceAll(/<\s*\=/g, " <= ")
 			.replaceAll(/>\s*\=/g, " >= ")
 			.replaceAll(/>\s*\=/g, " >= ")
 			.replaceAll(/\s*<\s*>/g, " <> ")
-			.replaceAll(/\s\s+/g, " ")
-			.replace(/^put\(/i, "put (")
-			.replace(/-(?=[A-Za-z])/i, "- ")
-			.replaceAll(/'\.\/\s*/g, "'./");
+			.replaceAll(/\s*\.\s*/g, ".")
+			.replaceAll(/'\.\/\s*/g, "'./")
+			.replace(/(?<=[A-Za-z])\s\./i, ".")
+			.replaceAll(/\+/g, " + ")
+			.replace(/^put\(/i, `${new TokenInfo("put").WordFormatted} (`)
+			.replace(/^if\(/i, `${new TokenInfo("if").WordFormatted} (`)
+			.replaceAll(/(\sand\()/gi, ` ${new TokenInfo("and").WordFormatted} (`)
+			.replaceAll(/(\sor\()/gi, ` ${new TokenInfo("or").WordFormatted} (`)
+			.replace(/-(?=[A-Za-z])/i, "- ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
+			.replaceAll(/\s\s+/g, " ");
 
-		if (code.toLowerCase().startsWith("defint")) {
+		if (code.toLowerCase().endsWith(" :")) {
+			code = code.replace(" :", ":"); // TODO: needs to only replace the one at the end of the line
+		} else if (code.toLowerCase().startsWith("defint")) {
 			code = code.replace(/\s*-\s*/, '-');
+		} else if (code.toLowerCase().startsWith("rest.")) {
+			code = code.replace(".", " .")
 		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo") || code.toLowerCase().startsWith("$exeicon")) {
 			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0) {
 				code = code.replace(/\s*:\s*/, ':');
@@ -159,22 +169,37 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				}
 
 				const originalLine: vscode.TextLine = document.lineAt(lineNumber);
-				let newLine = originalLine.text.trim().replaceAll(" && ", " and ").replaceAll(" || ", "  or ").replaceAll(" != ", " <> ");
-				const lowerLine = newLine.toLowerCase();
-				const isSingleLineIf: boolean = this.isSingleLineIf(lowerLine);
+				let newLine = originalLine.text.trim().replaceAll(" && ", " and ").replaceAll(" || ", "  or ").replaceAll(" != ", " <> ").replaceAll(" == ", " = ");
+				let lowerLine = newLine.toLowerCase();
+				const isSingleLineIf: boolean = this.isSingleLineIf(newLine.toLowerCase());
 
 				if (lowerLine == "endif") {
 					newLine = "end if";
+					lowerLine = newLine.toLowerCase();
 				} else if (lowerLine == "endsub") {
 					newLine = "end sub";
+					lowerLine = newLine.toLowerCase();
 				} else if (lowerLine == "endfunction") {
 					newLine = "end function";
+					lowerLine = newLine.toLowerCase();
 				} else if (lowerLine == "endtype") {
 					newLine = "end type";
+					lowerLine = newLine.toLowerCase();
 				} else if (lowerLine == "endselect") {
 					newLine = "end select";
+					lowerLine = newLine.toLowerCase();
 				} else if (newLine.startsWith("? ")) {
 					newLine = newLine.replace("? ", "print ");
+					lowerLine = newLine.toLowerCase();
+				} else if (lowerLine.startsWith("if ") && lowerLine.indexOf(" then") < 0) {
+					newLine = `${newLine} then`
+					lowerLine = newLine.toLowerCase();
+				} else if (lowerLine.startsWith("elseif ") && lowerLine.indexOf(" then") < 0) {
+					newLine = `${newLine} then`
+					lowerLine = newLine.toLowerCase();
+				} else {
+					newLine = newLine.replace("++", "+ 1");
+					newLine = newLine.replace(/(?<=[A-Za-z])--/i, " - 1")
 				}
 
 				if (!isSingleLineIf) {
