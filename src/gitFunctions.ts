@@ -446,6 +446,9 @@ out/extension.js.map
 .bak-bas
 .bak-bi
 .bak-bm
+.bas-bak
+.bi-bak
+.bm-bak
 .cmp-out
 .json-bak
 `;
