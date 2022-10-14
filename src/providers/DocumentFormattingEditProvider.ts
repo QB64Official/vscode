@@ -88,7 +88,12 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			if (words[index].length < 1 || words[index].trim().toLowerCase().startsWith("rem") || words[index].trim().startsWith("'")) {
 				continue;
 			}
-			words[index] = this.formatWord(words[index], tokenCache);
+			if (index > 0) {
+				words[index] = this.formatWord(words[index], words[index - 1], tokenCache);
+			} else {
+				words[index] = this.formatWord(words[index], "", tokenCache);
+			}
+
 		}
 	}
 
@@ -117,8 +122,11 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replace(/^if\(/i, `${new TokenInfo("if").WordFormatted} (`)
 			.replaceAll(/(\sand\()/gi, ` ${new TokenInfo("and").WordFormatted} (`)
 			.replaceAll(/(\sor\()/gi, ` ${new TokenInfo("or").WordFormatted} (`)
-			.replace(/-(?=[A-Za-z])/i, "- ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
+			.replace(/-(?=[A-Za-z]|\d\))/i, " - ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
 			.replaceAll(/\s\s+/g, " ");
+
+		//
+		//.replace(/-(?<=[A-Za-z10-9])\s*-\s*(?=[A-Za-z])/i, " - ")
 
 		if (code.toLowerCase().endsWith(" :")) {
 			code = code.replace(" :", ":"); // TODO: needs to only replace the one at the end of the line
@@ -286,7 +294,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		return retvalue;
 	}
 
-	private formatWord(word: string, tokenCache: Map<string, TokenInfo>): string {
+	private formatWord(word: string, previousWord: string, tokenCache: Map<string, TokenInfo>): string {
 		// TODO: Break the following code out to a function so strings can be handled.
 
 		if (word != ")" && (word != "(") && (word != "+") && (word != "-") && (word != "*") && (word != "=") && word != ":" && (word != ";")) {
@@ -295,6 +303,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				tokenInfo = tokenCache.get(word.toLowerCase());
 			} else {
 				tokenInfo = new TokenInfo(word, "", this.outputChannnel);
+				if (previousWord.toLowerCase() == "const") {
+					tokenInfo.WordFormatted = tokenInfo.WordFormatted.toUpperCase();
+				}
 				tokenCache.set(word.toLocaleLowerCase(), tokenInfo);
 			}
 

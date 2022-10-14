@@ -13,7 +13,7 @@ export class TokenInfo {
 	public readonly token: string = "";
 	public readonly offlinehelp: string = "";
 	public readonly onlineHelp: string = "";
-	public readonly WordFormatted: string = ""; // Should be read only or have a private setter.
+	public WordFormatted: string = ""; // Should be read only or have a private setter.
 	public readonly isKeyword: boolean = true;
 
 	constructor(token?: string, lineOfCode?: string, outputChannnelToUse?: any) {
