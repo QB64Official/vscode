@@ -9,7 +9,6 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
-import os from 'os';
 import { TokenInfo } from "./TokenInfo";
 import { ReferenceProvider } from "./providers/ReferenceProvider";
 import { DefinitionProvider } from "./providers/DefinitionProvider";
@@ -17,6 +16,14 @@ import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
 import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEditProvider";
 import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescriptorFactory";
 import { HoverProvider } from "./providers/HoverProvider";
+
+import {
+	LanguageClient,
+	LanguageClientOptions,
+	ServerOptions,
+	TransportKind
+} from 'vscode-languageclient/node';
+
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -74,7 +81,57 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerHoverProvider(documentSelector, new HoverProvider()));
 
 	// Register Miscellaneous
-	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
+	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("qb64", new DebugAdapterDescriptorFactory()));
+
+	let languageServerChannel: any = logFunctions.getChannel(logFunctions.channelType.languageServer);
+	try {
+		// Setup LS here
+		// This needs to be an absolute path
+		let serverModule: string = "D:/projects/qb64-language-server/qb64ls.exe";
+		if (!fs.existsSync(serverModule)) {
+			throw Error(`File ${serverModule} Not Found`);
+		}
+
+		logFunctions.writeLine(`serverModule: ${serverModule}`, languageServerChannel);
+
+		let serverStartupOptions = { execArgv: ["-cf:D:\\projects\\qb64-language-server\\.vscode\\qb64-debug.ini"] }
+
+		let serverOptions: ServerOptions = {
+			run: { module: serverModule, transport: TransportKind.ipc },
+			debug: {
+				module: serverModule,
+				transport: TransportKind.socket,
+				options: serverStartupOptions
+			}
+		};
+
+		let ds = []
+		ds.push(commonFunctions.getDocumentSelector());
+		let clientOptions: LanguageClientOptions = {
+			documentSelector: ds,
+			//synchronize: {
+			// Notify the server about file changes to '.clientrc files contained in the workspace
+			//fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
+			//}
+		};
+
+		// Create the language client and start the client.
+		let client: LanguageClient = new LanguageClient(
+			'languageServerQB64',
+			'QB64 Language Server',
+			serverOptions,
+			clientOptions
+		);
+
+		// Start the client. This will also launch the server
+		logFunctions.writeLine("Before Starting Client: ", languageServerChannel)
+		client.start();
+		logFunctions.writeLine("After Starting Client: ", languageServerChannel)
+	}
+	catch (error) {
+		logFunctions.writeLine("ERROR Starting LS: " + error, languageServerChannel)
+	}
+
 }
 
 

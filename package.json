@@ -2,9 +2,9 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.8.5",
+    "version": "0.9.0",
     "engines": {
-        "vscode": "^1.70.0"
+        "vscode": "^1.72.0"
     },
     "categories": [
         "Programming Languages"
@@ -12,7 +12,8 @@
     "license": "MIT",
     "publisher": "qb64-official",
     "keywords": [
-        "QB64"
+        "QB64",
+        "qb64"
     ],
     "repository": {
         "type": "git",
@@ -21,11 +22,11 @@
     "icon": "images/qb64.ico",
     "main": "./out/main.js",
     "activationEvents": [
-        "onLanguage:QB64",
+        "onLanguage:qb64",
         "onCommand:extension.showAsciiChart"
     ],
     "configurationDefaults": {
-        "[QB64]": {
+        "[qb64]": {
             "breadcrumbs.enabled": true,
             "files.trimTrailingWhitespace": true,
             "editor.tabSize": 4,
@@ -39,7 +40,7 @@
     "contributes": {
         "debuggers": [
             {
-                "type": "QB64",
+                "type": "qb64",
                 "label": "QB64 Debugger",
                 "runtime": "node",
                 "configurationAttributes": {
@@ -56,7 +57,7 @@
                             "terminalName": {
                                 "type": "string",
                                 "description": "The name given to the dedicated terminal QB64 creates for itself. Defaults to QB64.",
-                                "default": "QB64"
+                                "default": "qb64"
                             },
                             "terminalIndex": {
                                 "type": "number",
@@ -79,7 +80,7 @@
                 "initialConfigurations": [
                     {
                         "name": "QB64: Custom Command",
-                        "type": "QB64",
+                        "type": "qb64",
                         "request": "launch",
                         "command": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe"
                     }
@@ -90,7 +91,7 @@
                         "description": "Basic QB64 configuration for running a custom terminal command.",
                         "body": {
                             "name": "QB64: Custom Command",
-                            "type": "QB64",
+                            "type": "qb64",
                             "request": "launch",
                             "command": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe"
                         }
@@ -100,10 +101,10 @@
                         "description": "Full QB64 configuration for running a custom terminal command with all properties present.",
                         "body": {
                             "name": "QB64: Custom Command",
-                            "type": "QB64",
+                            "type": "qb64",
                             "request": "launch",
                             "command": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe",
-                            "terminalName": "Qb64",
+                            "terminalName": "qb64",
                             "terminalIndex": -1,
                             "showTerminal": true
                         }
@@ -112,7 +113,7 @@
             }
         ],
         "configuration": {
-            "title": "QB64",
+            "title": "qb64",
             "properties": {
                 "qb64.isFormatEnabled": {
                     "type": "boolean",
@@ -199,7 +200,7 @@
         },
         "languages": [
             {
-                "id": "QB64",
+                "id": "qb64",
                 "aliases": [
                     "QB64",
                     "Qb64",
@@ -220,14 +221,14 @@
         ],
         "grammars": [
             {
-                "language": "QB64",
+                "language": "qb64",
                 "scopeName": "source.QB64",
                 "path": "./syntaxes/qb64.tmLanguage.json"
             }
         ],
         "snippets": [
             {
-                "language": "QB64",
+                "language": "qb64",
                 "path": "./snippets/qb64-snippets.json"
             }
         ],
@@ -235,22 +236,22 @@
             {
                 "command": "extension.showHelp",
                 "key": "f1",
-                "when": "editorLangId == 'QB64' && editorTextFocus"
+                "when": "editorLangId == 'qb64' && editorTextFocus"
             },
             {
                 "command": "extension.openCompileLog",
                 "key": "ctrl+alt+shift+l",
-                "when": "editorLangId == 'QB64' && editorTextFocus"
+                "when": "editorLangId == 'qb64' && editorTextFocus"
             },
             {
                 "command": "extension.showHelpIndexAlphabetical",
                 "key": "ctrl+f1",
-                "when": "editorLangId == 'QB64' && editorTextFocus"
+                "when": "editorLangId == 'qb64' && editorTextFocus"
             },
             {
                 "command": "extension.showHelpIndexUsage",
                 "key": "shift+f1",
-                "when": "editorLangId == 'QB64' && editorTextFocus"
+                "when": "editorLangId == 'qb64' && editorTextFocus"
             },
             {
                 "command": "workbench.action.focusFirstEditorGroup",
@@ -282,57 +283,57 @@
             {
                 "command": "extension.openCompileLog",
                 "title": "Open compilelog.txt",
-                "category": "QB64"
+                "category": "qb64"
             },
             {
                 "command": "extension.showAsciiChart",
                 "title": "Show the Ascii Chart",
-                "category": "QB64"
+                "category": "qb64"
             },
             {
                 "command": "extension.addToGitIgnore",
                 "title": "Add to .gitignore",
-                "category": "QB64"
+                "category": "qb64"
             },
             {
                 "command": "extension.showHelp",
                 "title": "Help",
-                "category": "QB64"
+                "category": "qb64"
             },
             {
                 "command": "extension.showHelpIndexAlphabetical",
                 "title": "Help Alphabetical",
-                "category": "QB64"
+                "category": "qb64"
             },
             {
                 "command": "extension.showHelpIndexUsage",
                 "title": "Help Usage",
-                "category": "QB64"
+                "category": "qb64"
             },
             {
                 "command": "extension.runLint",
                 "title": "Lint",
-                "category": "QB64"
+                "category": "qb64"
             },
             {
                 "command": "extension.openCurrentFileInQB64",
                 "title": "Open Current File in QB64",
-                "category": "QB64"
+                "category": "qb64"
             }
         ],
         "menus": {
             "editor/context": [
                 {
                     "command": "extension.runLint",
-                    "when": "editorLangId == 'QB64'"
+                    "when": "editorLangId == 'qb64'"
                 },
                 {
                     "command": "extension.showHelp",
-                    "when": "editorLangId == 'QB64'"
+                    "when": "editorLangId == 'qb64'"
                 },
                 {
                     "command": "extension.openCurrentFileInQB64",
-                    "when": "editorLangId == 'QB64'"
+                    "when": "editorLangId == 'qb64'"
                 }
             ],
             "explorer/context": [
@@ -363,7 +364,8 @@
         "typescript": "^4.7.4",
         "vsce": "^2.10.2",
         "webpack": "^5.74.0",
-        "webpack-cli": "^4.10.0"
+        "webpack-cli": "^4.10.0",
+        "vscode-languageclient": "^7.0.0"
     },
     "dependencies": {
         "@types/mocha": "9.1.1",
@@ -373,6 +375,7 @@
         "@vscode/debugprotocol": "^1.57.0",
         "mocha": "10.0.0",
         "typescript": "^4.7.4",
-        "vsce": "^2.10.2"
+        "vsce": "^2.10.2",
+        "vscode-languageclient": "^7.0.0"
     }
 }

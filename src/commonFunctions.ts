@@ -6,7 +6,7 @@ import * as logFunctions from "./logFunctions"
  * Gets a new vscode.DocumentSelector
  */
 export function getDocumentSelector(): vscode.DocumentSelector {
-	return { scheme: "file", language: "QB64" };
+	return { scheme: "file", language: "qb64" };
 }
 
 /**

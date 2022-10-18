@@ -2,6 +2,9 @@
 
 All notable changes to the "QB64" extension will be documented in this file.
 
+## DO NOT USE THIS VERSION.
+## INSTALL THE VERSION IN DEVELOPENENT OR MAIN
+
 ## [Unreleased]
 
 ## How version numbers work
@@ -9,6 +12,12 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Major release: a huge changes  - Exepct for 1; major will go to 1 when the extension released to the market.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
+
+## 0.9.0
+- Changes
+  - The name of the language Id from QB64 to qb64 (to match what Microsoft does.)
+    This is a breaking change.  You will need to updated the you're lanch.json or delete it and have the extension create a new one.
+  - Added language server
 
 ## 0.8.5
 - Bugs

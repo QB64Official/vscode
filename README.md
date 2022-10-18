@@ -3,6 +3,8 @@
 A VSCode extension that adds support for [QB64](https://qb64.com/).
 
 DISCLAIMER: This is very rough and still needs a lot of work.
+## DO NOT USE THIS VERSION.
+## INSTALL THE VERSION IN DEVELOPENENT OR MAIN
   
 ## Features
 

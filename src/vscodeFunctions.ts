@@ -121,16 +121,22 @@ export function createFiles() {
 		"configurations": [
 			{
 				"name": "QB64 Build and Run",
-				"type": "QB64",
-				"request": "launch",					
+				"type": "qb64",
+				"request": "launch",
 				"command": "` + "${config:qb64.installPath}/qb64.exe -c -x " + String.raw`\"` + "${fileDirname}/${fileBasename}" + String.raw`\"` + " -o " + String.raw`\"` + "${fileDirname}/${fileBasenameNoExtension}.exe" + String.raw`\"` + " -x; start " + String.raw`\"` + "${fileDirname}/${fileBasenameNoExtension}.exe" + String.raw`\"` + "\"," + `
-				"terminalName": "QB64",
-				"terminalIndex": -1, 
+				"terminalName": "qb64",
+				"terminalIndex": -1,
 				"showTerminal": true,
 				"linux": {
+					"name": "QB64 Build and Run",
+					"type": "qb64",
+					"request": "launch",
 					"command": "` + "${config:qb64.installPath}/qb64 '${fileDirname}/${fileBasename}' -c -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + `,
 				},
 				"osx": {
+					"name": "QB64 Build and Run",
+					"type": "qb64",
+					"request": "launch",
 					"command": "` + "${config:qb64.installPath}/qb64 '${fileDirname}/${fileBasename}' -c -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + `,
 				}
 			} 

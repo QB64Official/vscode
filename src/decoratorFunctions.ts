@@ -41,7 +41,7 @@ export function setupDecorate() {
 function decorateSingleLine(editor: any) {
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
 
-	if (!editor || editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
+	if (!editor || editor.document.languageId == "Log" || editor.document.fileName.ToLower() == "extension-output-qb64-official.qb64-#3-qb64: Decorate") {
 		return;
 	}
 
