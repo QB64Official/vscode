@@ -34,8 +34,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		if (!lowerLine.startsWith("if") || lowerLine.replace("\r", "").endsWith("then")) {
 			return false
 		}
-		const work = lowerLine.substring(lowerLine.indexOf("'", lowerLine.indexOf("then")));
-		if (work.match(/then\s*'/)) {
+
+		//const work = lowerLine.substring(lowerLine.indexOf("'", lowerLine.indexOf("then")));
+		if (lowerLine.match(/then\s*'/i)) {
 			return false;
 		}
 		return true;
@@ -52,9 +53,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			|| lowerLine.startsWith("sub ")
 			|| lowerLine.startsWith("function ")
 			|| lowerLine == "do"
-			|| lowerLine.startsWith("do ")
-			|| lowerLine.startsWith("for ")
-			|| lowerLine.startsWith("while")
+			|| (lowerLine.startsWith("do ") && lowerLine.indexOf("loop") < 1)
+			|| (lowerLine.startsWith("for ") && lowerLine.indexOf("next") < 1)
+			|| (lowerLine.startsWith("while") && lowerLine.indexOf("wend") < 1)
 			|| lowerLine.startsWith("type ")
 			|| lowerLine.startsWith("select ")
 	}
@@ -317,5 +318,4 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		}
 		return word;
 	}
-
 }
