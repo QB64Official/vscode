@@ -41,7 +41,7 @@ export function setupDecorate() {
 function decorateSingleLine(editor: any) {
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
 
-	if (!editor || editor.document.languageId == "Log" || editor.document.fileName.ToLower() == "extension-output-qb64-official.qb64-#3-qb64: Decorate") {
+	if (!editor || editor.document.languageId == "Log" || vscode.window.activeTextEditor.document.fileName.toLowerCase().indexOf("extension-output") >= 0) {
 		return;
 	}
 
@@ -114,7 +114,7 @@ function decorate(editor: any, lineNumber: number, lineOfCode: string, outputCha
 	}
 
 	try {
-		logFunctions.writeLine(`decorate | lineNumber: ${lineNumber + 1} | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
+		// logFunctions.writeLine(`decorate | lineNumber: ${lineNumber + 1} | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
 		const config = vscode.workspace.getConfiguration("qb64")
 		if (config.get("isRgbColorEnabled")) {
 			let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);

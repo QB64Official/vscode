@@ -9,6 +9,7 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
+import * as path from 'path';
 import { TokenInfo } from "./TokenInfo";
 import { ReferenceProvider } from "./providers/ReferenceProvider";
 import { DefinitionProvider } from "./providers/DefinitionProvider";
@@ -20,6 +21,7 @@ import { HoverProvider } from "./providers/HoverProvider";
 import {
 	LanguageClient,
 	LanguageClientOptions,
+	RevealOutputChannelOn,
 	ServerOptions,
 	TransportKind
 } from 'vscode-languageclient/node';
@@ -42,8 +44,9 @@ import {
 //             ]
 //         }
 
+var client: LanguageClient;
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
 	const config = vscode.workspace.getConfiguration("qb64")
 	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
 
@@ -83,50 +86,78 @@ export function activate(context: vscode.ExtensionContext) {
 	// Register Miscellaneous
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("qb64", new DebugAdapterDescriptorFactory()));
 
-	let languageServerChannel: any = logFunctions.getChannel(logFunctions.channelType.languageServer);
+	await activateLanguageServer(context);
+}
+
+/**
+ * Activates the language server
+ */
+async function activateLanguageServer(context: vscode.ExtensionContext) {
+	const languageServerChannel: any = logFunctions.getChannel(logFunctions.channelType.languageServer);
 	try {
-		// Setup LS here
-		// This needs to be an absolute path
-		let serverModule: string = "D:/projects/qb64-language-server/qb64ls.exe";
+
+		// This should be socket but from some reason the exe does not start.
+		const transportMode = TransportKind.ipc
+		const serverModule = context.asAbsolutePath(path.join('server', 'qb64ls.exe'));
+
 		if (!fs.existsSync(serverModule)) {
 			throw Error(`File ${serverModule} Not Found`);
 		}
 
 		logFunctions.writeLine(`serverModule: ${serverModule}`, languageServerChannel);
 
-		let serverStartupOptions = { execArgv: ["-cf:D:\\projects\\qb64-language-server\\.vscode\\qb64-debug.ini"] }
+		const serverRunOptions = { execArgv: ["-cf:D:\\projects\\qb64-language-server\\.vscode\\qb64-debug.ini"] };
+		const serverDebugOptions = { execArgv: ["-cf:D:\\projects\\qb64-language-server\\.vscode\\qb64-debug.ini"] };
+
+		//let serverStartupOptions = {};
 
 		let serverOptions: ServerOptions = {
-			run: { module: serverModule, transport: TransportKind.ipc },
+			run: {
+				module: serverModule,
+				transport: transportMode,
+				options: serverRunOptions
+			},
 			debug: {
 				module: serverModule,
-				transport: TransportKind.socket,
-				options: serverStartupOptions
+				transport: transportMode,
+				options: serverDebugOptions
 			}
 		};
 
-		let ds = []
-		ds.push(commonFunctions.getDocumentSelector());
+		// let ds = []
+		// ds.push(commonFunctions.getDocumentSelector());		
+		// let clientOptions: LanguageClientOptions = {
+		// 	documentSelector: ds,
+		// 	synchronize: {
+		// 		// Notify the server about file changes to qb64 files contained in the workspace
+		// 		fileEvents: vscode.workspace.createFileSystemWatcher('**/.bas,**/.bm,**/.bi')
+		// 	},
+		// 	revealOutputChannelOn: RevealOutputChannelOn.Info
+		// };
+
 		let clientOptions: LanguageClientOptions = {
-			documentSelector: ds,
-			//synchronize: {
-			// Notify the server about file changes to '.clientrc files contained in the workspace
-			//fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
-			//}
+			documentSelector: [{ scheme: "file", language: "qb64" }],
+			synchronize: {
+				fileEvents: vscode.workspace.createFileSystemWatcher('**/.bas,**/.bm,**/.bi')
+			},
+			revealOutputChannelOn: RevealOutputChannelOn.Info
 		};
 
-		// Create the language client and start the client.
-		let client: LanguageClient = new LanguageClient(
-			'languageServerQB64',
-			'QB64 Language Server',
-			serverOptions,
-			clientOptions
-		);
 
-		// Start the client. This will also launch the server
-		logFunctions.writeLine("Before Starting Client: ", languageServerChannel)
-		client.start();
-		logFunctions.writeLine("After Starting Client: ", languageServerChannel)
+		logFunctions.writeLine("Create LanguageClient", languageServerChannel)
+		client = new LanguageClient('qb64ls', 'QB64 Language Server', serverOptions, clientOptions, false);
+
+		// client.onReady().then(() => {
+		// 	logFunctions.writeLine("qb64ls is ready|starting", languageServerChannel)
+		// 	let disposable = client.start();
+		// 	context.subscriptions.push(disposable);
+		// });
+
+		logFunctions.writeLine("Before Starting Client ", languageServerChannel)
+		let disposable = client.start();
+		context.subscriptions.push(disposable);
+		logFunctions.writeLine("After ready", languageServerChannel)
+
 	}
 	catch (error) {
 		logFunctions.writeLine("ERROR Starting LS: " + error, languageServerChannel)
@@ -134,6 +165,15 @@ export function activate(context: vscode.ExtensionContext) {
 
 }
 
+
+/**
+ * Called when the extension is deactivated
+ */
+export async function deactivate(): Promise<void> {
+	if (client) {
+		client.stop();
+	}
+}
 
 /**
  * Tries to find compilelog.txt and open it.

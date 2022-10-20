@@ -222,7 +222,7 @@
         "grammars": [
             {
                 "language": "qb64",
-                "scopeName": "source.QB64",
+                "scopeName": "source.qb64",
                 "path": "./syntaxes/qb64.tmLanguage.json"
             }
         ],

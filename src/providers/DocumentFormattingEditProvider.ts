@@ -34,8 +34,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		if (!lowerLine.startsWith("if") || lowerLine.replace("\r", "").endsWith("then")) {
 			return false
 		}
-		const work = lowerLine.substring(lowerLine.indexOf("'", lowerLine.indexOf("then")));
-		if (work.match(/then\s*'/)) {
+
+		//const work = lowerLine.substring(lowerLine.indexOf("'", lowerLine.indexOf("then")));
+		if (lowerLine.match(/then\s*'/i)) {
 			return false;
 		}
 		return true;
@@ -52,9 +53,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			|| lowerLine.startsWith("sub ")
 			|| lowerLine.startsWith("function ")
 			|| lowerLine == "do"
-			|| lowerLine.startsWith("do ")
-			|| lowerLine.startsWith("for ")
-			|| lowerLine.startsWith("while")
+			|| (lowerLine.startsWith("do ") && lowerLine.indexOf("loop") < 1)
+			|| (lowerLine.startsWith("for ") && lowerLine.indexOf("next") < 1)
+			|| (lowerLine.startsWith("while") && lowerLine.indexOf("wend") < 1)
 			|| lowerLine.startsWith("type ")
 			|| lowerLine.startsWith("select ")
 	}
@@ -93,7 +94,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			} else {
 				words[index] = this.formatWord(words[index], "", tokenCache);
 			}
-
 		}
 	}
 
@@ -123,6 +123,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/(\sand\()/gi, ` ${new TokenInfo("and").WordFormatted} (`)
 			.replaceAll(/(\sor\()/gi, ` ${new TokenInfo("or").WordFormatted} (`)
 			.replace(/-(?=[A-Za-z]|\d\))/i, " - ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
+			.replaceAll("=.", "= .")
 			.replaceAll(/\s\s+/g, " ");
 
 		//
@@ -317,5 +318,4 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		}
 		return word;
 	}
-
 }
