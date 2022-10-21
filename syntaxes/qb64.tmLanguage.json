@@ -117,7 +117,7 @@
 			"name": "variable.other.dim.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Command|_commandcount|commandcountCall|Screenhide|_Screenhide|_screenshow|_screenmove|screenmove|screen|screenshow|_screenmove|screenmove|os|_os|title|_title|_newimage|newimage|DECLARE|DEF|SEG|resume|Rest|Timer|gosub|DEFINT|Cls|Const|Shared|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option _Explicit|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|Error|_errormessage|errormessage|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str|Val|Mid)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Command|_commandcount|commandcountCall|Screenhide|_Screenhide|_screenshow|_screenmove|screenmove|screen|screenshow|_screenmove|screenmove|os|_os|title|_title|_newimage|newimage|DECLARE|DEF|SEG|resume|Rest|Timer|gosub|DEFINT|Cls|Const|Shared|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option _Explicit|Option Explicit|Print|Color|On Error Resume Next|On Error GoTo|Error|_errormessage|errormessage|errorline|_errorline|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str|Val|Mid)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{
