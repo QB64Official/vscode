@@ -9,7 +9,7 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
-import * as path from 'path';
+import * as ls from "./languageServer"
 import { TokenInfo } from "./TokenInfo";
 import { ReferenceProvider } from "./providers/ReferenceProvider";
 import { DefinitionProvider } from "./providers/DefinitionProvider";
@@ -17,15 +17,7 @@ import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
 import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEditProvider";
 import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescriptorFactory";
 import { HoverProvider } from "./providers/HoverProvider";
-
-import {
-	LanguageClient,
-	LanguageClientOptions,
-	RevealOutputChannelOn,
-	ServerOptions,
-	TransportKind
-} from 'vscode-languageclient/node';
-
+import { LanguageClient } from 'vscode-languageclient/node';
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -44,6 +36,9 @@ import {
 //             ]
 //         }
 
+/**
+ * The language client  - will be passed around as needed.
+ */
 var client: LanguageClient;
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -86,83 +81,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	// Register Miscellaneous
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("qb64", new DebugAdapterDescriptorFactory()));
 
-	await activateLanguageServer(context);
-}
-
-/**
- * Activates the language server
- */
-async function activateLanguageServer(context: vscode.ExtensionContext) {
-	const languageServerChannel: any = logFunctions.getChannel(logFunctions.channelType.languageServer);
-	try {
-
-		// This should be socket but from some reason the exe does not start.
-		const transportMode = TransportKind.ipc
-		const serverModule = context.asAbsolutePath(path.join('server', 'qb64ls.exe'));
-
-		if (!fs.existsSync(serverModule)) {
-			throw Error(`File ${serverModule} Not Found`);
-		}
-
-		logFunctions.writeLine(`serverModule: ${serverModule}`, languageServerChannel);
-
-		const serverRunOptions = { execArgv: ["-cf:D:\\projects\\qb64-language-server\\.vscode\\qb64-debug.ini"] };
-		const serverDebugOptions = { execArgv: ["-cf:D:\\projects\\qb64-language-server\\.vscode\\qb64-debug.ini"] };
-
-		//let serverStartupOptions = {};
-
-		let serverOptions: ServerOptions = {
-			run: {
-				module: serverModule,
-				transport: transportMode,
-				options: serverRunOptions
-			},
-			debug: {
-				module: serverModule,
-				transport: transportMode,
-				options: serverDebugOptions
-			}
-		};
-
-		// let ds = []
-		// ds.push(commonFunctions.getDocumentSelector());		
-		// let clientOptions: LanguageClientOptions = {
-		// 	documentSelector: ds,
-		// 	synchronize: {
-		// 		// Notify the server about file changes to qb64 files contained in the workspace
-		// 		fileEvents: vscode.workspace.createFileSystemWatcher('**/.bas,**/.bm,**/.bi')
-		// 	},
-		// 	revealOutputChannelOn: RevealOutputChannelOn.Info
-		// };
-
-		let clientOptions: LanguageClientOptions = {
-			documentSelector: [{ scheme: "file", language: "qb64" }],
-			synchronize: {
-				fileEvents: vscode.workspace.createFileSystemWatcher('**/.bas,**/.bm,**/.bi')
-			},
-			revealOutputChannelOn: RevealOutputChannelOn.Info
-		};
-
-
-		logFunctions.writeLine("Create LanguageClient", languageServerChannel)
-		client = new LanguageClient('qb64ls', 'QB64 Language Server', serverOptions, clientOptions, false);
-
-		// client.onReady().then(() => {
-		// 	logFunctions.writeLine("qb64ls is ready|starting", languageServerChannel)
-		// 	let disposable = client.start();
-		// 	context.subscriptions.push(disposable);
-		// });
-
-		logFunctions.writeLine("Before Starting Client ", languageServerChannel)
-		let disposable = client.start();
-		context.subscriptions.push(disposable);
-		logFunctions.writeLine("After ready", languageServerChannel)
-
-	}
-	catch (error) {
-		logFunctions.writeLine("ERROR Starting LS: " + error, languageServerChannel)
-	}
-
+	await ls.activateLanguageServer(context, client);
 }
 
 
