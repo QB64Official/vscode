@@ -3,7 +3,6 @@ import * as fs from "fs";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
-import { workerData } from "worker_threads";
 
 export class TokenInfo {
 	private outputChannnel: any = null;

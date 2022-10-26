@@ -92,7 +92,8 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						continue;
 					}
 
-					if (!(line.startsWith("sub") || line.startsWith("dim") || line.startsWith("function") || line.startsWith("type") || line.startsWith("const"))) {
+					logFunctions.writeLine(line, this.outputChannnel)
+					if (!(line.startsWith("sub") || line.startsWith("dim") || line.startsWith("function") || line.startsWith("type") || line.startsWith("const") || line.startsWith(`${word.toLowerCase()}:`))) {
 						continue;
 					}
 
