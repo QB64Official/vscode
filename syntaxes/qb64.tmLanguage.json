@@ -121,7 +121,7 @@
 			"name": "storage.type.QB64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Open|Eof|Poke|Data|Close|Get|Read|Input|Random|Put|Write|Append|FreeFile|_openhost|openhost|_OPENCLIENT|_openconnection|openconnection|OPENCLIENT|_CONNECTED|CONNECTED|_CONNECTIONADDRESS|CONNECTIONADDRESS)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Open|Eof|Poke|Data|Close|Get|Read|Input|Random|Put|Write|Append|FreeFile|_openhost|openhost|_OPENCLIENT|_openconnection|openconnection|OPENCLIENT|_CONNECTED|CONNECTED|_CONNECTIONADDRESS|CONNECTIONADDRESS|_direxists|direxists|_fileexists|fileexists)\\b\\s*)",
 			"name": "storage.type.QB64"
 		},
 		{

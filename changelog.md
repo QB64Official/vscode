@@ -12,6 +12,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.8.5
 - Bugs
+  - Issue [#81](https://github.com/QB64Official/vscode/issues/81) Add _direxists to the syntax highlighter
   - Issue [#80](https://github.com/QB64Official/vscode/issues/80) Updated the auto created .gitignore
   - Issue [#79](https://github.com/QB64Official/vscode/issues/79) Add "String expression or variable name required in LEN statement" to Lint
   - Issue [#77](https://github.com/QB64Official/vscode/issues/77) Command is not getting syntax colored  
