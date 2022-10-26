@@ -148,6 +148,7 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("Incorrect ")
 				|| lintLine.startsWith("1st ")
 				|| lintLine.startsWith("String ")
+				|| lintLine.startsWith("END IF ")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {

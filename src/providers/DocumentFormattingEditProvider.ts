@@ -94,6 +94,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			} else {
 				words[index] = this.formatWord(words[index], "", tokenCache);
 			}
+
 		}
 	}
 
@@ -123,15 +124,15 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/(\sand\()/gi, ` ${new TokenInfo("and").WordFormatted} (`)
 			.replaceAll(/(\sor\()/gi, ` ${new TokenInfo("or").WordFormatted} (`)
 			.replace(/-(?=[A-Za-z]|\d\))/i, " - ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
-			.replaceAll("=.", "= .")
-			.replaceAll(/\s\s+/g, " ");
+			.replaceAll(/\s\s+/g, " ")
+			.trim();
 
-		//
-		//.replace(/-(?<=[A-Za-z10-9])\s*-\s*(?=[A-Za-z])/i, " - ")
 
 		if (code.toLowerCase().endsWith(" :")) {
 			code = code.replace(" :", ":"); // TODO: needs to only replace the one at the end of the line
-		} else if (code.toLowerCase().startsWith("defint")) {
+		}
+
+		if (code.toLowerCase().startsWith("defint")) {
 			code = code.replace(/\s*-\s*/, '-');
 		} else if (code.toLowerCase().startsWith("rest.")) {
 			code = code.replace(".", " .")
@@ -152,14 +153,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		const qb64Config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
 		const vscodeConig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
 		const indent = vscodeConig.get("insertSpaces") ? " ".repeat(vscodeConig.get("tabSize")) : "\t"
-
-		/*
-		if (indent == "\t") {
-			logFunctions.writeLine("Indent using tabs", this.outputChannnel);
-		} else {
-			logFunctions.writeLine(`Indent using spaces (${indent.length})`, this.outputChannnel);
-		}
-		*/
 
 		try {
 
@@ -244,14 +237,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					// let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 
 					if (lowerLine.indexOf('"') > -1 && !lowerLine.match(/(?<='|rem)"/i)) {
-						//logFunctions.writeLine("In Quote", this.outputChannnel);
 						const start: number = newLine.indexOf('"') - 1;
-						logFunctions.writeLine(`Start: ${start} | words = ${newLine.substring(0, start)}`, this.outputChannnel);
-						logFunctions.writeLine(`       ${newLine}`, this.outputChannnel);
-
 						let words: string[] = this.addOperatorSpaces(newLine.substring(0, start)).split(" ");
 						this.formatArray(words, tokenCache);
-						//logFunctions.writeLine(`words2 = ${words.join(" ")}`, this.outputChannnel);
 						const work = this.cleanUpCode(words.join(" "));
 						newLine = work + newLine.substring(start);
 

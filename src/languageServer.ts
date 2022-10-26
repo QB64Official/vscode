@@ -5,7 +5,6 @@ import * as logFunctions from "./logFunctions";
 import * as fs from "fs";
 import * as cp from 'child_process';
 import * as languageClient from 'vscode-languageclient/node';
-import { TransportKind } from 'vscode-languageclient/node';
 
 // A large part of this was pulled from 
 // https://github.com/d-language-server/vscode-dlang/blob/master/src/extension.ts#L94
@@ -45,6 +44,14 @@ export async function activateLanguageServer(context: vscode.ExtensionContext, c
 
 		logFunctions.writeLine("Before Starting Client ", languageServerChannel)
 		let disposable = client.start();
+		let totalSize = 0;
+		client.onReady().then(() => {
+			logFunctions.writeLine("In Client onReady", languageServerChannel)
+			let resolve: languageClient.GenericNotificationHandler;
+			client.onNotification('didStop', () => resolve());
+			client.onNotification('didChangeTotalSize', (params: UpgradeSizeParams) => totalSize = params.size);
+		});
+
 		context.subscriptions.push(disposable);
 		logFunctions.writeLine("After ready", languageServerChannel)
 
@@ -56,6 +63,7 @@ export async function activateLanguageServer(context: vscode.ExtensionContext, c
 }
 
 function createServerWithSocket(serverModule: string, socket: net.Socket) {
+	const os = require('node:os');
 	let qb64Server: cp.ChildProcess;
 	return new Promise<cp.ChildProcess>(resolve => {
 		let server = net.createServer(s => {
@@ -68,20 +76,32 @@ function createServerWithSocket(serverModule: string, socket: net.Socket) {
 		server.listen(0, '127.0.0.1', () => {
 			qb64Server = cp.spawn(serverModule,
 				[
-					"--it=socket",
-					"--socket=" + (<net.AddressInfo>server.address()).port,
-					"--cf=D:\\projects\\qb64-language-server\\.vscode\\qb64-debug.ini"
+					"/v=true",
+					"/it=socket",
+					"/lr=true",
+					'/wf="' + os.tmpdir() + '"',
+					"/port=" + (<net.AddressInfo>server.address()).port,
 				]);
 		});
 	});
 }
 
+interface TranslationParams {
+	tr: string;
+}
+
+interface UpgradeSizeParams extends TranslationParams {
+	size: number;
+}
+
 /*
 function createServerWithStdio(dlsPath: string) {
+	const os = require('node:os');
 	return Promise.resolve(cp.spawn(dlsPath.trim(),
 		[
-			'--stdio',
-			"-cf:D:\\projects\\qb64-language-server\\.vscode\\qb64-debug.ini"
+			"--v=true",
+			"--it=socket",
+			'--wf="' + os.tmpdir() + '"',			
 		]));
 }
 */
