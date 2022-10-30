@@ -89,6 +89,15 @@ function createGitIngoreText() {
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Extensionless Files
+# This is 3 steps
+# * Tells git to ignore everything.
+# !*/ then unignores anything that is a directory. This is crucial.
+# !*.* unignores all files with an extension.
+* 
+!/**/
+!*.*
+
 # Built extensions
 *.vsix
 
@@ -301,6 +310,9 @@ _pkginfo.txt
 *.appx
 *.appxbundle
 *.appxupload
+
+# Windows Files
+desktop.ini
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
