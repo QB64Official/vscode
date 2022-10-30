@@ -89,6 +89,15 @@ function createGitIngoreText() {
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Extensionless Files
+# This is 3 steps
+# * Tells git to ignore everything.
+# !*/ then unignores anything that is a directory. This is crucial.
+# !*.* unignores all files with an extension.
+* 
+!/**/
+!*.*
+
 # Built extensions
 *.vsix
 
@@ -285,6 +294,9 @@ PublishScripts/
 *.nuget.props
 *.nuget.targets
 
+# Windows Files
+desktop.ini
+
 # Microsoft Azure Build Output
 csx/
 *.build.csdef
@@ -451,5 +463,6 @@ out/extension.js.map
 *.bm-bak
 *.cmp-out
 *.json-bak
+*.exe
 `;
 }
