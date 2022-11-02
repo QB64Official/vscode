@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.8.5",
+    "version": "0.8.6",
     "engines": {
         "vscode": "^1.70.0"
     },

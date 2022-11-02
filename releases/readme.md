@@ -10,6 +10,10 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.8.6
+- Bugs
+  - Issue [#85](https://github.com/QB64Official/vscode/issues/85) InKey not "blue"
+
 ## 0.8.5
 - Bugs
   - Issue [#83](https://github.com/QB64Official/vscode/issues/83) Add desktop.ini to the list of files exluded from the exploer Window
