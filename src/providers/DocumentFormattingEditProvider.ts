@@ -124,6 +124,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/(\sand\()/gi, ` ${new TokenInfo("and").WordFormatted} (`)
 			.replaceAll(/(\sor\()/gi, ` ${new TokenInfo("or").WordFormatted} (`)
 			.replace(/-(?=[A-Za-z]|\d\))/i, " - ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
+			.replaceAll(",.", ", .")
 			.replaceAll(/\s\s+/g, " ")
 			.trim();
 

@@ -12,6 +12,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.8.6
 - Bugs
+  - Issue [#86](https://github.com/QB64Official/vscode/issues/86) **/desktop.ini": true has the leading double quote
   - Issue [#85](https://github.com/QB64Official/vscode/issues/85) InKey not "blue"
 
 ## 0.8.5

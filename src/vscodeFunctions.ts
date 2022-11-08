@@ -82,7 +82,7 @@ export function createFiles() {
 			"**/*.bm-bak": true,
 			"**/*.cmp-out": true,
 			"**/*.json-bak": true,
-			**/desktop.ini": true
+			"**/desktop.ini": true
 		},
 		"files.defaultLanguage": "QB64",
 		"editor.multiCursorModifier": "ctrlCmd",
