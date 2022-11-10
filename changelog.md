@@ -15,6 +15,8 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Issue [#87](https://github.com/QB64Official/vscode/issues/87) The formatter removes the space between _delay and .01
   - Issue [#86](https://github.com/QB64Official/vscode/issues/86) **/desktop.ini": true has the leading double quote
   - Issue [#85](https://github.com/QB64Official/vscode/issues/85) InKey not "blue"
+- Enchantments
+  - Issue [#89](https://github.com/QB64Official/vscode/issues/89) Add a task for calling compact (on windows) 
 
 ## 0.8.5
 - Bugs

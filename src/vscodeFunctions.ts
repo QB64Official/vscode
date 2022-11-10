@@ -70,7 +70,39 @@ export function createFiles() {
 					"reveal": "always",
 					"panel": "new"
 				}
+			},
+			{
+			"label": "Exe Compact",
+			"type": "shell",
+			"windows": {
+				"command": "compact",
+				"args": [
+					"/c",
+					"/exe:lzx",
+					`+ "\"\\\"${fileDirname}\\\\${fileBasenameNoExtension}.exe\\\"\"" + `
+				]
+			},
+			"linux": {
+				"command": "upx",
+				"args": [
+					` + "\"${fileDirname}/${fileBasenameNoExtension}.exe\"" + `
+				]
+			},
+			"osx": {
+				"command": "upx",
+				"args": [
+					` + "\"${fileDirname}/${fileBasenameNoExtension}.exe\"" + `
+				]
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
 			}
+		}
 		]
 	}`
 
