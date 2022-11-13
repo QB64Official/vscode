@@ -58,6 +58,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			|| (lowerLine.startsWith("while") && lowerLine.indexOf("wend") < 1)
 			|| lowerLine.startsWith("type ")
 			|| lowerLine.startsWith("select ")
+			|| lowerLine.startsWith("declare dynamic library")
+			|| lowerLine.startsWith("declare library")
 	}
 
 	/**
@@ -66,7 +68,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 	 * @returns 
 	 */
 	private shouldRemoveLineIndent(lowerLine: string) {
-		return lowerLine == "loop" || lowerLine.startsWith("loop ") || lowerLine.startsWith("end if") || lowerLine == "endif" || lowerLine.startsWith("end sub") || lowerLine == "endsub" || lowerLine.startsWith("end function") || lowerLine == "endfunction" || lowerLine == "next" || lowerLine == "wend" || lowerLine == "end type" || lowerLine == "endtype" || lowerLine == "end select" || lowerLine == "endselect" || lowerLine == "next" || lowerLine.startsWith("next ");
+		return lowerLine == "loop" || lowerLine.startsWith("loop ") || lowerLine.startsWith("end if") || lowerLine == "endif" || lowerLine.startsWith("end sub") || lowerLine == "endsub" || lowerLine.startsWith("end function") || lowerLine == "endfunction" || lowerLine == "next" || lowerLine == "wend" || lowerLine == "end type" || lowerLine == "endtype" || lowerLine == "end select" || lowerLine == "endselect" || lowerLine == "next" || lowerLine.startsWith("next ") || lowerLine.startsWith("end declare") || lowerLine.startsWith("enddeclare");
 	}
 
 	/**
@@ -165,8 +167,11 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			let tokenCache = new Map<string, TokenInfo>();
 			let level: number = 0;
 			let inCase: boolean = false;
+			let inDeclare: boolean = false;
 
 			for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
+
+				// logFunctions.writeLine(`Line Number: ${lineNumber}`, this.outputChannnel);
 
 				if (token.isCancellationRequested) {
 					return null;
@@ -207,13 +212,24 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				}
 
 				if (!isSingleLineIf) {
-					if (this.shouldIndentLine(lowerLine)) {
+					if (inDeclare && (lowerLine.startsWith("function") || lowerLine.startsWith("sub"))) {
+						// logFunctions.writeLine(`In declare block - ${lineNumber} | ${lowerLine}`, this.outputChannnel);
+					} else if (this.shouldIndentLine(lowerLine)) {
 						level++;
+						if (lowerLine.startsWith("declare dynamic library") || (lowerLine.startsWith("declare library"))) {
+							//level++;
+							inDeclare = true;
+						}
 					} else if (this.shouldRemoveLineIndent(lowerLine)) {
 						level--;
+						if (lowerLine.startsWith("end declare") || lowerLine.startsWith("enddeclare")) {
+							//logFunctions.writeLine(`Set declare false - ${lineNumber} | ${lowerLine}`, this.outputChannnel);						
+							//level--;
+							inDeclare = false;
+						}
 					} else if (lowerLine.startsWith("case ") && !inCase) {
 						inCase = true;
-						level++
+						level++;
 					}
 
 					if (lowerLine.startsWith("end select") || lowerLine.startsWith("endselect")) {
@@ -222,11 +238,10 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 							level--
 						}
 					}
+
 				}
 
 				if (this.shouldProcessLine(lowerLine)) {
-
-
 					if (newLine.endsWith(";") && lowerLine.indexOf("print") < 0) {
 						do {
 							newLine = newLine.substring(0, newLine.length - 1).trimEnd();
@@ -244,13 +259,11 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 						this.formatArray(words, tokenCache);
 						const work = this.cleanUpCode(words.join(" "));
 						newLine = work + newLine.substring(start);
-
 					} else {
 						newLine = this.addOperatorSpaces(newLine);
 						let words: string[] = newLine.split(" ");
 						this.formatArray(words, tokenCache);
 						newLine = this.cleanUpCode(words.join(" "));
-
 						if (!lowerLine.startsWith("data")) {
 							newLine = newLine.replaceAll(/(?<=[0-9])-/g, " - ")
 						} else {
@@ -266,11 +279,16 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 						newLine = `${indent}${newLine}`;
 					}
 				}
+
 				if (level > 0) {
-					if ((this.shouldIndentLine(lowerLine) || lowerLine.startsWith("case ") || lowerLine.startsWith("else")) && !isSingleLineIf) {
-						newLine = `${indent.repeat(level - 1)}${newLine}`;
-					} else {
-						newLine = `${indent.repeat(level)}${newLine}`;
+					let indentAmount: number = level;
+					if (!isSingleLineIf && (this.shouldIndentLine(lowerLine) || lowerLine.startsWith("case ") || lowerLine.startsWith("else"))) {
+						if (!inDeclare || (inDeclare && lowerLine.startsWith("declare"))) {
+							indentAmount = level - 1;
+						}
+					}
+					if (indentAmount > 0) {
+						newLine = `${indent.repeat(indentAmount)}${newLine}`;
 					}
 				}
 

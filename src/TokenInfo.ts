@@ -162,7 +162,7 @@ export class TokenInfo {
 			word = "SELECT-CASE"
 		} else if (word == "do" || word == "loop") {
 			word = "DO...LOOP"
-		} else if (word == "declare") {
+		} else if (word == "declare" || (word == "dynamic") || (word == "library")) {
 			word = "DECLARE-LIBRARY";
 		}
 		// logFunctions.writeLine(`After Before: ${word}`, this.outputChannnel);
