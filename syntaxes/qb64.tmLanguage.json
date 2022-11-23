@@ -125,7 +125,7 @@
 			"name": "storage.type.QB64"
 		},
 		{
-			"match": "(?i:\\b(ProductVersion|LegalCopyright|CompanyName|VersionInfo|FileVersion|FileDescription|ProductName|ExeIcon|NoPrefix|End|System)\\b)",
+			"match": "(?i:\\b(ProductVersion|LegalCopyright|CompanyName|VersionInfo|FileVersion|FileDescription|ProductName|ExeIcon|NoPrefix|End|System|Environ)\\b)",
 			"name": "storage.type.QB64"
 		},
 		{
