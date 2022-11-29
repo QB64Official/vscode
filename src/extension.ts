@@ -80,8 +80,8 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// Register Miscellaneous
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("qb64", new DebugAdapterDescriptorFactory()));
-
 	await ls.activateLanguageServer(context, client);
+
 }
 
 

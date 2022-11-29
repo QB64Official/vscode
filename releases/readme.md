@@ -19,6 +19,15 @@ All notable changes to the "QB64" extension will be documented in this file.
     This is a breaking change.  You will need to updated the you're lanch.json or delete it and have the extension create a new one.
   - Added language server
 
+## 0.8.6
+- Bugs
+  - Issue [#90](https://github.com/QB64Official/vscode/issues/90) Formatter doen't work with Declare Library
+  - Issue [#87](https://github.com/QB64Official/vscode/issues/87) The formatter removes the space between _delay and .01
+  - Issue [#86](https://github.com/QB64Official/vscode/issues/86) **/desktop.ini": true has the leading double quote
+  - Issue [#85](https://github.com/QB64Official/vscode/issues/85) InKey not "blue"
+- Enchantments
+  - Issue [#89](https://github.com/QB64Official/vscode/issues/89) Add a task for calling compact (on windows) 
+
 ## 0.8.5
 - Bugs
   - Issue [#83](https://github.com/QB64Official/vscode/issues/83) Add desktop.ini to the list of files exluded from the exploer Window

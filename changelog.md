@@ -19,12 +19,25 @@ All notable changes to the "QB64" extension will be documented in this file.
     This is a breaking change.  You will need to updated the you're lanch.json or delete it and have the extension create a new one.
   - Added language server
 
+## 0.8.6
+- Bugs
+  - Issue [#90](https://github.com/QB64Official/vscode/issues/90) Formatter doen't work with Declare Library
+  - Issue [#87](https://github.com/QB64Official/vscode/issues/87) The formatter removes the space between _delay and .01
+  - Issue [#86](https://github.com/QB64Official/vscode/issues/86) **/desktop.ini": true has the leading double quote
+  - Issue [#85](https://github.com/QB64Official/vscode/issues/85) InKey not "blue"
+- Enchantments
+  - Issue [#89](https://github.com/QB64Official/vscode/issues/89) Add a task for calling compact (on windows) 
+
 ## 0.8.5
 - Bugs
+  - Issue [#83](https://github.com/QB64Official/vscode/issues/83) Add desktop.ini to the list of files exluded from the exploer Window
+  - Issue [#82](https://github.com/QB64Official/vscode/issues/81) Goto Definition (12) does not work with label
+  - Issue [#81](https://github.com/QB64Official/vscode/issues/81) Add _direxists to the syntax highlighter
   - Issue [#80](https://github.com/QB64Official/vscode/issues/80) Updated the auto created .gitignore
   - Issue [#79](https://github.com/QB64Official/vscode/issues/79) Add "String expression or variable name required in LEN statement" to Lint
   - Issue [#77](https://github.com/QB64Official/vscode/issues/77) Command is not getting syntax colored  
 - Enchantments
+  - Issue [#84](https://github.com/QB64Official/vscode/issues/84) Ignore files in .gitignore with no extension
   - Issue [#78](https://github.com/QB64Official/vscode/issues/78) UpperCase constants
 
 ## 0.8.4

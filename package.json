@@ -175,6 +175,21 @@
                     "default": true,
                     "description": "Lint|Enable: Show the script channel when a script is run."
                 },
+                "qb64.lsWorkingFolder": {
+                    "type": "string",
+                    "default": "",
+                    "description": "LS: The working folder for the language server (leave emtpy to use the user's temp folder)"
+                },
+                "qb64.lsIsVisable": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "LS|Enable: Is the language server visable?"
+                },
+                "qb64.lsIsRequestLoggingEnabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "LS|Enable: Log all the requests received by the language server?"
+                },
                 "qb64.formatMode": {
                     "type": "string",
                     "default": "Lower Case",
@@ -356,6 +371,7 @@
         "@types/mocha": "9.1.1",
         "@types/node": "^18.7.3",
         "@types/vscode": "^1.70.1",
+        "@types/websocket": "^1.0.5",
         "@vscode/debugadapter": "^1.57.0",
         "@vscode/debugprotocol": "^1.57.0",
         "@vscode/test-electron": "^2.1.5",
@@ -363,9 +379,10 @@
         "mocha": "10.0.0",
         "typescript": "^4.7.4",
         "vsce": "^2.10.2",
+        "vscode-languageclient": "^7.0.0",
         "webpack": "^5.74.0",
         "webpack-cli": "^4.10.0",
-        "vscode-languageclient": "^7.0.0"
+        "ws": "^8.11.0"
     },
     "dependencies": {
         "@types/mocha": "9.1.1",
@@ -376,6 +393,7 @@
         "mocha": "10.0.0",
         "typescript": "^4.7.4",
         "vsce": "^2.10.2",
-        "vscode-languageclient": "^7.0.0"
+        "vscode-languageclient": "^7.0.0",
+        "ws": "^8.11.0"
     }
 }

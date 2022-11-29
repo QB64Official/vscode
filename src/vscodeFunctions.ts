@@ -70,7 +70,39 @@ export function createFiles() {
 					"reveal": "always",
 					"panel": "new"
 				}
+			},
+			{
+			"label": "Exe Compact",
+			"type": "shell",
+			"windows": {
+				"command": "compact",
+				"args": [
+					"/c",
+					"/exe:lzx",
+					`+ "\"\\\"${fileDirname}\\${fileBasenameNoExtension}.exe\\\"\"" + `
+				]
+			},
+			"linux": {
+				"command": "upx",
+				"args": [
+					` + "\"${fileDirname}/${fileBasenameNoExtension}.exe\"" + `
+				]
+			},
+			"osx": {
+				"command": "upx",
+				"args": [
+					` + "\"${fileDirname}/${fileBasenameNoExtension}.exe\"" + `
+				]
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
 			}
+		}
 		]
 	}`
 
@@ -122,22 +154,16 @@ export function createFiles() {
 		"configurations": [
 			{
 				"name": "QB64 Build and Run",
-				"type": "qb64",
-				"request": "launch",
+				"type": "QB64",
+				"request": "launch",					
 				"command": "` + "${config:qb64.installPath}/qb64.exe -c -x " + String.raw`\"` + "${fileDirname}/${fileBasename}" + String.raw`\"` + " -o " + String.raw`\"` + "${fileDirname}/${fileBasenameNoExtension}.exe" + String.raw`\"` + " -x; start " + String.raw`\"` + "${fileDirname}/${fileBasenameNoExtension}.exe" + String.raw`\"` + "\"," + `
-				"terminalName": "qb64",
-				"terminalIndex": -1,
+				"terminalName": "QB64",
+				"terminalIndex": -1, 
 				"showTerminal": true,
 				"linux": {
-					"name": "QB64 Build and Run",
-					"type": "qb64",
-					"request": "launch",
 					"command": "` + "${config:qb64.installPath}/qb64 '${fileDirname}/${fileBasename}' -c -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + `,
 				},
 				"osx": {
-					"name": "QB64 Build and Run",
-					"type": "qb64",
-					"request": "launch",
 					"command": "` + "${config:qb64.installPath}/qb64 '${fileDirname}/${fileBasename}' -c -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + `,
 				}
 			} 
