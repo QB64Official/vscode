@@ -52,8 +52,9 @@ export async function activateLanguageServer(context: vscode.ExtensionContext, c
 
 		//client = new lc.LanguageClient('qb64', 'QB64: Language Server', serverOptions, clientOptions);
 		let port: number = getPort();
-		//startLanguageServer(context, port);
-		let client: lc.LanguageClient = connectionToLanguageServer(6447);
+		await startLanguageServer(context, port);
+		//let client: lc.LanguageClient = connectionToLanguageServer(6447);
+		let client: lc.LanguageClient = connectionToLanguageServer(port);
 		let disposable = client.start();
 		client.outputChannel.appendLine("Client has been started")
 
@@ -98,7 +99,7 @@ interface NotificationResult {
  * Starts the Language Server
  * @param context 
  */
-function startLanguageServer(context: vscode.ExtensionContext, port: number) {
+async function startLanguageServer(context: vscode.ExtensionContext, port: number) {
 	const os = require('node:os');
 
 	let serverModule: string = "";
@@ -125,11 +126,7 @@ function startLanguageServer(context: vscode.ExtensionContext, port: number) {
 	args.push("/port=" + port.toString());
 	args.push("/wf=" + workingFolder);
 	require('child_process').spawn(serverModule, args, { detached: true });
-	setTimeout(function () { }, 1000);
-
-	// spawn(serverModule, args, {
-	// 	detached: true
-	// });
+	await new Promise(r => setTimeout(r, 1500)); // Wait for the server to start
 
 }
 

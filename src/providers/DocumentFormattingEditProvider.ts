@@ -101,6 +101,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 	}
 
 	private cleanUpCode(code: string): string {
+
 		code = code
 			.replaceAll(/\s*-\s*/g, "-")
 			.replaceAll(/\s*:\s*/g, " : ")
@@ -128,9 +129,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replace(/-(?=[A-Za-z]|\d\))/i, " - ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
 			.replace("delay.", "delay .") // major hack
 			.replaceAll(",.", ", .")
+			.replaceAll("=.", "= .")
 			.replaceAll(/\s\s+/g, " ")
 			.trim();
-
 
 		if (code.toLowerCase().endsWith(" :")) {
 			code = code.replace(" :", ":"); // TODO: needs to only replace the one at the end of the line
@@ -141,11 +142,19 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		} else if (code.toLowerCase().startsWith("rest.")) {
 			code = code.replace(".", " .")
 		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo") || code.toLowerCase().startsWith("$exeicon")) {
-			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0) {
+			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0 || code.toLowerCase().indexOf("filedescription") > 0) {
 				code = code.replace(/\s*:\s*/, ':');
 				code = code.replace(/\s*=\s*/, '=');
 			} else {
 				code = code.replaceAll(/\s*/g, "");
+			}
+		}
+
+		if (!code.toLocaleLowerCase().startsWith("data")) {
+			code = code.replaceAll(/(?<=[0-9])-/g, " - ") // This should be moved to cleanUpCode
+		} else {
+			if (code.toLocaleLowerCase().startsWith("data-")) {
+				code = code.replace("data-", "data -");
 			}
 		}
 		return code.trim();
@@ -260,17 +269,14 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 						const work = this.cleanUpCode(words.join(" "));
 						newLine = work + newLine.substring(start);
 					} else {
+
+						//if (lowerLine.indexOf("legalcopyright") < 1 && lowerLine.indexOf("companyname") < 1 && lowerLine.indexOf("FileDescription") < 1) {
 						newLine = this.addOperatorSpaces(newLine);
+						//}
+
 						let words: string[] = newLine.split(" ");
 						this.formatArray(words, tokenCache);
 						newLine = this.cleanUpCode(words.join(" "));
-						if (!lowerLine.startsWith("data")) {
-							newLine = newLine.replaceAll(/(?<=[0-9])-/g, " - ")
-						} else {
-							if (newLine.startsWith("data-")) {
-								newLine = newLine.replace("data-", "data -");
-							}
-						}
 					}
 
 					newLine = newLine.trim();
