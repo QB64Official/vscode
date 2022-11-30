@@ -12,9 +12,11 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.8.6
 - Bugs
+  - Issue [#91](https://github.com/QB64Official/vscode/issues/91) Formatter is removing the space between =.
   - Issue [#90](https://github.com/QB64Official/vscode/issues/90) Formatter doen't work with Declare Library
+  - Issue [#88](https://github.com/QB64Official/vscode/issues/88) Formatter removes spaces from $VersionInfo:FileDescription
   - Issue [#87](https://github.com/QB64Official/vscode/issues/87) The formatter removes the space between _delay and .01
-  - Issue [#86](https://github.com/QB64Official/vscode/issues/86) **/desktop.ini": true has the leading double quote
+  - Issue [#86](https://github.com/QB64Official/vscode/issues/86) **/desktop.ini": true has a missing leading double quote
   - Issue [#85](https://github.com/QB64Official/vscode/issues/85) InKey not "blue"
 - Enchantments
   - Issue [#89](https://github.com/QB64Official/vscode/issues/89) Add a task for calling compact (on windows) 
