@@ -12,7 +12,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.8.6
 - Bugs
-  - Issue [#92](https://github.com/QB64Official/vscode/issues/92) The extension is overriding the tab/number of spaces settings in VSCode
+  - Issue [#93](https://github.com/QB64Official/vscode/issues/92) VSCode starts old binary if build fails
   - Issue [#91](https://github.com/QB64Official/vscode/issues/91) Formatter is removing the space between =.
   - Issue [#90](https://github.com/QB64Official/vscode/issues/90) Formatter doen't work with Declare Library
   - Issue [#88](https://github.com/QB64Official/vscode/issues/88) Formatter removes spaces from $VersionInfo:FileDescription
