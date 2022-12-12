@@ -1,11 +1,11 @@
 import * as path from 'path';
 //import * as net from 'net';
 import * as vscode from "vscode";
-//import * as logFunctions from "./logFunctions";
+import * as logFunctions from "./logFunctions";
 import * as fs from "fs";
 //import * as cp from 'child_process';
 import * as lc from 'vscode-languageclient/node';
-//import * as commonFunctions from "./commonFunctions";
+import * as commonFunctions from "./commonFunctions";
 import { Duplex } from 'stream';
 import { openStdin } from 'process';
 
@@ -70,7 +70,7 @@ export async function activateLanguageServer(context: vscode.ExtensionContext, c
 				client.outputChannel.appendLine(`onNotification: type: ${result.type} | messaage: ${result.message}`);
 			});
 		});
-		// registerHoverProvider(client, outputChannnel)
+		registerHoverProvider(client)
 
 
 		context.subscriptions.push(disposable);
@@ -127,9 +127,7 @@ async function startLanguageServer(context: vscode.ExtensionContext, port: numbe
 	args.push("/wf=" + workingFolder);
 	require('child_process').spawn(serverModule, args, { detached: true });
 	await new Promise(r => setTimeout(r, 1500)); // Wait for the server to start
-
 }
-
 
 /**
  * Get a new language server client
@@ -138,13 +136,16 @@ async function startLanguageServer(context: vscode.ExtensionContext, port: numbe
 function connectionToLanguageServer(port: number): lc.LanguageClient {
 	const connection = connectToServer("127.0.0.1:" + port.toString());
 	const client = new lc.LanguageClient(
-		"qb64",
+		"QB64LanguageServer",
 		"QB64 Language Server",
 		() => Promise.resolve<lc.StreamInfo>({
 			reader: connection,
 			writer: connection,
 		}),
-		{});
+		{
+			documentSelector: [{ scheme: "file", language: "QB64" }],
+			revealOutputChannelOn: lc.RevealOutputChannelOn.Info
+		});
 	return client;
 }
 
@@ -190,34 +191,33 @@ function createServerWithSocket(serverModule: string, socket: net.Socket) {
 }
 */
 
+function registerHoverProvider(client: lc.LanguageClient) {
+	const provider: vscode.HoverProvider = {
+		provideHover: (document, position, token) => {
+			const provideHover: lc.ProvideHoverSignature = (document, position, token) => {
 
-// function registerHoverProvider(client: lc.LanguageClient, outputChannnel: any) {
-// 	const provider: vscode.HoverProvider = {
-// 		provideHover: (document, position, token) => {
-// 			const provideHover: lc.ProvideHoverSignature = (document, position, token) => {
-// 				logFunctions.writeLine("HoverProvider", outputChannnel);
-// 				return null;
-// 				/*
-// 				return client.sendRequest(lc.HoverRequest.type, client.code2ProtocolConverter.asTextDocumentPositionParams(document, position), token).then((result: any) => {
-// 					if (token.isCancellationRequested) {
-// 						return null;
-// 					}
-// 					logFunctions.writeLine("HoverProvider", outputChannnel);
-// 					// return client.protocol2CodeConverter.asHover(result);
-// 					return null;
-// 				}, (error: any) => {
-// 					return client.handleFailedRequest(lc.HoverRequest.type, token, error);
-// 				});
-// 				*/
-// 			};
-// 			return provideHover(document, position, token);
-// 			/*
-// 			const middleware = client.middleware;
-// 			return middleware.provideHover
-// 				? middleware.provideHover(document, position, token, provideHover)
-// 				: provideHover(document, position, token);
-// 			*/
-// 		}
-// 	};
-// 	vscode.languages.registerHoverProvider(commonFunctions.getDocumentSelector(), provider);
-// }
+				logFunctions.writeLine("HoverProvider", client.outputChannel);
+				//return null;
+
+				return client.sendRequest(lc.HoverRequest.type, client.code2ProtocolConverter.asTextDocumentPositionParams(document, position), token).then((result: any) => {
+					if (token.isCancellationRequested) {
+						return null;
+					}
+					logFunctions.writeLine("HoverProvider: Send Request", client.outputChannel);
+					// return client.protocol2CodeConverter.asHover(result);
+					return null;
+				}, (error: any) => {
+					return client.handleFailedRequest(lc.HoverRequest.type, token, error);
+				});
+			};
+			return provideHover(document, position, token);
+			/*
+			const middleware = client.middleware;
+			return middleware.provideHover
+				? middleware.provideHover(document, position, token, provideHover)
+				: provideHover(document, position, token);
+			*/
+		}
+	};
+	vscode.languages.registerHoverProvider(commonFunctions.getDocumentSelector(), provider);
+}

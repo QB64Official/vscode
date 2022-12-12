@@ -29,8 +29,6 @@
         "[qb64]": {
             "breadcrumbs.enabled": true,
             "files.trimTrailingWhitespace": true,
-            "editor.tabSize": 4,
-            "editor.insertSpaces": false,
             "editor.formatOnSave": true,
             "editor.wordWrap": "off",
             "editor.autoIndet": true,

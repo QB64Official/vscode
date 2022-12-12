@@ -9,7 +9,12 @@
                 "--extensionDevelopmentPath=${workspaceFolder}"
             ],
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "build"
+            "preLaunchTask": "build",
+            "resolveSourceMapLocations": [
+                "${workspaceFolder}/out**",
+                "${workspaceFolder}/**",
+                "!**/node_modules/**"
+            ]
         }
     ]
 }

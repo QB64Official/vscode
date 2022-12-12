@@ -8,5 +8,6 @@
 		"src/webpack.config.js": true,
 		"db/qb64.sqbpro": true,
 		"qb64.desktop": true
-	}
+	},
+	"window.title": "VSCode Extension (QB64) -  - ${activeEditorShort}",
 }
