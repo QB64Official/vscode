@@ -12,6 +12,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.8.7
 - Bugs
+  - Issue [#95](https://github.com/QB64Official/vscode/issues/95) Version 0.8.7 Formatting: Space is getting removed from >-1
   - Issue [#94](https://github.com/QB64Official/vscode/issues/94) Version 0.8.7 Highlighting changes
 
 ## 0.8.6

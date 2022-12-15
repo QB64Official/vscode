@@ -130,6 +130,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replace("delay.", "delay .") // major hack
 			.replaceAll(",.", ", .")
 			.replaceAll("=.", "= .")
+			.replaceAll(">-", "> -")
+			.replaceAll("<-", "< -")
 			.replaceAll(/\s\s+/g, " ")
 			.trim();
 
