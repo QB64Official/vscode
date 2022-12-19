@@ -6,8 +6,8 @@ import * as fs from "fs";
 //import * as cp from 'child_process';
 import * as lc from 'vscode-languageclient/node';
 import * as commonFunctions from "./commonFunctions";
-import { Duplex } from 'stream';
-import { openStdin } from 'process';
+// import { Duplex } from 'stream';
+import QB64LanguageClient from './QB64LanguageClient';
 
 // references
 // https://github.com/d-language-server/vscode-dlang/blob/master/src/extension.ts#L94
@@ -24,48 +24,18 @@ export async function activateLanguageServer(context: vscode.ExtensionContext, c
 
 	try {
 
-		// const serverModule = context.asAbsolutePath(path.join('server', 'qb64ls.exe')).trim();
-		// if (!fs.existsSync(serverModule)) {
-		// 	throw Error(`File ${serverModule} Not Found`);
-		// }
-
-		/*
-		let socket: net.Socket = new net.Socket;
-		const serverOptions: lc.ServerOptions = () => createServerWithSocket(serverModule, socket).then<lc.StreamInfo>(() => ({ reader: socket, writer: socket }))
-
-		/*
-		const os = require('node:os');
-		const startOptions: { execArgv: string[] } = { execArgv: ["/v=true", "/it=socket", "/lr=true", '/wf="' + os.tmpdir() + '"', "/port="] };
-		const serverOptions: lc.ServerOptions = {
-			run: { module: serverModule, transport: lc.TransportKind.socket, options: startOptions },
-			debug: { module: serverModule, transport: lc.TransportKind.socket },
-		};
-		*/
-
-		// let clientOptions: lc.LanguageClientOptions = {
-		// 	documentSelector: [{ scheme: "file", language: "qb64" }],
-		// 	synchronize: {
-		// 		fileEvents: vscode.workspace.createFileSystemWatcher('**/.bas,**/.bm,**/.bi')
-		// 	},
-		// 	revealOutputChannelOn: lc.RevealOutputChannelOn.Info,
-		// };
-
-		//client = new lc.LanguageClient('qb64', 'QB64: Language Server', serverOptions, clientOptions);
 		let port: number = getPort();
 		await startLanguageServer(context, port);
 		//let client: lc.LanguageClient = connectionToLanguageServer(6447);
-		let client: lc.LanguageClient = connectionToLanguageServer(port);
+		let client: QB64LanguageClient = new QB64LanguageClient(port)
 		let disposable = client.start();
 		client.outputChannel.appendLine("Client has been started")
 
-		// client.outputChannel.appendLine(client.initializeResult.capabilities.colorProvider.valueOf.toString());
-		// client.outputChannel.appendLine(`Name: ${client.initializeResult.serverInfo.name}`,;
-		// client.outputChannel.appendLine(`version: ${client.initializeResult.serverInfo.version}`);
-
 		client.onReady().then(() => {
 			client.outputChannel.appendLine("In OnReady");
-			// let resolve: languageClient.GenericNotificationHandler;
-			// client.onNotification('didStop', () => resolve());
+			// client.outputChannel.appendLine(client.initializeResult.capabilities.colorProvider.valueOf.toString());
+			// client.outputChannel.appendLine(`Name: ${client.initializeResult.serverInfo.name}`,;
+			// client.outputChannel.appendLine(`version: ${client.initializeResult.serverInfo.version}`)
 			client.onNotification('Test', (result: NotificationResult) => {
 				client.outputChannel.appendLine(`onNotification: type: ${result.type} | messaage: ${result.message}`);
 			});
@@ -74,7 +44,7 @@ export async function activateLanguageServer(context: vscode.ExtensionContext, c
 
 
 		context.subscriptions.push(disposable);
-		client.outputChannel.appendLine("activateLanguageServer - End");
+		client.outputChannel.appendLine("activateLanguageServer - end");
 	}
 	catch (error) {
 		if (client.outputChannel) {
@@ -96,11 +66,12 @@ interface NotificationResult {
 }
 
 /**
- * Starts the Language Server
+ * Starts the Language Server 
  * @param context 
  */
 async function startLanguageServer(context: vscode.ExtensionContext, port: number) {
 	const os = require('node:os');
+	// TODO: Move into QB64LanguageClient
 
 	let serverModule: string = "";
 	if (os.platform() == "win32") {
@@ -130,73 +101,20 @@ async function startLanguageServer(context: vscode.ExtensionContext, port: numbe
 }
 
 /**
- * Get a new language server client
- * @returns A LanguageClient connected to the QB64 language server
- */
-function connectionToLanguageServer(port: number): lc.LanguageClient {
-	const connection = connectToServer("127.0.0.1:" + port.toString());
-	const client = new lc.LanguageClient(
-		"QB64LanguageServer",
-		"QB64 Language Server",
-		() => Promise.resolve<lc.StreamInfo>({
-			reader: connection,
-			writer: connection,
-		}),
-		{
-			documentSelector: [{ scheme: "file", language: "QB64" }],
-			revealOutputChannelOn: lc.RevealOutputChannelOn.Info
-		});
-	return client;
-}
-
-function connectToServer(hostname: string): Duplex {
-	const WebSocket = require('ws');
-	const ws = new WebSocket(`ws://${hostname}`);
-	return WebSocket.createWebSocketStream(ws);
-}
-
-/**
 * Genrate random port number (int)
 * @returns random int - 1024 & 65535 inclusive
 */
 function getPort() {
-	// TODO: Add check if port is alrady in use and get a different one	
+	// TODO: Add check if port is alrady in use and get a different one & move to QB64LanguageClient
 	return Math.floor(Math.random() * (65535 - 1024 + 1)) + 1024;
 }
-
-
-/*
-function createServerWithSocket(serverModule: string, socket: net.Socket) {
-	const os = require('node:os');
-	let qb64Server: cp.ChildProcess;
-	return new Promise<cp.ChildProcess>(resolve => {
-		let server = net.createServer(s => {
-			socket = s;
-			socket.setNoDelay(true);
-			server.close();
-			resolve(qb64Server);
-		});
-
-		server.listen(0, '127.0.0.1', () => {
-			qb64Server = cp.spawn(serverModule,
-				[
-					"/v=true",
-					"/it=socket",
-					"/lr=true",
-					'/wf="' + os.tmpdir() + '"',
-					"/port=" + (<net.AddressInfo>server.address()).port,
-				]);
-		});
-	});
-}
-*/
 
 function registerHoverProvider(client: lc.LanguageClient) {
 	const provider: vscode.HoverProvider = {
 		provideHover: (document, position, token) => {
 			const provideHover: lc.ProvideHoverSignature = (document, position, token) => {
 
-				logFunctions.writeLine("HoverProvider", client.outputChannel);
+				logFunctions.writeLine("HoverProvider lS", client.outputChannel);
 				//return null;
 
 				return client.sendRequest(lc.HoverRequest.type, client.code2ProtocolConverter.asTextDocumentPositionParams(document, position), token).then((result: any) => {

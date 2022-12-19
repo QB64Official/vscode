@@ -17,7 +17,7 @@ import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
 import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEditProvider";
 import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescriptorFactory";
 import { HoverProvider } from "./providers/HoverProvider";
-import { LanguageClient } from 'vscode-languageclient/node';
+import QB64LanguageClient from "./QB64LanguageClient";
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -39,7 +39,7 @@ import { LanguageClient } from 'vscode-languageclient/node';
 /**
  * The language client  - will be passed around as needed.
  */
-var client: LanguageClient;
+var client: QB64LanguageClient;
 
 export async function activate(context: vscode.ExtensionContext) {
 	const config = vscode.workspace.getConfiguration("qb64")

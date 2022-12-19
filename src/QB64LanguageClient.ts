@@ -19,7 +19,7 @@ export default class QB64LanguageClient extends LanguageClient {
 	// public readonly io: MessageIO = new WebSocketMessageIO();
 
 	public readonly io: MessageIO = new TCPMessageIO()
-
+	private _port: number = -1;
 	private _started: boolean = false;
 	private _status: ClientStatus;
 	private _status_changed_callbacks: ((v: ClientStatus) => void)[] = [];
@@ -50,6 +50,8 @@ export default class QB64LanguageClient extends LanguageClient {
 	}
 	*/
 
+
+	// Set port here somewhere
 	constructor(port: number) {
 		super(
 			`QB64: Language Client`,
@@ -75,14 +77,17 @@ export default class QB64LanguageClient extends LanguageClient {
 			}
 		);
 
+		this._port = port
 		this.outputChannel.appendLine("QB64LanguageClient.constructor: After Super")
-
 		this.status = ClientStatus.PENDING;
 		this.message_handler = new MessageHandler(this.io);
 		this.io.on('disconnected', this.on_disconnected.bind(this));
 		this.io.on('connected', this.on_connected.bind(this, port));
 		this.io.on('message', this.on_message.bind(this));
 		this.io.on('send_message', this.on_send_message.bind(this));
+
+		this.outputChannel.appendLine("QB64LanguageClient.constructor: After On Setup")
+
 		//this.native_doc_manager = new NativeDocumentManager(this.io);
 	}
 
@@ -94,6 +99,7 @@ export default class QB64LanguageClient extends LanguageClient {
 
 	start(): vscode.Disposable {
 		this.outputChannel.appendLine(`[START][${this.getTime()}]`)
+		this.connect_to_server(this._port);
 		this._started = true;
 		return super.start();
 	}
@@ -138,6 +144,9 @@ export default class QB64LanguageClient extends LanguageClient {
 		const minutes = t.getMinutes()
 		return `${hours}:${minutes}`;
 	}
+
+
+
 
 }
 
