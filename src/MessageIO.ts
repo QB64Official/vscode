@@ -152,10 +152,12 @@ export class MessageIOReader extends AbstractMessageReader implements MessageRea
 				if (!headers) {
 					return;
 				}
+
 				let contentLength = headers['Content-Length'];
 				if (!contentLength) {
 					throw new Error('Header must provide a Content-Length property.');
 				}
+
 				let length = parseInt(contentLength);
 				if (isNaN(length)) {
 					throw new Error('Content-Length value must be a number.');

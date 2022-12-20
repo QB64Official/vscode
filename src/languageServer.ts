@@ -26,9 +26,9 @@ export async function activateLanguageServer(context: vscode.ExtensionContext, c
 
 		let port: number = getPort();
 		await startLanguageServer(context, port);
-		//let client: lc.LanguageClient = connectionToLanguageServer(6447);
 		let client: QB64LanguageClient = new QB64LanguageClient(port)
 		let disposable = client.start();
+
 		client.outputChannel.appendLine("Client has been started")
 
 		client.onReady().then(() => {

@@ -78,16 +78,12 @@ export default class QB64LanguageClient extends LanguageClient {
 		);
 
 		this._port = port
-		this.outputChannel.appendLine("QB64LanguageClient.constructor: After Super")
 		this.status = ClientStatus.PENDING;
 		this.message_handler = new MessageHandler(this.io);
 		this.io.on('disconnected', this.on_disconnected.bind(this));
 		this.io.on('connected', this.on_connected.bind(this, port));
 		this.io.on('message', this.on_message.bind(this));
 		this.io.on('send_message', this.on_send_message.bind(this));
-
-		this.outputChannel.appendLine("QB64LanguageClient.constructor: After On Setup")
-
 		//this.native_doc_manager = new NativeDocumentManager(this.io);
 	}
 
@@ -105,7 +101,7 @@ export default class QB64LanguageClient extends LanguageClient {
 	}
 
 	private on_send_message(message: Message) {
-		this.outputChannel.appendLine(`[ON_SEND_MESSAGE][${this.getTime()}] ${JSON.stringify(message)}`)
+		this.outputChannel.appendLine(`[ON_SEND_MESSAGE][${this.getTime()}] ${JSON.stringify(message)}` + Math.floor(Math.random() * (65535 - 1024 + 1)))
 
 		if ((message as RequestMessage).method == "initialize") {
 			this._initialize_request = message;
@@ -113,7 +109,9 @@ export default class QB64LanguageClient extends LanguageClient {
 	}
 
 	private on_message(message: Message) {
-		this.outputChannel.appendLine(`[ON_MESSAGE][${this.getTime()}] ${JSON.stringify(message)}`)
+		this.outputChannel.appendLine(`[ON_MESSAGE][${this.getTime()}] ${JSON.stringify(message)}` + Math.floor(Math.random() * (65535 - 1024 + 1)))
+
+		/*
 		const match = JSON.stringify(message).match(/"target":"file:\/\/[^\/][^"]*"/);
 		if (match) {
 			for (let i = 0; i < message["result"].length; i++) {
@@ -121,14 +119,19 @@ export default class QB64LanguageClient extends LanguageClient {
 				message["result"][i]["target"] = x.replace('file://', 'file:///');
 			}
 		}
+		*/
+
 		this.message_handler.on_message(message);
 	}
 
 	private on_connected() {
-		this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}`)
+		// this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}`)
 		if (this._initialize_request) {
 			this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}][initialize_request]`)
 			this.io.writer.write(this._initialize_request);
+		}
+		else {
+			this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}]`)
 		}
 		this.status = ClientStatus.CONNECTED;
 	}
@@ -144,9 +147,6 @@ export default class QB64LanguageClient extends LanguageClient {
 		const minutes = t.getMinutes()
 		return `${hours}:${minutes}`;
 	}
-
-
-
 
 }
 
