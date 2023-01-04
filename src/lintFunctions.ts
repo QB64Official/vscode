@@ -150,6 +150,7 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("String ")
 				|| lintLine.startsWith("END IF ")
 				|| lintLine.startsWith("Statement ")
+				|| lintLine.startsWith("Label '")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
