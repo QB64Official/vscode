@@ -83,7 +83,6 @@ function deleteFile(fileName: string, outputChannnel: any) {
 	(async function (path) {
 		try {
 			await unlink(path);
-			logFunctions.writeLine(`File ${path} Deleted`, outputChannnel)
 		} catch (error) {
 			logFunctions.writeLine(`ERROR in deleteFile: ${error.message}`, outputChannnel)
 		}

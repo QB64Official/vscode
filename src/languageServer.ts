@@ -40,7 +40,8 @@ export async function activateLanguageServer(context: vscode.ExtensionContext, c
 				client.outputChannel.appendLine(`onNotification: type: ${result.type} | messaage: ${result.message}`);
 			});
 		});
-		registerHoverProvider(client)
+
+		//registerHoverProvider(client)
 
 
 		context.subscriptions.push(disposable);
