@@ -116,13 +116,13 @@ export function createFiles() {
 			"**/*.json-bak": true,
 			"**/desktop.ini": true
 		},
-		"files.defaultLanguage": "QB64",
+		"files.defaultLanguage": "qb64",
 		"editor.multiCursorModifier": "ctrlCmd",
 		"editor.tokenColorCustomizations": {
 			"textMateRules": [
 				{
 					"scope": [
-						"graphics.QB64"
+						"graphics.qb64"
 					],
 					"settings": {
 						"foreground": "#00ff2a"
@@ -130,7 +130,7 @@ export function createFiles() {
 				},
 				{
 					"scope": [
-						"sound.QB64"
+						"sound.qb64"
 					],
 					"settings": {
 						"foreground": "#f0b411"
@@ -138,7 +138,7 @@ export function createFiles() {
 				},
 				{
 					"scope": [
-						"keyword.control.QB64"
+						"keyword.control.qb64"
 					],
 					"settings": {
 						"foreground": "#d611f0"
@@ -146,10 +146,10 @@ export function createFiles() {
 				},
 				{
 					"scope": [
-						"file.QB64"
+						"file.qb64"
 					],
 					"settings": {
-						"foreground": "#42f06e"
+						"foreground": "#b0c441"
 					}
 				}
 			]
