@@ -18,10 +18,11 @@ All notable changes to the "QB64" extension will be documented in this file.
   - The name of the language Id from QB64 to qb64 (to match what Microsoft does.)
     This is a breaking change.  You will need to updated the you're lanch.json or delete it and have the extension create a new one.
   - Added language server
+  - Added file syntax colors
 
 ## 0.8.6
 - Bugs
-  f- Issue [#93](https://github.com/QB64Official/vscode/issues/92) VSCode starts old binary if build fails
+  - Issue [#93](https://github.com/QB64Official/vscode/issues/92) VSCode starts old binary if build fails
   - Issue [#92](https://github.com/QB64Official/vscode/issues/92) The extension is overriding the tab/number of spaces settings in VSCode
   - Issue [#91](https://github.com/QB64Official/vscode/issues/91) Formatter is removing the space between =.
   - Issue [#90](https://github.com/QB64Official/vscode/issues/90) Formatter doen't work with Declare Library
