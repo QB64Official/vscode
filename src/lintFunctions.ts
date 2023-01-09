@@ -152,6 +152,7 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("Statement ")
 				|| lintLine.startsWith("Label '")
 				|| lintLine.startsWith("User defined types")
+				|| lintLine.startsWith("IF without END IF")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
