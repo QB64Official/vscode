@@ -321,7 +321,13 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			} else {
 				tokenInfo = new TokenInfo(word, "", this.outputChannnel);
 				if (previousWord.toLowerCase() == "const") {
-					tokenInfo.WordFormatted = tokenInfo.WordFormatted.toUpperCase();
+					let spot: number = tokenInfo.WordFormatted.indexOf(".")
+					if (spot > 1) {
+						tokenInfo.WordFormatted = tokenInfo.WordFormatted.substring(0, spot).toLowerCase() + "." + tokenInfo.WordFormatted.substring(spot + 1).toUpperCase()
+					}
+					else {
+						tokenInfo.WordFormatted = tokenInfo.WordFormatted.toUpperCase();
+					}
 				}
 				tokenCache.set(word.toLocaleLowerCase(), tokenInfo);
 			}
