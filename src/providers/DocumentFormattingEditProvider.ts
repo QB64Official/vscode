@@ -323,7 +323,10 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				if (previousWord.toLowerCase() == "const") {
 					let spot: number = tokenInfo.WordFormatted.indexOf(".")
 					if (spot > 1) {
-						tokenInfo.WordFormatted = tokenInfo.WordFormatted.substring(0, spot).toLowerCase() + "." + tokenInfo.WordFormatted.substring(spot + 1).toUpperCase()
+						let firstPart: string = tokenInfo.WordFormatted.substring(0, spot).toLowerCase()
+						firstPart = this.camelCaseWord(firstPart, "type")
+						firstPart = this.camelCaseWord(firstPart, "status")
+						tokenInfo.WordFormatted = firstPart + "." + tokenInfo.WordFormatted.substring(spot + 1).toUpperCase()
 					}
 					else {
 						tokenInfo.WordFormatted = tokenInfo.WordFormatted.toUpperCase();
@@ -340,4 +343,20 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		}
 		return word;
 	}
+
+	private camelCaseWord(base: string, word: string): string {
+		// return base.replaceAll(match[0], ` ${word.substring(0, 1).toLocaleUpperCase() + word.substring(1).toLocaleLowerCase()} `);
+		//let retvalue: string = base;
+		let replacement = `${word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()}`;
+		return base.replaceAll(word, replacement);
+		// let re = new RegExp("(?<!^)\\btype\\b", "gi");
+		// let matches = base.matchAll(re);
+		// if (matches) {
+		// 	for (const match of matches) {
+		// 		retvalue = retvalue.replaceAll(match[0], replacement);
+		// 	}
+		// }
+		// return retvalue;
+	}
+
 }
