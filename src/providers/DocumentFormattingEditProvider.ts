@@ -324,11 +324,12 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 					let spot: number = tokenInfo.WordFormatted.lastIndexOf(".")
 					if (spot > 1) {
 						let firstPart: string = tokenInfo.WordFormatted.substring(0, spot).toLowerCase()
-						firstPart = this.camelCaseWord(firstPart, "Type")
-						firstPart = this.camelCaseWord(firstPart, "Status")
-						firstPart = this.camelCaseWord(firstPart, "Code")
-						firstPart = this.camelCaseWord(firstPart, "Integration")
-						firstPart = this.camelCaseWord(firstPart, "Error")
+						firstPart = this.camelCaseWordTrailing(firstPart, "Type")
+						firstPart = this.camelCaseWordTrailing(firstPart, "Status")
+						firstPart = this.camelCaseWordTrailing(firstPart, "Code")
+						firstPart = this.camelCaseWordTrailing(firstPart, "Integration")
+						firstPart = this.camelCaseWordTrailing(firstPart, "Error")
+						firstPart = this.camelCaseWordTrailing(firstPart, "State")
 						tokenInfo.WordFormatted = firstPart + "." + tokenInfo.WordFormatted.substring(spot + 1).toUpperCase()
 					}
 					else {
@@ -347,7 +348,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		return word;
 	}
 
-	private camelCaseWord(base: string, word: string): string {
+	private camelCaseWordTrailing(base: string, word: string): string {
 		let retvalue: string = base.replaceAll(new RegExp(`${word}`, "gi"), word);
 		retvalue = `${retvalue.substring(0, 1).toLocaleLowerCase() + retvalue.substring(1)}`
 		return retvalue;
