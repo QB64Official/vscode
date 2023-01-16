@@ -284,12 +284,12 @@
             {
                 "command": "extension.runLint",
                 "key": "shift+alt+l",
-                "when": "editorLangId == 'QB64' && editorTextFocus"
+                "when": "editorLangId == 'qb64' && editorTextFocus"
             },
             {
                 "command": "extension.openCurrentFileInQB64",
                 "key": "alt+q",
-                "when": "editorLangId == 'QB64' && editorTextFocus"
+                "when": "editorLangId == 'qb64' && editorTextFocus"
             }
         ],
         "commands": [

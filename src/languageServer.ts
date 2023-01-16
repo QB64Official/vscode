@@ -33,16 +33,15 @@ export async function activateLanguageServer(context: vscode.ExtensionContext, c
 
 		client.onReady().then(() => {
 			client.outputChannel.appendLine("In OnReady");
-			// client.outputChannel.appendLine(client.initializeResult.capabilities.colorProvider.valueOf.toString());
-			// client.outputChannel.appendLine(`Name: ${client.initializeResult.serverInfo.name}`,;
-			// client.outputChannel.appendLine(`version: ${client.initializeResult.serverInfo.version}`)
+			client.outputChannel.appendLine(client.initializeResult.capabilities.colorProvider.valueOf.toString());
+			client.outputChannel.appendLine(`Name: ${client.initializeResult.serverInfo.name}`);
+			client.outputChannel.appendLine(`version: ${client.initializeResult.serverInfo.version}`)
 			client.onNotification('Test', (result: NotificationResult) => {
 				client.outputChannel.appendLine(`onNotification: type: ${result.type} | messaage: ${result.message}`);
 			});
 		});
 
 		//registerHoverProvider(client)
-
 
 		context.subscriptions.push(disposable);
 		client.outputChannel.appendLine("activateLanguageServer - end");

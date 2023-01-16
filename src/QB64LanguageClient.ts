@@ -101,10 +101,10 @@ export default class QB64LanguageClient extends LanguageClient {
 	}
 
 	private on_send_message(message: Message) {
-		this.outputChannel.appendLine(`[ON_SEND_MESSAGE][${this.getTime()}] ${JSON.stringify(message)}` + Math.floor(Math.random() * (65535 - 1024 + 1)))
-
 		if ((message as RequestMessage).method == "initialize") {
 			this._initialize_request = message;
+		} else {
+			this.outputChannel.appendLine(`[ON_SEND_MESSAGE][${this.getTime()}] ${JSON.stringify(message)}` + Math.floor(Math.random() * (65535 - 1024 + 1)))
 		}
 	}
 
@@ -127,7 +127,7 @@ export default class QB64LanguageClient extends LanguageClient {
 	private on_connected() {
 		// this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}`)
 		if (this._initialize_request) {
-			this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}][initialize_request]`)
+			//this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}][initialize_request]`)
 			this.io.writer.write(this._initialize_request);
 		}
 		else {
