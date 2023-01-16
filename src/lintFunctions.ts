@@ -155,6 +155,7 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("IF without END IF")
 				|| lintLine.startsWith("SUB ")
 				|| lintLine.startsWith("TYPE ")
+				|| lintLine.startsWith("Only ")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
