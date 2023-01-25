@@ -274,6 +274,16 @@
                 "command": "extension.openCurrentFileInQB64",
                 "key": "alt+q",
                 "when": "editorLangId == 'QB64' && editorTextFocus"
+            },
+            {
+                "command": "editor.action.transformToUppercase",
+                "key": "ctrl+shift+u",
+                "when": "editorLangId == 'QB64' && editorTextFocus"
+            },
+            {
+                "command": "editor.action.transformToLowercase",
+                "key": "ctrl+shift+l",
+                "when": "editorLangId == 'QB64' && editorTextFocus"
             }
         ],
         "commands": [

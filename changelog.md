@@ -12,6 +12,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.8.7
 - Bugs
+  - Issue [#99](https://github.com/QB64Official/vscode/issues/99) ctrl+shift+u and ctrl+shift+l not working8
   - Issue [#98](https://github.com/QB64Official/vscode/issues/98) Issue with working path for nested folders - Windows
   - Issue [#97](https://github.com/QB64Official/vscode/issues/97) "Statement cannot be placed between SUB/FUNCTIONs" does not show in problems
   - Issue [#95](https://github.com/QB64Official/vscode/issues/95) Version 0.8.7 Formatting: Space is getting removed from >-1 
