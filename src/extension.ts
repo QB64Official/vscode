@@ -62,6 +62,9 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscodeFucnctions.createFiles();
 	gitFunctions.createGitignore();
 
+	client = new QB64LanguageClient()
+	await ls.activateLanguageServer(context, client);
+
 	// Register Commands here
 	webViewFunctions.setupAsciiChart(context);
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
@@ -70,6 +73,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexUsage', () => { showHelpByName("Keyword-Reference---By-Usage"); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64', () => { openCurrentFileInQB64(); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.toogleTrace', () => { toogleTrace(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
 	// Register Providers here
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
@@ -80,7 +84,6 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// Register Miscellaneous
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("qb64", new DebugAdapterDescriptorFactory()));
-	await ls.activateLanguageServer(context, client);
 
 }
 
@@ -153,8 +156,18 @@ function findAndOpenCompileLog(qb64InstallPath: string, tempFolderName: string) 
 	}
 }
 
-
-
+/*
+	Calls client.setTrace with verbose
+*/
+export function toogleTrace() {
+	try {
+		if (client) {
+			client.toogleTrace();
+		}
+	} catch (error) {
+		vscode.window.showErrorMessage(`Error in toogleTrace: ${error}`);
+	}
+}
 
 /**
  * Opens the current file in QB64

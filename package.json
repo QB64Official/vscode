@@ -178,10 +178,15 @@
                     "default": "",
                     "description": "LS: The working folder for the language server (leave emtpy to use the user's temp folder)"
                 },
-                "qb64.lsIsVisable": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "LS|Enable: Is the language server visable?"
+                "qb64.lsIsTraceStatus": {
+                    "type": "string",
+                    "default": "off",
+                    "description": "LS| Tracing Status.",
+                    "enum": [
+                        "off",
+                        "messages",
+                        "verbose"
+                    ]
                 },
                 "qb64.lsIsRequestLoggingEnabled": {
                     "type": "boolean",
@@ -223,7 +228,10 @@
                 "extensions": [
                     ".bas",
                     ".bi",
-                    ".bm"
+                    ".bm",
+                    ".bt",
+                    ".bc",
+                    ".inc"
                 ],
                 "icon": {
                     "light": "./images/qb64-light.svg",
@@ -290,6 +298,21 @@
                 "command": "extension.openCurrentFileInQB64",
                 "key": "alt+q",
                 "when": "editorLangId == 'qb64' && editorTextFocus"
+            },
+            {
+                "command": "editor.action.transformToUppercase",
+                "key": "ctrl+shift+u",
+                "when": "editorLangId == 'qb64' && editorTextFocus"
+            },
+            {
+                "command": "editor.action.transformToLowercase",
+                "key": "ctrl+shift+l",
+                "when": "editorLangId == 'qb64' && editorTextFocus"
+            },
+            {
+                "command": "extension.toogleTrace",
+                "key": "ctrl+alt+v",
+                "when": "editorLangId == 'qb64' && editorTextFocus"
             }
         ],
         "commands": [
@@ -332,6 +355,11 @@
                 "command": "extension.openCurrentFileInQB64",
                 "title": "Open Current File in QB64",
                 "category": "qb64"
+            },
+            {
+                "command": "extension.toogleTrace",
+                "title": "Toogle Trace",
+                "category": "qb64"
             }
         ],
         "menus": {
@@ -346,6 +374,10 @@
                 },
                 {
                     "command": "extension.openCurrentFileInQB64",
+                    "when": "editorLangId == 'qb64'"
+                },
+                {
+                    "command": "extension.toogleTrace",
                     "when": "editorLangId == 'qb64'"
                 }
             ],

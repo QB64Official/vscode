@@ -19,12 +19,13 @@ export default class QB64LanguageClient extends LanguageClient {
 	// public readonly io: MessageIO = new WebSocketMessageIO();
 
 	public readonly io: MessageIO = new TCPMessageIO()
-	private _port: number = -1;
+	public port: number = -1;
 	private _started: boolean = false;
 	private _status: ClientStatus;
 	private _status_changed_callbacks: ((v: ClientStatus) => void)[] = [];
 	private _initialize_request: Message = null;
 	private message_handler: MessageHandler = null;
+	private _traceState = "";
 	// private native_doc_manager: NativeDocumentManager = null;
 
 	public get started(): boolean { return this._started; }
@@ -35,6 +36,28 @@ export default class QB64LanguageClient extends LanguageClient {
 			for (const callback of this._status_changed_callbacks) {
 				callback(v);
 			}
+		}
+	}
+
+	/*
+		Toogles the trace setting from off to verbose
+	*/
+	public toogleTrace() {
+		try {
+			if (this._traceState.length < 1) {
+				const config = vscode.workspace.getConfiguration("qb64")
+				this._traceState = config.get("lsIsTraceStatus");
+			}
+
+			// TODO: Handle messages
+			if (this._traceState == "off") {
+				this._traceState = "verbose";
+			} else if (this._traceState == "verbose") {
+				this._traceState = "off";
+			}
+			this.sendRequest("$/setTrace", { value: this._traceState });
+		} catch (error) {
+			this.outputChannel.appendLine(`ERROR: in toogleTrace:  ${error}`);
 		}
 	}
 
@@ -50,9 +73,8 @@ export default class QB64LanguageClient extends LanguageClient {
 	}
 	*/
 
-
 	// Set port here somewhere
-	constructor(port: number) {
+	constructor() {
 		super(
 			`QB64: Language Client`,
 			() => {
@@ -69,33 +91,37 @@ export default class QB64LanguageClient extends LanguageClient {
 					{ scheme: "file", language: "qb64" },
 					{ scheme: "untitled", language: "qb64" },
 				],
-				//synchronize: {
-				// Notify the server about file changes to '.bas|*.bm*/bi files contain in the workspace
-				// fileEvents: workspace.createFileSystemWatcher("**/*.bas"),
-				//},
+				synchronize: {
+					// Notify the server about file changes to '.bas|*.bm*/bi files contain in the workspace
+					fileEvents: vscode.workspace.createFileSystemWatcher("**/*.{bas,bm,bi,bc,inc}"),
+				},
 				revealOutputChannelOn: RevealOutputChannelOn.Info
 			}
 		);
 
-		this._port = port
+		this.port = this.getPort();
 		this.status = ClientStatus.PENDING;
 		this.message_handler = new MessageHandler(this.io);
 		this.io.on('disconnected', this.on_disconnected.bind(this));
-		this.io.on('connected', this.on_connected.bind(this, port));
+		this.io.on('connected', this.on_connected.bind(this, this.port));
 		this.io.on('message', this.on_message.bind(this));
 		this.io.on('send_message', this.on_send_message.bind(this));
 		//this.native_doc_manager = new NativeDocumentManager(this.io);
 	}
 
 	connect_to_server(port: number) {
-		this.outputChannel.appendLine(`[CONNECT_TO_SERVER][${this.getTime()}]`)
+		if (this._traceState != "off") {
+			this.outputChannel.appendLine(`[CONNECT_TO_SERVER][${this.getTime()}]`)
+		}
 		this.status = ClientStatus.PENDING;
 		this.io.connect_to_language_server("127.0.0.1", port);
 	}
 
 	start(): vscode.Disposable {
-		this.outputChannel.appendLine(`[START][${this.getTime()}]`)
-		this.connect_to_server(this._port);
+		if (this._traceState != "off") {
+			this.outputChannel.appendLine(`[START][${this.getTime()}]`)
+		}
+		this.connect_to_server(this.port);
 		this._started = true;
 		return super.start();
 	}
@@ -104,12 +130,14 @@ export default class QB64LanguageClient extends LanguageClient {
 		if ((message as RequestMessage).method == "initialize") {
 			this._initialize_request = message;
 		} else {
-			this.outputChannel.appendLine(`[ON_SEND_MESSAGE][${this.getTime()}] ${JSON.stringify(message)}` + Math.floor(Math.random() * (65535 - 1024 + 1)))
+			this.outputChannel.appendLine(`[ON_SEND_MESSAGE][${this.getTime()}] ${JSON.stringify(message)}`)
 		}
 	}
 
 	private on_message(message: Message) {
-		this.outputChannel.appendLine(`[ON_MESSAGE][${this.getTime()}] ${JSON.stringify(message)}` + Math.floor(Math.random() * (65535 - 1024 + 1)))
+		if (this._traceState != "off") {
+			this.outputChannel.appendLine(`[ON_MESSAGE][${this.getTime()}] ${JSON.stringify(message)}`)
+		}
 
 		/*
 		const match = JSON.stringify(message).match(/"target":"file:\/\/[^\/][^"]*"/);
@@ -124,20 +152,31 @@ export default class QB64LanguageClient extends LanguageClient {
 		this.message_handler.on_message(message);
 	}
 
+	/**
+	* Genrate random port number (int)
+	* @returns random int - 1024 & 65535 inclusive
+	*/
+	private getPort() {
+		// TODO: Add check if port is alrady in use and get a different one & move to QB64LanguageClient
+		return Math.floor(Math.random() * (65535 - 1024 + 1)) + 1024;
+	}
+
 	private on_connected() {
-		// this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}`)
+		if (this._traceState != "off") {
+			this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}`)
+		}
+
 		if (this._initialize_request) {
-			//this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}][initialize_request]`)
 			this.io.writer.write(this._initialize_request);
 		}
-		else {
-			this.outputChannel.appendLine(`[ON_CONNECTED][${this.getTime()}]`)
-		}
+
 		this.status = ClientStatus.CONNECTED;
 	}
 
 	private on_disconnected() {
-		this.outputChannel.appendLine(`[ON_DISCONNECTED][${this.getTime()}]`)
+		if (this._traceState != "off") {
+			this.outputChannel.appendLine(`[ON_DISCONNECTED][${this.getTime()}]`)
+		}
 		this.status = ClientStatus.DISCONNECTED;
 	}
 
@@ -170,7 +209,6 @@ class MessageHandler extends EventEmitter {
 
 	on_message(message: any) {
 		console.log(`[MessageHandler][on_message] ${message}`)
-		// FIXME: Hot fix VSCode 1.42 hover position
 		if (message && message.result && message.result.range && message.result.contents) {
 			message.result.range = undefined;
 		}

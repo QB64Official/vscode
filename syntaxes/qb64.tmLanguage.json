@@ -120,15 +120,15 @@
 			"name": "variable.other.dim.qb64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Command|_Startdir|startdir|Date|Time|on timer|_FREETIMER|_commandcount|commandcountCall|Screenhide|_Screenhide|_screenshow|_screenmove|screenmove|screen|screenshow|_screenmove|screenmove|os|_os|title|_title|_newimage|newimage|DECLARE|DEF|SEG|resume|Rest|Timer|gosub|call|DEFINT|Cls|Const|Shared|As|Redim|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option _Explicit|Option Explicit|option _explicitarray|option explicitarray|Print|Color|On Error Resume Next|On Error GoTo|Error|_errormessage|errormessage|errorline|_errorline|_INCLERRORFILE|INCLERRORFILE|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str|Val|Mid)\\b\\s*)",
+			"match": "(?i:\\s*\\b(Command|_Startdir|startdir|Date|Time|on timer|_FREETIMER|_commandcount|commandcountCall|Screenhide|_Screenhide|_screenshow|_screenmove|screenmove|screen|screenshow|_screenmove|screenmove|os|_os|title|_title|_newimage|newimage|DECLARE|DEF|SEG|resume|Rest|Timer|gosub|call|DEFINT|Cls|Const|Shared|As|Redim|_PRESERV|PRESERV|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|Option _Explicit|Option Explicit|option _explicitarray|option explicitarray|Print|Color|On Error Resume Next|On Error GoTo|Error|_errormessage|errormessage|errorline|_errorline|_INCLERRORFILE|INCLERRORFILE|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str|Split|Val|Mid)\\b\\s*)",
 			"name": "storage.type.qb64"
 		},
 		{
-			"match": "(?i:\\s*\\b(ByVal|Dynamic|Library|Inkey|_openhost|openhost|_OPENCLIENT|_openconnection|openconnection|OPENCLIENT|_CONNECTED|CONNECTED|_CONNECTIONADDRESS|CONNECTIONADDRESS|_direxists|direxists|_fileexists|fileexists|mkdir)\\b\\s*)",
+			"match": "(?i:\\s*\\b(ByVal|Dynamic|Library|Inkey|_openhost|openhost|_OPENCLIENT|_openconnection|openconnection|OPENCLIENT|socket_close|socket_status|_CONNECTED|CONNECTED|_CONNECTIONADDRESS|CONNECTIONADDRESS|_direxists|direxists|_fileexists|fileexists|mkdir|rmdir|)\\b\\s*)",
 			"name": "storage.type.qb64"
 		},
 		{
-			"match": "(?i:\\b(ProductVersion|LegalCopyright|CompanyName|VersionInfo|FileVersion|FileDescription|ProductName|ExeIcon|NoPrefix|End|System|Environ|_ENVIRONCOUNT|ENVIRONCOUNT)\\b)",
+			"match": "(?i:\\b(ProductVersion|LegalCopyright|CompanyName|VersionInfo|FileVersion|FileDescription|ProductName|ExeIcon|NoPrefix|End|Stop|System|Environ|_ENVIRONCOUNT|ENVIRONCOUNT)\\b)",
 			"name": "storage.type.qb64"
 		},
 		{
@@ -136,7 +136,7 @@
 			"name": "sound.qb64"
 		},
 		{
-			"match": "(?i:\\s*\\b(Open|Eof|Poke|Data|Close|Get|Read|Input|Random|Put|Write|Append|FreeFile)\\b)",
+			"match": "(?i:\\s*\\b(Open|Eof|Poke|Data|Close|Get|Read|Input|Random|Put|Write|Append|FreeFile|kill|Output)\\b)",
 			"name": "file.qb64"
 		},
 		{
@@ -144,7 +144,7 @@
 			"name": "graphics.qb64"
 		},
 		{
-			"match": "(?i:\\b(Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exists|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetRef|Hex|Hour|InputBox|InStr|InStrRev|Int|Fix|IsDate|IsNull|IsNumeric|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|Maths|Mid|Minute|Month|MonthName|Oct|Rgb|_Rgb|_rgba|rgba|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Split|Sqr|StrComp|String|StrReverse|Tan|Time|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year)\\b)",
+			"match": "(?i:\\b(Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetRef|Hex|Hour|InputBox|InStr|InStrRev|Int|Fix|IsDate|IsNull|IsNumeric|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|Maths|Mid|Minute|Month|MonthName|Oct|Rgb|_Rgb|_rgba|rgba|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Sqr|StrComp|String|StrReverse|Tan|Time|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year)\\b)",
 			"name": "storage.type.qb64"
 		},
 		{

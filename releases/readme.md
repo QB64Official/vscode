@@ -20,6 +20,14 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Added language server
   - Added file syntax colors
 
+## 0.8.7
+- Bugs
+  - Issue [#99](https://github.com/QB64Official/vscode/issues/99) ctrl+shift+u and ctrl+shift+l not working8
+  - Issue [#98](https://github.com/QB64Official/vscode/issues/98) Issue with working path for nested folders - Windows
+  - Issue [#97](https://github.com/QB64Official/vscode/issues/97) "Statement cannot be placed between SUB/FUNCTIONs" does not show in problems
+  - Issue [#95](https://github.com/QB64Official/vscode/issues/95) Version 0.8.7 Formatting: Space is getting removed from >-1 
+  - Issue [#94](https://github.com/QB64Official/vscode/issues/94) Version 0.8.7 Highlighting changes
+
 ## 0.8.6
 - Bugs
   - Issue [#93](https://github.com/QB64Official/vscode/issues/92) VSCode starts old binary if build fails
