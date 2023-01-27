@@ -20,6 +20,10 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Added language server
   - Added file syntax colors
 
+## 0.8.8
+- Bugs
+  - Issue [#100](https://github.com/QB64Official/vscode/issues/100) Version 0.8.8 Highlighting changes
+
 ## 0.8.7
 - Bugs
   - Issue [#99](https://github.com/QB64Official/vscode/issues/99) ctrl+shift+u and ctrl+shift+l not working8
