@@ -102,6 +102,10 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 	private cleanUpCode(code: string): string {
 
+		//
+
+		//.replaceAll(/(?<!")\s*:\s*/g, " : ")
+
 		code = code
 			.replaceAll(/\s*-\s*/g, "-")
 			.replaceAll(/\s*:\s*/g, " : ")
@@ -159,6 +163,13 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				code = code.replace("data-", "data -");
 			}
 		}
+
+		// Powershell Stuff
+		code = code
+			.replaceAll(/get\s*-\s*item/ig, "Get-Item")
+			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
+			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
+
 		return code.trim();
 	}
 
