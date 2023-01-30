@@ -157,6 +157,13 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				code = code.replace("data-", "data -");
 			}
 		}
+
+		// Powershell Stuff
+		code = code
+			.replaceAll(/get\s*-\s*item/ig, "Get-Item")
+			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
+			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
+
 		return code.trim();
 	}
 
