@@ -169,6 +169,10 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/get\s*-\s*item/ig, "Get-Item")
 			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
 			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
+			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
+			.replaceAll("@ { name = ", "@{name=")
+			.replaceAll("'MM / dd / yyyy hh : mm : ss tt'", "'MM/dd/yyyy hh:mm:ss tt'")
+			.replace("Get - ChildItem-force-path '", "Get-ChildItem -force -path '")
 
 		return code.trim();
 	}
