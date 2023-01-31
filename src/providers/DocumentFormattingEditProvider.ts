@@ -137,6 +137,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll("=.", "= .")
 			.replaceAll(">-", "> -")
 			.replaceAll("<-", "< -")
+			.replace(" step - ", "  step -")
 			.replaceAll(/\s\s+/g, " ")
 			.trim();
 
