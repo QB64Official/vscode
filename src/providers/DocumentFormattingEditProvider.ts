@@ -15,7 +15,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 	 * @returns 
 	 */
 	private addOperatorSpaces(code: string): string {
-		const matches = code.matchAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|\/|{|}|`|;|:|\*|:\s+/g);
+		//const matches = code.matchAll(/\s+,|\(|\)|\+|-|=|<|>|\[|\]|\/|{|}|`|;|:|\*|:\s+/g);
+		const matches = code.matchAll(/(?<!")\s+,|\(|\)|\+|-|=|<|>|\[|\]|\/|{|}|`|;|:|\*|:\s+(?!")/g)
 		if (matches) {
 			for (const match of matches) {
 				code = code.replaceAll(match[0], ` ${match[0]} `);
@@ -107,10 +108,10 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		//.replaceAll(/(?<!")\s*:\s*/g, " : ")
 
 		code = code
-			.replaceAll(/\s*-\s*/g, "-")
-			.replaceAll(/\s*:\s*/g, " : ")
-			.replaceAll(/\s*;\s*/g, ";")
-			.replaceAll(/\s*,\s*/g, ",")
+			.replaceAll(/(?<!")\s*-\s*/g, "-")
+			.replaceAll(/(?<!")\s*:\s*/g, " : ")
+			.replaceAll(/(?<!")\s*;\s*/g, ";")
+			.replaceAll(/(?<!")\s*,\s*/g, ",")
 			.replaceAll(",", ", ")
 			.replaceAll(/\s*\(\s*/g, "(")
 			.replaceAll(/\s*\)\s*/g, ") ").replaceAll(") ,", "),")
@@ -130,7 +131,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replace(/^if\(/i, `${new TokenInfo("if").WordFormatted} (`)
 			.replaceAll(/(\sand\()/gi, ` ${new TokenInfo("and").WordFormatted} (`)
 			.replaceAll(/(\sor\()/gi, ` ${new TokenInfo("or").WordFormatted} (`)
-			.replace(/-(?=[A-Za-z]|\d\))/i, " - ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
+			.replace(/(?<!")-(?=[A-Za-z]|\d\))/i, " - ").replace(/(?<=[A-Za-z]|\))-/i, " - ")
 			.replace("delay.", "delay .") // major hack
 			.replaceAll(",.", ", .")
 			.replaceAll("=.", "= .")
@@ -167,8 +168,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		// Powershell Stuff
 		code = code
 			.replaceAll(/get\s*-\s*item/ig, "Get-Item")
-			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
-			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
 			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
 			.replaceAll("@ { name = ", "@{name=")
 			.replaceAll("'MM / dd / yyyy hh : mm : ss tt'", "'MM/dd/yyyy hh:mm:ss tt'")
@@ -232,9 +231,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				} else if (lowerLine.startsWith("elseif ") && lowerLine.indexOf(" then") < 0) {
 					newLine = `${newLine} then`
 					lowerLine = newLine.toLowerCase();
-				} else {
-					newLine = newLine.replace("++", "+ 1");
-					newLine = newLine.replace(/(?<=[A-Za-z])--/i, " - 1")
+					// } else {
+					// 	newLine = newLine.replace("++", "+ 1");
+					// 	newLine = newLine.replace(/(?<!")(?<=[A-Za-z])--/i, " - 1")
 				}
 
 				if (!isSingleLineIf) {
