@@ -4,9 +4,10 @@
 		{
 			"label": "build",
 			"dependsOn": [
+				"changelog",
 				"esbuild",
 				"vsce",
-				"changelog"
+				"release"
 			]
 		},
 		{
@@ -63,6 +64,18 @@
 			"presentation": {
 				"reveal": "always",
 				"panel": "shared"
+			}
+		},
+		{
+			"label": "release",
+			"type": "shell",
+			"windows": {
+				"command": "move-item",
+				"args": [
+					"\"${workspaceFolder}\\*.vsix\"",
+					"\"${workspaceFolder}\\releases\"",
+					"-Force"
+				]
 			}
 		}
 	]
