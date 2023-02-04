@@ -156,6 +156,7 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("TYPE ")
 				|| lintLine.startsWith("Only ")
 				|| lintLine.startsWith("Number required for function")
+				|| lintLine.startsWith("Variable ")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {

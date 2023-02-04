@@ -102,6 +102,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 	private cleanUpCode(code: string): string {
 
+		// This is crap.  Needs reworked to skip strings
+
 		code = code
 			.replaceAll(/\s*-\s*/g, "-")
 			.replaceAll(/\s*:\s*/g, " : ")
@@ -131,6 +133,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(",.", ", .")
 			.replaceAll("=.", "= .")
 			.replaceAll(/\s\s+/g, " ")
+			.replace(" step - ", "  step -")
 			.trim();
 
 		if (code.toLowerCase().endsWith(" :")) {
@@ -164,7 +167,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.replaceAll(/pwsh\s*-\s*command/ig, "pwsh -command")
 			.replaceAll("@ { name = ", "@{name=")
 			.replaceAll("'MM / dd / yyyy hh : mm : ss tt'", "'MM/dd/yyyy hh:mm:ss tt'")
+			.replaceAll("hh : mm : ss", "hh:mm:ss")
 			.replace("Get - ChildItem-force-path '", "Get-ChildItem -force -path '")
+			.replace('"-a - 1-"', "-a---")
 
 		return code.trim();
 	}
@@ -224,9 +229,9 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				} else if (lowerLine.startsWith("elseif ") && lowerLine.indexOf(" then") < 0) {
 					newLine = `${newLine} then`
 					lowerLine = newLine.toLowerCase();
-				} else {
-					newLine = newLine.replace("++", "+ 1");
-					newLine = newLine.replace(/(?<=[A-Za-z])--/i, " - 1")
+					// } else {
+					// 	newLine = newLine.replace("++", "+ 1");
+					// 	newLine = newLine.replace(/(?<=[A-Za-z])--/i, " - 1")
 				}
 
 				if (!isSingleLineIf) {
