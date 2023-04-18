@@ -20,7 +20,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				const line = document.lineAt(i);
 				let tokens: string[] = line.text.trim().split('(');
 				let lineText = line.text.trim().toLowerCase();
-				let symbol = tokens[0].trim() || "undef";
+				let symbol = tokens[0].trim() || "undef"; // Kludge "cannot be falsy"
 				let symbolKind: any = false;
 				if (lineText.startsWith('sub ')) {
 					symbolKind = vscode.SymbolKind.Method;
@@ -74,14 +74,12 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 						let type_lines: string[] = [];
 						let found_end_type: boolean = false;
 						let exploded_str: string = '';
-						while(found_end_type == false) {
-							type_lines = document.getText().split('\n').slice(z+1,z+20);
-							for (var x=0; x < type_lines.length; x++) {
-								type_lines[x] = type_lines[x].replace('\r', '');
-								if (type_lines[x].trim().toLowerCase().indexOf('end type') != -1) {
-									found_end_type = true;
-									break;
-								}
+						type_lines = document.getText().split('\n').slice(z+1,z+1024);
+						for (var x=0; x < type_lines.length; x++) {
+							type_lines[x] = type_lines[x].replace('\r', '');
+							if (type_lines[x].trim().toLowerCase().indexOf('end type') != -1) {
+								found_end_type = true;
+								break;
 							}
 						}
 						let type_vars: string[] = [];
@@ -91,13 +89,13 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 							var as_loc   = type_var.toLowerCase().indexOf('as')
 							pieces = type_vars[x].trim().toLowerCase().split('as');
 							var child_symbol = type_var.substring(0, as_loc);
-							if (pieces.length >= 1 && pieces[1]) {
+							if (pieces.length >= 1 && pieces[1] && !child_symbol.startsWith("'")) {
 								var child_symbolText = type_var.substring(as_loc);
 								var child_symbolKind = vscode.SymbolKind.Property;
 								symbolChildren.push(
 									new vscode.DocumentSymbol(
-										child_symbol.trim() || ' ',
-										child_symbolText.trim() || ' ',
+										child_symbol.trim() || ' ', // Kludge "cannot be falsy"
+										child_symbolText.trim() || ' ', // Kludge "cannot be falsy"
 										child_symbolKind,
 										(new vscode.Range(line.lineNumber + x + 1, 0, line.lineNumber + x + 2, type_vars[x].length)), 
 										(new vscode.Range(line.lineNumber + x + 1, 0, line.lineNumber + x + 2, type_vars[x].length))
