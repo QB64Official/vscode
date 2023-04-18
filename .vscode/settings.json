@@ -9,4 +9,5 @@
 		"db/qb64.sqbpro": true
 	},
 	"window.title": "VSCODE - ${activeEditorShort}",
+	"cmake.configureOnOpen": false,
 }
