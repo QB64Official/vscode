@@ -18,38 +18,43 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
 			for (let i = 0; i < document.lineCount; i++) {
 				const line = document.lineAt(i);
-				let tokens: string[] = line.text.trim().split(' ');
+				let tokens: string[] = line.text.trim().split('(');
 				let lineText = line.text.trim().toLowerCase();
-				let symbol = tokens[1] || "undef";
+				let symbol = tokens[0].trim() || "undef";
 				let symbolKind: any = false;
 				if (lineText.startsWith('sub ')) {
 					symbolKind = vscode.SymbolKind.Method;
+					symbol = symbol.substring(4);
 					var start_pos = line.text.trim().indexOf("(");
 					var symbolText = (start_pos != -1) ? 'Sub (' + getParams(line.text) + ')' : 'Sub';
 				}
 				if (lineText.startsWith('function ')) {
 					symbolKind = vscode.SymbolKind.Function;
+					symbol = symbol.substring(9);
 					var start_pos = line.text.trim().indexOf("(");
 					var symbolText = (start_pos != -1) ? 'Function (' + getParams(line.text) + ')' : 'Function';
 				}
 				if (lineText.startsWith('declare sub ')) {
 					symbolKind = vscode.SymbolKind.Method;
-					symbol = tokens[2];
+					symbol = line.text.trim().substring(12, line.text.trim().indexOf(' ', 12));
 					var start_pos = line.text.trim().indexOf("(");
 					var symbolText = (start_pos != -1) ? 'Declare Sub (' + getParams(line.text) + ')' : 'Declare Sub';
 				}
 				if (lineText.startsWith('declare function ')) {
 					symbolKind = vscode.SymbolKind.Function;
-					symbol = tokens[2];
+					symbol = line.text.trim().substring(17, line.text.trim().indexOf(' ', 17));
 					var start_pos = line.text.trim().indexOf("(");
 					var symbolText = (start_pos != -1) ? 'Declare Function (' + getParams(line.text) + ')' : 'Declare Function';
 				}
 				if (lineText.startsWith('const ')) {
-					symbolKind = vscode.SymbolKind.Constant;
 					var symbolText = 'Const';
-					if (lineText.indexOf('=')) {
-						var assignment = line.text.trim().split('=');
-						var symbolText = '= ' + assignment[1];
+					var equal_pos = lineText.indexOf('=');
+					if (equal_pos != -1) {
+						symbol = line.text.trim().substring(6, equal_pos - 1).trim();
+						if (symbol != '_') {
+							symbolKind = vscode.SymbolKind.Constant;
+							var symbolText = '= ' + line.text.trim().substring(equal_pos + 1);
+						}
 					}
 				}
 				if (lineText.startsWith("'$include:")) {
@@ -59,8 +64,11 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 					var symbolText = 'Include';
 				}
 				if (lineText.startsWith("type ")) {
+					var pieces = line.text.trim().split(' ');
+					symbol = pieces[1];
+					var symbolChildren: vscode.DocumentSymbol[] = [];
 					if (symbol.toLowerCase() != 'as') {
-						symbolKind = vscode.SymbolKind.Object;
+						symbolKind = vscode.SymbolKind.Class;
 						var symbolText = 'Type';
 						let z: number = line.lineNumber;
 						let type_lines: string[] = [];
@@ -77,18 +85,37 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 							}
 						}
 						let type_vars: string[] = [];
-						type_vars = document.getText().split('\n').slice(line.lineNumber+1, z+x);
-						let foo = 'bar';
-						//TODO extract type variable and var type for DocumentSymbol of Property
+						type_vars = document.getText().split('\n').slice(z+1, z+1+x);
+						for (var x=0; x < type_vars.length; x++) {
+							var type_var = type_vars[x].trim();
+							var as_loc   = type_var.toLowerCase().indexOf('as')
+							pieces = type_vars[x].trim().toLowerCase().split('as');
+							var child_symbol = type_var.substring(0, as_loc);
+							if (pieces.length >= 1 && pieces[1]) {
+								var child_symbolText = type_var.substring(as_loc);
+								var child_symbolKind = vscode.SymbolKind.Property;
+								symbolChildren.push(
+									new vscode.DocumentSymbol(
+										child_symbol.trim() || ' ',
+										child_symbolText.trim() || ' ',
+										child_symbolKind,
+										(new vscode.Range(line.lineNumber + x + 1, 0, line.lineNumber + x + 2, type_vars[x].length)), 
+										(new vscode.Range(line.lineNumber + x + 1, 0, line.lineNumber + x + 2, type_vars[x].length))
+									)								
+								)
+							}
+						}
 					}
 				}
 				if (lineText.endsWith(":") && lineText.startsWith("'") == false) {
-					symbolKind = vscode.SymbolKind.Event;
 					symbol = line.text.trim();
-					if (symbol.toLowerCase() != 'do:' && symbol.toLowerCase() != 'while:') {
-						var symbolText = 'Label';
-					} else {
-						var symbolText = 'Loop';
+					if (!symbol.toLowerCase().startsWith('case')) {
+						symbolKind = vscode.SymbolKind.Event;
+						if (symbol.toLowerCase() != 'do:' && symbol.toLowerCase() != 'while:') {
+							var symbolText = 'Label';
+						} else {
+							var symbolText = 'Loop';
+						}
 					}
 				}
 				if (symbolKind != false) {
@@ -99,6 +126,10 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 						line.range, 
 						line.range
 					);
+					if (symbolChildren) {
+						marker_symbol.children = symbolChildren;
+						symbolChildren = [];
+					}
 					nodes[nodes.length - 1].push(marker_symbol);
 				}
 			}
