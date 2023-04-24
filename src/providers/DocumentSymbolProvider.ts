@@ -72,13 +72,10 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 						symbolText = 'Type';
 						let z: number = line.lineNumber;
 						let type_lines: string[] = [];
-						let found_end_type: boolean = false;
-						let exploded_str: string = '';
 						type_lines = document.getText().split('\n').slice(z + 1, z + 1024);
 						for (var x = 0; x < type_lines.length; x++) {
 							type_lines[x] = type_lines[x].replace('\r', '');
 							if (type_lines[x].trim().toLowerCase().indexOf('end type') != -1) {
-								found_end_type = true;
 								break;
 							}
 						}
