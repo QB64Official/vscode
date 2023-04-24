@@ -12,7 +12,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.8.9
 - Enchantments
-  - Add settings for compiler path and help path (split out)
+  - Issue [#103](https://github.com/QB64Official/vscode/issues/103) Add settings for compiler path and help path (split out)
 
 ## 0.8.8
 - Enchantments
