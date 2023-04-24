@@ -20,6 +20,10 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Added language server
   - Added file syntax colors
 
+## 0.8.9
+- Enchantments
+  - Issue [#103] Add settings for compiler path and help path (split out)
+
 ## 0.8.8
 - Bugs
   - Issue [#100](https://github.com/QB64Official/vscode/issues/100) Version 0.8.8 Highlighting changes

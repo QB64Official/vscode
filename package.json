@@ -69,7 +69,7 @@
                             },
                             "cwd": {
                                 "type": "string",
-                                "description": "Full path to the directory where the program will run. Defaults to ${fileDirname}",
+                                "description": "Full path to the directory where the program will run. Defaults to ${fileDirname}",
                                 "default": "${fileDirname}"
                             }
                         }
@@ -208,6 +208,16 @@
                     "type": "string",
                     "default": "",
                     "description": "Path: Full path to the QB64 directory(folder)."
+                },
+                "qb64.helpPath": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Path: Full path to the help directory(folder)."
+                },
+                "qb64.compilerPath": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Path: Full path to the compiler."
                 },
                 "qb64.isOpenHelpInEditModeEnabled": {
                     "type": "boolean",

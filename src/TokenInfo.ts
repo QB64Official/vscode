@@ -3,7 +3,6 @@ import * as fs from "fs";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
-import { workerData } from "worker_threads";
 
 export class TokenInfo {
 	private outputChannnel: any = null;
@@ -47,8 +46,8 @@ export class TokenInfo {
 		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
 		const path = require('path');
 
-		let helpPath: string = config.get("installPath");
-		let helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
+		let helpPath: string = config.get("helpPath");
+		let helpFile = path.join(helpPath, `${this.keyword}.md`).replaceAll("\\", "/");
 
 		// logFunctions.writeLine(`${this.keyword} | Help file ${helpFile}`, this.outputChannnel);
 		if (this.lineOfCode.toLowerCase().trim().indexOf("for") < 0) {
@@ -62,7 +61,7 @@ export class TokenInfo {
 
 			// logFunctions.writeLine(`Keyword ${this.keyword} not found adding "_" and trying again`, this.outputChannnel);
 			this.keyword = `_${token}`;
-			helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
+			helpFile = path.join(helpPath, `${this.keyword}.md`).replaceAll("\\", "/");
 			if (fs.existsSync(helpFile)) {
 				this.offlinehelp = helpFile;
 				this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
@@ -75,7 +74,7 @@ export class TokenInfo {
 		// logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
 		this.keyword = `${token}`;
 		// logFunctions.writeLine(`helpify file ${helpFile}`, this.outputChannnel);
-		helpFile = path.join(helpPath, "internal", "help", `${this.helpify()}.md`).replaceAll("\\", "/");
+		helpFile = path.join(helpPath, `${this.helpify()}.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
 			this.offlinehelp = helpFile;
 			this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
@@ -163,7 +162,7 @@ export class TokenInfo {
 			word = "SELECT-CASE"
 		} else if (word == "do" || word == "loop") {
 			word = "DO...LOOP"
-		} else if (word == "declare") {
+		} else if (word == "declare" || (word == "dynamic") || (word == "library")) {
 			word = "DECLARE-LIBRARY";
 		}
 		// logFunctions.writeLine(`After Before: ${word}`, this.outputChannnel);
