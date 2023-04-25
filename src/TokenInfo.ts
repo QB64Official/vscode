@@ -104,7 +104,12 @@ export class TokenInfo {
 		let retvalue = ""
 		if (this.isKeyword) {
 			if (this.offlinehelp.length > 0) {
-				retvalue = fs.readFileSync(this.offlinehelp).toString();
+				const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
+				const path = require('path');		
+				let helpPath: string = config.get("helpPath");
+				retvalue = fs.readFileSync(this.offlinehelp).toString();		
+				var linkified = retvalue.replaceAll(/\[(\w*)\]\((\w*)\)/igm, '[$1](file:' + helpPath.replaceAll('\\', '/') + '/$1.md)');
+				retvalue = linkified;
 			} else {
 				retvalue = "Press F1 for help"
 			}
