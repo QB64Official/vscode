@@ -116,7 +116,10 @@ export function createFiles() {
 			"**/*.json-bak": true,
 			"**/desktop.ini": true
 		},
-		"files.defaultLanguage": "qb64",
+		"files.defaultLanguage": "qb64",,
+		"workbench.editorAssociations": {
+			"*.md": "vscode.markdown.preview.editor"
+		},
 		"editor.tokenColorCustomizations": {
 			"textMateRules": [
 				{
