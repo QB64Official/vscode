@@ -117,7 +117,6 @@ export function createFiles() {
 			"**/desktop.ini": true
 		},
 		"files.defaultLanguage": "QB64",
-		"editor.multiCursorModifier": "ctrlCmd",
 		"editor.tokenColorCustomizations": {
 			"textMateRules": [
 				{
