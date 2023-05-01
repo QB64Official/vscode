@@ -10,6 +10,21 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.8.9
+- Pull Requests
+  - PR [#106](https://github.com/QB64Official/vscode/pull/106) Fix hover link dollar signs
+  - PR [#105](https://github.com/QB64Official/vscode/pull/105) hoverProvider link open fix
+  - PR [#104](https://github.com/QB64Official/vscode/pull/104) Added new words that end with $ to helpify for hover help lookups.Added new words that end with $ to helpify for hover help lookups.
+- Enchantments
+  - Issue [#107](https://github.com/QB64Official/vscode/issues/107) Markdown opens in edit mode when clicking on hovertext
+    - The change is only applied to the creation of new settings.json.  To apply this to exiting settings.json add the following snippet.
+      "workbench.editorAssociations": {
+        "*.md": "vscode.markdown.preview.editor"
+      },
+  - Issue [#103](https://github.com/QB64Official/vscode/issues/103) Add settings for compiler path and help path (split out)
+- Bugs
+  - Issue [#61](https://github.com/QB64Official/vscode/issues/61) 0.8.0 VSIX - CTRL+Move mouse doing *weird things*.
+
 ## 0.8.8
 - Enchantments
   - PR - Document Symbol Enchantments

@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.8.8",
+    "version": "0.8.9",
     "engines": {
         "vscode": "^1.70.0"
     },
@@ -68,7 +68,7 @@
                             },
                             "cwd": {
                                 "type": "string",
-                                "description": "Full path to the directory where the program will run. Defaults to ${fileDirname}",
+                                "description": "Full path to the directory where the program will run. Defaults to ${fileDirname}",
                                 "default": "${fileDirname}"
                             }
                         }
@@ -188,6 +188,16 @@
                     "default": "",
                     "description": "Path: Full path to the QB64 directory(folder)."
                 },
+                "qb64.helpPath": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Path: Full path to the help directory(folder)."
+                },
+                "qb64.compilerPath": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Path: Full path to the compiler."
+                },
                 "qb64.isOpenHelpInEditModeEnabled": {
                     "type": "boolean",
                     "default": false,
@@ -207,7 +217,8 @@
                 "extensions": [
                     ".bas",
                     ".bi",
-                    ".bm"
+                    ".bm",
+                    ".inc"
                 ],
                 "icon": {
                     "light": "./images/qb64-light.svg",

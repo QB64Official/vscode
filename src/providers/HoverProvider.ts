@@ -25,6 +25,7 @@ export class HoverProvider implements vscode.HoverProvider {
 			const keywordInfo = new TokenInfo(commonFunctions.getQB64WordFromDocument(document, position), document.lineAt(position.line).text, this.outputChannnel);
 			if (keywordInfo.offlinehelp.length > 0) {
 				const markdownString = new vscode.MarkdownString(keywordInfo.getHoverText());
+				markdownString.isTrusted = true;
 				return new vscode.Hover(markdownString);
 			}
 			logFunctions.writeLine(`offline hover not found: ${keywordInfo.token}`, this.outputChannnel);

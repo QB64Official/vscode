@@ -8,10 +8,10 @@ export class TokenInfo {
 	private outputChannnel: any = null;
 	private readonly lineOfCode: string = "";
 	public readonly keyword: string = "";
-	public readonly keywordNoPrfix: string = "";
+	public keywordNoPrfix: string = "";
 	public readonly token: string = "";
-	public readonly offlinehelp: string = "";
-	public readonly onlineHelp: string = "";
+	public offlinehelp: string = "";
+	public onlineHelp: string = ""; // Should be read only or have a private setter.
 	public WordFormatted: string = ""; // Should be read only or have a private setter.
 	public readonly isKeyword: boolean = true;
 
@@ -46,54 +46,55 @@ export class TokenInfo {
 		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
 		const path = require('path');
 
-		let helpPath: string = config.get("installPath");
-		let helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
+		let helpPath: string = config.get("helpPath");
+		let helpFile: string = path.join(helpPath, `${this.helpify()}.md`).replaceAll("\\", "/");
 
-		// logFunctions.writeLine(`${this.keyword} | Help file ${helpFile}`, this.outputChannnel);
-		if (this.lineOfCode.toLowerCase().trim().indexOf("for") < 0) {
+		if (this.lineOfCode.toLowerCase().trim().indexOf("for") == 0 || this.lineOfCode.toLowerCase().trim().indexOf("if") == 0) {
 			if (fs.existsSync(helpFile)) {
-				this.offlinehelp = helpFile;
-				this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
-				this.keywordNoPrfix = this.keyword.startsWith("_") ? this.keyword.slice(1) : this.keyword;
-				this.WordFormatted = this.getWordFormatted(config);
-				return
-			}
-
-			// logFunctions.writeLine(`Keyword ${this.keyword} not found adding "_" and trying again`, this.outputChannnel);
-			this.keyword = `_${token}`;
-			helpFile = path.join(helpPath, "internal", "help", `${this.keyword}.md`).replaceAll("\\", "/");
-			if (fs.existsSync(helpFile)) {
-				this.offlinehelp = helpFile;
-				this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
-				this.keywordNoPrfix = this.keyword.slice(1);
-				this.WordFormatted = this.getWordFormatted(config);
+				this.setHelpToFile(helpFile, config);
 				return
 			}
 		}
 
-		// logFunctions.writeLine(`Keyword ${this.keyword} markdown not found not. Tring helpify `, this.outputChannnel);
-		this.keyword = `${token}`;
-		// logFunctions.writeLine(`helpify file ${helpFile}`, this.outputChannnel);
-		helpFile = path.join(helpPath, "internal", "help", `${this.helpify()}.md`).replaceAll("\\", "/");
+		helpFile = path.join(helpPath, `${this.keyword}.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
-			this.offlinehelp = helpFile;
-			this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
-			this.keywordNoPrfix = this.keyword;
-			this.WordFormatted = this.getWordFormatted(config);
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `${this.helpify()}$.md`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		this.keyword = `_${token}`;
+		helpFile = path.join(helpPath, `${this.keyword}.md`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `${this.keyword}$.md`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
 			return
 		}
 
 		this.keyword = token;
 		this.isKeyword = false;
 		this.WordFormatted = token;
+	}
 
-		/*
-		logFunctions.writeLine(`keywordInfo.token: ${this.token}`, this.outputChannnel);
-		logFunctions.writeLine(`keywordInfo.keyword: ${this.keyword}`, this.outputChannnel);
-		logFunctions.writeLine(`keywordInfo.keywordNoPrfix: ${this.keywordNoPrfix}`, this.outputChannnel);
-		logFunctions.writeLine(`keywordInfo.offlinehelp: ${this.offlinehelp}`, this.outputChannnel);
-		logFunctions.writeLine(`keywordInfo.isKeyword: ${this.isKeyword}`, this.outputChannnel);
-		*/
+	/**
+	 * Sets the properties to a help file.
+	 * @param helpfile 
+	 */
+	private setHelpToFile(helpfile: string, config: vscode.WorkspaceConfiguration) {
+		this.offlinehelp = helpfile;
+		this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
+		this.keywordNoPrfix = this.keyword.startsWith("_") ? this.keyword.slice(1) : this.keyword;
+		this.WordFormatted = this.getWordFormatted(config);
 	}
 
 	/**
@@ -104,7 +105,10 @@ export class TokenInfo {
 		let retvalue = ""
 		if (this.isKeyword) {
 			if (this.offlinehelp.length > 0) {
+				const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
+				let helpPath: string = config.get("helpPath");
 				retvalue = fs.readFileSync(this.offlinehelp).toString();
+				retvalue = retvalue.replaceAll(/\[([\w|\$]*)\]\(([\w|\$]*)\)/igm, '[$1](file:' + helpPath.replaceAll('\\', '/') + '/$1.md)');
 			} else {
 				retvalue = "Press F1 for help"
 			}
@@ -149,7 +153,7 @@ export class TokenInfo {
 		} else if (word == "companyname" || word == "fileversion#" || word == "productversion" || word == "legalcopyright") {
 			word = "$VERSIONINFO"
 		} else if (word == "if" || word == "then") {
-			word = "If...Then"
+			word = "IF...THEN"
 		} else if (this.lineOfCode.trim().toLowerCase().startsWith("for ") || word == "next") {
 			word = "FOR...NEXT"
 		} else if (word == "for") {

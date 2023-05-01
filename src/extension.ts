@@ -9,6 +9,7 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
+import * as path from 'path';
 import { TokenInfo } from "./TokenInfo";
 import { ReferenceProvider } from "./providers/ReferenceProvider";
 import { DefinitionProvider } from "./providers/DefinitionProvider";
@@ -53,7 +54,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 	decoratorFunctions.setupDecorate();
 	vscodeFucnctions.createFiles();
-	vscodeFucnctions.createFiles();
 	gitFunctions.createGitignore();
 
 	// Register Commands here
@@ -74,6 +74,19 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Register Miscellaneous
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
+
+	// Default the compiler and help settings -- The code can can be deleted once everyon is off the old versions
+	const installPath: string = config.get('installPath');
+	if (installPath != null && installPath.length > 0) {
+		let work: string = config.get('compilerPath')
+		if (work == null || work.length < 1) {
+			config.update('compilerPath', `${installPath}\\qb64.exe`, vscode.ConfigurationTarget.Global);
+		}
+		work = config.get('helpPath')
+		if (work == null || work.length < 1) {
+			config.update('helpPath', `${installPath}\\internal\\help`, vscode.ConfigurationTarget.Global);
+		}
+	}
 }
 
 
@@ -83,28 +96,28 @@ export function activate(context: vscode.ExtensionContext) {
 export function openCompileLog() {
 	const config = vscode.workspace.getConfiguration("qb64")
 	try {
-		let qb64InstallPath: string = config.get("installPath");
-		if (qb64InstallPath) {
-			qb64InstallPath = qb64InstallPath.replaceAll("\\", "/");
-			if (findAndOpenCompileLog(qb64InstallPath, "temp")) {
+		let baseFolder: string = path.dirname(config.get("compilerPath"));
+		if (baseFolder) {
+			baseFolder = baseFolder.replaceAll("\\", "/");
+			if (findAndOpenCompileLog(baseFolder, "temp")) {
 				return
-			} else if (findAndOpenCompileLog(qb64InstallPath, "temp1")) {
+			} else if (findAndOpenCompileLog(baseFolder, "temp1")) {
 				return
-			} else if (findAndOpenCompileLog(qb64InstallPath, "temp2")) {
+			} else if (findAndOpenCompileLog(baseFolder, "temp2")) {
 				return
-			} else if (findAndOpenCompileLog(qb64InstallPath, "temp3")) {
+			} else if (findAndOpenCompileLog(baseFolder, "temp3")) {
 				return
-			} else if (findAndOpenCompileLog(qb64InstallPath, "temp4")) {
+			} else if (findAndOpenCompileLog(baseFolder, "temp4")) {
 				return
-			} else if (findAndOpenCompileLog(qb64InstallPath, "temp5")) {
+			} else if (findAndOpenCompileLog(baseFolder, "temp5")) {
 				return
-			} else if (findAndOpenCompileLog(qb64InstallPath, "temp6")) {
+			} else if (findAndOpenCompileLog(baseFolder, "temp6")) {
 				return
-			} else if (findAndOpenCompileLog(qb64InstallPath, "temp7")) {
+			} else if (findAndOpenCompileLog(baseFolder, "temp7")) {
 				return
-			} else if (findAndOpenCompileLog(qb64InstallPath, "temp8")) {
+			} else if (findAndOpenCompileLog(baseFolder, "temp8")) {
 				return
-			} else if (findAndOpenCompileLog(qb64InstallPath, "temp9")) {
+			} else if (findAndOpenCompileLog(baseFolder, "temp9")) {
 				return
 			} else {
 				vscode.window.showErrorMessage("Unable to open compilelog.txt");
