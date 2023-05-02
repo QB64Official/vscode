@@ -1,0 +1,80 @@
+The [[SQR]] function returns the square root of a numerical value.
+
+
+{{PageSyntax}}
+:square_root = [[SQR]](value)
+
+
+{{PageDescription}}
+* The ''square root'' returned is normally a [[SINGLE]] or [[DOUBLE]] numerical value.
+* The ''value'' parameter can be any '''positive''' numerical type. '''Negative parameter values will not work!'''
+* Other exponential root functions can use fractional exponents([[^]]) enclosed in '''parenthesis only'''. EX: {{text|root &lt;nowiki> = &lt;/nowiki> c ^ (a / b)|green}}
+
+
+{{PageExamples}}
+''Example 1:'' Finding the hypotenuse of a right triangle:
+{{CodeStart}} '' ''
+ A% = 3: B% = 4
+ {{Cl|PRINT}} "hypotenuse! ="; {{Cl|SQR}}((A% ^ 2) + (B% ^ 2)) '' ''
+{{CodeEnd}}
+{{OutputStart}}
+ hypotenuse = 5
+{{OutputEnd}}
+
+
+''Example 2:'' Finding the Cube root of a number. 
+{{CodeStart}} '' ''
+ number = 8
+ cuberoot = number {{Cl|^}} (1/3)
+ {{Cl|PRINT}} cuberoot '' ''
+{{CodeEnd}}
+{{OutputStart}}
+ 2
+{{OutputEnd}}
+
+
+''Example 3:'' Negative roots return fractional values of one.
+{{CodeStart}} '' ''
+ number = 8
+ negroot = number {{Cl|^}} -2
+ {{Cl|PRINT}} negroot '' ''
+{{CodeEnd}}
+{{OutputStart}}
+ .015625
+{{OutputEnd}}
+:''Explanation:'' A negative root means that the exponent value is actually inverted to a fraction of 1. So x ^ -2 actually means the result will be: 1 / (x ^ 2).
+
+
+''Example 4:'' Fast Prime number checker limits the numbers checked to the square root (half way).
+{{CodeStart}}
+{{Cl|DEFLNG}} P
+{{Cl|DO}}
+PRIME = -1   'set PRIME as True
+{{Cl|INPUT}} "Enter any number to check up to 2 million (Enter quits): ", guess$
+PR = {{Cl|VAL}}(guess$)
+{{Cl|IF}} PR {{Cl|MOD}} 2 {{Cl|THEN}}              'check for even number
+  {{Cl|FOR}} P = 3 {{Cl|TO}} {{Cl|SQR}}(PR) {{Cl|STEP}} 2 'largest number that could be a multiple is the SQR
+    {{Cl|IF}} PR {{Cl|MOD}} P = 0 {{Cl|THEN}} PRIME = 0: {{Cl|EXIT FOR}} 'MOD = 0 when evenly divisible by another
+  {{Cl|NEXT}}
+{{Cl|ELSE}} : PRIME = 0 'number to be checked is even so it cannot be a prime
+{{Cl|END IF}}
+{{Cl|IF}} PR = 2 {{Cl|THEN}} PRIME = -1 '2 is the ONLY even prime
+{{Cl|IF}} PR = 1 {{Cl|THEN}} PRIME = 0  'MOD returns true but 1 is not a prime by definition
+{{Cl|IF}} PRIME {{Cl|THEN}} {{Cl|PRINT}} "PRIME! How'd you find me? " {{Cl|ELSE}} {{Cl|PRINT}} "Not a prime, you lose!"
+{{Cl|LOOP}} {{Cl|UNTIL}} PR = 0 '' ''
+{{CodeEnd}}
+{{OutputStart}}
+Enter any number to check up to 2 million (Enter quits): 12379
+PRIME! How'd you find me?
+{{OutputEnd}}
+&lt;center>''Note:'' Prime numbers cannot be evenly divided by any other number except one.&lt;/center>
+
+
+{{PageSeeAlso}}
+*[[MOD]] {{text|(integer remainder division)}}
+*[[^]] {{text|(exponential operator)}}
+*[[Mathematical Operations]]
+*[[Mathematical_Operations#Derived_Mathematical_Functions|Derived Trigonometric Functions]]
+
+
+{{PageNavigation}}

@@ -1,0 +1,58 @@
+#REDIRECT [[OPEN#File_Access_Modes]]
+
+[[FOR (file statement)|FOR]] is used in a [[OPEN]] statement to indicate the file mode with which to open a file.
+
+
+{{PageSyntax}}
+: [[OPEN]] ... [[FOR (file statement)|FOR]] {APPEND|BINARY|INPUT|OUTPUT|RANDOM}
+
+
+{{PageDescription}}
+* If [[FOR (file statement)|FOR]] isn't used in an [[OPEN]] statement, the default file mode {{KW|RANDOM}} is used.
+** {{KW|APPEND}} - Keeps the information of the file intact while you can insert information at the end of it, writing permission only.
+** {{KW|BINARY}} - Opens the file in binary mode, use this with binary files.
+** {{KW|INPUT (file mode)|INPUT}} - Opens the file for viewing only.
+** {{KW|OUTPUT}} - The entire contents of the file is erased while you can put new information inside it, writing permission only.
+** {{KW|RANDOM}} - The default, you can get/put records defined by a record length (the variables type or LEN=length).
+
+
+{{PageExamples}}
+'''Warning:''' Make sure you don't have a file named test.tst before you run this or it will be overwritten.
+
+{{CodeStart}}
+
+{{Cl|CLS}}
+
+{{Cl|OPEN}} "test.tst" {{Cl|FOR (file statement)|FOR}} {{Cl|OUTPUT}} {{Cl|AS}} #1
+{{Cl|PRINT (file statement)|PRINT}} #1, "If test.tst didn't exist:"
+{{Cl|PRINT (file statement)|PRINT}} #1, "A new file was created named test.tst and then deleted."
+{{Cl|PRINT (file statement)|PRINT}} #1, "If test.tst did exist:"
+{{Cl|PRINT (file statement)|PRINT}} #1, "It was overwritten with this and deleted."
+{{Cl|CLOSE}} #1
+
+{{Cl|OPEN}} "test.tst" {{Cl|FOR (file statement)|FOR}} {{Cl|INPUT (file mode)|INPUT}} {{Cl|AS}} #1
+{{Cl|DO}} {{Cl|UNTIL}} {{Cl|EOF}}(1)
+{{Cl|INPUT (file statement)|INPUT}} #1, a$
+{{Cl|PRINT}} a$
+{{Cl|LOOP}}
+{{Cl|CLOSE}} #1
+
+{{Cl|KILL}} "test.tst"
+
+{{Cl|END}}
+
+{{CodeEnd}}
+
+{{OutputStart}}
+If test.tst didn't exist:
+A new file was created named test.tst and then deleted.
+If test.tst did exist:
+It was overwritten with this and deleted.
+{{OutputEnd}}
+
+
+{{PageSeeAlso}}
+* [[OPEN]]
+
+
+{{PageNavigation}}

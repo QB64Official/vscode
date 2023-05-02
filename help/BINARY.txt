@@ -1,0 +1,84 @@
+#REDIRECT [[OPEN#File_Access_Modes]]
+
+[[BINARY]] is used in an [[OPEN]] statement to work with the file or port device manipulating its bytes directly. 
+
+
+{{PageSyntax}}
+:[[OPEN]] {{Parameter|fileName$}} [[FOR]] [[BINARY]] [[AS]] {{Parameter|#fileNumber%}}
+
+
+{{PageDescription}}
+* [[OPEN]] FOR BINARY creates the file if the {{Parameter|fileName$}} does not exist.
+* {{Parameter|fileName$}} is the name of the file to open, but could also configure a port.
+* {{Parameter|#fileNumber%}} is the number that will represent the file when performing file operations.
+* BINARY files use [[GET|GET #]] and [[PUT|PUT #]] to read or write the file at any byte position.
+* In '''version 1.000 and up''' you can use [[LINE INPUT]] in [[BINARY]] mode for faster access to text file data.
+* QBasic's [[BSAVE]] or BINARY save files can be read using BINARY mode.
+* BINARY mode ignores any [[LEN]] = recordlength statement in the [[OPEN]] statement.
+* Ports can also be opened in [[BINARY]] mode. See: [[OPEN COM]]
+
+
+{{PageExamples}}
+''Example 1:'' Shows how a PUT variable value is converted to an [[ASCII]] string [[_MK$]] format in a BINARY file.
+{{CodeStart}} '' ''
+{{Cl|DIM}} int64 {{Cl|AS}} {{Cl|_INTEGER64}}
+{{Cl|DIM}} byte8 {{Cl|AS}} {{Cl|STRING}} * 8
+int64 = 12345678
+{{Cl|PRINT}} int64
+
+{{Cl|OPEN}} "temp64.tmp" {{Cl|FOR...NEXT|FOR}} {{Cl|BINARY}} {{Cl|AS}} #1
+{{Cl|PUT}} #1, , int64                 'the file size will be 8 bytes
+{{Cl|CLOSE}}
+
+{{Cl|PRINT}} "Press a key to read the file!"
+K$ = {{Cl|INPUT$}}(1)
+
+{{Cl|OPEN}} "temp64.tmp" {{Cl|FOR...NEXT|FOR}} {{Cl|BINARY}} {{Cl|AS}} #1
+{{Cl|GET}} #1, , byte8                'GET the value as a string
+{{Cl|PRINT}} "text string: "; byte8   'show that string is in {{Cl|_MK$}} format
+
+{{Cl|PRINT}} {{Cl|_CV}}({{Cl|_INTEGER64}}, byte8)   'convert to numerical value
+{{Cl|CLOSE}} '' ''
+{{CodeEnd}}
+: ''Note:'' The numerical value does not need to be converted if the file is read using the same numerical variable type as written.
+
+
+''Example 2:'' A binary file viewer that can view integer values. The type of value can be changed at [[DIM]].
+{{CodeStart}} '' ''
+{{Cl|SCREEN}} {{Cl|_NEWIMAGE}}(1000, 600, 256)
+{{Cl|_SCREENMOVE}} {{Cl|_SCREENMOVE|_MIDDLE}}
+{{Cl|DIM}} value AS {{Cl|INTEGER}}    'value type can be changed
+{{Cl|LINE INPUT}} ; "Enter a {{Cl|BINARY}} filename to open: ", file$
+{{Cl|PRINT}} " Press S to restart!"
+
+{{Cl|IF...THEN|IF}} {{Cl|LEN}}(file$) {{Cl|THEN}} {{Cl|OPEN}} file$ {{Cl|FOR...NEXT|FOR}} {{Cl|BINARY}} {{Cl|AS}} #1 {{Cl|ELSE}} {{Cl|END}}
+{{Cl|IF...THEN|IF}} {{Cl|LOF}}(1) = 0 {{Cl|THEN}} {{Cl|PRINT}} "Empty file!": {{Cl|END}}
+DO
+  {{Cl|FOR...NEXT|FOR}} i = 1 {{Cl|TO}} 16
+    x = x + 1
+    {{Cl|GET}} #1, , value
+    {{Cl|IF...THEN|IF}} {{Cl|EOF}}(1) {{Cl|THEN}} {{Cl|EXIT DO}}
+    {{Cl|PRINT}} value;
+  {{Cl|NEXT}}
+  {{Cl|PRINT}} {{Cl|CHR$}}(27); x; "@"; row
+  K$ = {{Cl|INPUT$}}(1)
+  {{Cl|IF...THEN|IF}} {{Cl|UCASE$}}(K$) = "S" {{Cl|THEN}} {{Cl|CLS}}: x = 0: row = 0: {{Cl|PRINT}} "Restarted!": {{Cl|SEEK}} 1, 1
+  {{Cl|IF...THEN|IF}} x = 256 {{Cl|THEN}} x = 0: row = row + 1: {{Cl|PRINT}}
+{{Cl|LOOP}} {{Cl|UNTIL}} K$ = {{Cl|CHR$}}(27)
+{{Cl|CLOSE}} #1
+{{Cl|PRINT}} "Press Escape to exit!"
+DO: {{Cl|_LIMIT}} 100
+{{Cl|LOOP}} {{Cl|UNTIL}} {{Cl|INKEY$}} = {{Cl|CHR$}}(27)
+{{Cl|SYSTEM}} '' ''
+{{CodeEnd}}
+
+
+{{PageSeeAlso}}
+* [[OPEN]], [[CLOSE]]
+* [[GET]], [[PUT]], [[LINE INPUT]]
+* [[SEEK]] (function), [[SEEK (statement)]]
+* [[INPUT (file mode)]], [[RANDOM]], [[APPEND]], [[OUTPUT]]
+* [[Bitmaps]], [[Binary]] (numbers)
+
+
+{{PageNavigation}}

@@ -154,7 +154,7 @@
                 },
                 "qb64.isHoverTextFileEnabled": {
                     "type": "boolean",
-                    "default": false,
+                    "default": true,
                     "description": "Enable: Enable hovertext"
                 },
                 "qb64.isLintOnSaveEnabled": {

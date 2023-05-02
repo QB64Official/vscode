@@ -1,0 +1,510 @@
+{| align="center"
+  | __TOC__
+  |}
+
+==Basic and QB64 Numerical Types==
+&lt;center>'''QBasic Number Types'''&lt;/center>
+
+* [[INTEGER]] ['''%''']: 2 Byte signed whole number values from -32768 to 32767. 0 to 65535 unsigned. (not checked in QB64) 
+* [[LONG]] ['''&amp;''']: 4 byte signed whole number values from -2147483648 to 2147483647. 0 to 4294967295 unsigned.
+* [[SINGLE]] ['''!''']: 4 byte signed floating decimal point values of up to 7 decimal place accuracy. '''Cannot be unsigned.''' 
+* [[DOUBLE]] [#]: 8 byte signed floating decimal point values of up to 15 decimal place accuracy. '''Cannot be unsigned.'''
+* To get '''one byte''' values, can use an [[ASCII]] [[STRING]] character to represent values from 0 to 255 as in [[BINARY]] files.
+
+
+&lt;center>'''QB64 Number Types'''&lt;/center>
+
+* [[_BIT]] ['''`''']: 1 bit signed whole number values of 0 or -1 signed or 0 or 1 unsigned. [[_BIT]] * 8 can hold a signed or unsigned [[_BYTE|byte]] value.
+* [[_BYTE]] ['''%%''']: 1 byte signed whole number values from -128 to 127. Unsigned values from 0 to 255.
+* [[_INTEGER64]] ['''&amp;&amp;''']: 8 byte signed whole number values from -9223372036854775808 to 9223372036854775807
+* [[_FLOAT]] [##]: currently set as 10 byte signed floating decimal point values up to 1.1897E+4932. '''Cannot be unsigned.'''
+* [[_OFFSET]] [%&amp;]: undefined flexible length integer offset values used in [[DECLARE DYNAMIC LIBRARY]] declarations. 
+
+
+&lt;center>'''Signed and Unsigned Integer Values'''&lt;/center>
+
+Negative (signed) numerical values can affect calculations when using any of the BASIC operators. SQR cannot use negative values! There may be times that a calculation error is made using those negative values. The SGN function returns the sign of a value as -1 for negative, 0 for zero and 1 for unsigned positive values. ABS always returns an unsigned value.
+
+::::* [[SGN]](n) returns the value's sign as -1 if negative, 0 if zero or 1 if positive.
+::::* [[ABS]](n) changes negative values to the equivalent positive values.
+::::* '''QB64:''' [[_UNSIGNED]] in a [[DIM]], [[AS]] or [[_DEFINE]] statement for only positive [[INTEGER]] values.
+
+
+[[_UNSIGNED]] integer, byte and bit variable values can use the tilde ~ suffix before the type suffix to define the type.
+
+
+&lt;center>[[#toc|Return to Top]]&lt;/center>
+
+==Mathematical Operation Symbols==
+Most of the BASIC math operators are ones that require no introduction. The addition, subtraction, multiplication and division operators are ones commonly used as shown below:
+
+{| class="wikitable"
+! Symbol !! Procedure Type !! Example Usage !! Operation Order 
+|- 
+| [[+]] || Addition || c = a + b || Last
+|-
+| [[-]] || Subtraction || c = a - b || Last
+|-
+| [[-]] || Negation || c = -a || Last
+|- 
+| [[*]] || Multiplication || c = a * b || Second
+|-
+| [[/]] || Division || c = a / b || Second
+|}
+
+
+BASIC can also use two other operators for '''[[INTEGER]] division'''. Integer division returns only whole number values. [[MOD]] '''remainder division''' returns a value only if an integer division cannot divide a number exactly. Returns 0 if a value is exactly divisible.
+
+
+{| class="wikitable"
+! Symbol !!Procedure Type !!Example Usage !!Operation Order 
+|-
+| [[\]] || Integer division ||  c = a \ b || Second 
+|-
+| [[MOD]] || Remainder division ||  c = a MOD b ||  Second
+|}
+
+
+&lt;center>'''''It is an [[ERROR|error]] to divide by zero or to take the remainder modulo zero.'''''&lt;/center>
+
+
+There is also an operator for '''exponential''' calculations. The exponential operator is used to raise a number's value to a designated exponent of itself. In QB the exponential return values are [[DOUBLE]] values. The [[SQR]] function can return a number's Square Root. For other '''exponential roots''' the operator can be used with fractions such as (1 / 3) designating the cube root of a number. 
+
+
+{| class="wikitable"
+! Symbol !!Procedure !!Example Usage !!Operation Order
+|-
+| [[^]] || Exponent ||  c = a ^ (1 / 2) ||  First
+|-
+|  [[SQR]] || Square Root ||  c = SQR(a ^ 2 + b ^ 2) ||  First 
+|}
+
+
+===Notes===
+* Exponent fractions should be enclosed in () brackets in order to be treated as a root rather than as division.
+* Negative exponential values must be enclosed in () brackets in QB64.
+
+
+&lt;center>[[#toc|Return to Top]]&lt;/center>
+
+==Basic's Order of Operations==
+
+When a normal calculation is made, BASIC works from left to right, but it does certain calculations in the following order:
+
+
+:::# Exponential and exponential Root calculations including [[SQR]].
+:::# Negation (Note that this means that ''- 3 ^ 2'' is treated as ''-(3 ^ 2)'' and not as ''(-3) ^ 2.)''
+:::# Multiplication, normal Division, [[INTEGER]] Division and Remainder([[MOD]]) Division calculations
+:::# Addition and Subtraction calculations
+
+
+&lt;center>'''Using Parenthesis to Define the Operation Order'''&lt;/center>
+
+Sometimes a calculation may need BASIC to do them in another order or the calculation will return bad results. BASIC allows the programmer to decide the order of operations by using [[parenthesis]] around parts of the equation. BASIC will do the calculations inside of the [[parenthesis]] brackets  first and the others from left to right in the normal operation order.
+
+==Basic's Mathematical Functions==
+
+{| class="wikitable"
+! Function !! Description
+|-
+| [[ABS]](n) || returns the absolute (positive) value of n: ABS(-5) = 5
+|- 
+| [[ATN]](angle*) || returns the arctangent of an angle in radians: pi = 4 * ATN(1)
+|-
+| [[COS]](angle*) || returns the cosine of an angle in radians. (horizontal component)
+|-
+| [[EXP]](n) || returns e ^ x, (n &lt;= 88.02969): e = EXP(1) ' (e = 2.718281828459045)
+|-
+| [[LOG]](n) || returns the base e natural logarithm of n. (n > 0)
+|-
+| [[SGN]](n) || returns -1 if n &lt; 0, 0 if n = 0, 1 if n > 0: SGN(-5) = -1
+|-
+| [[SIN]](angle*) || returns the sine of an angle in radians. (vertical component)
+|-
+| [[SQR]](n) || returns the square root of a number. (n >= 0)
+|-
+| [[TAN]](angle*) ||  returns the tangent of an angle in radians
+|}
+
+&lt;center> '''* angles measured in radians'''&lt;/center>
+
+
+''Example:'' Degree to Radian Conversion.
+{{CodeStart}} '' ''
+{{Cl|FUNCTION}} Radian (degrees)
+  Radian = degrees * (4 * {{Cl|ATN}}(1)) / 180
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} Degree (radians)
+  Degree = radians * 180 / (4 * {{Cl|ATN}}(1))
+{{Cl|END FUNCTION}} '' ''
+{{CodeEnd}}
+
+''Example:'' Logarithm to base n.
+{{CodeStart}} '' ''
+{{Cl|FUNCTION}} LOGN (X, n)    
+  {{Cl|IF}} n > 0 {{Cl|AND}} n &lt;> 1 {{Cl|AND}} X > 0 {{Cl|THEN}} LOGN = {{Cl|LOG}}(X) / {{Cl|LOG}}(n) {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}} '' '' 
+
+{{Cl|FUNCTION}} LOG10 (X)    'base 10 logarithm
+  {{Cl|IF}} X > 0 {{Cl|THEN}} LOG10 = {{Cl|LOG}}(X) / {{Cl|LOG}}(10) {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}} '' ''
+{{CodeEnd}}
+
+
+&lt;center>'''The numerical value of n in the [[LOG]](n) evaluation must be a positive value.'''&lt;/center>
+
+&lt;center>'''The numerical value of n in the [[EXP]](n) evaluation must be less than or equal to 88.02969.'''&lt;/center>
+
+&lt;center>'''The numerical value of n in the [[SQR]](n) evaluation ''cannot'' be a negative value.'''&lt;/center>
+
+
+&lt;center>[[#toc|Return to Top]]&lt;/center>
+
+==Derived Mathematical Functions==
+
+
+The following Trigonometric functions can be derived from the '''BASIC Mathematical Functions''' listed above. Each function checks that certain values can be used without error or a [[BEEP]] will notify the user that a value could not be returned. An error handling routine can be substituted if desired. '''Note:''' Functions requiring '''π''' use 4 * [[ATN]](1) for [[SINGLE]] accuracy. Use [[ATN]](1.#) for [[DOUBLE]] accuracy.
+
+
+{{CodeStart}}'' ''
+{{Cl|FUNCTION}} SEC (x)  'Secant
+  {{Cl|IF}} COS(x) &lt;> 0 {{Cl|THEN}} SEC = 1 / {{Cl|COS}}(x) {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}}
+
+{{Cl|FUNCTION}} CSC (x)  'CoSecant 
+  {{Cl|IF}} SIN(x) &lt;> 0 {{Cl|THEN}} CSC = 1 / {{Cl|SIN}}(x) {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}} 
+
+{{Cl|FUNCTION}} COT (x)  'CoTangent 
+  {{Cl|IF}} TAN(x) &lt;> 0 {{Cl|THEN}} COT = 1 / {{Cl|TAN}}(x) {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}} 
+
+{{Cl|FUNCTION}} ARCSIN (x)   'Inverse Sine           
+  {{Cl|IF}} x &lt; 1 {{Cl|THEN}} ARCSIN = {{Cl|ATN}}(x / {{Cl|SQR}}(1 - (x * x))) {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}} 
+
+{{Cl|FUNCTION}} ARCCOS (x) ' Inverse Cosine
+  {{Cl|IF}} x &lt; 1 {{Cl|THEN}} ARCCOS = (2 * {{Cl|ATN}}(1)) - {{Cl|ATN}}(x / {{Cl|SQR}}(1 - x * x)) {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}}
+
+{{Cl|FUNCTION}} ARCSEC (x)   ' Inverse Secant        
+  {{Cl|IF}} x &lt; 1 {{Cl|THEN}} ARCSEC = {{Cl|ATN}}(x / {{Cl|SQR}}(1 - x * x)) + ({{Cl|SGN}}(x) - 1) * (2 * ATN(1)) {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}} 
+
+{{Cl|FUNCTION}} ARCCSC (x)  ' Inverse CoSecant 
+  {{Cl|IF}} x &lt; 1 {{Cl|THEN}} ARCCSC = {{Cl|ATN}}(1 / {{Cl|SQR}}(1 - x * x)) + ({{Cl|SGN}}(x)-1) * (2 * {{Cl|ATN}}(1)) {{Cl|ELSE}} {{Cl|BEEP}} 
+{{Cl|END FUNCTION}} 
+
+{{Cl|FUNCTION}} ARCCOT (x)  ' Inverse CoTangent 
+  ARCCOT = (2 * {{Cl|ATN}}(1)) - {{Cl|ATN}}(x)
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} SINH (x)  ' Hyperbolic Sine 
+  {{Cl|IF}} x &lt;= 88.02969 {{Cl|THEN}} SINH = ({{Cl|EXP}}(x) - {{Cl|EXP}}(-x)) / 2 {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} COSH (x)  ' Hyperbolic CoSine 
+  {{Cl|IF}} x &lt;= 88.02969 {{Cl|THEN}} COSH = ({{Cl|EXP}}(x) + {{Cl|EXP}}(-x)) / 2 {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} TANH (x)  ' Hyperbolic Tangent or SINH(x) / COSH(x)
+  {{Cl|IF}} 2 * x &lt;= 88.02969 {{Cl|AND}} {{Cl|EXP}}(2 * x) + 1 &lt;> 0 {{Cl|THEN}} 
+    TANH = ({{Cl|EXP}}(2 * x) - 1) / ({{Cl|EXP}}(2 * x) + 1) 
+  {{Cl|ELSE}}
+    {{Cl|BEEP}} 
+  {{Cl|END IF}} 
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} SECH (x)  ' Hyperbolic Secant or (COSH(x)) ^ -1
+  {{Cl|IF}} x &lt;= 88.02969 {{Cl|AND}} ({{Cl|EXP}}(x) + {{Cl|EXP}}(-x)) &lt;> 0 {{Cl|THEN}} SECH = 2 / ({{Cl|EXP}}(x) + {{Cl|EXP}}(-x)) {{Cl|ELSE}} {{Cl|BEEP}}  
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} CSCH (x)  ' Hyperbolic CoSecant or (SINH(x)) ^ -1
+  {{Cl|IF}} x &lt;= 88.02969 {{Cl|AND}} ({{Cl|EXP}}(x) - {{Cl|EXP}}(-x)) &lt;> 0 {{Cl|THEN}} CSCH = 2 / ({{Cl|EXP}}(x) - {{Cl|EXP}}(-x)) {{Cl|ELSE}} {{Cl|BEEP}}  
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} COTH (x)  ' Hyperbolic CoTangent or COSH(x) / SINH(x)
+  {{Cl|IF}} 2 * x &lt;= 88.02969 {{Cl|AND}} {{Cl|EXP}}(2 * x) - 1 &lt;> 0 {{Cl|THEN}} 
+     COTH = ({{Cl|EXP}}(2 * x) + 1) / ({{Cl|EXP}}(2 * x) - 1) 
+  {{Cl|ELSE}}
+    {{Cl|BEEP}}  
+  {{Cl|END IF}}
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} ARCSINH (x)  ' Inverse Hyperbolic Sine 
+  {{Cl|IF}} (x * x) + 1 >= 0 {{Cl|AND}} x + {{Cl|SQR}}((x * x) + 1) > 0 {{Cl|THEN}} 
+    ARCSINH = {{Cl|LOG}}(x + {{Cl|SQR}}(x * x + 1)) 
+  {{Cl|ELSE}}
+    {{Cl|BEEP}}
+  {{Cl|END IF}}
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} ARCCOSH (x)  ' Inverse Hyperbolic CoSine 
+  {{Cl|IF}} x >= 1 {{Cl|AND}} x * x - 1 >= 0 {{Cl|AND}} x + {{Cl|SQR}}(x * x - 1) > 0 {{Cl|THEN}} 
+    ARCCOSH = {{Cl|LOG}}(x + {{Cl|SQR}}(x * x - 1)) 
+  {{Cl|ELSE}}
+    {{Cl|BEEP}}
+  {{Cl|END IF}}
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} ARCTANH (x)  ' Inverse Hyperbolic Tangent 
+  {{Cl|IF}} x &lt; 1 {{Cl|THEN}} ARCTANH = {{Cl|LOG}}((1 + x) / (1 - x)) / 2 {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}} 
+
+{{Cl|FUNCTION}} ARCSECH (x)  ' Inverse Hyperbolic Secant 
+  {{Cl|IF}} x > 0 {{Cl|AND}} x &lt;= 1 {{Cl|THEN}} ARCSECH = {{Cl|LOG}}(({{Cl|SGN}}(x) * {{Cl|SQR}}(1 - x * x) + 1) / x) {{Cl|ELSE}} {{Cl|BEEP}}  
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} ARCCSCH (x)  ' Inverse Hyperbolic CoSecant 
+  {{Cl|IF}} x &lt;> 0 {{Cl|AND}} x * x + 1 >= 0 {{Cl|AND}} ({{Cl|SGN}}(x) * {{Cl|SQR}}(x * x + 1) + 1) / x > 0 {{Cl|THEN}} 
+     ARCCSCH = {{Cl|LOG}}(({{Cl|SGN}}(x) * {{Cl|SQR}}(x * x + 1) + 1) / x) 
+  {{Cl|ELSE}}
+    {{Cl|BEEP}}
+  {{Cl|END IF}}
+{{Cl|END FUNCTION}} '' ''
+
+{{Cl|FUNCTION}} ARCCOTH (x)  ' Inverse Hyperbolic CoTangent 
+  {{Cl|IF}} x > 1 {{Cl|THEN}} ARCCOTH = {{Cl|LOG}}((x + 1) / (x - 1)) / 2 {{Cl|ELSE}} {{Cl|BEEP}}
+{{Cl|END FUNCTION}} '' ''
+{{CodeEnd}}
+{{WhiteStart}}
+                           '''Hyperbolic Function Relationships:'''
+
+                                   COSH(-x) = COSH(x)
+                                   SINH(-x) = -SINH(x)
+                                    
+                                   SECH(-x) = SECH(x)
+                                   CSCH(-x) = -CSCH(x)
+                                   TANH(-x) = -TANH(x)
+                                   COTH(-x) = -COTH(x)
+
+                       '''Inverse Hyperbolic Function Relatonships:'''
+
+                              ARSECH(x) = ARCOSH(x) ^ -1 
+                              ARCSCH(x) = ARSINH(x) ^ -1 
+                              ARCOTH(x) = ARTANH(x) ^ -1 
+
+              '''Hyperbolic sine and cosine satisfy the Pythagorean trig. identity:'''
+
+                           (COSH(x) ^ 2) - (SINH(x) ^ 2) = 1
+
+{{WhiteEnd}}
+
+&lt;center>[https://web.archive.org/web/20140417011701/http://support.microsoft.com/kb/28249 Microsoft's Derived BASIC Functions (KB 28249)]&lt;/center>
+
+
+&lt;center>[[#toc|Return to Top]]&lt;/center>
+
+==Mathematical Logical Operators==
+
+The following logical operators compare numerical values using bitwise operations. The two numbers are compared by the number's [[Binary]] bits on and the result of the operation determines the value returned in decimal form. [[NOT]] checks one value and returns the opposite. It returns 0 if a value is not 0 and -1 if it is 0. See [[Binary]] for more on bitwise operations.
+
+
+&lt;center>'''Truth table of the 6 BASIC Logical Operators'''&lt;/center>
+
+
+{{Template:LogicalTruthTable}}
+
+&lt;center>BASIC can accept any + or - value that is not 0 to be True when used in an evaluation.&lt;/center>
+
+
+&lt;center>[[#toc|Return to Top]]&lt;/center>
+
+==Relational Operators==
+Relational Operations are used to compare values in a Conditional [[IF...THEN]], [[SELECT CASE]], [[UNTIL]] or [[WHILE]] statement.
+
+
+{{Template:RelationalTable}}
+
+
+&lt;center>[[#toc|Return to Top]]&lt;/center>
+
+==Basic's Rounding Functions==
+
+: Rounding is used when the program needs a certain number value or type. There are 4 [[INTEGER]] or [[LONG]] Integer functions and one function each for closest [[SINGLE]] and closest [[DOUBLE]] numerical types. Closest functions use "bankers" rounding which rounds up if the decimal point value is over one half. Variable types should match the return value.
+
+{| class="wikitable"
+! Name !! Description
+|-
+|[[INT]](n) || rounds down to lower Integer value whether positive or negative
+|-
+|[[FIX]](n) || rounds positive values lower and negative to a less negative Integer value
+|-
+|[[CINT]](n) ||rounds to closest Integer. Rounds up for decimal point values over one half.
+|-
+|[[CLNG]](n) || rounds Integer or Long values to closest value like CINT.(values over 32767)
+|-
+|[[CSNG]](n) || rounds Single values to closest last decimal point value.
+|-
+|[[CDBL]](n) || rounds Double values to closest last decimal point value.
+|-
+|[[_ROUND]](n) || rounds to closest numerical integer value.
+|}
+
+===Note===
+* Each of the above functions define the value's type in addition to rounding the values.
+
+&lt;center>[[#toc|Return to Top]]&lt;/center>
+
+==Base Number Systems==
+
+
+{{TextStart}}
+                   '''Comparing the [[INTEGER]] Base Number Systems'''
+
+  '''Decimal (base 10)    Binary (base 2)    Hexadecimal (base 16)    Octal (base 8)'''
+
+                          '''   [[&amp;B]]                 [[&amp;H]] [[HEX$]](n)           [[&amp;O]] [[OCT$]](n)'''      
+
+          0                  0000                  0                     0
+          1                  0001                  1                     1
+          2                  0010                  2                     2
+          3                  0011                  3                     3
+          4                  0100                  4                     4
+          5                  0101                  5                     5
+          6                  0110                  6                     6
+          7                  0111                  7                     7 -- maxed
+          8                  1000                  8                    10
+  maxed-- 9                  1001                  9                    11
+         10                  1010                  A                    12
+         11                  1011                  B                    13
+         12                  1100                  C                    14
+         13                  1101                  D                    15
+         14                  1110                  E                    16
+         15  -------------   1111 &lt;--- Match --->  F  ----------------  17 -- max 2
+         16                 10000                 10                    20
+        
+      When the Decimal value is 15, the other 2 base systems are all maxed out!
+      The Binary values can be compared to all of the HEX value digit values so
+      it is possible to convert between the two quite easily. To convert a HEX
+      value to Binary just add the 4 binary digits for each HEX digit place so:
+
+                        F      A      C      E 
+              &amp;HFACE = 1111 + 1010 + 1100 + 1101 = &amp;B1111101011001101
+
+      To convert a Binary value to HEX you just need to divide the number into
+      sections of four digits starting from the right(LSB) end. If one has less
+      than 4 digits on the left end you could add the leading zeros like below:
+ 
+             &amp;B101011100010001001 = 0010 1011 1000 1000 1001  
+                       hexadecimal =  2  + B  + 8 +  8  + 9 = &amp;H2B889 
+
+    See the Decimal to Binary conversion function that uses '''[[HEX$]]''' on the '''[[&amp;H]]''' page.
+ 
+{{TextEnd}}
+
+
+&lt;center>'''[[VAL]] converts [[STRING|string]] numbers to Decimal values.'''&lt;/center>
+
+* VAL reads the string from left to right and converts numerical string values, - and . to decimal values until it finds a character other than those 3 characters. Commas are not read.
+* HEXadecimal and OCTal base values can be read with [[&amp;H]] or [[&amp;O]].
+
+
+&lt;center>'''The [[OCT$]] [[STRING|string]] function return can be converted to a decimal value using [[VAL]]("&amp;O" + OCT$(n)).'''&lt;/center>
+
+&lt;center>'''The [[HEX$]] [[STRING|string]] function return can be converted to a decimal value using [[VAL]]("&amp;H" + HEX$(n)).'''&lt;/center>
+
+
+:[[STR$]] converts numerical values to string characters for [[PRINT]] or variable strings. It also removes the right number PRINT space.
+
+
+
+&lt;center>[[#toc|Return to Top]]&lt;/center>
+
+==Bits and Bytes==
+
+&lt;center>'''[[_BIT|BITS]]'''&lt;/center>
+* The '''MSB''' is the most significant(largest) bit value and '''LSB''' is the least significant bit of a binary or register memory address value. The order in which the bits are read determines the binary or decimal byte value. There are two common ways to read a byte:
+
+:* '''"Big-endian"''': MSB is the first bit encountered, decreasing to the LSB as the last bit by position, memory address or time.
+:* '''"Little-endian"''': LSB is the first bit encountered, increasing to the MSB as the last bit by position, memory address or time.
+{{WhiteStart}}
+         '''Offset or Position:    0    1   2   3   4   5   6   7      Example: 11110000'''
+                              ----------------------------------             --------
+    '''Big-Endian Bit On Value:'''   128  64  32  16   8   4   2   1                 240
+ '''Little-Endian Bit On Value:'''    1    2   4   8  16  32  64  128                 15
+{{WhiteEnd}}
+::The big-endian method compares exponents of 2 &lt;sup>7&lt;/sup> down to 2 &lt;sup>0&lt;/sup> while the little-endian method does the opposite. 
+
+&lt;center>'''[[_BYTE|BYTES]]'''&lt;/center>
+* [[INTEGER]] values consist of 2 bytes called the '''HI''' and '''LO''' bytes. Anytime that the number of binary digits is a multiple of 16 (2bytes, 4 bytes, etc.) and the HI byte's MSB is on(1), the value returned will be negative, even with [[SINGLE]] or [[DOUBLE]] values. 
+{{WhiteStart}}                                 '''16 BIT INTEGER OR REGISTER'''
+              '''AH (High Byte Bits)                         AL (Low Byte Bits)'''
+   BIT:    15    14   13   12   11   10   9   8  |   7   6    5   4    3    2   1    0
+          ---------------------------------------|--------------------------------------
+   HEX:   8000  4000 2000 1000  800 400  200 100 |  80   40  20   10   8    4   2    1
+                                                 |
+   DEC: -32768 16384 8192 4096 2048 1024 512 256 | 128   64  32   16   8    4   2    1
+{{WhiteEnd}}
+::The HI byte's '''MSB''' is often called the '''sign''' bit! When the highest bit is on, the signed value returned will be negative.  
+
+
+''Example:'' Program displays the bits on for any integer value between -32768 and 32767 or &amp;H80000 and &amp;H7FFF.
+{{CodeStart}} '' ''
+{{Cl|DEFINT}} A-Z
+{{Cl|SCREEN (statement)|SCREEN}} 12
+{{Cl|COLOR}} 11: {{Cl|LOCATE}} 10, 2
+ {{Cl|PRINT}} "      AH (High Register Byte Bits)           AL (Low Register Byte Bits)"
+{{Cl|COLOR}} 14: {{Cl|LOCATE}} 11, 2
+ {{Cl|PRINT}} "    15   14  13   12   11  10    9   8    7   6    5   4    3    2   1    0"
+{{Cl|COLOR}} 13: {{Cl|LOCATE}} 14, 2
+ {{Cl|PRINT}} " {{Cl|&amp;H}}8000 4000 2000 1000 800 400  200 100  80   40  20   10   8    4   2  {{Cl|&amp;H}}1"
+{{Cl|COLOR}} 11: {{Cl|LOCATE}} 15, 2
+ {{Cl|PRINT}} "-32768 16384 8192 4096 2048 1024 512 256 128  64  32   16   8    4   2    1"
+{{Cl|FOR...NEXT|FOR}} i = 1 {{Cl|TO}} 16
+  {{Cl|CIRCLE}} (640 - (37 * i), 189), 8, 9 'place bit circles
+{{Cl|NEXT}}
+{{Cl|LINE}} (324, 160)-(326, 207), 11, BF 'line splits bytes
+{{Cl|DO}}
+  {{Cl|IF}} Num {{Cl|THEN}}
+    {{Cl|FOR...NEXT|FOR}} i = 15 {{Cl|TO}} 0 {{Cl|STEP}} -1
+      {{Cl|IF}} (Num {{Cl|AND}} 2 ^ i) {{Cl|THEN}}
+        {{Cl|PAINT}} (640 - (37 * (i + 1)), 189), 12, 9
+        Bin$ = Bin$ + "1"
+      {{Cl|ELSE}}
+        {{Cl|PAINT}} (640 - (37 * (i + 1)), 189), 0, 9
+        Bin$ = Bin$ + "0"
+      {{Cl|END IF}}
+    {{Cl|NEXT}}
+    {{Cl|COLOR}} 10: {{Cl|LOCATE}} 16, 50: {{Cl|PRINT}} "Binary ="; {{Cl|VAL}}(Bin$)
+    {{Cl|COLOR}} 9: {{Cl|LOCATE}} 16, 10: {{Cl|PRINT}} "Decimal ="; Num;: {{Cl|COLOR}} 13: {{Cl|PRINT}} "       Hex = "; Hexa$
+    Hexa$ = "": Bin$ = ""
+   {{Cl|END IF}}
+   {{Cl|COLOR}} 14: {{Cl|LOCATE}} 17, 15: {{Cl|INPUT}} "Enter a decimal or HEX({{Cl|&amp;H}}) value (0 Quits): ", frst$
+   first = {{Cl|VAL}}(frst$)  
+   {{Cl|IF}} first {{Cl|THEN}}
+     {{Cl|LOCATE}} 17, 15: {{Cl|PRINT}} {{Cl|SPACE$}}(55)
+     {{Cl|COLOR}} 13: {{Cl|LOCATE}} 17, 15: {{Cl|INPUT}} "Enter a second value: ", secnd$
+     second = {{Cl|VAL}}(secnd$)
+     {{Cl|LOCATE}} 17, 10: {{Cl|PRINT}} {{Cl|SPACE$}}(69)
+   {{Cl|END IF}}
+  Num = first + second
+  Hexa$ = "{{Cl|&amp;H}}" + {{Cl|HEX$}}(Num)
+{{Cl|LOOP}} {{Cl|UNTIL}} first = 0 {{Cl|OR (boolean)|OR}} Num > 32767 {{Cl|OR (boolean)|OR}} Num &lt; -32767
+{{Cl|COLOR}} 11: {{Cl|LOCATE}} 28, 30: {{Cl|PRINT}} "Press any key to exit!";
+{{Cl|SLEEP}}
+{{Cl|SYSTEM}} '' ''
+{{CodeEnd}}
+{{small|Code by Ted Weissgerber}}
+
+
+&lt;center>[[#toc|Return to Top]]&lt;/center>
+
+==OFFSET==
+
+* [[_OFFSET (function)]] returns the memory offset position as a flexible sized value for a designated variable. See [[Using _OFFSET]].
+
+
+&lt;center>'''Warning: [[_OFFSET]] values cannot be reassigned to other variable [[TYPE|types]].'''&lt;/center>
+
+
+&lt;center>'''[[_OFFSET]] values can only be used in conjunction with [[_MEM]]ory and [[DECLARE DYNAMIC LIBRARY]] procedures.'''&lt;/center>
+
+==References==
+''See also:''
+* [[_OFFSET]], [[_MEM]]
+* [[DIM]], [[_DEFINE]]
+* [[TYPE]]
+
+{{PageNavigation}}

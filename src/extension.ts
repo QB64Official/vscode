@@ -75,18 +75,20 @@ export function activate(context: vscode.ExtensionContext) {
 	// Register Miscellaneous
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
 
-	// Default the compiler and help settings -- The code can can be deleted once everyon is off the old versions
-	const installPath: string = config.get('installPath');
-	if (installPath != null && installPath.length > 0) {
-		let work: string = config.get('compilerPath')
-		if (work == null || work.length < 1) {
-			config.update('compilerPath', `${installPath}\\qb64.exe`, vscode.ConfigurationTarget.Global);
-		}
-		work = config.get('helpPath')
-		if (work == null || work.length < 1) {
-			config.update('helpPath', `${installPath}\\internal\\help`, vscode.ConfigurationTarget.Global);
-		}
+	let tempPath: string = config.get('helpPath')
+	if (tempPath == null || tempPath.length < 1) {
+		let tempPath = path.join(context.extensionPath, "help");
+		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
 	}
+
+	/*
+	tempPath = config.get('compilerPath')
+	if (tempPath == null || tempPath.length < 1) {
+		tempPath = path.join(context.extensionPath, "binaries", "qb64-win.exe");
+		config.update('compilerPath', tempPath, vscode.ConfigurationTarget.Global);
+	}
+	*/
+
 }
 
 
