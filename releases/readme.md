@@ -12,6 +12,12 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Major release: a huge changes  - Exepct for 1; major will go to 1 when the extension released to the market.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
+  
+## 0.9.0
+- Enchantments
+  - Issue [#108](https://github.com/QB64Official/vscode/issues/108) Include the help files (markdown) with the installer.
+- Bugs
+  - Issue [#109](https://github.com/QB64Official/vscode/issues/109) Open in QB64 is not using the correct setting.
 
 ## 0.8.9
 - Pull Requests
