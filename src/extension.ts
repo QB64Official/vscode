@@ -9,7 +9,8 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
-import * as ls from "./languageServer"
+import * as ls from "./languageServer";
+import * as path from "path";
 import { TokenInfo } from "./TokenInfo";
 import { ReferenceProvider } from "./providers/ReferenceProvider";
 import { DefinitionProvider } from "./providers/DefinitionProvider";
@@ -84,6 +85,21 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// Register Miscellaneous
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("qb64", new DebugAdapterDescriptorFactory()));
+
+	let tempPath: string = config.get('helpPath')
+	if (tempPath == null || tempPath.length < 1) {
+		let tempPath = path.join(context.extensionPath, "help");
+		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
+	}
+
+	/*
+	tempPath = config.get('compilerPath')
+	if (tempPath == null || tempPath.length < 1) {
+		tempPath = path.join(context.extensionPath, "binaries", "qb64-win.exe");
+		config.update('compilerPath', tempPath, vscode.ConfigurationTarget.Global);
+	}
+	*/
+
 
 }
 

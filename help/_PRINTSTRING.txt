@@ -1,0 +1,85 @@
+{{DISPLAYTITLE:_PRINTSTRING}}
+The [[_PRINTSTRING]] statement prints text [[STRING|strings]] using graphic column and row coordinate positions.
+
+
+{{PageSyntax}}
+: [[_PRINTSTRING]]({{Parameter|column}}, {{Parameter|row}}), {{Parameter|textExpression$}}[, {{Parameter|imageHandle&amp;}}] 
+
+
+{{PageParameters}}
+* {{Parameter|column}} and {{Parameter|row}} are [[INTEGER]] or [[LONG]] starting PIXEL (graphic) column and row coordinates to set text or custom fonts.
+* {{Parameter|textExpression$}} is any literal or variable [[STRING|string]] value of text to be displayed.
+* {{Parameter|imageHandle&amp;}} is the optional image or destination to use. Zero designates current [[SCREEN (statement)|SCREEN]] page.
+
+
+{{PageDescription}}
+* The starting coordinate sets the top left corner of the text to be printed. Use [[_FONTHEIGHT]] to calculate that text or [[_FONT|font]] position
+* The [[_FONT]] size can affect the [[SCREEN (statement)|screen]] and row heights.
+** Custom fonts are not required. [[_PRINTSTRING]] can print all [[ASCII]] characters.
+* [[_PRINTWIDTH]] can be used to determine how wide a text print will be so that the screen width is not exceeded.
+* If the {{Parameter|imageHandle&amp;}} is omitted, the current image, page or screen destination is used.
+* Can use the current font alpha blending with a designated image background. See the [[_RGBA]] function example.
+* Use the [[_PRINTMODE]] statement before printing to set how the background is rendered.
+** Use the [[_PRINTMODE (function)]] to find the current _PRINTMODE setting.
+* In SCREEN 0 (text only), [[_PRINTSTRING]] works as one-line replacement for '''LOCATE x, y: PRINT text$''', without changing the current cursor position.
+
+
+
+{{PageExamples}}
+''Example 1:'' Printing those unprintable [[ASCII]] control characters is no longer a problem.
+{{CodeStart}} '' ''
+{{Cl|SCREEN}} {{Cl|_NEWIMAGE}}(800, 600, 256)
+
+{{Cl|FOR...NEXT|FOR}} code = 0 {{Cl|TO}} 31
+  chrstr$ = chrstr$ + {{Cl|CHR$}}(code) + {{Cl|SPACE$}}(1)
+{{Cl|NEXT}}
+
+{{Cl|_FONT}} {{Cl|_LOADFONT}}("C:\Windows\Fonts\Cour.ttf", 20, "MONOSPACE") 'select monospace font
+
+{{Cl|_PRINTSTRING}} (0, 16), chrstr$
+
+{{Cl|END}} '' ''
+{{CodeEnd}}
+{{OutputStart}}
+  ☺ ☻ ♥ ♦ ♣ ♠ • ◘ ○ ◙ ♂ ♀ ♪ ♫ ☼ ► ◄ ↕ ‼ ¶ § ▬ ↨ ↑ ↓ → ← ∟ ↔ ▲ ▼
+{{OutputEnd}}
+
+
+''Example 2:'' Rotating a text string around a graphic object.
+{{CodeStart}} '' ''
+{{Cl|SCREEN (statement)|SCREEN}} 12 '' ''
+{{Cl|DIM}} row {{Cl|AS}} {{Cl|INTEGER}}, cnt {{Cl|AS}} {{Cl|INTEGER}}, cstart {{Cl|AS}} {{Cl|SINGLE}}, cend {{Cl|AS}} {{Cl|SINGLE}}
+{{Cl|DIM}} xrot {{Cl|AS}} {{Cl|INTEGER}}, yrot {{Cl|AS}} {{Cl|INTEGER}}, scale {{Cl|AS}} {{Cl|INTEGER}}
+' {{Cl|_FULLSCREEN}}                       'full screen optional
+cstart = 0: cend = 8 * {{Cl|ATN}}(1)
+xrot = 6: yrot = 60: scale = 4 
+row = 1
+{{Cl|CIRCLE}} (320, 240), 15, 9: {{Cl|PAINT}} {{Cl|STEP}}(0, 0), 9
+{{Cl|DO}}
+  {{Cl|FOR...NEXT|FOR}} i = cstart {{Cl|TO}} cend {{Cl|STEP}} .04
+    x = 300 + (scale * 40 - (row * xrot)) * {{Cl|COS}}(i)
+    y = 200 + (scale * 40 - (row * yrot)) * {{Cl|SIN}}(i)
+    cnt = cnt + 1
+    {{Cl|COLOR}} 7: {{Cl|_PRINTSTRING}} (x, y), "HELLO WORLD!", 0  'display 
+    {{Cl|IF}} cnt = {{Cl|LEN}}(text$) * 8 {{Cl|THEN}} cnt = 0: {{Cl|EXIT DO}}
+    {{Cl|_DISPLAY}}
+    {{Cl|COLOR}} 0: {{Cl|_PRINTSTRING}} (x, y), "HELLO WORLD!", 0  'erase 
+    {{Cl|_DELAY}} 0.02    
+  {{Cl|NEXT}}
+{{Cl|LOOP}} {{Cl|UNTIL}} {{Cl|INKEY$}} = {{Cl|CHR$}}(27) 'escape key exit
+{{Cl|COLOR}} 15 
+{{Cl|END}} '' ''
+{{CodeEnd}}
+{{small|Adapted from code by Unseen Machine}}
+
+
+
+{{PageSeeAlso}}
+* [[_NEWIMAGE]], [[_PRINTWIDTH]], [[_PRINTMODE]]
+* [[_CONTROLCHR]] {{text|(turns [[ASCII]] control characters OFF or ON)}}
+* [[_FONT]], [[_LOADFONT]], [[_FONTHEIGHT]], [[_FONTWIDTH]]
+* [[_SCREENIMAGE]], [[_SCREENPRINT]]
+* [[Text Using Graphics]]
+
+
+{{PageNavigation}}

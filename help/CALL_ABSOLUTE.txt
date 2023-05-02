@@ -1,0 +1,25 @@
+[[CALL ABSOLUTE]] is used to access interrupts on the computer or execute assembly type procedures.
+
+
+{{PageSyntax}}
+: [[CALL ABSOLUTE]]([{{Parameter|argumentList}},] {{Parameter|integerOffset}})
+
+
+{{PageLegacySupport}}
+* [[CALL ABSOLUTE]] is implemented to support older code and is not recommended practice. To handle mouse input, the '''use [[_MOUSEINPUT]] and related functions'''.
+
+
+{{PageDescription}}
+* [[CALL]] and parameter brackets are required in the statement.
+* {{Parameter|argumentList}} contains the list of arguments passed to the procedure.
+* {{Parameter|integerOffset}} contains the offset from the current code segment, set by [[DEF SEG]] and [[SADD]], to the starting location of the called procedure.
+* '''QB64''' has the ABSOLUTE statement built in and requires no external library, like QuickBASIC did.
+* '''NOTE: QB64 does not support INT 33h mouse functions above 3 or [[BYVAL]] in an ABSOLUTE statement. Registers are emulated.'''
+
+
+{{PageSeeAlso}}
+* [[SADD]], [[INTERRUPT]]
+* [[_MOUSEINPUT]]
+
+
+{{PageNavigation}}

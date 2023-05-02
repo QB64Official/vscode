@@ -1,0 +1,27 @@
+#REDIRECT [[OPEN#File_ACCESS_and_LOCK_Permissions]]
+
+The [[ACCESS]] clause is used in an [[OPEN]] statement when working over a network.
+
+
+{{PageSyntax}}
+:OPEN "file.dat" FOR APPEND ['''ACCESS {READ|WRITE}'''] AS #1
+
+{{PageDescription}}
+* Valid Options:
+**Default: When specified, all other processes are denied file access.
+**READ: When specified, read access is denied to other file procedures.
+**WRITE: When specified, write access is denied to other file procedures.
+**READ WRITE: When specified any access is denied to other file procedures.
+
+
+===Limitations===
+*If another process already has access to a specified file, program access is denied for that file OPEN access. A "Permission Denied" error 70 will be returned. A network program must be able to handle a denial of access error. 
+
+
+{{PageSeeAlso}}
+* [[LOCK]], [[LOCK (access)]]
+* [[OPEN]]
+* [[ON ERROR]]
+
+
+{{PageNavigation}}
