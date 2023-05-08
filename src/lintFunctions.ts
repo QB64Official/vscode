@@ -21,18 +21,20 @@ export function runLint() {
 		}
 
 		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
-		let compilerPath: string = config.get("installPath");
+		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			logFunctions.writeLine("The QB64 Install path is not set.", outputChannnel);
+			logFunctions.writeLine("The QB64 compiler path is not set.", outputChannnel);
 			return;
 		}
 
+		/*
 		if (os.platform() == "win32") {
 			compilerPath = path.join(compilerPath, "qb64.exe");
 		} else {
 			compilerPath = path.join(compilerPath, "qb64");
 		}
+		*/
 
 		compilerPath = compilerPath.replaceAll("\\", "/");
 
