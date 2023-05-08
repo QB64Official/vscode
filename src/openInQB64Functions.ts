@@ -16,7 +16,7 @@ export function openCurrentFileInQB64() {
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			logFunctions.writeLine("The QB64 Install path is not set.", outputChannnel);
+			logFunctions.writeLine("The QB64 compiler path is not set.", outputChannnel);
 			return;
 		}
 
