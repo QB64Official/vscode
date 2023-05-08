@@ -21,18 +21,20 @@ export function runLint() {
 		}
 
 		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
-		let compilerPath: string = config.get("installPath");
+		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			logFunctions.writeLine("The QB64 Install path is not set.", outputChannnel);
+			logFunctions.writeLine("The QB64 compiler path is not set.", outputChannnel);
 			return;
 		}
 
+		/*
 		if (os.platform() == "win32") {
 			compilerPath = path.join(compilerPath, "qb64.exe");
 		} else {
 			compilerPath = path.join(compilerPath, "qb64");
 		}
+		*/
 
 		compilerPath = compilerPath.replaceAll("\\", "/");
 
@@ -83,6 +85,7 @@ function deleteFile(fileName: string, outputChannnel: any) {
 	(async function (path) {
 		try {
 			await unlink(path);
+			logFunctions.writeLine(`File ${path} Deleted`, outputChannnel)
 		} catch (error) {
 			logFunctions.writeLine(`ERROR in deleteFile: ${error.message}`, outputChannnel)
 		}
@@ -156,7 +159,6 @@ function lintCurrentFile(compilerOutput: string) {
 				|| lintLine.startsWith("TYPE ")
 				|| lintLine.startsWith("Only ")
 				|| lintLine.startsWith("Number required for function")
-				|| lintLine.startsWith("Variable ")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
