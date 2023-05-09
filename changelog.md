@@ -13,6 +13,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.9.0
 - Enchantments
   - Issue [#108](https://github.com/QB64Official/vscode/issues/108) Include the help files (markdown) with the installer.
+  - Issue [#110](https://github.com/QB64Official/vscode/issues/110) Add keypress to call the new stand alone color picker. (shift+alt+p)
 - Bugs
   - Issue [#109](https://github.com/QB64Official/vscode/issues/109) Open in QB64 is not using the correct setting.
 
