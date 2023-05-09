@@ -15,12 +15,13 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Issue [#108](https://github.com/QB64Official/vscode/issues/108) Include the help files (markdown) with the installer.
   - Issue [#110](https://github.com/QB64Official/vscode/issues/110) Add keypress to call the new stand alone color picker. (alt+p)
 - Bugs
+  - Issue [#111](https://github.com/QB64Official/vscode/issues/111) Formatter: doesn't handle code with line numbers correctly.
   - Issue [#109](https://github.com/QB64Official/vscode/issues/109) Open in QB64 is not using the correct setting.
 
 ## 0.8.9
 - Pull Requests
-  - PR [#106](https://github.com/QB64Official/vscode/pull/106) Fix hover link dollar signs
-  - PR [#105](https://github.com/QB64Official/vscode/pull/105) hoverProvider link open fix
+  - PR [#106](https://github.com/QB64Official/vscode/pull/106) Fix hover link dollar signs.
+  - PR [#105](https://github.com/QB64Official/vscode/pull/105) hoverProvider link open fix.
   - PR [#104](https://github.com/QB64Official/vscode/pull/104) Added new words that end with $ to helpify for hover help lookups.Added new words that end with $ to helpify for hover help lookups.
 - Enchantments
   - Issue [#107](https://github.com/QB64Official/vscode/issues/107) Markdown opens in edit mode when clicking on hovertext
