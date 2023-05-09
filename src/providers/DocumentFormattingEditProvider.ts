@@ -209,7 +209,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 				const originalLine: vscode.TextLine = document.lineAt(lineNumber);
 				let newLine = originalLine.text.trim().replaceAll(" && ", " and ").replaceAll(" || ", "  or ").replaceAll(" != ", " <> ").replaceAll(" == ", " = ");
-				let lowerLine = newLine.trim().toLowerCase();
+				let lowerLine = newLine.toLowerCase();
 				const isSingleLineIf: boolean = this.isSingleLineIf(newLine.toLowerCase());
 
 				if (lowerLine == "endif") {
