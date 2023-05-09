@@ -272,6 +272,11 @@
                 "when": "editorTextFocus"
             },
             {
+                "command": "editor.action.showOrFocusStandaloneColorPicker",
+                "key": "alt+p",
+                "when": "editorTextFocus"
+            },
+            {
                 "command": "extension.addToGitIgnore",
                 "key": "ctrl+shit+i",
                 "when": "explorerFocus"
