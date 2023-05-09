@@ -286,7 +286,7 @@
             },
             {
                 "command": "editor.action.showOrFocusStandaloneColorPicker",
-                "key": "shift+alt+p",
+                "key": "alt+p",
                 "when": "editorTextFocus"
             },
             {
