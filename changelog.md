@@ -12,13 +12,27 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Major release: a huge changes  - Exepct for 1; major will go to 1 when the extension released to the market.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
-
+  
 ## 0.9.0
-- Changes
-  - The name of the language Id from QB64 to qb64 (to match what Microsoft does.)
-    This is a breaking change.  You will need to updated the you're lanch.json or delete it and have the extension create a new one.
-  - Added language server
-  - Added file syntax colors
+- Enchantments
+  - Issue [#108](https://github.com/QB64Official/vscode/issues/108) Include the help files (markdown) with the installer.
+  - Issue [#110](https://github.com/QB64Official/vscode/issues/110) Add keypress to call the new stand alone color picker. (shift+alt+p)
+- Bugs
+  - Issue [#109](https://github.com/QB64Official/vscode/issues/109) Open in QB64 is not using the correct setting.
+
+## 0.8.9
+- Pull Requests
+  - PR [#106](https://github.com/QB64Official/vscode/pull/106) Fix hover link dollar signs
+  - PR [#105](https://github.com/QB64Official/vscode/pull/105) hoverProvider link open fix
+  - PR [#104](https://github.com/QB64Official/vscode/pull/104) Added new words that end with $ to helpify for hover help lookups.Added new words that end with $ to helpify for hover help lookups.
+- Enchantments
+  - Issue [#103](https://github.com/QB64Official/vscode/issues/103) Add settings for compiler path and help path (split out)
+- Bugs
+  - Issue [#61](https://github.com/QB64Official/vscode/issues/61) 0.8.0 VSIX - CTRL+Move mouse doing *weird things*.
+
+## 0.8.9
+- Enchantments
+  - Issue [#103] Add settings for compiler path and help path (split out)
 
 ## 0.8.8
 - Bugs

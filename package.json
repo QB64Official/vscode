@@ -4,7 +4,7 @@
     "description": "QB64 language support for Visual Studio Code.",
     "version": "2.0.0",
     "engines": {
-        "vscode": "^1.72.0"
+        "vscode": "^1.78.1"
     },
     "categories": [
         "Programming Languages"
@@ -283,6 +283,11 @@
                 "command": "extension.showHelpIndexUsage",
                 "key": "shift+f1",
                 "when": "editorLangId == 'qb64' && editorTextFocus"
+            },
+            {
+                "command": "editor.action.showOrFocusStandaloneColorPicker",
+                "key": "shift+alt+p",
+                "when": "editorTextFocus"
             },
             {
                 "command": "workbench.action.focusFirstEditorGroup",
