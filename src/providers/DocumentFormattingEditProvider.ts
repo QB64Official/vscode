@@ -48,6 +48,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 	 * @returns 
 	 */
 	private shouldIndentLine(lowerLine: string): boolean {
+		lowerLine = lowerLine.replace(/\d+/g, "").trim();
 		return lowerLine.startsWith("if ")
 			|| lowerLine.startsWith("if(")
 			|| lowerLine.startsWith("sub ")
@@ -68,6 +69,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 	 * @returns 
 	 */
 	private shouldRemoveLineIndent(lowerLine: string) {
+		lowerLine = lowerLine.replace(/\d+/g, "").trim();
 		return lowerLine == "loop" || lowerLine.startsWith("loop ") || lowerLine.startsWith("end if") || lowerLine == "endif" || lowerLine.startsWith("end sub") || lowerLine == "endsub" || lowerLine.startsWith("end function") || lowerLine == "endfunction" || lowerLine == "next" || lowerLine == "wend" || lowerLine == "end type" || lowerLine == "endtype" || lowerLine == "end select" || lowerLine == "endselect" || lowerLine == "next" || lowerLine.startsWith("next ") || lowerLine.startsWith("end declare") || lowerLine.startsWith("enddeclare");
 	}
 
