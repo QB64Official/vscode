@@ -15,8 +15,9 @@ All notable changes to the "QB64" extension will be documented in this file.
   
 ## 0.9.0
 - Enchantments
-  - Issue [#108](https://github.com/QB64Official/vscode/issues/108) Include the help files (markdown) with the installer.
+  - Issue [#112](https://github.com/QB64Official/vscode/issues/112) Add a command to remove line numbers (use Command Palette to access),
   - Issue [#110](https://github.com/QB64Official/vscode/issues/110) Add keypress to call the new stand alone color picker. (alt+p)
+  - Issue [#108](https://github.com/QB64Official/vscode/issues/108) Include the help files (markdown) with the installer.  
 - Bugs
   - Issue [#111](https://github.com/QB64Official/vscode/issues/111) Formatter: doesn't handle code with line numbers correctly.
   - Issue [#109](https://github.com/QB64Official/vscode/issues/109) Open in QB64 is not using the correct setting.

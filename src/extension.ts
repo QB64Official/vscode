@@ -76,6 +76,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64', () => { openCurrentFileInQB64(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.toogleTrace', () => { toogleTrace(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.removeLineNumbers', () => { removeLineNumbers(); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.renumberLines', () => { renumberLines(); }));
 	// Register Providers here
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(commonFunctions.getDocumentSelector(), new DefinitionProvider()));
@@ -169,6 +171,50 @@ function findAndOpenCompileLog(qb64InstallPath: string, tempFolderName: string) 
 		return false;
 	} catch (error) {
 		vscode.window.showErrorMessage(`Error in findAndOpenCompileLog: ${error}`);
+	}
+}
+
+/**
+* Removes the line numbers from the current code file.
+* @param document Current TextDocument
+*/
+export function removeLineNumbers() {
+	try {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			return;
+		}
+		const document: vscode.TextDocument = editor.document;
+		const edit = new vscode.WorkspaceEdit();
+
+		for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
+			edit.replace(document.uri, document.lineAt(lineNumber).range, document.lineAt(lineNumber).text.replace(/\d+/g, "").trim());
+		}
+		vscode.workspace.applyEdit(edit);
+	} catch (error) {
+		vscode.window.showErrorMessage(error);
+	}
+}
+
+/**
+ * Renumber the lines the current code file.
+ * @param document Current TextDocument
+ */
+export function renumberLines() {
+	try {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			return;
+		}
+		const document: vscode.TextDocument = editor.document;
+		const edit = new vscode.WorkspaceEdit();
+
+		for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
+			edit.replace(document.uri, document.lineAt(lineNumber).range, `${lineNumber + 1} ${document.lineAt(lineNumber).text.replace(/\d+/g, "").trim()}`);
+		}
+		vscode.workspace.applyEdit(edit);
+	} catch (error) {
+		vscode.window.showErrorMessage(error);
 	}
 }
 

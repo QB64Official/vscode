@@ -315,6 +315,16 @@
                 "when": "editorLangId == 'qb64' && editorTextFocus"
             },
             {
+                "command": "extension.removeLineNumbers",
+                "title": "Remove the line numbers from the current file.",
+                "category": "QB64"
+            },
+            {
+                "command": "extension.renumberLines",
+                "title": "Renumber the lines the current code file.",
+                "category": "QB64"
+            },
+            {
                 "command": "editor.action.transformToUppercase",
                 "key": "ctrl+shift+u",
                 "when": "editorLangId == 'qb64' && editorTextFocus"
