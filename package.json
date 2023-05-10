@@ -309,6 +309,16 @@
                 "category": "QB64"
             },
             {
+                "command": "extension.removeLineNumbers",
+                "title": "Remove the line numbers from the current file.",
+                "category": "QB64"
+            },
+            {
+                "command": "extension.renumberLines",
+                "title": "Renumber the lines the current code file.",
+                "category": "QB64"
+            },
+            {
                 "command": "extension.showAsciiChart",
                 "title": "Show the Ascii Chart",
                 "category": "QB64"
