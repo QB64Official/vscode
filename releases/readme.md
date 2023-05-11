@@ -16,6 +16,7 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Issue [#110](https://github.com/QB64Official/vscode/issues/110) Add keypress to call the new stand alone color picker. (alt+p)
   - Issue [#108](https://github.com/QB64Official/vscode/issues/108) Include the help files (markdown) with the installer.  
 - Bugs
+  - Issue [#113](https://github.com/QB64Official/vscode/issues/113) Subs and Functions are not highlighted like there are in the classic IDE
   - Issue [#111](https://github.com/QB64Official/vscode/issues/111) Formatter: doesn't handle code with line numbers correctly.
   - Issue [#109](https://github.com/QB64Official/vscode/issues/109) Open in QB64 is not using the correct setting.
 

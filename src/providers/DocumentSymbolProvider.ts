@@ -1,5 +1,6 @@
 "use strict";
 import * as vscode from "vscode";
+import { symbolCache } from "../extension";
 
 // Setup the Outline window
 export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
@@ -118,6 +119,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 						line.range,
 						line.range
 					);
+					symbolCache.push(marker_symbol);
 					if (symbolChildren) {
 						marker_symbol.children = symbolChildren;
 						symbolChildren = [];

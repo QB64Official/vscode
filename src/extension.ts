@@ -35,8 +35,8 @@ import { HoverProvider } from "./providers/HoverProvider";
 //             ]
 //         }
 
-
-export function activate(context: vscode.ExtensionContext) {
+export var symbolCache: vscode.DocumentSymbol[] = [];
+export async function activate(context: vscode.ExtensionContext) {
 	const config = vscode.workspace.getConfiguration("qb64")
 	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
 
@@ -52,13 +52,19 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	decoratorFunctions.setupDecorate();
-	vscodeFucnctions.createFiles();
-	gitFunctions.createGitignore();
+	/*
+		vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', vscode.window.activeTextEditor.document.uri)
+			.then((symbols) => {
+				symbolCache = symbols;
+				// Handle the retrieved symbols here
+				decoratorFunctions.setupDecorate();				
+			});
+	*/
+
+	//decoratorFunctions.setupDecorate();
 
 	// Register Commands here
 	webViewFunctions.setupAsciiChart(context);
-
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openCompileLog', () => { openCompileLog(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexAlphabetical', () => { showHelpByName("Keyword-Reference---Alphabetical"); }));
@@ -66,7 +72,6 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64', () => { openCurrentFileInQB64(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
-
 	context.subscriptions.push(vscode.commands.registerCommand('extension.removeLineNumbers', () => { removeLineNumbers(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.renumberLines', () => { renumberLines(); }));
 
@@ -74,26 +79,37 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(commonFunctions.getDocumentSelector(), new DefinitionProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(documentSelector, new DocumentSymbolProvider()));
-	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
 	context.subscriptions.push(vscode.languages.registerHoverProvider(documentSelector, new HoverProvider()));
+	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
 
 	// Register Miscellaneous
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
+
+	decoratorFunctions.setupDecorate();
+	/*
+	vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', vscode.window.activeTextEditor.document.uri)
+		.then(() => {
+			decoratorFunctions.decorateAll(vscode.window.activeTextEditor);
+		});
+
+	vscode.window.onDidChangeActiveTextEditor((editor) => {
+		if (editor) {
+			vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', editor.document.uri)
+				.then(() => {
+					decoratorFunctions.decorateAll(editor);
+				});
+		}
+	});
+	*/
+
+	vscodeFucnctions.createFiles();
+	gitFunctions.createGitignore();
 
 	let tempPath: string = config.get('helpPath')
 	if (tempPath == null || tempPath.length < 1) {
 		let tempPath = path.join(context.extensionPath, "help");
 		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
 	}
-
-	/*
-	tempPath = config.get('compilerPath')
-	if (tempPath == null || tempPath.length < 1) {
-		tempPath = path.join(context.extensionPath, "binaries", "qb64-win.exe");
-		config.update('compilerPath', tempPath, vscode.ConfigurationTarget.Global);
-	}
-	*/
-
 }
 
 
