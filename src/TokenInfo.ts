@@ -86,6 +86,18 @@ export class TokenInfo {
 			return
 		}
 
+		helpFile = path.join(helpPath, `$${this.keyword.toUpperCase()}.md`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `$${this.keyword.toUpperCase()}.txt`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
 		this.keyword = `_${token}`;
 		helpFile = path.join(helpPath, `${this.keyword.toUpperCase()}$.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
@@ -94,6 +106,18 @@ export class TokenInfo {
 		}
 
 		helpFile = path.join(helpPath, `${this.keyword.toUpperCase()}.md`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `$$${this.keyword.toUpperCase()}.md`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `$$${this.keyword.toUpperCase()}.txt`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
 			this.setHelpToFile(helpFile, config);
 			return
