@@ -1,0 +1,33 @@
+[[REM]] allows explanatory comments, or remarks, to be inserted in a program.  [[REM]] statements extend to the end of the line and the text is ignored when the program is run.
+
+
+{{PageSyntax}}
+:: [[REM]] this is a comment
+:: [[apostrophe|']] this is also a comment
+
+
+{{PageDescription}}
+* [[REM]] may only be used where statements are allowed unlike [[apostrophe]] comments which may be included anywhere.
+* [[REM]] must appear as the last, or only, statement on a line.  Any following statements are included in the comment text and ignored.
+* QBasic [[metacommand]]s like [[$INCLUDE]] must be included in a comment using either [[REM]] or [[apostrophe|']].
+* [[Apostrophe]] comments, unavailable in earlier dialects of the BASIC language, are now generally favored over [[REM]] statements for their greater flexibility.
+* Comments are also useful for disabling code for program testing and debugging purposes.
+
+
+{{PageExamples}}
+''Example:'' Avoiding an [[END IF]] error.
+{{CodeStart}} '' ''
+{{Cl|REM}} This is a remark...
+' This is also a remark...
+{{Cl|IF...THEN|IF}} a = 0 {{Cl|THEN}} {{Cl|REM}} this statement is executed so this is a single-line IF statement
+{{Cl|IF...THEN|IF}} a = 0 {{Cl|THEN}} ' this comment is not executed so this is a multi-line IF statement and END IF is required
+{{Cl|END IF}} '' ''
+{{CodeEnd}}
+
+
+{{PageSeeAlso}} 
+* [[Apostrophe]]
+* [[$DYNAMIC]], [[$STATIC]], [[$INCLUDE]]
+
+
+{{PageNavigation}}

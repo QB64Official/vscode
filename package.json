@@ -2,9 +2,9 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.8.9",
+    "version": "0.9.0",
     "engines": {
-        "vscode": "^1.70.0"
+        "vscode": "^1.78.1"
     },
     "categories": [
         "Programming Languages"
@@ -154,7 +154,7 @@
                 },
                 "qb64.isHoverTextFileEnabled": {
                     "type": "boolean",
-                    "default": false,
+                    "default": true,
                     "description": "Enable: Enable hovertext"
                 },
                 "qb64.isLintOnSaveEnabled": {
@@ -272,6 +272,11 @@
                 "when": "editorTextFocus"
             },
             {
+                "command": "editor.action.showOrFocusStandaloneColorPicker",
+                "key": "alt+p",
+                "when": "editorTextFocus"
+            },
+            {
                 "command": "extension.addToGitIgnore",
                 "key": "ctrl+shit+i",
                 "when": "explorerFocus"
@@ -301,6 +306,16 @@
             {
                 "command": "extension.openCompileLog",
                 "title": "Open compilelog.txt",
+                "category": "QB64"
+            },
+            {
+                "command": "extension.removeLineNumbers",
+                "title": "Remove the line numbers from the current file.",
+                "category": "QB64"
+            },
+            {
+                "command": "extension.renumberLines",
+                "title": "Renumber the lines the current code file.",
                 "category": "QB64"
             },
             {

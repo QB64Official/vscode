@@ -35,8 +35,8 @@ import { HoverProvider } from "./providers/HoverProvider";
 //             ]
 //         }
 
-
-export function activate(context: vscode.ExtensionContext) {
+export var symbolCache: vscode.DocumentSymbol[] = [];
+export async function activate(context: vscode.ExtensionContext) {
 	const config = vscode.workspace.getConfiguration("qb64")
 	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
 
@@ -52,9 +52,16 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	decoratorFunctions.setupDecorate();
-	vscodeFucnctions.createFiles();
-	gitFunctions.createGitignore();
+	/*
+		vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', vscode.window.activeTextEditor.document.uri)
+			.then((symbols) => {
+				symbolCache = symbols;
+				// Handle the retrieved symbols here
+				decoratorFunctions.setupDecorate();				
+			});
+	*/
+
+	//decoratorFunctions.setupDecorate();
 
 	// Register Commands here
 	webViewFunctions.setupAsciiChart(context);
@@ -65,27 +72,43 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64', () => { openCurrentFileInQB64(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.removeLineNumbers', () => { removeLineNumbers(); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.renumberLines', () => { renumberLines(); }));
+
 	// Register Providers here
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(commonFunctions.getDocumentSelector(), new DefinitionProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(documentSelector, new DocumentSymbolProvider()));
-	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
 	context.subscriptions.push(vscode.languages.registerHoverProvider(documentSelector, new HoverProvider()));
+	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
 
 	// Register Miscellaneous
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
 
-	// Default the compiler and help settings -- The code can can be deleted once everyon is off the old versions
-	const installPath: string = config.get('installPath');
-	if (installPath != null && installPath.length > 0) {
-		let work: string = config.get('compilerPath')
-		if (work == null || work.length < 1) {
-			config.update('compilerPath', `${installPath}\\qb64.exe`, vscode.ConfigurationTarget.Global);
+	decoratorFunctions.setupDecorate();
+	/*
+	vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', vscode.window.activeTextEditor.document.uri)
+		.then(() => {
+			decoratorFunctions.decorateAll(vscode.window.activeTextEditor);
+		});
+
+	vscode.window.onDidChangeActiveTextEditor((editor) => {
+		if (editor) {
+			vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', editor.document.uri)
+				.then(() => {
+					decoratorFunctions.decorateAll(editor);
+				});
 		}
-		work = config.get('helpPath')
-		if (work == null || work.length < 1) {
-			config.update('helpPath', `${installPath}\\internal\\help`, vscode.ConfigurationTarget.Global);
-		}
+	});
+	*/
+
+	vscodeFucnctions.createFiles();
+	gitFunctions.createGitignore();
+
+	let tempPath: string = config.get('helpPath')
+	if (tempPath == null || tempPath.length < 1) {
+		let tempPath = path.join(context.extensionPath, "help");
+		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
 	}
 }
 
@@ -149,7 +172,49 @@ function findAndOpenCompileLog(qb64InstallPath: string, tempFolderName: string) 
 	}
 }
 
+/**
+ * Removes the line numbers from the current code file.
+ * @param document Current TextDocument
+ */
+export function removeLineNumbers() {
+	try {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			return;
+		}
+		const document: vscode.TextDocument = editor.document;
+		const edit = new vscode.WorkspaceEdit();
 
+		for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
+			edit.replace(document.uri, document.lineAt(lineNumber).range, document.lineAt(lineNumber).text.replace(/\d+/g, "").trim());
+		}
+		vscode.workspace.applyEdit(edit);
+	} catch (error) {
+		vscode.window.showErrorMessage(error);
+	}
+}
+
+/**
+ * Renumber the lines the current code file.
+ * @param document Current TextDocument
+ */
+export function renumberLines() {
+	try {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			return;
+		}
+		const document: vscode.TextDocument = editor.document;
+		const edit = new vscode.WorkspaceEdit();
+
+		for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
+			edit.replace(document.uri, document.lineAt(lineNumber).range, `${lineNumber + 1} ${document.lineAt(lineNumber).text.replace(/\d+/g, "").trim()}`);
+		}
+		vscode.workspace.applyEdit(edit);
+	} catch (error) {
+		vscode.window.showErrorMessage(error);
+	}
+}
 
 
 /**

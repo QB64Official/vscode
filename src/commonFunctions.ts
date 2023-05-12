@@ -1,6 +1,4 @@
-import { unescapeLeadingUnderscores } from "typescript";
 import * as vscode from "vscode";
-import * as logFunctions from "./logFunctions"
 
 /**
  * Gets a new vscode.DocumentSelector
@@ -55,8 +53,9 @@ export function getAbsolutePath(base: string, relative: string): string {
 
 /**
  * Creates a new range object from a regex match.
- * @param match Match with the start and stop for the range
- * @param lineNumber Line Number in the source file that range is for
+ * @param match Match with the start and stop for the range.
+ * @param lineNumber Line Number in the source file that range is for.
+ * @param matchIndex The index in the match array to use.
  * @returns 
  */
 export function createRange(match: RegExpMatchArray, lineNumber: number, matchIndex: number = 0) {

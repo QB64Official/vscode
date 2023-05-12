@@ -1,7 +1,8 @@
 "use strict";
 import * as vscode from "vscode";
-import * as logFunctions from "./logFunctions"
-import * as commonFunctions from "./commonFunctions"
+import * as logFunctions from "./logFunctions";
+import * as commonFunctions from "./commonFunctions";
+import { symbolCache } from "./extension";
 
 const red = 0;
 const green = 1;
@@ -13,28 +14,35 @@ const decorationTypeCurrentRow = vscode.window.createTextEditorDecorationType(
 	{
 		fontWeight: "bold",
 		borderRadius: "5px",
-		dark: {
-			border: "1px solid rgb(215,215,215); opacity: 0.5;",
-		},
-		light: {
-			border: "1px solid rgb(115,115,115); opacity: 0.5;",
-		}
+		dark: { border: "1px solid rgb(215,215,215); opacity: 0.5;" },
+		light: { border: "1px solid rgb(115,115,115); opacity: 0.5;" }
 	}
 );
 
-var lastLine: vscode.Position;
+const decorationTypeSub = vscode.window.createTextEditorDecorationType(
+	{
+		fontWeight: "bolder",
+		dark: { color: "rgb(45, 156, 66);", },
+		light: { color: "rgb(78, 74, 139);", }
+	}
+);
 
+let lastLine: vscode.Position;
 export function setupDecorate() {
-	decorateAll(vscode.window.activeTextEditor); // Decorate on activate/first open
+	symbolCache.length = 0;
+	vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', vscode.window.activeTextEditor.document.uri)
+		.then(() => {
+			decorateAll(vscode.window.activeTextEditor);
+		});
 
-	// Decorate when the text editor changes
-	vscode.window.onDidChangeActiveTextEditor(async (e: { document: any; }) => {
-		if (!e || !e.document) {
-			return
+	vscode.window.onDidChangeActiveTextEditor((editor): void => {
+		if (editor) {
+			vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', editor.document.uri)
+				.then(() => {
+					decorateAll(editor);
+				});
 		}
-		decorateAll(vscode.window.activeTextEditor);
 	});
-
 	vscode.window.onDidChangeTextEditorSelection(() => { decorateSingleLine(vscode.window.activeTextEditor); })
 }
 
@@ -55,12 +63,14 @@ function decorateSingleLine(editor: any) {
 
 		const config = vscode.workspace.getConfiguration("qb64");
 
-		let includeLeading: vscode.Range[] = []
-		let includeTrailing: vscode.Range[] = []
-		let todo: vscode.Range[] = []
+		let includeLeading: vscode.Range[] = [];
+		let includeTrailing: vscode.Range[] = [];
+		let todo: vscode.Range[] = [];
+		let subs: vscode.Range[] = [];
+
 
 		if (lastLine && lastLine.line != currrentLine.line) {
-			decorate(editor, lastLine.line, editor.document.lineAt(lastLine.line).text, outputChannnel, includeLeading, includeTrailing, todo);
+			decorate(editor, lastLine.line, editor.document.lineAt(lastLine.line).text, outputChannnel, includeLeading, includeTrailing, todo, subs);
 		}
 
 		if (config.get("isCurrentRowHighlightEnabled")) {
@@ -82,7 +92,7 @@ function decorateSingleLine(editor: any) {
 	}
 }
 
-function decorateAll(editor: any) {
+export function decorateAll(editor: any) {
 
 	if (!editor || editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
 		return;
@@ -93,21 +103,24 @@ function decorateAll(editor: any) {
 		const sourceCode = editor.document.getText().split('\n');
 		let includeLeading: vscode.Range[] = [];
 		let includeTrailing: vscode.Range[] = [];
-		let todo: vscode.Range[] = [];
+		let todos: vscode.Range[] = [];
+		let subs: vscode.Range[] = [];
+
 		for (let line = 0; line < sourceCode.length; line++) {
-			decorate(editor, line, sourceCode[line], outputChannnel, includeLeading, includeTrailing, todo);
+			decorate(editor, line, sourceCode[line], outputChannnel, includeLeading, includeTrailing, todos, subs);
 		}
 
 		editor.setDecorations(decorationTypeIncludeLeading, includeLeading);
 		editor.setDecorations(decorationTypeIncludeTrailing, includeTrailing);
-		editor.setDecorations(decorationTypeTodo, todo);
+		editor.setDecorations(decorationTypeTodo, todos);
+		editor.setDecorations(decorationTypeSub, subs);
 
 	} catch (error) {
 		logFunctions.writeLine(`ERROR in decorateAll: ${error}`, outputChannnel);
 	}
 }
 
-function decorate(editor: any, lineNumber: number, lineOfCode: string, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todo: vscode.Range[]) {
+function decorate(editor: any, lineNumber: number, lineOfCode: string, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[]) {
 
 	if (!editor || editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
 		return;
@@ -144,7 +157,36 @@ function decorate(editor: any, lineNumber: number, lineOfCode: string, outputCha
 		if (config.get("isTodoHighlightEnabled")) {
 			const matches = lineOfCode.matchAll(/(?<='*|rem*)TODO:|FIXIT:|FIXME:/ig);
 			for (const match of matches) {
-				todo.push(commonFunctions.createRange(match, lineNumber, 0));
+				todos.push(commonFunctions.createRange(match, lineNumber, 0));
+			}
+		}
+
+		if (symbolCache && symbolCache.length > 0) {
+			const tokens = lineOfCode.split(/[\s(]+/);
+			for (let tokenIndex = 0; tokenIndex < tokens.length; tokenIndex++) {
+				const sub = symbolCache.find((s) => s.name.toLowerCase() === tokens[tokenIndex].toLowerCase() && (s.kind === vscode.SymbolKind.Method || s.kind === vscode.SymbolKind.Function));
+				if (sub) {
+
+					const matches = lineOfCode.matchAll(new RegExp(`\\s*(\\b(call|declare sub|sub|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}(?:\\()?(?!\\))`, 'gi'));
+
+					/*
+					if (lineOfCode == "MachSpeed& = CalcDelay&") {
+						console.log("here");
+					}
+					*/
+
+					for (let match of matches) {
+
+						let start: number = match.index < 1 ? match[0].toLowerCase().indexOf(sub.name.toLowerCase()) : match.index
+						let stop: number = match.index < 1 ? start + sub.name.length : start + sub.name.length + 1
+
+						subs.push(
+							new vscode.Range(
+								new vscode.Position(lineNumber, start),
+								new vscode.Position(lineNumber, stop)
+							));
+					}
+				}
 			}
 		}
 

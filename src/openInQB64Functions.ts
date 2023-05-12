@@ -2,8 +2,6 @@
 import { exec } from "child_process";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
-import path from "path";
-import os from 'os';
 
 export function openCurrentFileInQB64() {
 	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.openInQB64);
@@ -15,17 +13,11 @@ export function openCurrentFileInQB64() {
 
 		logFunctions.writeLine("Starting Open In QB64", outputChannnel);
 		const config = vscode.workspace.getConfiguration("qb64")
-		let compilerPath: string = config.get("installPath");
+		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			logFunctions.writeLine("The QB64 Install path is not set.", outputChannnel);
+			logFunctions.writeLine("The QB64 compiler path is not set.", outputChannnel);
 			return;
-		}
-
-		if (os.platform() == "win32") {
-			compilerPath = path.join(compilerPath, "qb64.exe");
-		} else {
-			compilerPath = path.join(compilerPath, "qb64");
 		}
 
 		let command = `${compilerPath} "${vscode.window.activeTextEditor.document.fileName}"`;

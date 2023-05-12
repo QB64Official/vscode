@@ -49,37 +49,92 @@ export class TokenInfo {
 		let helpPath: string = config.get("helpPath");
 		let helpFile: string = path.join(helpPath, `${this.helpify()}.md`).replaceAll("\\", "/");
 
-		if (this.lineOfCode.toLowerCase().trim().indexOf("for") == 0 || this.lineOfCode.toLowerCase().trim().indexOf("if") == 0) {
-			if (fs.existsSync(helpFile)) {
-				this.setHelpToFile(helpFile, config);
-				return
-			}
+		//if (this.lineOfCode.toLowerCase().trim().indexOf("for") == 0 || this.lineOfCode.toLowerCase().trim().indexOf("if") == 0) {
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
 		}
+		//}
 
-		helpFile = path.join(helpPath, `${this.keyword}.md`).replaceAll("\\", "/");
+		// if (fs.existsSync(helpFile)) {
+		// 	this.setHelpToFile(helpFile, config);
+		// 	return
+		// }
+
+		// This really needs reworked
+		helpFile = path.join(helpPath, `${this.keyword.toUpperCase()}$.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
 			this.setHelpToFile(helpFile, config);
 			return
 		}
 
-		helpFile = path.join(helpPath, `${this.helpify()}$.md`).replaceAll("\\", "/");
+		helpFile = path.join(helpPath, `${this.keyword.toUpperCase()}.md`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `${this.keyword.toUpperCase()}.txt`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `${this.keyword.toUpperCase()}$.txt`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `$${this.keyword.toUpperCase()}.md`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `$${this.keyword.toUpperCase()}.txt`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
 			this.setHelpToFile(helpFile, config);
 			return
 		}
 
 		this.keyword = `_${token}`;
-		helpFile = path.join(helpPath, `${this.keyword}.md`).replaceAll("\\", "/");
+		helpFile = path.join(helpPath, `${this.keyword.toUpperCase()}$.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
 			this.setHelpToFile(helpFile, config);
 			return
 		}
 
-		helpFile = path.join(helpPath, `${this.keyword}$.md`).replaceAll("\\", "/");
+		helpFile = path.join(helpPath, `${this.keyword.toUpperCase()}.md`).replaceAll("\\", "/");
 		if (fs.existsSync(helpFile)) {
 			this.setHelpToFile(helpFile, config);
 			return
 		}
+
+		helpFile = path.join(helpPath, `$$${this.keyword.toUpperCase()}.md`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `$$${this.keyword.toUpperCase()}.txt`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `${this.keyword.toUpperCase()}.txt`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
+		helpFile = path.join(helpPath, `${this.keyword.toUpperCase()}$.txt`).replaceAll("\\", "/");
+		if (fs.existsSync(helpFile)) {
+			this.setHelpToFile(helpFile, config);
+			return
+		}
+
 
 		this.keyword = token;
 		this.isKeyword = false;
@@ -168,6 +223,8 @@ export class TokenInfo {
 			word = "DO...LOOP"
 		} else if (word == "declare" || (word == "dynamic") || (word == "library")) {
 			word = "DECLARE-LIBRARY";
+		} else if (word == "def" || word == "seg") {
+			word = "DEF-SEG";
 		}
 		// logFunctions.writeLine(`After Before: ${word}`, this.outputChannnel);
 		return word;
