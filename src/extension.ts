@@ -52,17 +52,6 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	/*
-		vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', vscode.window.activeTextEditor.document.uri)
-			.then((symbols) => {
-				symbolCache = symbols;
-				// Handle the retrieved symbols here
-				decoratorFunctions.setupDecorate();				
-			});
-	*/
-
-	//decoratorFunctions.setupDecorate();
-
 	// Register Commands here
 	webViewFunctions.setupAsciiChart(context);
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelp', () => { showHelp(); }));
@@ -86,22 +75,6 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
 
 	decoratorFunctions.setupDecorate();
-	/*
-	vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', vscode.window.activeTextEditor.document.uri)
-		.then(() => {
-			decoratorFunctions.decorateAll(vscode.window.activeTextEditor);
-		});
-
-	vscode.window.onDidChangeActiveTextEditor((editor) => {
-		if (editor) {
-			vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', editor.document.uri)
-				.then(() => {
-					decoratorFunctions.decorateAll(editor);
-				});
-		}
-	});
-	*/
-
 	vscodeFucnctions.createFiles();
 	gitFunctions.createGitignore();
 
