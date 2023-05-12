@@ -10,6 +10,11 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+
+## 0.9.1
+- Bugs
+  - Issue [#115](https://github.com/QB64Official/vscode/issues/115) Version 0.9.1 Highlighting changes
+
 ## 0.9.0
 - Enchantments
   - Issue [#112](https://github.com/QB64Official/vscode/issues/112) Add a command to remove line numbers (use Command Palette to access),
