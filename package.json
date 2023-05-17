@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.9.1",
+    "version": "1.0.0",
     "engines": {
         "vscode": "^1.78.1"
     },
@@ -40,73 +40,28 @@
                 "type": "QB64",
                 "label": "QB64 Debugger",
                 "runtime": "node",
+                "languages": [
+                    "QB64"
+                ],
                 "configurationAttributes": {
                     "launch": {
                         "required": [
-                            "command"
+                            "program"
                         ],
                         "properties": {
-                            "command": {
+                            "program": {
                                 "type": "string",
-                                "description": "The terminal command to run when this configuration runs.",
-                                "default": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe"
-                            },
-                            "terminalName": {
-                                "type": "string",
-                                "description": "The name given to the dedicated terminal QB64 creates for itself. Defaults to QB64.",
-                                "default": "QB64"
-                            },
-                            "terminalIndex": {
-                                "type": "number",
-                                "description": "The index of the terminal to send commands to. When -1 or out of range a dedicated terminal is created and used. Terminals are 0-indexed in order of creation, not by visual order. Defaults to -1.",
-                                "default": -1
-                            },
-                            "showTerminal": {
-                                "type": "boolean",
-                                "description": "Whether or not the terminal a command is sent to is given focus. Defaults to true.",
-                                "default": true
-                            },
-                            "cwd": {
-                                "type": "string",
-                                "description": "Full path to the directory where the program will run. Defaults to ${fileDirname}",
-                                "default": "${fileDirname}"
+                                "description": "Path to the QB64 source file that you want to debug.",
+                                "default": "${file}"
                             }
+                        },
+                        "stopOnEntry": {
+                            "type": "boolean",
+                            "description": "Automatically stop program after launch.",
+                            "default": false
                         }
                     }
-                },
-                "initialConfigurations": [
-                    {
-                        "name": "QB64: Custom Command",
-                        "type": "QB64",
-                        "request": "launch",
-                        "command": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe"
-                    }
-                ],
-                "configurationSnippets": [
-                    {
-                        "label": "QB64: Basic Configuration",
-                        "description": "Basic QB64 configuration for running a custom terminal command.",
-                        "body": {
-                            "name": "QB64: Custom Command",
-                            "type": "QB64",
-                            "request": "launch",
-                            "command": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe"
-                        }
-                    },
-                    {
-                        "label": "QB64: Full Configuration",
-                        "description": "Full QB64 configuration for running a custom terminal command with all properties present.",
-                        "body": {
-                            "name": "QB64: Custom Command",
-                            "type": "QB64",
-                            "request": "launch",
-                            "command": "${config:qb64.compilerPath} -c ${fileDirname}/${fileBasename} -o ${fileDirname}/${fileBasenameNoExtension}.exe -x; ${fileDirname}/${fileBasenameNoExtension}.exe",
-                            "terminalName": "Qb64",
-                            "terminalIndex": -1,
-                            "showTerminal": true
-                        }
-                    }
-                ]
+                }
             }
         ],
         "configuration": {
