@@ -17,6 +17,8 @@ import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
 import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEditProvider";
 import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescriptorFactory";
 import { HoverProvider } from "./providers/HoverProvider";
+import { createDebuggerInterface } from './debugAdapter';
+const net = require('net');
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -72,7 +74,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
 
 	// Register Miscellaneous
-	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
+	//context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
+	//context.subscriptions.push(vscode.commands.registerCommand('extension.startDebugging', () => { createDebuggerInterface(Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000); }));
 
 	decoratorFunctions.setupDecorate();
 	vscodeFucnctions.createFiles();
@@ -83,8 +86,55 @@ export async function activate(context: vscode.ExtensionContext) {
 		let tempPath = path.join(context.extensionPath, "help");
 		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
 	}
+
+	// The number are to make sure the port is in the range of 1024 to 49151
+	// Don't loop forever.
+	let port: number = -1;
+	for (let i: number = 0; i < 20; i++) {
+		try {
+			let testPort = Math.floor(Math.random() * (49151 - 1024 + 1)) + 1024
+			if (!(await isPortInUse(testPort))) {
+				port = testPort;
+				break;
+			}
+		} catch (err) {
+			console.log('Error when checking port:', err);
+		}
+	}
+	if (port >= 1024) {
+		createDebuggerInterface(port);
+		context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", {
+			createDebugAdapterDescriptor: (session: vscode.DebugSession) => {
+				return new vscode.DebugAdapterServer(port);
+			}
+		}));
+	} else {
+		vscode.window.showErrorMessage("Unable to find an open port.");
+	}
 }
 
+/**
+ * Check if a port is already user.
+ * @param port 
+ * @returns true if in use, false if not in use
+ */
+function isPortInUse(port: number): Promise<boolean> {
+	return new Promise((resolve, reject) => {
+		const server = net.createServer();
+		server.once('error', (err: { code: string; }) => {
+			if (err.code === 'EADDRINUSE') {
+				resolve(true);  // Port is in use
+			} else {
+				reject(err);  // Other error
+			}
+		});
+		server.once('listening', () => {
+			server.close();  // Close the server if port is not in use
+			resolve(false);  // Port is not in use
+		});
+		server.listen(port);
+	});
+}
 
 /**
  * Tries to find compilelog.txt and open it.

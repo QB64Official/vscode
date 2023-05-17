@@ -22,6 +22,23 @@ export function getSelectedTextOrLineTest(): string {
 }
 
 /**
+ * Get the currnet date as a string
+ * @returns a date string in the format of yyyy-MM-dd:hh:mm:ss
+ */
+export function getCurrentDateTime(): string {
+	let date = new Date();
+	let year = date.getFullYear();
+	let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so we add 1
+	let day = date.getDate().toString().padStart(2, '0');
+	let hours = date.getHours().toString().padStart(2, '0');
+	let minutes = date.getMinutes().toString().padStart(2, '0');
+	let seconds = date.getSeconds().toString().padStart(2, '0');
+
+	return `${year}-${month}-${day}:${hours}:${minutes}:${seconds}`;
+}
+
+
+/**
  * Escapes RegExp text value.  Found at https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript
  * @param text 
  * @returns 

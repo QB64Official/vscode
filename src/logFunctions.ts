@@ -16,6 +16,7 @@ const referenceProviderChannel: any = vscode.window.createOutputChannel("QB64: R
 const openIncludeFileChannel: any = vscode.window.createOutputChannel("QB64: Open Include File", "QB64");;
 const openInQB64Channel: any = vscode.window.createOutputChannel("QB64: Open In QB64", "QB64");
 const scriptChannel: any = vscode.window.createOutputChannel("QB64: Script", "QB64");
+const debugChannel: any = vscode.window.createOutputChannel("QB64: Debugger", "QB64");
 
 export enum channelType {
 	help = 1,
@@ -31,6 +32,7 @@ export enum channelType {
 	definitionProvider = 11,
 	hoverProvider = 12,
 	script = 13,
+	debugger = 14,
 }
 
 /**
@@ -77,6 +79,9 @@ export function getChannel(type: channelType) {
 
 		case channelType.script:
 			return scriptChannel;
+
+		case channelType.debugger:
+			return debugChannel;
 
 		default:
 			throw `Unknown channelType of ${type}`;
