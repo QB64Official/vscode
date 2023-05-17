@@ -23,6 +23,7 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 		position: vscode.Position,
 		token: vscode.CancellationToken
 	): Promise<vscode.Location[]> {
+		const path = require('path');
 		try {
 			if (!document || !vscode.window.activeTextEditor) {
 				return null;
@@ -33,8 +34,6 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 
 			if (match !== null && match.index !== undefined) {
 				let file = match[1].replace("'", "").replaceAll("\\", "/");
-				this.outputChannnel.appendLine("Include File Found: " + file);
-				const path = require('path');
 				let fullPath = commonFunctions.getAbsolutePath(path.dirname(vscode.window.activeTextEditor.document.fileName).replaceAll("\\", "/",) + "/", file);
 				if (fs.existsSync(fullPath)) {
 					return new Promise<vscode.Location[]>((resolve) => {
@@ -45,6 +44,20 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 					this.outputChannnel.appendLine("File " + fullPath + " not found.");
 					return null;
 				}
+			}
+
+			match = selectedText.match(/\$ExeIcon:'([^']*)'/);
+			if (match) {
+				let fullPath = commonFunctions.getAbsolutePath(path.dirname(vscode.window.activeTextEditor.document.fileName).replaceAll("\\", "/",) + "/", match[1]);
+				if (fs.existsSync(fullPath)) {
+					this.outputChannnel.appendLine("File " + fullPath + " found.");
+					return new Promise<vscode.Location[]>((resolve) => {
+						let range = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 0));
+						return resolve([new vscode.Location(vscode.Uri.file(fullPath), range)]);
+					});
+				}
+				this.outputChannnel.appendLine("File " + fullPath + " not found.");
+				return null;
 			}
 
 			const word = commonFunctions.getQB64WordFromDocument(document, position);
