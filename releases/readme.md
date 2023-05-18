@@ -13,8 +13,8 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.9.1
 - Enchantments
   - Issue [#117](https://github.com/QB64Official/vscode/issues/117) Pressing F12 on $ExeIcon does not open the icon file.
-
 - Bugs
+  - Issue [#118](https://github.com/QB64Official/vscode/issues/118) Version 0.9.1 Highlighting changes
   - Issue [#115](https://github.com/QB64Official/vscode/issues/115) Version 0.9.1 Highlighting changes
 
 ## 0.9.0
