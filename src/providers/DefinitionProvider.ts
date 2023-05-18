@@ -98,7 +98,7 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						continue;
 					}
 
-					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "");
+					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "").toLowerCase().trim();
 
 					if (line.match(this.regexIncludeFile)) {
 						includedFiles.push(line);
