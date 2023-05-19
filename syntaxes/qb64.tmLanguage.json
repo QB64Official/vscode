@@ -71,6 +71,10 @@
 			"name": "meta.function.QB64"
 		},
 		{
+			"match": "(?i:\\s*\\b(assert)\\b\\s*)",
+			"name": "debug.QB64"
+		},
+		{
 			"begin": "(^[ \\t]+)?(?='|rem|REM|Rem|rEm|reM|rEM|ReM)",
 			"beginCaptures": {
 				"1": {
