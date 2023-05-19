@@ -15,7 +15,7 @@ export class HoverProvider implements vscode.HoverProvider {
 			return null;
 		}
 
-		const config = vscode.workspace.getConfiguration("qb64")
+		const config = vscode.workspace.getConfiguration("qb64");
 		if (!config.get("isHoverTextFileEnabled")) {
 			logFunctions.writeLine("Hovertext is disabled.", this.outputChannnel);
 			return null;
