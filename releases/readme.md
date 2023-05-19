@@ -14,7 +14,8 @@ All notable changes to the "QB64" extension will be documented in this file.
 - Enchantments
   - Issue [#117](https://github.com/QB64Official/vscode/issues/117) Pressing F12 on $ExeIcon does not open the icon file.
 - Bugs
-  - Issue [#118](https://github.com/QB64Official/vscode/issues/118) Version 0.9.1 Highlighting changes
+  - Issue [#119](https://github.com/QB64Official/vscode/issues/119) Please do not hard code colors into the extension but instead use themeable properties.
+  - Issue [#118](https://github.com/QB64Official/vscode/issues/118) F12 on a label doesn't go to the label
   - Issue [#115](https://github.com/QB64Official/vscode/issues/115) Version 0.9.1 Highlighting changes
 
 ## 0.9.0

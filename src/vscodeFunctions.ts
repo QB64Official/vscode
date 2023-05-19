@@ -123,38 +123,27 @@ export function createFiles() {
 		"editor.tokenColorCustomizations": {
 			"textMateRules": [
 				{
-					"scope": [
-						"graphics.QB64"
-					],
-					"settings": {
-						"foreground": "#00ff2a"
-					}
+					"scope": ["graphics.QB64"],
+					"settings": { "foreground": "#00ff2a" }
 				},
 				{
-					"scope": [
-						"sound.QB64"
-					],
-					"settings": {
-						"foreground": "#f0b411"
-					}
+					"scope": [ "sound.QB64" ],
+					"settings": { "foreground": "#f0b411" }
 				},
 				{
-					"scope": [
-						"keyword.control.QB64"
-					],
-					"settings": {
-						"foreground": "#d611f0"
-					}
+					"scope": [ "keyword.control.QB64"],
+					"settings": { "foreground": "#d611f0" }
 				},
 				{
-					"scope": [
-						"debug.QB64"
-					],
-					"settings": {
-						"foreground": "#f59324"
+					"scope": [ "debug.QB64" ],
+					"settings": { "foreground": "#f59324" }
+				},
+				{
+					"scope": [ "userfunctions.QB64" ],
+					"settings": { "foreground": "#ff0066" }
 				}
 			]
-		},
+		}
 	}`
 
 	const launchJson =
