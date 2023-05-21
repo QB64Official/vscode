@@ -71,6 +71,10 @@
 			"name": "meta.function.QB64"
 		},
 		{
+			"match": "^\\s*(function|sub)\\s+([a-zA-Z_]\\w*)",
+			"name": "userfunctions.QB64"
+		},
+		{
 			"match": "(?i:\\s*\\b(assert)\\b\\s*)",
 			"name": "debug.QB64"
 		},

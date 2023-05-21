@@ -4,7 +4,6 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import { symbolCache } from "./extension";
 
-
 const decorationTypeTodo = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
 const decorationTypeIncludeLeading = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
 const decorationTypeIncludeTrailing = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
@@ -205,10 +204,10 @@ function decorate(editor: any, lineNumber: number, lineOfCode: string, outputCha
 								new vscode.Position(lineNumber, stop)
 							));
 					}
+
 				}
 			}
 		}
-
 	} catch (error) {
 		logFunctions.writeLine(`ERROR in decorate: ${error}`, outputChannnel);
 	}

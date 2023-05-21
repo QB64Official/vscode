@@ -145,6 +145,22 @@ export function createFiles() {
 					"settings": {
 						"foreground": "#d611f0"
 					}
+				},
+				{
+					"scope": [
+						"debug.QB64"
+					],
+					"settings": {
+						"foreground": "#f59324"
+					}
+				},
+				{
+					"scope": [
+						"userfunctions.QB64"
+					],
+					"settings": {
+						"foreground": "#ff0066"
+					}
 				}
 			]
 		},
