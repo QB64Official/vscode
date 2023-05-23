@@ -20,10 +20,7 @@
     },
     "icon": "images/qb64.ico",
     "main": "./out/main.js",
-    "activationEvents": [
-        "onLanguage:QB64",
-        "onCommand:extension.showAsciiChart"
-    ],
+    "activationEvents": [],
     "configurationDefaults": {
         "[QB64]": {
             "breadcrumbs.enabled": true,
@@ -136,6 +133,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Decorate|Enable: Highlight TODO in comments"
+                },
+                "qb64.isBoldingSubsAndFunctionsEnabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Decorate|Enable: Bold subs and functions."
                 },
                 "qb64.isOpenOnLineHelpEnabled": {
                     "type": "boolean",

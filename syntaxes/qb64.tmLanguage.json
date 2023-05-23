@@ -71,7 +71,7 @@
 			"name": "meta.function.QB64"
 		},
 		{
-			"match": "^\\s*(function|sub)\\s+([a-zA-Z_]\\w*)",
+			"match": "^\\\\s*((function|sub|FUNCTION|SUB|Function|Sub|fUNCTION|sUB)\\\\s+)([a-zA-Z_]\\\\w*)",
 			"name": "userfunctions.QB64"
 		},
 		{

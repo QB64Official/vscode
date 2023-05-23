@@ -16,5 +16,8 @@
 	"exclude": [
 		".vscode-test",
 		".releases"
-	]
+	],
+	"rules": {
+		"extension-editing": "false"
+	}
 }

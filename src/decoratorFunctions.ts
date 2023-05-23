@@ -4,10 +4,16 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import { symbolCache } from "./extension";
 
-const decorationTypeTodo = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
-const decorationTypeIncludeLeading = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
-const decorationTypeIncludeTrailing = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
-const decorationTypeCurrentRow = vscode.window.createTextEditorDecorationType(
+/* 
+// Empty decoration example
+const decorationTypeEmpty = vscode.window.createTextEditorDecorationType({});
+*/
+
+// These need to remain here.  Vs Code can't find an remove them if they are local to a functions
+const decorationTypeTodo: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
+const decorationTypeIncludeLeading: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
+const decorationTypeIncludeTrailing: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
+const decorationTypeCurrentRow: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
 	{
 		fontWeight: "bold",
 		borderRadius: "5px",
@@ -19,61 +25,133 @@ const decorationTypeCurrentRow = vscode.window.createTextEditorDecorationType(
 let lastLine: vscode.Position;
 export function setupDecorate() {
 	symbolCache.length = 0;
+
+	// Needed for the first opening VsCode
 	vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', vscode.window.activeTextEditor.document.uri)
-		.then(() => { decorateAll(vscode.window.activeTextEditor); }
-		);
+		.then(() => {
+			scanFile(vscode.window.activeTextEditor, true);
+			vscode.window.onDidChangeTextEditorSelection(() => { scanFile(vscode.window.activeTextEditor, false); });
 
-	vscode.window.onDidChangeActiveTextEditor((editor): void => {
-		if (editor) {
-			vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', editor.document.uri)
-				.then(() => { decorateAll(editor); }
-				);
+			vscode.window.onDidChangeActiveTextEditor((editor): void => {
+				if (editor) {
+					vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', editor.document.uri).then(() => { scanFile(editor, true); });
+				}
+			});
 		}
-	});
-
-	vscode.window.onDidChangeTextEditorSelection(() => { decorateSingleLine(vscode.window.activeTextEditor); })
+		);
 }
 
-function decorateSingleLine(editor: any) {
-	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
+/**
+ * Get the decorations for the subs and functions 
+ * @returns  vscode.TextEditorDecorationType
+ */
+function getSubdecoration(): vscode.TextEditorDecorationType {
+	let decorationTypeSub: vscode.TextEditorDecorationType = null;
+	try {
+		const editorConfig: any = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
+		const textMateRules = editorConfig.get('textMateRules') as Array<any>;  // Type assertion here
+		if (!textMateRules) {
+			return decorationTypeSub;
+		}
 
-	if (!editor || editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
+		const config: any = vscode.workspace.getConfiguration("qb64");
+		let userFunctionColorRule: any = textMateRules.find(rule => rule.scope == 'userfunctions.QB64');
+		let userFunctionColor: string = userFunctionColorRule ? userFunctionColorRule.settings.foreground : undefined;
+		let fontWeight: string = config.get("isBoldingSubsAndFunctionsEnabled") ? "bolder" : "normal";
+
+		if (userFunctionColor) {
+			decorationTypeSub = vscode.window.createTextEditorDecorationType({ fontWeight: fontWeight, color: userFunctionColor });
+		} else {
+			decorationTypeSub = vscode.window.createTextEditorDecorationType({ fontWeight: fontWeight });
+		}
+		return decorationTypeSub;
+	} catch (error) {
+		logFunctions.writeLine(`ERROR in getSubdecoration: ${error}`, logFunctions.getChannel(logFunctions.channelType.decorator));
+		return null;
+	}
+
+}
+
+
+function isOutputWindowActive(activeEditor: { document: { uri: { scheme: any; }; }; }): boolean {
+	return activeEditor ? activeEditor.document.uri.scheme === 'output' : false;
+}
+
+/**
+ * Scans all the lines to apply decorations.
+ * @param editor 
+ * @param scanAllLines True will check all lines in the file | False checks only the current line
+ * @returns 
+ */
+export function scanFile(editor: any, scanAllLines: boolean) {
+
+	if (!editor || isOutputWindowActive(editor) || editor.document.languageId.toLowerCase() === "log" || editor.document.languageId.toLowerCase() === "jsonc" || editor.document.fileName.toLowerCase().indexOf("qb64: ") > 0) {
 		return;
 	}
 
-	const currrentLine: vscode.Position = editor.selection.active;
+	const extension = vscode.extensions.getExtension('qb64-official.qb64');
+	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
 
+	if (extension) { // Skip no QB64 files.
+		const languageConfigurations: any[] = extension.packageJSON.contributes.languages;
+		const fileName = editor.document.fileName;
+		const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+		let found: boolean = false;
+		for (const language of languageConfigurations) {
+			const supportedExtensions: string[] = language.extensions;
+			if (supportedExtensions.includes(fileExtension)) {
+				found = true;
+				break;
+			}
+			if (!found) {
+				logFunctions.writeLine(`${editor.document.fileName} is not a supported file.`, outputChannnel);
+				return;
+			}
+		}
+	}
+
+	const currrentLine: vscode.Position = editor.selection.active;
 	try {
 
-		if (!currrentLine) {
-			return;
+		let includeLeading: vscode.Range[] = [];
+		let includeTrailing: vscode.Range[] = [];
+		let todos: vscode.Range[] = [];
+		let subs: vscode.Range[] = [];
+
+		if (scanAllLines) {
+			const sourceCode = editor.document.getText().split('\n');
+			for (let currrentLineNumber = 0; currrentLineNumber < sourceCode.length; currrentLineNumber++) {
+				decorate(editor, currrentLineNumber, outputChannnel, includeLeading, includeTrailing, todos, subs);
+			}
+		} else {
+			if ((lastLine && (lastLine.line !== currrentLine.line))) {
+				decorate(editor, lastLine.line, outputChannnel, includeLeading, includeTrailing, todos, subs);
+			}
 		}
 
-		if (lastLine && lastLine.line != currrentLine.line) {
-			let includeLeading: vscode.Range[] = [];
-			let includeTrailing: vscode.Range[] = [];
-			let todos: vscode.Range[] = [];
-			let subs: vscode.Range[] = [];
-			decorate(editor, lastLine.line, editor.document.lineAt(lastLine.line).text, outputChannnel, includeLeading, includeTrailing, todos, subs);
-			editor.setDecorations(decorationTypeIncludeLeading, includeLeading);
-			editor.setDecorations(decorationTypeIncludeTrailing, includeTrailing);
-			editor.setDecorations(decorationTypeTodo, todos);
-			editor.setDecorations(getSubdecoration(), subs);
+		editor.setDecorations(decorationTypeIncludeLeading, includeLeading);
+		editor.setDecorations(decorationTypeIncludeTrailing, includeTrailing);
+		editor.setDecorations(decorationTypeTodo, todos);
+
+		let decorationTypeSub = getSubdecoration();
+		if (decorationTypeSub) {
+			editor.setDecorations(decorationTypeSub, subs);
 		}
 
-		const config = vscode.workspace.getConfiguration("qb64");
-		if (config.get("isCurrentRowHighlightEnabled")) {
-			let current: vscode.Range[] = [new vscode.Range(
-				new vscode.Position(currrentLine.line, 0),
-				new vscode.Position(currrentLine.line, editor.document.lineAt(currrentLine.line).text.length))
-			];
-			editor.setDecorations(decorationTypeCurrentRow, []);
-			editor.setDecorations(decorationTypeCurrentRow, current);
+		if (currrentLine && !scanAllLines) {
+			const config = vscode.workspace.getConfiguration("qb64");
+			if (config.get("isCurrentRowHighlightEnabled")) {
+				let current: vscode.Range[] = [new vscode.Range(
+					new vscode.Position(currrentLine.line, 0),
+					new vscode.Position(currrentLine.line, editor.document.lineAt(currrentLine.line).text.length))
+				];
+				editor.setDecorations(decorationTypeCurrentRow, []);
+				editor.setDecorations(decorationTypeCurrentRow, current);
+			}
 		}
-
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR in decorateSingleLine: ${error}`, outputChannnel);
+		logFunctions.writeLine(`ERROR in scanFile: ${error}`, outputChannnel);
 	} finally {
 		if (currrentLine) {
 			lastLine = currrentLine;
@@ -81,58 +159,20 @@ function decorateSingleLine(editor: any) {
 	}
 }
 
-function getSubdecoration() {
+/**
+ * Decorate a line or loads the an array of decorations
+ * @param editor 
+ * @param lineNumber Line Number in the code file.
+ * @param outputChannnel Channel to write mesages to
+ * @param includeLeading 
+ * @param includeTrailing 
+ * @param todos Array of To do decorations 
+ * @param subs Array of subs/functions decorations
+ * @returns 
+ */
+function decorate(editor: any, lineNumber: number, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[]) {
 
-	let config = vscode.workspace.getConfiguration('editor.tokenColorCustomizations');
-	let textMateRules = config.get('textMateRules') as Array<any>;  // Type assertion here
-	let userFunctionColorRule = textMateRules.find(rule => rule.scope == 'userfunctions.QB64');
-	let userFunctionColor: string = userFunctionColorRule ? userFunctionColorRule.settings.foreground : undefined;
-
-	let decorationTypeSub: vscode.TextEditorDecorationType
-	if (userFunctionColor) {
-		decorationTypeSub = vscode.window.createTextEditorDecorationType(
-			{
-				fontWeight: "bolder",
-				color: userFunctionColor
-			}
-		);
-	} else {
-		decorationTypeSub = vscode.window.createTextEditorDecorationType({ fontWeight: "bolder" });
-	}
-	return decorationTypeSub;
-}
-
-export function decorateAll(editor: any) {
-
-	if (!editor || editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
-		return;
-	}
-
-	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
-	try {
-		const sourceCode = editor.document.getText().split('\n');
-		let includeLeading: vscode.Range[] = [];
-		let includeTrailing: vscode.Range[] = [];
-		let todos: vscode.Range[] = [];
-		let subs: vscode.Range[] = [];
-
-		for (let line = 0; line < sourceCode.length; line++) {
-			decorate(editor, line, sourceCode[line], outputChannnel, includeLeading, includeTrailing, todos, subs);
-		}
-
-		editor.setDecorations(decorationTypeIncludeLeading, includeLeading);
-		editor.setDecorations(decorationTypeIncludeTrailing, includeTrailing);
-		editor.setDecorations(decorationTypeTodo, todos);
-		editor.setDecorations(getSubdecoration(), subs);
-
-
-	} catch (error) {
-		logFunctions.writeLine(`ERROR in decorateAll: ${error}`, outputChannnel);
-	}
-}
-
-function decorate(editor: any, lineNumber: number, lineOfCode: string, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[]) {
-
+	let lineOfCode: string = editor.document.lineAt(lineNumber).text
 	if (!editor || editor.document.languageId == "Log"
 		|| editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate"
 		|| (lineOfCode.trim().startsWith("'") && (lineOfCode.trim().toLowerCase().indexOf("include") < 0))
@@ -144,14 +184,31 @@ function decorate(editor: any, lineNumber: number, lineOfCode: string, outputCha
 	const green = 1;
 	const blue = 2;
 	try {
-		logFunctions.writeLine(`decorate | lineNumber: ${lineNumber + 1} | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
+
 		const config = vscode.workspace.getConfiguration("qb64")
+		const extension = vscode.extensions.getExtension('qb64-official.qb64');
+
+		if (extension) { // Skip no QB64 files.
+			const languageConfigurations: any[] = extension.packageJSON.contributes.languages;
+			const fileName = editor.document.fileName;
+			const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+			for (const language of languageConfigurations) {
+				const supportedExtensions: string[] = language.extensions;
+				if (supportedExtensions.includes(fileExtension)) {
+					break;
+				} else {
+					logFunctions.writeLine(`${editor.document.fileName} is not a supported file.`, outputChannnel);
+					return;
+				}
+			}
+		}
+		logFunctions.writeLine(`decorate(${lineNumber + 1}) | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
+
 		if (config.get("isRgbColorEnabled")) {
 			let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 			if (matches) {
 				for (const match of matches) {
 					logFunctions.writeLine(`lineNumber: ${lineNumber} | RGB Match Found at Column: ${match.index}`, outputChannnel);
-					// Could use this to get just the numbers (\()[0-9]+(,[0-9]+)+(,[0-9]+)+(\))
 					let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
 					let work: vscode.Range[] = [commonFunctions.createRange(match, lineNumber, 0)];
 					let colorDec = vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})`, borderRadius: "5px" });
@@ -184,17 +241,9 @@ function decorate(editor: any, lineNumber: number, lineOfCode: string, outputCha
 
 				const sub = symbolCache.find((s) => s.name.trim().replace(/^(call|gosub)/i, "").toLowerCase() === tokens[tokenIndex].trim().replace(/^(call|gosub)/i, "").toLowerCase() && (s.kind === vscode.SymbolKind.Method || s.kind === vscode.SymbolKind.Function));
 				if (sub) {
-
 					const matches = lineOfCode.matchAll(new RegExp(`\\s*(\\b(call|gosub|declare sub|sub|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}(?:\\()?(?!\\))`, 'gi'));
 
-					/*
-					if (lineOfCode == "MachSpeed& = CalcDelay&") {
-						console.log("here");
-					}
-					*/
-
 					for (let match of matches) {
-
 						let start: number = match.index < 1 ? match[0].toLowerCase().indexOf(sub.name.toLowerCase()) : match.index
 						let stop: number = match.index < 1 ? start + sub.name.length : start + sub.name.length + 1
 
