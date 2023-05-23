@@ -73,6 +73,10 @@ function getSubdecoration(): vscode.TextEditorDecorationType {
 }
 
 
+function isOutputWindowActive(activeEditor: { document: { uri: { scheme: any; }; }; }): boolean {
+	return activeEditor ? activeEditor.document.uri.scheme === 'output' : false;
+}
+
 /**
  * Scans all the lines to apply decorations.
  * @param editor 
@@ -81,14 +85,14 @@ function getSubdecoration(): vscode.TextEditorDecorationType {
  */
 export function scanFile(editor: any, scanAllLines: boolean) {
 
-	if (!editor || editor.document.uri.scheme.toLowerCase() === 'output' || editor.document.languageId.toLowerCase() === "log" || editor.document.languageId.toLowerCase() === "jsonc" || editor.document.fileName.toLowerCase().indexOf("qb64: ") > 0) {
+	if (!editor || isOutputWindowActive(editor) || editor.document.languageId.toLowerCase() === "log" || editor.document.languageId.toLowerCase() === "jsonc" || editor.document.fileName.toLowerCase().indexOf("qb64: ") > 0) {
 		return;
 	}
 
 	const extension = vscode.extensions.getExtension('qb64-official.qb64');
 	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
 
-	if (extension) { // Skip non QB64 files.
+	if (extension) { // Skip no QB64 files.
 		const languageConfigurations: any[] = extension.packageJSON.contributes.languages;
 		const fileName = editor.document.fileName;
 		const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
@@ -100,8 +104,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 				break;
 			}
 			if (!found) {
-				// Can't log the file name. That cause an infinite loop.
-				// logFunctions.writeLine(`${editor.document.fileName} is not a supported file.`, outputChannnel);
+				logFunctions.writeLine(`${editor.document.fileName} is not a supported file.`, outputChannnel);
 				return;
 			}
 		}
@@ -135,7 +138,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 			editor.setDecorations(decorationTypeSub, subs);
 		}
 
-		if (currrentLine) {
+		if (currrentLine && !scanAllLines) {
 			const config = vscode.workspace.getConfiguration("qb64");
 			if (config.get("isCurrentRowHighlightEnabled")) {
 				let current: vscode.Range[] = [new vscode.Range(
