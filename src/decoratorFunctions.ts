@@ -232,10 +232,25 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 			}
 		}
 
+		// Fix "as"
+		// let matches = lineOfCode.matchAll(/\b\w+\s+as\s+\w+\b(?!\s*\))/ig); // Finds the starting word (broke)
+		// TODO: Use this as base for getting parameter highlighting working.
+		// TODO: Change to use the array system
+		/*
+		let matches = lineOfCode.matchAll(/\b(as)\s+(\b\w+)/ig);
+		if (matches) {
+			for (const match of matches) {
+				logFunctions.writeLine(`lineNumber: ${lineNumber} | AS Match Found at Column: ${match.index}`, outputChannnel);
+				let work: vscode.Range[] = [commonFunctions.createRange(match, lineNumber, 0)];
+				let colorDec = vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(0,255,0)`, borderRadius: "10px" });
+				editor.setDecorations(colorDec, work);
+			}
+		}
+		*/
+
 		if (symbolCache && symbolCache.length > 0) {
 			const tokens = lineOfCode.split(/[\s(]+/);
 			for (let tokenIndex = 0; tokenIndex < tokens.length; tokenIndex++) {
-
 				const sub = symbolCache.find((s) => s.name.trim().replace(/^(call|gosub)/i, "").toLowerCase() === tokens[tokenIndex].trim().replace(/^(call|gosub)/i, "").toLowerCase() && (s.kind === vscode.SymbolKind.Method || s.kind === vscode.SymbolKind.Function));
 				if (sub) {
 					const matches = lineOfCode.matchAll(new RegExp(`\\s*(\\b(call|gosub|declare sub|sub|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}(?:\\()?(?!\\))`, 'gi'));
