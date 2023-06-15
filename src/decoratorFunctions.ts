@@ -133,6 +133,12 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 			}
 		} else {
 			if ((lastLine && (lastLine.line !== currrentLine.line))) {
+				/*
+								let range = new vscode.Range(new vscode.Position(lastLine.line, 0), new vscode.Position(lastLine.line, 0));
+								editor.setDecorations(decorationTypeIncludeLeading, [range]);
+								editor.setDecorations(decorationTypeIncludeTrailing, [range]);
+								editor.setDecorations(decorationTypeTodo, [range]);
+				*/
 				decorate(editor, lastLine.line, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands);
 			}
 		}
@@ -231,12 +237,14 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		}
 
 		// Look for include files
-		let match = lineOfCode.match(/'\$INCLUDE:/i)
-		if (match !== null && match.index !== undefined) {
-			includeLeading.push(commonFunctions.createRange(match, lineNumber, 0));
-			match = lineOfCode.match(/'(.*)'/i)
+		if (!lineOfCode.toLowerCase().startsWith("rem")) {
+			let match = lineOfCode.match(/'\$INCLUDE:/i)
 			if (match !== null && match.index !== undefined) {
-				includeTrailing.push(commonFunctions.createRange(match, lineNumber, 0));
+				includeLeading.push(commonFunctions.createRange(match, lineNumber, 0));
+				match = lineOfCode.match(/'(.*)'/i)
+				if (match !== null && match.index !== undefined) {
+					includeTrailing.push(commonFunctions.createRange(match, lineNumber, 0));
+				}
 			}
 		}
 
