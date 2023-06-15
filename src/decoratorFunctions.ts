@@ -291,7 +291,7 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 
 				const sub = symbolCache.find((s) => s.name.trim().replace(/^(call|gosub)/i, "").toLowerCase() === tokens[tokenIndex].trim().replace(/^(call|gosub)/i, "").toLowerCase() && (s.kind === vscode.SymbolKind.Method || s.kind === vscode.SymbolKind.Function));
 				if (sub) {
-					const matches = lineOfCode.matchAll(new RegExp(`\\s*(\\b(call|gosub|declare sub|sub|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}(?:\\()?(?!\\))`, 'gi'));
+					const matches = lineOfCode.matchAll(new RegExp(`\\s*(\\b(call|gosub|declare sub|sub|declare function|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}(?:\\()?(?!\\))`, 'gi'));
 
 					for (let match of matches) {
 						let start: number = match.index < 1 ? match[0].toLowerCase().indexOf(sub.name.toLowerCase()) : match.index
