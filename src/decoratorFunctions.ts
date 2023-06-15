@@ -4,15 +4,7 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import { symbolCache } from "./extension";
 
-/* 
-// Empty decoration example
-const decorationTypeEmpty = vscode.window.createTextEditorDecorationType({});
-*/
-
-// These need to remain here.  Vs Code can't find an remove them if they are local to a functions
 const decorationTypeTodo: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
-const decorationTypeIncludeLeading: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
-const decorationTypeIncludeTrailing: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
 const decorationTypeCurrentRow: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
 	{
 		fontWeight: "bold",
@@ -37,15 +29,32 @@ export function setupDecorate() {
 					vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', editor.document.uri).then(() => { scanFile(editor, true); });
 				}
 			});
+		});
+}
+
+function getMetaCommandDecoration(): vscode.TextEditorDecorationType {
+	let retvalue: vscode.TextEditorDecorationType = null;
+	try {
+		const editorConfig: any = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
+		const textMateRules = editorConfig.get('textMateRules') as Array<any>;  // Type assertion here
+		if (!textMateRules) {
+			return retvalue;
 		}
-		);
+		let colorRule: any = textMateRules.find(rule => rule.scope == 'metacommand.QB64');
+		let color: string = colorRule ? colorRule.settings.foreground : undefined;
+
+		return vscode.window.createTextEditorDecorationType({ color: color });
+	} catch (error) {
+		logFunctions.writeLine(`ERROR in getMetaCommandDecoration: ${error}`, logFunctions.getChannel(logFunctions.channelType.decorator));
+		return null;
+	}
 }
 
 /**
  * Get the decorations for the subs and functions 
  * @returns  vscode.TextEditorDecorationType
  */
-function getSubdecoration(): vscode.TextEditorDecorationType {
+function getSubDecoration(): vscode.TextEditorDecorationType {
 	let decorationTypeSub: vscode.TextEditorDecorationType = null;
 	try {
 		const editorConfig: any = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
@@ -69,7 +78,6 @@ function getSubdecoration(): vscode.TextEditorDecorationType {
 		logFunctions.writeLine(`ERROR in getSubdecoration: ${error}`, logFunctions.getChannel(logFunctions.channelType.decorator));
 		return null;
 	}
-
 }
 
 
@@ -101,7 +109,6 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 			}
 			if (!found) {
 				// Can't log the file name. That cause an infinite loop.
-				// logFunctions.writeLine(`${editor.document.fileName} is not a supported file.`, outputChannnel);
 				return;
 			}
 		}
@@ -110,19 +117,23 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 	const currrentLine: vscode.Position = editor.selection.active;
 	try {
 
+		const decorationTypeIncludeLeading: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
+		const decorationTypeIncludeTrailing: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
+
 		let includeLeading: vscode.Range[] = [];
 		let includeTrailing: vscode.Range[] = [];
 		let todos: vscode.Range[] = [];
 		let subs: vscode.Range[] = [];
+		let metacommands: vscode.Range[] = [];
 
 		if (scanAllLines) {
 			const sourceCode = editor.document.getText().split('\n');
 			for (let currrentLineNumber = 0; currrentLineNumber < sourceCode.length; currrentLineNumber++) {
-				decorate(editor, currrentLineNumber, outputChannnel, includeLeading, includeTrailing, todos, subs);
+				decorate(editor, currrentLineNumber, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands);
 			}
 		} else {
 			if ((lastLine && (lastLine.line !== currrentLine.line))) {
-				decorate(editor, lastLine.line, outputChannnel, includeLeading, includeTrailing, todos, subs);
+				decorate(editor, lastLine.line, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands);
 			}
 		}
 
@@ -130,9 +141,14 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 		editor.setDecorations(decorationTypeIncludeTrailing, includeTrailing);
 		editor.setDecorations(decorationTypeTodo, todos);
 
-		let decorationTypeSub = getSubdecoration();
+		let decorationTypeSub = getSubDecoration();
 		if (decorationTypeSub) {
 			editor.setDecorations(decorationTypeSub, subs);
+		}
+
+		let metacommandDecoration = getMetaCommandDecoration();
+		if (metacommandDecoration) {
+			editor.setDecorations(metacommandDecoration, metacommands);
 		}
 
 		if (currrentLine) {
@@ -167,7 +183,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
  * @param subs Array of subs/functions decorations
  * @returns 
  */
-function decorate(editor: any, lineNumber: number, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[]) {
+function decorate(editor: any, lineNumber: number, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[], metacommands: vscode.Range[]) {
 
 	let lineOfCode: string = editor.document.lineAt(lineNumber).text
 	if (!editor || editor.document.languageId == "Log"
@@ -248,6 +264,15 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		}
 		*/
 
+		let matches = lineOfCode.matchAll(/(?<=\W|^)(REM|'|\$DYNAMIC|\$STATIC|Option _Explicit|Option Explicit|option _explicitarray|option explicitarray|\$ASSERTS|\$Noprefix|\$CHECKING|\$COLOR|\$CONSOLE|\$DEBUG|\$ERROR|\$EXEICON:|\$LET|\$IF|\$ELSEIF|\$END IF|\$SCREENHIDE|\$SCREENSHOW|\$VIRTUALKEYBOARD|\$VERSIONINFO:Comments|\$VERSIONINFO:CompanyName|\$VERSIONINFO:FileDescription|\$VERSIONINFO:FileVersion|\$VERSIONINFO:InternalName|\$VERSIONINFO:LegalCopyright|\$VERSIONINFO:LegalTrademarks|\$VERSIONINFO:OriginalFilename|\$VERSIONINFO:ProductName|\$VERSIONINFO:ProductVersion|\$VERSIONINFO:Web)(?=\W|$)/ig);
+		if (matches) {
+			for (const match of matches) {
+				logFunctions.writeLine(`lineNumber: ${lineNumber} | MetaCommand Match Found at Column: ${match.index}`, outputChannnel);
+				//let work: vscode.Range[] = [commonFunctions.createRange(match, lineNumber, 0)];				
+				metacommands.push(commonFunctions.createRange(match, lineNumber, 0));
+			}
+		}
+
 		if (symbolCache && symbolCache.length > 0) {
 			const tokens = lineOfCode.split(/[\s(]+/);
 			for (let tokenIndex = 0; tokenIndex < tokens.length; tokenIndex++) {
@@ -265,7 +290,6 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 								new vscode.Position(lineNumber, stop)
 							));
 					}
-
 				}
 			}
 		}
