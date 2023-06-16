@@ -221,7 +221,7 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 				}
 			}
 		}
-		logFunctions.writeLine(`decorate(${lineNumber + 1}) | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
+		//logFunctions.writeLine(`decorate(${lineNumber + 1}) | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
 
 		if (config.get("isRgbColorEnabled")) {
 			let matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
@@ -286,8 +286,13 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 			for (let tokenIndex = 0; tokenIndex < tokens.length; tokenIndex++) {
 				const sub = symbolCache.find((s) => s.name.trim().replace(/^(call|gosub)/i, "").toLowerCase() === tokens[tokenIndex].trim().replace(/^(call|gosub)/i, "").toLowerCase() && (s.kind === vscode.SymbolKind.Method || s.kind === vscode.SymbolKind.Function));
 				if (sub) {
-					const matches = lineOfCode.matchAll(new RegExp(`\\s*(\\b(call|gosub|declare sub|sub|declare function|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}(?:\\()?(?!\\))`, 'gi'));
+					// Highlights words in comments
+					// const matches = lineOfCode.matchAll(new RegExp(`\\s*(\\b(call|gosub|declare sub|sub|declare function|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}(?:\\()?(?!\\))`, 'gi'));
 
+					// Mostly works but gets things like intro inside introduction
+					// const matches = lineOfCode.matchAll(new RegExp(`(?<!'|\brem\b)\\s*(\\b(call|gosub|declare sub|sub|declare function|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}(?:\\()?(?!\\))`, 'gi'));
+
+					const matches = lineOfCode.matchAll(new RegExp(`(?<!'|\brem\b)\\s*(\\b(call|gosub|declare sub|sub|declare function|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}\\b`, 'gi'));
 					for (let match of matches) {
 						let start: number = match.index < 1 ? match[0].toLowerCase().indexOf(sub.name.toLowerCase()) : match.index
 						let stop: number = match.index < 1 ? start + sub.name.length : start + sub.name.length + 1
