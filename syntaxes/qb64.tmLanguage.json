@@ -141,7 +141,7 @@
 			"name": "debug.QB64"
 		},
 		{
-			"match": "(?i:\\b(REM|'|$DYNAMIC|$STATIC|Option _Explicit|option _explicitarray|option explicitarray|$ASSERTS|$Noprefix|$CHECKING|$COLOR|$CONSOLE|$DEBUG|$ERROR|$EXEICON|$LET|$IF|$ELSEIF|$END IF|$SCREENHIDE|$SCREENSHOW|$VIRTUALKEYBOARD|$VERSIONINFO:Comments|$VERSIONINFO:CompanyName|$VERSIONINFO:FileDescription|$VERSIONINFO:FileVersion|$VERSIONINFO:InternalName|$VERSIONINFO:LegalCopyright|$VERSIONINFO:LegalTrademarks|$VERSIONINFO:OriginalFilename|$VERSIONINFO:ProductName|$VERSIONINFO:ProductVersion|$VERSIONINFO:Web)\\b)",
+			"match": "(?i:\\b(REM|'|$DYNAMIC|$STATIC|Option _Explicit|option _explicitarray|option explicitarray|$RESIZE:|$ASSERTS|$Noprefix|$CHECKING|$COLOR|$CONSOLE|$DEBUG|$ERROR|$EXEICON|$LET|$IF|$ELSEIF|$END IF|$SCREENHIDE|$SCREENSHOW|$VIRTUALKEYBOARD|$VERSIONINFO:Comments|$VERSIONINFO:CompanyName|$VERSIONINFO:FileDescription|$VERSIONINFO:FileVersion|$VERSIONINFO:InternalName|$VERSIONINFO:LegalCopyright|$VERSIONINFO:LegalTrademarks|$VERSIONINFO:OriginalFilename|$VERSIONINFO:ProductName|$VERSIONINFO:ProductVersion|$VERSIONINFO:Web)\\b)",
 			"name": "metacommand.QB64"
 		},
 		{
