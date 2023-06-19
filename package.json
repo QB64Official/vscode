@@ -32,6 +32,16 @@
         }
     },
     "contributes": {
+        "views": {
+            "explorer": [
+                {
+                    "id": "todo",
+                    "name": "QB64 TODOs",
+                    "icon": "images\\todo.svg",
+                    "contextualTitle": "View TODOs"
+                }
+            ]
+        },
         "debuggers": [
             {
                 "type": "QB64",

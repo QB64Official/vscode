@@ -1,6 +1,9 @@
 "use strict";
 import * as vscode from "vscode";
 import { symbolCache } from "../extension";
+import { todoTreeProvider } from "../extension";
+import { TodoItem } from "../TodoItem";
+
 
 // Setup the Outline window
 export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
@@ -13,16 +16,29 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				return code.trim().substring(code.trim().indexOf("(") + 1, code.trim().lastIndexOf(")"));
 			}
 
+			todoTreeProvider.clear();
+
+			const todoRegex = /(?:'|\brem\b).*(todo|fixit|fixme):?/i;
 			let symbols: vscode.DocumentSymbol[] = [];
 			let nodes = [symbols];
-			let symbolText: string
+			let symbolText: string;
+
 			for (let currentLine = 0; currentLine < document.lineCount; currentLine++) {
+
 				const line = document.lineAt(currentLine);
 				let tokens: string[] = line.text.trim().split('(');
 				let lineText = line.text.trim().toLowerCase();
 				let symbol = tokens[0].trim() || "undef"; // Kludge "cannot be falsy"
 				let symbolKind: any = false;
 				let symbolChildren: vscode.DocumentSymbol[] = [];
+
+				const todoMatch = lineText.match(todoRegex);
+				if (todoMatch) {
+					const todoComment = line.text.trim().substring(todoMatch.index! + todoMatch[0].length).trim(); // Don't use lineText - it is all lower case.
+					const todoItem = new TodoItem(todoComment, vscode.TreeItemCollapsibleState.None, new vscode.Range(line.lineNumber, 0, line.lineNumber, line.text.length), document.uri);
+					todoTreeProvider.addTodoItem(todoItem);
+				}
+
 				if (lineText.startsWith('sub ')) {
 					symbolKind = vscode.SymbolKind.Method;
 					symbol = symbol.substring(4);
@@ -128,6 +144,8 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				}
 			}
 			resolve(symbols);
+			todoTreeProvider.refresh();
+
 		});
 	}
 }

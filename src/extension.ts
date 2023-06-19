@@ -17,6 +17,7 @@ import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
 import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEditProvider";
 import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescriptorFactory";
 import { HoverProvider } from "./providers/HoverProvider";
+import { TodoTreeProvider } from "./TodoTreeProvider";
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -36,6 +37,7 @@ import { HoverProvider } from "./providers/HoverProvider";
 //         }
 
 export var symbolCache: vscode.DocumentSymbol[] = [];
+export var todoTreeProvider: TodoTreeProvider = null;
 export async function activate(context: vscode.ExtensionContext) {
 	const config = vscode.workspace.getConfiguration("qb64")
 	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
@@ -83,6 +85,12 @@ export async function activate(context: vscode.ExtensionContext) {
 		let tempPath = path.join(context.extensionPath, "help");
 		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
 	}
+
+	// Todo window stuff
+	todoTreeProvider = new TodoTreeProvider();
+	vscode.window.registerTreeDataProvider('todo', todoTreeProvider);
+	vscode.commands.registerCommand('extension.refreshTodo', () => todoTreeProvider.refresh());
+
 }
 
 

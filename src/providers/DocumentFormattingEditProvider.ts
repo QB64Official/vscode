@@ -144,7 +144,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.trim();
 
 		if (code.toLowerCase().endsWith(" :")) {
-			code = code.replace(" :", ":"); // TODO: needs to only replace the one at the end of the line
+			code = code.replace(" :", ":");
 		}
 
 		if (code.toLowerCase().startsWith("defint")) {
@@ -236,25 +236,18 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				} else if (lowerLine.startsWith("elseif ") && lowerLine.indexOf(" then") < 0) {
 					newLine = `${newLine} then`
 					lowerLine = newLine.toLowerCase();
-					// } else {
-					// 	newLine = newLine.replace("++", "+ 1");
-					// 	newLine = newLine.replace(/(?<!")(?<=[A-Za-z])--/i, " - 1")
 				}
 
 				if (!isSingleLineIf) {
 					if (inDeclare && (lowerLine.startsWith("function") || lowerLine.startsWith("sub"))) {
-						// logFunctions.writeLine(`In declare block - ${lineNumber} | ${lowerLine}`, this.outputChannnel);
 					} else if (this.shouldIndentLine(lowerLine)) {
 						level++;
 						if (lowerLine.startsWith("declare dynamic library") || (lowerLine.startsWith("declare library"))) {
-							//level++;
 							inDeclare = true;
 						}
 					} else if (this.shouldRemoveLineIndent(lowerLine)) {
 						level--;
 						if (lowerLine.startsWith("end declare") || lowerLine.startsWith("enddeclare")) {
-							//logFunctions.writeLine(`Set declare false - ${lineNumber} | ${lowerLine}`, this.outputChannnel);						
-							//level--;
 							inDeclare = false;
 						}
 					} else if (lowerLine.startsWith("case ") && !inCase) {
@@ -268,7 +261,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 							level--
 						}
 					}
-
 				}
 
 				if (this.shouldProcessLine(lowerLine)) {
@@ -291,7 +283,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 						newLine = work + newLine.substring(start);
 					} else {
 
-						//if (lowerLine.indexOf("legalcopyright") < 1 && lowerLine.indexOf("companyname") < 1 && lowerLine.indexOf("FileDescription") < 1) {
 						newLine = this.addOperatorSpaces(newLine);
 						//}
 
