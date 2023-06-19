@@ -19,6 +19,7 @@ import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescripto
 import { HoverProvider } from "./providers/HoverProvider";
 import { createDebuggerInterface } from './debugAdapter';
 const net = require('net');
+import { TodoTreeProvider } from "./TodoTreeProvider";
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -38,6 +39,7 @@ const net = require('net');
 //         }
 
 export var symbolCache: vscode.DocumentSymbol[] = [];
+export var todoTreeProvider: TodoTreeProvider = null;
 export async function activate(context: vscode.ExtensionContext) {
 	const config = vscode.workspace.getConfiguration("qb64")
 	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
@@ -86,6 +88,12 @@ export async function activate(context: vscode.ExtensionContext) {
 		let tempPath = path.join(context.extensionPath, "help");
 		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
 	}
+
+	// Todo window stuff
+	todoTreeProvider = new TodoTreeProvider();
+	vscode.window.registerTreeDataProvider('todo', todoTreeProvider);
+	vscode.commands.registerCommand('extension.refreshTodo', () => todoTreeProvider.refresh());
+
 
 	// The number are to make sure the port is in the range of 1024 to 49151
 	// Don't loop forever.

@@ -4,7 +4,7 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import { symbolCache } from "./extension";
 
-const decorationTypeTodo: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
+//const decorationTypeTodo: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
 const decorationTypeCurrentRow: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
 	{
 		fontWeight: "bold",
@@ -32,7 +32,7 @@ export function setupDecorate() {
 		});
 }
 
-function getMetaCommandDecoration(): vscode.TextEditorDecorationType {
+function getMetaCommandDecoration(scopeName: string): vscode.TextEditorDecorationType {
 	let retvalue: vscode.TextEditorDecorationType = null;
 	try {
 		const editorConfig: any = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
@@ -40,7 +40,7 @@ function getMetaCommandDecoration(): vscode.TextEditorDecorationType {
 		if (!textMateRules) {
 			return retvalue;
 		}
-		let colorRule: any = textMateRules.find(rule => rule.scope == 'metacommand.QB64');
+		let colorRule: any = textMateRules.find(rule => rule.scope == scopeName);
 		let color: string = colorRule ? colorRule.settings.foreground : undefined;
 
 		return vscode.window.createTextEditorDecorationType({ color: color });
@@ -149,16 +149,20 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 
 		editor.setDecorations(decorationTypeIncludeLeading, includeLeading);
 		editor.setDecorations(decorationTypeIncludeTrailing, includeTrailing);
-		editor.setDecorations(decorationTypeTodo, todos);
 
 		let decorationTypeSub = getSubDecoration();
 		if (decorationTypeSub) {
 			editor.setDecorations(decorationTypeSub, subs);
 		}
 
-		let metacommandDecoration = getMetaCommandDecoration();
+		let metacommandDecoration = getMetaCommandDecoration('metacommand.QB64');
 		if (metacommandDecoration) {
 			editor.setDecorations(metacommandDecoration, metacommands);
+		}
+
+		let todoDecoration = getMetaCommandDecoration('todo.QB64');
+		if (todoDecoration) {
+			editor.setDecorations(todoDecoration, todos);
 		}
 
 		if (currrentLine) {
@@ -195,11 +199,22 @@ export function scanFile(editor: any, scanAllLines: boolean) {
  */
 function decorate(editor: any, lineNumber: number, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[], metacommands: vscode.Range[]) {
 
-	let lineOfCode: string = editor.document.lineAt(lineNumber).text
+	let lineOfCode: string = editor.document.lineAt(lineNumber).text;
+
+	if (lineOfCode.trim().length < 1) {
+		return;
+	}
+
+	/*
 	if (!editor || editor.document.languageId == "Log"
 		|| editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate"
 		|| (lineOfCode.trim().startsWith("'") && (lineOfCode.trim().toLowerCase().indexOf("include") < 0))
 		|| lineOfCode.trim().toLocaleLowerCase().startsWith("rem")) {
+		return;
+	}
+	*/
+
+	if (editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
 		return;
 	}
 
@@ -224,6 +239,17 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 					return;
 				}
 			}
+		}
+
+		if (lineOfCode.trim().toLocaleLowerCase().startsWith("rem") || ((lineOfCode.trim().startsWith("'") && lineOfCode.trim().toLowerCase().indexOf("include") < 0))) {
+			// Look for todo
+			if (config.get("isTodoHighlightEnabled")) {
+				const matches = lineOfCode.matchAll(/(?:'|\brem\b)\s*\b(todo|fixit|fixme)\b:?/ig);
+				for (const match of matches) {
+					todos.push(commonFunctions.createRange(match, lineNumber, 0));
+				}
+			}
+			return;
 		}
 		//logFunctions.writeLine(`decorate(${lineNumber + 1}) | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
 
@@ -252,14 +278,6 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 			}
 		}
 
-		// Look for todo
-		if (config.get("isTodoHighlightEnabled")) {
-			const matches = lineOfCode.matchAll(/(?<='*|rem*)TODO:|FIXIT:|FIXME:/ig);
-			for (const match of matches) {
-				todos.push(commonFunctions.createRange(match, lineNumber, 0));
-			}
-		}
-
 		// Fix "as"
 		// let matches = lineOfCode.matchAll(/\b\w+\s+as\s+\w+\b(?!\s*\))/ig); // Finds the starting word (broke)
 		// TODO: Use this as base for getting parameter highlighting working.
@@ -280,7 +298,6 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		if (matches) {
 			for (const match of matches) {
 				logFunctions.writeLine(`lineNumber: ${lineNumber} | MetaCommand Match Found at Column: ${match.index}`, outputChannnel);
-				//let work: vscode.Range[] = [commonFunctions.createRange(match, lineNumber, 0)];				
 				metacommands.push(commonFunctions.createRange(match, lineNumber, 0));
 			}
 		}
@@ -300,12 +317,11 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 					const matches = lineOfCode.matchAll(new RegExp(`(?<!'|\brem\b)\\s*(\\b(call|gosub|declare sub|sub|declare function|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}\\b`, 'gi'));
 					for (let match of matches) {
 						let start: number = match.index < 1 ? match[0].toLowerCase().indexOf(sub.name.toLowerCase()) : match.index
-						let stop: number = match.index < 1 ? start + sub.name.length : start + sub.name.length + 1
 
 						subs.push(
 							new vscode.Range(
 								new vscode.Position(lineNumber, start),
-								new vscode.Position(lineNumber, stop)
+								new vscode.Position(lineNumber, match.index < 1 ? start + sub.name.length : start + sub.name.length + 1)
 							));
 					}
 				}

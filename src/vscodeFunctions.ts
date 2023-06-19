@@ -153,6 +153,15 @@ export function createFiles() {
 					"settings": {
 						"foreground": "#6d6b6b"
 					}
+				},
+				{
+					"scope": [
+						"todo.QB64"
+					],
+					"settings": {
+						"foreground": "#84e9a6",
+						"fontStyle": "bold"
+					}
 				}
 			]
 		}
