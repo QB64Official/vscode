@@ -20,6 +20,7 @@ import { HoverProvider } from "./providers/HoverProvider";
 import { createDebuggerInterface } from './debugAdapter';
 const net = require('net');
 import { TodoTreeProvider } from "./TodoTreeProvider";
+import { get } from "http";
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -97,6 +98,22 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// The number are to make sure the port is in the range of 1024 to 49151
 	// Don't loop forever.
+	let vsCodePort: number = await getPort();
+
+	if (vsCodePort >= 1024) {
+		createDebuggerInterface(vsCodePort);
+		context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", {
+			createDebugAdapterDescriptor: (session: vscode.DebugSession) => {
+				return new vscode.DebugAdapterServer(vsCodePort);
+			}
+		}));
+	} else {
+		vscode.window.showErrorMessage("Unable to find an open port.");
+	}
+}
+
+
+export async function getPort(): Promise<number> {
 	let port: number = -1;
 	for (let i: number = 0; i < 20; i++) {
 		try {
@@ -107,18 +124,10 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 		} catch (err) {
 			console.log('Error when checking port:', err);
+			port = -1;
 		}
 	}
-	if (port >= 1024) {
-		createDebuggerInterface(port);
-		context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", {
-			createDebugAdapterDescriptor: (session: vscode.DebugSession) => {
-				return new vscode.DebugAdapterServer(port);
-			}
-		}));
-	} else {
-		vscode.window.showErrorMessage("Unable to find an open port.");
-	}
+	return port;
 }
 
 /**
