@@ -143,7 +143,7 @@ export function createFiles() {
 						"userfunctions.QB64"
 					],
 					"settings": {
-						"foreground": "#ff0066"
+						"foreground": "#9eaa67"
 					}
 				},
 				{
