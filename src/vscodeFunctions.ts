@@ -116,9 +116,8 @@ export function createFiles() {
 			"**/*.json-bak": true,
 			"**/desktop.ini": true
 		},
-		"workbench.editorAssociations": {
-			"*.md": "vscode.markdown.preview.editor"
-		},
+		"workbench.editorAssociations": { "*.md": "vscode.markdown.preview.editor"	},
+		"debug.console.wordWrap": false,
 		"files.defaultLanguage": "QB64",
 		"editor.tokenColorCustomizations": {
 			"textMateRules": [
@@ -139,25 +138,15 @@ export function createFiles() {
 					"settings": { "foreground": "#f59324" }
 				},
 				{
-					"scope": [
-						"userfunctions.QB64"
-					],
-					"settings": {
-						"foreground": "#9eaa67"
-					}
+					"scope": [ "userfunctions.QB64" ],
+					"settings": { "foreground": "#9eaa67" }
 				},
 				{
-					"scope": [
-						"metacommand.QB64"
-					],
-					"settings": {
-						"foreground": "#6d6b6b"
-					}
+					"scope": [ "metacommand.QB64" ],
+					"settings": { "foreground": "#6d6b6b" }
 				},
 				{
-					"scope": [
-						"todo.QB64"
-					],
+					"scope": [ "todo.QB64" ],
 					"settings": {
 						"foreground": "#84e9a6",
 						"fontStyle": "bold"
@@ -169,31 +158,16 @@ export function createFiles() {
 
 	const launchJson =
 		`{
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"name": "QB64 Build and Run",
-				"type": "QB64",
-				"request": "launch",
-				"command": "` + "${config:qb64.compilerPath} -x " + String.raw`\"` + "${fileDirname}\\\\${fileBasename}" + String.raw`\"` + ' -o ' + String.raw`\"` + '${fileDirname}\\\\${fileBasenameNoExtension}.exe\\"  -x; if ($?) { cd \\"${fileDirname}\\"; start \\"${fileDirname}\\\\${fileBasenameNoExtension}.exe' + String.raw`\"` + '}"' + `,	
-				"terminalName": "QB64",
-				"terminalIndex": -1, 
-				"showTerminal": true,
-				"linux": {
-					"name": "QB64 Build and Run",
-					"type": "QB64",
-					"request": "launch",					
-					"command": "` + "${config:qb64.compilerPath} '${fileDirname}/${fileBasename}' -x -o '${fileDirname}/${fileBasenameNoExtension}' && '${fileDirname}/${fileBasenameNoExtension}'\"" + `,
-				},
-				"osx": {
-					"name": "QB64 Build and Run",
+			"version": "0.2.0",
+			"configurations": [
+				{
+					"name": "Launch",
 					"type": "QB64",
 					"request": "launch",
-					"command": "` + "${config:qb64.compilerPath} '${fileDirname}/${fileBasename}' -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + `,
+					` + '"program": "${file}"' + `
 				}
-			} 
-		]
-	}`;
+			]
+		}`;
 
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.vscode);
 	try {

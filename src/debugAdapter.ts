@@ -9,6 +9,7 @@ import { DebugProtocol } from "@vscode/debugprotocol";
 import * as path from 'path';
 import * as os from 'os';
 import { getPort } from "./extension";
+import { ChildProcessWithoutNullStreams } from "child_process";
 
 /*
 	target = app to be debugged.
@@ -22,27 +23,29 @@ import { getPort } from "./extension";
 */
 
 enum DebugCommands {
-	Continue = "run",
+	BreakpointCount = "breakpoint count:",
+	BreakpointList = "breakpoint list:",
+	ClearAllBreakPoints = "clear all breakpoints",
+	ClearBreakPoint = "clear breakpoint:",
+	ClearSkipLine = "clear skip line:",
+	GetCallStack = "call stack",
+	Hwnd = "hwnd:",
+	LineCount = "line count:",
 	Pause = "break",
+	Quit = "quit:",
+	Run = "run",
+	RunToLine = "run to line:",
+	SetBreakPoint = "set breakpoint:",
+	SetGlobalAddress = "set global address:",
+	SetLocalAddress = "set local address:",
+	SetNextLine = "set next line:",
+	SetSkipLine = "set skip line:",
+	SkipCount = "skip count:",
+	SkipList = "skip list:",
 	StepInto = "step",
 	StepOut = "step out",
 	StepOver = "step over",
-	SetBreakPoint = "set breakpoint:",
-	ClearBreakPoint = "clear breakpoint:",
-	ClearAllBreakPoints = "clear all breakpoints",
-	GetCallStack = "call stack",
-	RunToLine = "run to line:",
-	SetNextLine = "set next line:",
-	SetGlobalAddress = "set global address:",
-	SetLocalAddress = "set local address:",
 	VWatch = "vwatch:ok",
-	LineCount = "line count:",
-	Hwnd = "hwnd:",
-	BreakpointCount = "breakpoint count:",
-	BreakpointList = "breakpoint list:",
-	SkipCount = "skip count:",
-	SkipList = "skip list:",
-	Quit = "quit:"
 }
 
 enum DebugCategories {
@@ -99,11 +102,14 @@ export function createDebuggerInterface(vsCodePort: number) {
  */
 class DebugAdapter extends debug.DebugSession {
 	public vscode: net.Socket;
-	private targetApp: net.Server;
+	private targetServer: net.Server;
 	private targetPort: number;
 	private targetSocket: net.Socket;
+	private targetSpawn: ChildProcessWithoutNullStreams = null;
+	private targetAppPath: string = "";
 	private isDebuggerRunning: boolean = false;
 	private hwnd: bigint = undefined;
+	private attached: boolean = false;
 
 	constructor(socket: net.Socket) {
 		super();
@@ -114,12 +120,12 @@ class DebugAdapter extends debug.DebugSession {
 
 	async startTargetConnection() {
 		this.targetPort = await getPort();
-		this.targetApp = net.createServer((socket) => {
+		this.targetServer = net.createServer((socket) => {
 
 			// This callback is executed whenever a client connects
 
 			if (this.targetSocket) {
-				this.writeToDebugConsole('New client attempted to connect, but a client is already connected. Connection denied.', DebugCategories.StdErr);
+				this.writeLineToDebugConsole('New client attempted to connect, but a client is already connected. Connection denied.', DebugCategories.StdErr);
 				socket.end(); // Close connection immediately
 				return; // Exit the callback
 			}
@@ -128,42 +134,23 @@ class DebugAdapter extends debug.DebugSession {
 			socket.on('data', (data) => {
 				let message: string = data.toString().trim();
 				if (message.startsWith("+") && message.includes("me:")) {
-					message = message.split('me:')[1].trim();
-					this.writeToDebugConsole(`Debugging: ${message}`);
-					return;
-				} else if (message.includes(DebugCommands.Hwnd)) {
+					let appName = message.split('me:')[1].trim();
 
+					if (appName.toLowerCase() != this.targetAppPath.toLowerCase()) {
+						this.writeLineToDebugConsole(`Failed to initiate debug session. Expected: ${this.targetAppPath} | Found: ${appName}`);
+						this.stopDebugger();
+						return;
+					}
+					this.writeLineToDebugConsole(`Debugging: ${appName}`);
+					return;
+				}
+
+				if (message.includes(DebugCommands.Hwnd)) {
 					let hwnd: string = message.split('hwnd:')[1];
 					this.writeToTargetApp(DebugCommands.VWatch);
 					this.hwnd = BigInt(this.cvl(hwnd));
-
-					/*
-					// use this to verfiy the mkl command
-					// this.writeToTargetApp(`${DebugCommands.Hwnd}${this.mkl(this.hwnd)}`); // Echo hwnd back.
-					let test = this.mkl(this.hwnd)
-					if (test != hwnd) {
-						console.log(`Crap "${this.mkl(this.hwnd)}" | "${hwnd}"`)
-						console.log(Array.from(test).map(ch => ch.charCodeAt(0)));
-						console.log(Array.from(hwnd).map(ch => ch.charCodeAt(0)));
-					}
-					
-					// Test mkl & cvl
-					for (let testNumber: number = -2147483648; testNumber <= 2147483647; testNumber += 10000) {
-						console.log(testNumber);
-						let work: string = this.mkl(testNumber)
-						//console.log(work)
-						if (testNumber != this.cvl(work)) {
-							console.log(`Faile at ${testNumber}`)
-						}
-					}
-					*/
-
-					this.writeToTargetApp(`${DebugCommands.Hwnd}${hwnd}`); // Echo hwnd back.
-					vscode.env.clipboard.writeText(this.mkl(this.hwnd)).then(() => {
-						console.log('Text copied to clipboard');
-					}, (err) => {
-						console.error('Failed to copy text: ', err);
-					});
+					this.writeToTargetApp(`${DebugCommands.Hwnd}${this.mkl(this.hwnd)}`); // Echo hwnd back.					
+					// this.writeToTargetApp(`${DebugCommands.Hwnd}${hwnd}`); // Echo hwnd back.					
 
 					// Looks like the line count is always getting passed as 0 in the old code
 					// But based on the name I'll send the actual line count if possible.
@@ -172,40 +159,55 @@ class DebugAdapter extends debug.DebugSession {
 					} else {
 						this.writeToTargetApp(`${DebugCommands.LineCount}${this.mkl(0)}`);
 					}
-					this.writeToTargetApp(DebugCommands.ClearAllBreakPoints);
+					//this.writeToTargetApp(DebugCommands.ClearAllBreakPoints);
+					this.writeLineToDebugConsole(DebugCommands.BreakpointList);
+					this.writeLineToDebugConsole(DebugCommands.SkipList);
 
-				} else if (message.includes(DebugCommands.Quit)) {
+					// TODO: Check for breakpoint on the first line
+					this.writeLineToDebugConsole(DebugCommands.Run);
+					return;
+				}
+
+				if (message.includes(DebugCommands.Quit)) {
 					const quitMessage: string = message.split(DebugCommands.Quit)[1];
 					if (quitMessage.toLowerCase().includes("error")) {
-						this.writeToDebugConsole(quitMessage, DebugCategories.StdErr);
+						this.writeLineToDebugConsole(quitMessage, DebugCategories.StdErr);
 					} else {
-						this.writeToDebugConsole(quitMessage, DebugCategories.Console);
+						this.writeLineToDebugConsole(quitMessage, DebugCategories.Console);
 					}
 					this.stopDebugger();
 					return;
-				} else if (message.includes(DebugCommands.BreakpointCount)) {
-					this.writeToDebugConsole(`BreakpointCount: ${message}`);
-				} else if (message.includes(DebugCommands.BreakpointList)) {
-					this.writeToDebugConsole(`BreakpointList: ${message}`);
-				} else {
-					this.writeToDebugConsole(`Unknown debug command: ${message}`);
 				}
 
-				this.writeToDebugConsole(`Received data from target: ${message}`);
+				if (message.includes(DebugCommands.BreakpointCount)) {
+					this.writeLineToDebugConsole(`BreakpointCount: ${message}`);
+					return;
+				}
+
+				if (message.includes(DebugCommands.BreakpointList)) {
+					this.writeLineToDebugConsole(`BreakpointList: ${message}`);
+					return;
+				}
+
+				this.writeLineToDebugConsole(`Unknown debug command: ${message}`);
 			});
 
 			socket.on('error', (err) => {
-				console.log('Error occurred with the target application:', err);
+				this.writeLineToDebugConsole("Error occurred with the target", DebugCategories.StdErr);
+			});
+
+			socket.on('close', () => {
+				this.stopDebugger();
 			});
 
 			socket.on('end', () => {
 				this.stopDebugger();
-				console.log('Target disconnected');
 			});
+
 		});
 
 		// Start listening for connections
-		this.targetApp.listen(this.targetPort, '127.0.0.1', () => { console.log(`Server listening on port ${this.targetPort}`); });
+		this.targetServer.listen(this.targetPort, '127.0.0.1', () => { console.log(`Server listening on port ${this.targetPort}`); });
 	}
 
 	/**
@@ -227,10 +229,10 @@ class DebugAdapter extends debug.DebugSession {
 	}
 
 	/**
- * The MKL function encodes a LONG numerical value into an 8-byte ASCII STRING value.
- * @param longValue 
- * @returns An encoded a LONG numerical value into an 8-byte ASCII STRING value.
- */
+	 * The MKL function encodes a LONG numerical value into an 8-byte ASCII STRING value.
+	 * @param longValue 
+	 * @returns An encoded a LONG numerical value into an 8-byte ASCII STRING value.
+	 */
 	private mkl(longValue: number): string;
 	private mkl(longValue: bigint): string;
 	private mkl(longValue: number | bigint): string {
@@ -253,16 +255,17 @@ class DebugAdapter extends debug.DebugSession {
 	 */
 	private writeToTargetApp(command: string) {
 		if (!command || command.length < 1) {
-			this.writeToDebugConsole('writeToTargetApp: the command is empty', DebugCategories.StdErr);
+			this.writeLineToDebugConsole('writeToTargetApp: the command is empty', DebugCategories.StdErr);
 			return;
 		}
 
 		if (this.targetSocket && !this.targetSocket.destroyed) {
 			command = `${this.mkl(command.length)}${command}`
-			this.writeToDebugConsole(`writeToTargetApp command sent: "${command}"`)
+			this.writeLineToDebugConsole(`writeToTargetApp command sent: "${command}"`)
 			this.targetSocket.write(command);
 		}
 	}
+
 
 	/**
 	 * Writes a message to the debug console
@@ -270,8 +273,16 @@ class DebugAdapter extends debug.DebugSession {
 	 * @param category Type of message to write
 	 */
 	writeToDebugConsole(message: string, category: DebugCategories = DebugCategories.Console) {
-		console.log(message);
 		this.sendEvent(new debug.OutputEvent(message, category));
+	}
+
+	/**
+	 * Writes a message to the debug console with a \n append to the end.
+	 * @param message Message to write
+	 * @param category Type of message to write
+	 */
+	writeLineToDebugConsole(message: string, category: DebugCategories = DebugCategories.Console) {
+		this.writeToDebugConsole(`${message}\n`, category);
 	}
 
 	protected stackTraceRequest(response: DebugProtocol.StackTraceResponse, args: DebugProtocol.StackTraceArguments) {
@@ -330,7 +341,7 @@ class DebugAdapter extends debug.DebugSession {
 				this.writeToTargetApp(`${DebugCommands.SetBreakPoint}${bp.line}`);
 			}
 		} catch (err) {
-			this.writeToDebugConsole(err, DebugCategories.StdErr);
+			this.writeLineToDebugConsole(err, DebugCategories.StdErr);
 			vscode.window.showErrorMessage(err);
 		} finally {
 			this.sendResponse(response);
@@ -382,77 +393,76 @@ class DebugAdapter extends debug.DebugSession {
 			const compilerPath: string = config.get("compilerPath");
 
 			if (!compilerPath || compilerPath.length < 1) {
-				this.writeToDebugConsole('The compilerPath setting must be set', DebugCategories.StdErr);
+				this.writeLineToDebugConsole('The compilerPath setting must be set', DebugCategories.StdErr);
 				this.stopDebugger();
 				return;
 			}
 
 			if (!fs.existsSync(compilerPath)) {
-				this.writeToDebugConsole(`Could not find compiler: "${compilerPath}`, DebugCategories.StdErr);
+				this.writeLineToDebugConsole(`Could not find compiler: "${compilerPath}`, DebugCategories.StdErr);
 				this.stopDebugger();
 				return;
 			}
 
 			// TODO: Loop  through the code looking to see if the first non-comment line is $debug.
-			const attach = data.split('\n')[0].trim().toLocaleLowerCase() === "$debug";
+			this.attached = data.split('\n')[0].trim().toLocaleLowerCase() === "$debug";
 
-			let appToDebugPath: string = os.platform() === 'win32' ? args.program.replace(/\.bas$/i, '.exe') : args.program.replace(/\.bas$/i, '');
-			let compilerArgs: string[] = [];
+			this.targetAppPath = os.platform() === 'win32' ? args.program.replace(/\.bas$/i, '.exe') : args.program.replace(/\.bas$/i, '');
+			const compilerArgs: string[] = ["-x", args.program, '-o', this.targetAppPath];
 
+			/*
 			if (attach) {
-				compilerArgs = ["-c", args.program, '-o', appToDebugPath];
+				compilerArgs = ["-x", args.program, '-o', this.targetAppPath];
 			} else {
-				compilerArgs = ["-x", args.program, '-o', appToDebugPath];
+				compilerArgs = ["-x", args.program, '-o', this.targetAppPath];
 			}
+			*/
 
 			const compiler = spawn(compilerPath, compilerArgs, { cwd: path.dirname(args.program) });
-			this.writeToDebugConsole(`Compiler Command: ${compilerPath} ${compilerArgs.join(' ')}`);
+			this.writeLineToDebugConsole(`Compiler Command: ${compilerPath} ${compilerArgs.join(' ')}`);
 
 			compiler.stdout.on('data', (data) => {
-				this.writeToDebugConsole(data.toString());
+				this.writeLineToDebugConsole(data.toString().replaceAll("]", "]\n"));
 			});
 
 			compiler.stderr.on('data', (data) => {
-				this.writeToDebugConsole(data.toString(), DebugCategories.StdErr);
+				this.writeLineToDebugConsole(data.toString(), DebugCategories.StdErr);
 				this.stopDebugger();
 				return;
 			});
 
 			compiler.on('close', (code: number) => {
-
-				/*
 				if (code !== 0) {
-					this.writeToDebugConsole(`QB64 compiler exited with code ${code}\n`, 'stderr');
+					this.writeLineToDebugConsole(`QB64 compiler exited with code ${code}`, DebugCategories.StdErr);
 					this.stopDebugger();
 					return;
 				}
-				*/
 
-				if (!fs.existsSync(appToDebugPath)) {
-					this.writeToDebugConsole(`File ${appToDebugPath} Not Found.`, DebugCategories.StdErr);
+				if (!fs.existsSync(this.targetAppPath)) {
+					this.writeLineToDebugConsole(`File ${this.targetAppPath} Not Found.`, DebugCategories.StdErr);
 					this.stopDebugger();
 					return;
 				}
 
 				let env: any = { ...process.env }; // Make a copy of the current environment variables
 				env.QB64DEBUGPORT = `${this.targetPort}`; // Set the QB64 debugging port
-				let appToDebug = spawn(appToDebugPath, [],
+				this.targetSpawn = spawn(this.targetAppPath, [],
 					{
-						cwd: path.dirname(appToDebugPath),
+						cwd: path.dirname(this.targetAppPath),
 						env: env
 					});
 
-				appToDebug.on('close', () => { this.stopDebugger(); });
-				appToDebug.on('error', (error) => {
+				this.targetSpawn.on('close', () => { this.stopDebugger(); });
+				this.targetSpawn.on('error', (error) => {
 					if (error.message.indexOf("Error: An extension called process.exit() and this was prevented.") >= 0) {
 						return
 					}
-					this.writeToDebugConsole(`Error in the app to debug: ${error}`, DebugCategories.StdErr);
+					this.writeLineToDebugConsole(`Error in the app to debug: ${error}`, DebugCategories.StdErr);
 					this.stopDebugger();
 					return;
 				});
 
-				if (!attach) {
+				if (!this.attached) {
 					this.stopDebugger();
 				}
 
@@ -466,7 +476,7 @@ class DebugAdapter extends debug.DebugSession {
 		// You could parse the data as a string and then handle it based on its contents.
 		const message: string = data.toString();
 		if (message.indexOf("{\"command\":\"disconnect\"") > -1) {
-			this.writeToDebugConsole("VSCode stopped the debugger.");
+			this.writeLineToDebugConsole("VSCode stopped the debugger.");
 			this.stopDebugger();
 		}
 		// Then you can do something with the message, like sending it to VS Code:
@@ -474,13 +484,17 @@ class DebugAdapter extends debug.DebugSession {
 			!message.includes('"command":"initialize"')
 			&& !message.includes('"command":"launch"')
 			&& !message.includes('command":"disconnect')) {
-			this.writeToDebugConsole(`unhandleDataFromApp: ${message}`, DebugCategories.StdErr);
+			this.writeLineToDebugConsole(`unhandleDataFromApp: ${message}`, DebugCategories.StdErr);
 		}
 
 	}
 
 	private stopDebugger(): void {
 		if (this.isDebuggerRunning) {
+			if (this.targetSpawn && this.attached) {
+				this.targetSpawn.kill();
+				this.targetSpawn = null;
+			}
 			this.sendEvent(new debug.TerminatedEvent());
 			vscode.commands.executeCommand('workbench.view.explorer'); // Open the explorer
 			vscode.commands.executeCommand('workbench.action.focusActiveEditorGroup'); // set focus back to the code window
