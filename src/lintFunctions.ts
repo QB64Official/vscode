@@ -159,6 +159,7 @@ export function lintCompilerOutput(compilerOutput: string) {
 				|| lintLine.startsWith("TYPE ")
 				|| lintLine.startsWith("Only ")
 				|| lintLine.startsWith("Number required for function")
+				|| lintLine.startsWith("CVL ")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
