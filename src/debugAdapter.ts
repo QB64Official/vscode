@@ -10,6 +10,7 @@ import * as path from 'path';
 import * as os from 'os';
 import { getPort } from "./extension";
 import { ChildProcessWithoutNullStreams } from "child_process";
+import { lintCompilerOutput } from "./lintFunctions"
 
 /*
 	target = app to be debugged.
@@ -419,10 +420,12 @@ class DebugAdapter extends debug.DebugSession {
 			*/
 
 			const compiler = spawn(compilerPath, compilerArgs, { cwd: path.dirname(args.program) });
+			let compilerOutput: string = ""
 			this.writeLineToDebugConsole(`Compiler Command: ${compilerPath} ${compilerArgs.join(' ')}`);
 
 			compiler.stdout.on('data', (data) => {
 				this.writeLineToDebugConsole(data.toString().replaceAll("]", "]\n"));
+				compilerOutput = compilerOutput += data;
 			});
 
 			compiler.stderr.on('data', (data) => {
@@ -432,6 +435,11 @@ class DebugAdapter extends debug.DebugSession {
 			});
 
 			compiler.on('close', (code: number) => {
+
+				if (compilerOutput.length > 0) {
+					lintCompilerOutput(compilerOutput)
+				}
+
 				if (code !== 0) {
 					this.writeLineToDebugConsole(`QB64 compiler exited with code ${code}`, DebugCategories.StdErr);
 					this.stopDebugger();
@@ -486,7 +494,6 @@ class DebugAdapter extends debug.DebugSession {
 			&& !message.includes('command":"disconnect')) {
 			this.writeLineToDebugConsole(`unhandleDataFromApp: ${message}`, DebugCategories.StdErr);
 		}
-
 	}
 
 	private stopDebugger(): void {

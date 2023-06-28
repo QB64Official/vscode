@@ -62,7 +62,7 @@ export function runLint() {
 			}
 			if (stdout) {
 				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
-				lintCurrentFile(stdout);
+				lintCompilerOutput(stdout);
 				logFunctions.writeLine(`Delete file ${exeName}`, outputChannnel);
 				deleteFile(exeName, outputChannnel);
 			} else {
@@ -97,7 +97,7 @@ function deleteFile(fileName: string, outputChannnel: any) {
  * @param compilerOutput The contents of the compiler output.
  * @returns void
  */
-function lintCurrentFile(compilerOutput: string) {
+export function lintCompilerOutput(compilerOutput: string) {
 	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
 	const lintSource = "QB64-lint"
 
