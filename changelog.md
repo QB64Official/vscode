@@ -16,6 +16,7 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Issue [#117](https://github.com/QB64Official/vscode/issues/117) Pressing F12 on $ExeIcon does not open the icon file.
   - Issue [#7](https://github.com/QB64Official/vscode/issues/7) Add TODO view that works like the outline.
 - Bugs
+  - Issue [#123](https://github.com/QB64Official/vscode/issues/123) Lint: CVL requires a STRING argument
   - Issue [#122](https://github.com/QB64Official/vscode/issues/122) _SND* missing from sound.QB64 highlighting
   - Issue [#120](https://github.com/QB64Official/vscode/issues/119) Please do not change the font style of anything by default
   - Issue [#119](https://github.com/QB64Official/vscode/issues/119) Please do not hard code colors into the extension but instead use themeable properties.
