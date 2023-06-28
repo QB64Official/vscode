@@ -97,7 +97,7 @@ function deleteFile(fileName: string, outputChannnel: any) {
  * @param compilerOutput The contents of the compiler output.
  * @returns void
  */
-export function lintCompilerOutput(compilerOutput: string) {
+export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = false) {
 	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
 	const lintSource = "QB64-lint"
 
@@ -195,10 +195,14 @@ export function lintCompilerOutput(compilerOutput: string) {
 				diagnostics.push(diagnostic)
 			} else if (lintLine.indexOf("warning") >= 0) {
 
+				if (debugMode && lintLine.toLowerCase().indexOf('$debug') >= 0) {
+					continue;
+				}
+
 				const tokens: string[] = lintLine.split(":");
 
 				if (path.basename(document.uri.fsPath) != tokens[0]) {
-					// Somehow highlight the file in the explorer view and maybel the include statement that goes with it.
+					// Somehow highlight the file in the explorer view and maybe the include statement that goes with it.
 					continue;
 				}
 				errorLineNumber = Number(tokens[1]) - 1;

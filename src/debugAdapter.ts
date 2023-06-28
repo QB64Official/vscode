@@ -410,7 +410,7 @@ class DebugAdapter extends debug.DebugSession {
 			this.attached = data.split('\n')[0].trim().toLocaleLowerCase() === "$debug";
 
 			this.targetAppPath = os.platform() === 'win32' ? args.program.replace(/\.bas$/i, '.exe') : args.program.replace(/\.bas$/i, '');
-			const compilerArgs: string[] = ["-x", args.program, '-o', this.targetAppPath];
+			const compilerArgs: string[] = ["-w", "-x", args.program, '-o', this.targetAppPath];
 
 			/*
 			if (attach) {
@@ -451,7 +451,7 @@ class DebugAdapter extends debug.DebugSession {
 			compiler.on('close', (code: number) => {
 
 				if (compilerOutput.length > 0) {
-					lintCompilerOutput(compilerOutput)
+					lintCompilerOutput(compilerOutput, true)
 				}
 
 				if (code !== 0) {
@@ -463,6 +463,10 @@ class DebugAdapter extends debug.DebugSession {
 				if (!fs.existsSync(this.targetAppPath)) {
 					this.writeLineToDebugConsole(`File ${this.targetAppPath} Not Found.`, DebugCategories.StdErr);
 					this.stopDebugger();
+				}
+
+				if (!this.isDebuggerRunning) {
+					return
 				}
 
 				let env: any = { ...process.env }; // Make a copy of the current environment variables
