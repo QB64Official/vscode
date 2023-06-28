@@ -1,3 +1,4 @@
+"use strict";
 import * as net from "net";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
@@ -431,9 +432,22 @@ class DebugAdapter extends debug.DebugSession {
 			compiler.stderr.on('data', (data) => {
 				this.writeLineToDebugConsole(data.toString(), DebugCategories.StdErr);
 				this.stopDebugger();
-				return;
 			});
 
+			compiler.on('error', (error) => {
+				this.writeLineToDebugConsole(`Compiler Errored ${error}`, DebugCategories.StdErr);
+				this.stopDebugger();
+			});
+
+			// Fires before close -- then the app has quit.
+			compiler.on('exit', (code, signal) => {
+				if (code !== 0) {
+					//this.writeLineToDebugConsole(`The app to debug exited with code ${code} and signal ${signal}`, DebugCategories.StdErr);
+					this.stopDebugger();
+				}
+			});
+
+			// Fires after exit -- Then the output stream stops
 			compiler.on('close', (code: number) => {
 
 				if (compilerOutput.length > 0) {
@@ -441,15 +455,14 @@ class DebugAdapter extends debug.DebugSession {
 				}
 
 				if (code !== 0) {
-					this.writeLineToDebugConsole(`QB64 compiler exited with code ${code}`, DebugCategories.StdErr);
 					this.stopDebugger();
-					return;
+					this.writeLineToDebugConsole(`Compiler exited with code ${code}`, DebugCategories.StdErr);
+					vscode.commands.executeCommand('workbench.actions.view.problems');
 				}
 
 				if (!fs.existsSync(this.targetAppPath)) {
 					this.writeLineToDebugConsole(`File ${this.targetAppPath} Not Found.`, DebugCategories.StdErr);
 					this.stopDebugger();
-					return;
 				}
 
 				let env: any = { ...process.env }; // Make a copy of the current environment variables
@@ -461,13 +474,12 @@ class DebugAdapter extends debug.DebugSession {
 					});
 
 				this.targetSpawn.on('close', () => { this.stopDebugger(); });
+
 				this.targetSpawn.on('error', (error) => {
-					if (error.message.indexOf("Error: An extension called process.exit() and this was prevented.") >= 0) {
-						return
+					if (error.message.indexOf("Error: An extension called process.exit() and this was prevented.") < 0) {
+						this.writeLineToDebugConsole(`Error in the app to debug: ${error}`, DebugCategories.StdErr);
 					}
-					this.writeLineToDebugConsole(`Error in the app to debug: ${error}`, DebugCategories.StdErr);
 					this.stopDebugger();
-					return;
 				});
 
 				if (!this.attached) {
