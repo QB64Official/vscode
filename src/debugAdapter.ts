@@ -133,6 +133,13 @@ class DebugAdapter extends debug.DebugSession {
 			}
 
 			this.targetSocket = socket;
+			socket.setTimeout(10000); // ten seconds
+
+			socket.on('timeout', () => {
+				this.writeLineToDebugConsole(`Connection to ${this.targetAppPath} timed out`, DebugCategories.StdErr);
+				this.stopDebugger();
+			});
+
 			socket.on('data', (data) => {
 				let message: string = data.toString().trim();
 				if (message.startsWith("+") && message.includes("me:")) {
@@ -391,6 +398,17 @@ class DebugAdapter extends debug.DebugSession {
 				return;
 			}
 
+			//TODO: delete qb64.log
+			/*
+			// QB64 Code
+			DIM SHARED debugPath$
+			debugPath$ = _CWD$
+			IF _FILEEXISTS(debugPath$ + "/qb64.log") THEN
+			KILL debugPath$ + "/qb64.log"
+			END IF
+
+			*/
+
 			const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
 			const compilerPath: string = config.get("compilerPath");
 
@@ -451,7 +469,7 @@ class DebugAdapter extends debug.DebugSession {
 			compiler.on('close', (code: number) => {
 
 				if (compilerOutput.length > 0) {
-					lintCompilerOutput(compilerOutput, true)
+					lintCompilerOutput(compilerOutput, this.attached)
 				}
 
 				if (code !== 0) {
@@ -461,10 +479,11 @@ class DebugAdapter extends debug.DebugSession {
 				}
 
 				if (!fs.existsSync(this.targetAppPath)) {
-					this.writeLineToDebugConsole(`File ${this.targetAppPath} Not Found.`, DebugCategories.StdErr);
 					this.stopDebugger();
+					this.writeLineToDebugConsole(`File ${this.targetAppPath} Not Found.`, DebugCategories.StdErr);
 				}
 
+				// Catch any place that has turned off the debugger.
 				if (!this.isDebuggerRunning) {
 					return
 				}
@@ -517,6 +536,9 @@ class DebugAdapter extends debug.DebugSession {
 			if (this.targetSpawn && this.attached) {
 				this.targetSpawn.kill();
 				this.targetSpawn = null;
+				if (this.targetSocket) {
+					this.targetSocket.end();
+				}
 			}
 			this.sendEvent(new debug.TerminatedEvent());
 			vscode.commands.executeCommand('workbench.view.explorer'); // Open the explorer
