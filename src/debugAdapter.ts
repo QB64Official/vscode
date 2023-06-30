@@ -109,6 +109,7 @@ class DebugAdapter extends debug.DebugSession {
 	private targetSocket: net.Socket;
 	private targetSpawn: ChildProcessWithoutNullStreams = null;
 	private targetAppPath: string = "";
+	private targetTimeoutId: any;
 	private isDebuggerRunning: boolean = false;
 	private hwnd: bigint = undefined;
 	private attached: boolean = false;
@@ -135,7 +136,7 @@ class DebugAdapter extends debug.DebugSession {
 			this.targetSocket = socket;
 			socket.setTimeout(10000); // ten seconds
 
-			socket.on('timeout', () => {
+			this.targetTimeoutId = socket.on('timeout', () => {
 				this.writeLineToDebugConsole(`Connection to ${this.targetAppPath} timed out`, DebugCategories.StdErr);
 				this.stopDebugger();
 			});
@@ -155,6 +156,7 @@ class DebugAdapter extends debug.DebugSession {
 				}
 
 				if (message.includes(DebugCommands.Hwnd)) {
+					// Handshake
 					let hwnd: string = message.split('hwnd:')[1];
 					this.writeToTargetApp(DebugCommands.VWatch);
 					this.hwnd = BigInt(this.cvl(hwnd));
@@ -174,8 +176,20 @@ class DebugAdapter extends debug.DebugSession {
 
 					// TODO: Check for breakpoint on the first line
 					this.writeLineToDebugConsole(DebugCommands.Run);
+
+					// After the handshake is complete. Reset the timeout.
+					/*
+					clearTimeout(this.targetTimeoutId);
+					this.targetTimeoutId = setTimeout(() => {
+						this.writeLineToDebugConsole('Debug session timed out after 15 minutes');
+						this.stopDebugger();
+					}, 900000); // 15 minutes in milliseconds
+					*/
+
 					return;
 				}
+
+
 
 				if (message.includes(DebugCommands.Quit)) {
 					const quitMessage: string = message.split(DebugCommands.Quit)[1];
@@ -233,7 +247,6 @@ class DebugAdapter extends debug.DebugSession {
 		for (let i = 0; i < 4; i++) {
 			uint8array[i] = mklString.charCodeAt(i);
 		}
-
 		return view.getInt32(0, true); // true for little endian
 	}
 
@@ -245,13 +258,7 @@ class DebugAdapter extends debug.DebugSession {
 	private mkl(longValue: number): string;
 	private mkl(longValue: bigint): string;
 	private mkl(longValue: number | bigint): string {
-		let bigLongValue: bigint;
-		if (typeof longValue === 'number') {
-			bigLongValue = BigInt(longValue);
-		} else {
-			bigLongValue = longValue;
-		}
-
+		let bigLongValue: bigint = (typeof longValue === 'number' ? BigInt(longValue) : longValue);
 		let buffer: ArrayBuffer = new ArrayBuffer(8);
 		let view: DataView = new DataView(buffer);
 		view.setBigInt64(0, bigLongValue, true); // true for little endian
@@ -274,7 +281,6 @@ class DebugAdapter extends debug.DebugSession {
 			this.targetSocket.write(command);
 		}
 	}
-
 
 	/**
 	 * Writes a message to the debug console
