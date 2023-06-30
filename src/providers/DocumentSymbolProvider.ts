@@ -29,7 +29,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				let tokens: string[] = line.text.trim().split('(');
 				let lineText = line.text.trim().toLowerCase();
 				let symbol = tokens[0].trim() || "undef"; // Kludge "cannot be falsy"
-				let symbolKind: any = false;
+				let symbolKind: vscode.SymbolKind = undefined;
 				let symbolChildren: vscode.DocumentSymbol[] = [];
 
 				const todoMatch = lineText.match(todoRegex);
@@ -58,6 +58,15 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 					symbolKind = vscode.SymbolKind.Function;
 					symbol = line.text.trim().substring(17, line.text.trim().indexOf(' ', 17));
 					symbolText = (line.text.trim().indexOf("(") != -1) ? 'Declare Function (' + getParams(line.text) + ')' : 'Declare Function';
+				}
+				else if (/^\s*\w+:\s*$/.test(lineText)) {
+
+					if (lineText.indexOf("exitdebugmode") >= 0) {
+						console.log("Here 0");
+					}
+
+					symbolKind = vscode.SymbolKind.Method;
+					symbolText = line.text.trim();
 				}
 				else if (lineText.startsWith('const ')) {
 					symbolText = 'Const';
@@ -116,18 +125,23 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 						}
 					}
 				}
-				if (lineText.endsWith(":") && lineText.startsWith("'") == false) {
+
+				if (lineText.endsWith(":") && !lineText.startsWith("'") && (symbol.toLowerCase() == 'do:' || symbol.toLowerCase() == 'while:') && !symbol.toLowerCase().startsWith('case')) {
 					symbol = line.text.trim();
-					if (!symbol.toLowerCase().startsWith('case')) {
-						symbolKind = vscode.SymbolKind.Event;
-						if (symbol.toLowerCase() != 'do:' && symbol.toLowerCase() != 'while:') {
-							symbolText = 'Label';
-						} else {
-							symbolText = 'Loop';
-						}
-					}
+					symbolKind = vscode.SymbolKind.Event;
+					symbolText = 'Loop';
 				}
-				if (symbolKind != false) {
+
+				if (symbol.toLocaleLowerCase().indexOf("exitdebugmode") >= 0) {
+					console.log("Here 0");
+				}
+
+				if (symbolKind) {
+
+					if (symbol.toLocaleLowerCase().indexOf("exitdebugmode") >= 0) {
+						console.log("Here 0");
+					}
+
 					let marker_symbol = new vscode.DocumentSymbol(
 						symbol,
 						symbolText,
