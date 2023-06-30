@@ -306,10 +306,6 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 				const sub = symbolCache.find((s) => s.name && s.name.trim().toLowerCase().replace(/(call|gosub|goto|:)$/i, "") === tokens[tokenIndex].trim().toLowerCase().replace(/(call|gosub|goto|:)$/i, "") && (s.kind === vscode.SymbolKind.Method || s.kind === vscode.SymbolKind.Function));
 
 				if (sub) {
-					if (lineOfCode.indexOf("ExitDebugMode") > 0) {
-						console.log("Here");
-					}
-
 					// Typescritpt regex sucks.
 					// Remove the comments from the line and parse that.
 					const codeWithoutComments = lineOfCode.replace(/'.*$/, '').trimEnd();
