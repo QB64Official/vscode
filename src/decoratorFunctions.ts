@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import { symbolCache } from "./extension";
+import { syncBuiltinESMExports } from "module";
 
 //const decorationTypeTodo: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ backgroundColor: 'green', color: 'rgb(0,0,0)' });
 const decorationTypeCurrentRow: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
@@ -201,15 +202,6 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		return;
 	}
 
-	/*
-	if (!editor || editor.document.languageId == "Log"
-		|| editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate"
-		|| (lineOfCode.trim().startsWith("'") && (lineOfCode.trim().toLowerCase().indexOf("include") < 0))
-		|| lineOfCode.trim().toLocaleLowerCase().startsWith("rem")) {
-		return;
-	}
-	*/
-
 	if (editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
 		return;
 	}
@@ -291,6 +283,7 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		*/
 
 		let matches = lineOfCode.matchAll(/(?<=\W|^)(REM|'|\$DYNAMIC|\$STATIC|Option _Explicit|Option Explicit|option _explicitarray|option explicitarray|\$RESIZE:ON|\$RESIZE:OFF|\$RESIZE:STRETCH|\$RESIZE:SMOOTH|\$ASSERTS|\$Noprefix|\$CHECKING|\$COLOR|\$CONSOLE:ONLY|\$CONSOLE:ON|\$CONSOLE:OFF|\$CONSOLE|\$DEBUG|\$ERROR|\$EXEICON:|\$LET|\$IF|\$ELSEIF|\$END IF|\$SCREENHIDE|\$SCREENSHOW|\$VIRTUALKEYBOARD|\$VERSIONINFO:Comments|\$VERSIONINFO:CompanyName|\$VERSIONINFO:FileDescription|\$VERSIONINFO:FileVersion|\$VERSIONINFO:InternalName|\$VERSIONINFO:LegalCopyright|\$VERSIONINFO:LegalTrademarks|\$VERSIONINFO:OriginalFilename|\$VERSIONINFO:ProductName|\$VERSIONINFO:ProductVersion|\$VERSIONINFO:Web)(?=\W|$)/ig);
+		//let matches = lineOfCode.matchAll(/"(?:\\"|[^"])*"|'(?:\\'|[^'])*'|(?<=\W|^)(REM|'|\$DYNAMIC|\$STATIC|Option _Explicit|Option Explicit|option _explicitarray|option explicitarray|\$RESIZE:ON|\$RESIZE:OFF|\$RESIZE:STRETCH|\$RESIZE:SMOOTH|\$ASSERTS|\$Noprefix|\$CHECKING|\$COLOR|\$CONSOLE:ONLY|\$CONSOLE:ON|\$CONSOLE:OFF|\$CONSOLE|\$DEBUG|\$ERROR|\$EXEICON:|\$LET|\$IF|\$ELSEIF|\$END IF|\$SCREENHIDE|\$SCREENSHOW|\$VIRTUALKEYBOARD|\$VERSIONINFO:Comments|\$VERSIONINFO:CompanyName|\$VERSIONINFO:FileDescription|\$VERSIONINFO:FileVersion|\$VERSIONINFO:InternalName|\$VERSIONINFO:LegalCopyright|\$VERSIONINFO:LegalTrademarks|\$VERSIONINFO:OriginalFilename|\$VERSIONINFO:ProductName|\$VERSIONINFO:ProductVersion|\$VERSIONINFO:Web)(?=\W|$)/ig);
 		if (matches) {
 			for (const match of matches) {
 				logFunctions.writeLine(`lineNumber: ${lineNumber} | MetaCommand Match Found at Column: ${match.index}`, outputChannnel);
@@ -299,19 +292,32 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		}
 
 		if (symbolCache && symbolCache.length > 0) {
-			const tokens = lineOfCode.split(/[\s(]+/);
+			const tokens: string[] = Array.from(new Set(lineOfCode.replace(/'.*$/, '').trimEnd().split(/[\s(]+/).filter(token => token.trim() !== '')));
 			for (let tokenIndex = 0; tokenIndex < tokens.length; tokenIndex++) {
-				const sub = symbolCache.find((s) => s.name.trim().replace(/^(call|gosub)/i, "").toLowerCase() === tokens[tokenIndex].trim().replace(/^(call|gosub)/i, "").toLowerCase() && (s.kind === vscode.SymbolKind.Method || s.kind === vscode.SymbolKind.Function));
+
+				if (tokens[tokenIndex] == "ExitDebugMode") {
+					console.log("Here 0");
+				}
+
+				const sub = symbolCache.find((s) => s.name && s.name.trim().toLowerCase().replace(/(call|gosub|goto|:)$/i, "") === tokens[tokenIndex].trim().toLowerCase().replace(/(call|gosub|goto|:)$/i, "") && (s.kind === vscode.SymbolKind.Method || s.kind === vscode.SymbolKind.Function));
+
 				if (sub) {
-					// Highlights words in comments
-					// const matches = lineOfCode.matchAll(new RegExp(`\\s*(\\b(call|gosub|declare sub|sub|declare function|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}(?:\\()?(?!\\))`, 'gi'));
+					if (lineOfCode.indexOf("ExitDebugMode") > 0) {
+						console.log("Here");
+					}
 
-					// Mostly works but gets things like intro inside introduction
-					// const matches = lineOfCode.matchAll(new RegExp(`(?<!'|\brem\b)\\s*(\\b(call|gosub|declare sub|sub|declare function|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}(?:\\()?(?!\\))`, 'gi'));
+					// Typescritpt regex sucks.
+					// Remove the comments from the line and parse that.
+					const codeWithoutComments = lineOfCode.replace(/'.*$/, '').trimEnd();
+					let subName = commonFunctions.escapeRegExp(sub.name)
 
-					const matches = lineOfCode.matchAll(new RegExp(`(?<!'|\brem\b)\\s*(\\b(call|gosub|declare sub|sub|declare function|function|\\s+=\\s+)\\s+)?${commonFunctions.escapeRegExp(sub.name)}\\b`, 'gi'));
+					if (subName.endsWith(":")) {
+						subName = subName.slice(0, -1);
+					}
+					const matches = codeWithoutComments.matchAll(new RegExp(`\\b(?:call\\s*|gosub\\s*|goto\\s*|declare sub\\s*|sub\\s*|declare function\\s*|function\\s*)?(${subName})\\b|\\b(${subName}):`, 'gi'));
+
 					for (let match of matches) {
-						let start: number = match.index < 1 ? match[0].toLowerCase().indexOf(sub.name.toLowerCase()) : match.index
+						let start: number = match[1] ? match.index + match[0].indexOf(match[1]) : match.index || 0;
 
 						subs.push(
 							new vscode.Range(
