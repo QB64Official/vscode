@@ -115,7 +115,8 @@ export function createFiles() {
 			"**/*.cmp-out": true,
 			"**/*.json-bak": true,
 			"**/desktop.ini": true
-		},
+		},		
+		"editor.multiCursorModifier": "ctrlCmd",
 		"workbench.editorAssociations": { "*.md": "vscode.markdown.preview.editor"	},
 		"debug.console.wordWrap": false,
 		"files.defaultLanguage": "QB64",
