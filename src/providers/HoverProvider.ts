@@ -108,7 +108,9 @@ export class HoverProvider implements vscode.HoverProvider {
 						continue;
 					}
 
-					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "");
+
+					// Remove the comments from the line and parse that.					
+					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "").replace(/'.*$/, '').trimEnd();
 
 					if (line.match(regexIncludeFile)) {
 						includedFiles.push(line);

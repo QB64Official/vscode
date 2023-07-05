@@ -37,10 +37,15 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		}
 
 		//const work = lowerLine.substring(lowerLine.indexOf("'", lowerLine.indexOf("then")));
-		if (lowerLine.match(/then\s*'/i)) {
+		//if (lowerLine.match(/then\s*'/i)) {
+		//	return false;
+		//}
+
+		if (lowerLine.match(/^IF\s+.*(\s+THEN\s+.*|\s+ELSE\s+.*|)?$/i)) {
+			return true;
+		} else {
 			return false;
 		}
-		return true;
 	}
 
 	/**
@@ -208,33 +213,33 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				let lowerLine = newLine.toLowerCase();
 				const isSingleLineIf: boolean = this.isSingleLineIf(newLine.toLowerCase());
 
-				if (lowerLine == "endif") {
-					newLine = "end if";
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine == "endsub") {
-					newLine = "end sub";
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine == "endfunction") {
-					newLine = "end function";
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine == "endtype") {
-					newLine = "end type";
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine == "endselect") {
-					newLine = "end select";
-					lowerLine = newLine.toLowerCase();
-				} else if (newLine.startsWith("? ")) {
-					newLine = newLine.replace("? ", "print ");
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine.startsWith("if ") && lowerLine.indexOf(" then") < 0) {
-					newLine = `${newLine} then`
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine.startsWith("elseif ") && lowerLine.indexOf(" then") < 0) {
-					newLine = `${newLine} then`
-					lowerLine = newLine.toLowerCase();
-				}
-
 				if (!isSingleLineIf) {
+					if (lowerLine == "endif") {
+						newLine = "end if";
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine == "endsub") {
+						newLine = "end sub";
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine == "endfunction") {
+						newLine = "end function";
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine == "endtype") {
+						newLine = "end type";
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine == "endselect") {
+						newLine = "end select";
+						lowerLine = newLine.toLowerCase();
+					} else if (newLine.startsWith("? ")) {
+						newLine = newLine.replace("? ", "print ");
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine.startsWith("if ") && lowerLine.indexOf(" then") < 0) {
+						newLine = `${newLine} then`
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine.startsWith("elseif ") && lowerLine.indexOf(" then") < 0) {
+						newLine = `${newLine} then`
+						lowerLine = newLine.toLowerCase();
+					}
+
 					if (inDeclare && (lowerLine.startsWith("function") || lowerLine.startsWith("sub"))) {
 					} else if (this.shouldIndentLine(lowerLine)) {
 						level++;
