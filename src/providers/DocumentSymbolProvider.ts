@@ -138,10 +138,6 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
 				if (symbolKind) {
 
-					if (symbol.toLocaleLowerCase().indexOf("exitdebugmode") >= 0) {
-						console.log("Here 0");
-					}
-
 					let marker_symbol = new vscode.DocumentSymbol(
 						symbol,
 						symbolText,
@@ -149,7 +145,17 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 						line.range,
 						line.range
 					);
-					symbolCache.push(marker_symbol);
+
+					if (symbolKind === vscode.SymbolKind.Method || symbolKind === vscode.SymbolKind.Function) {
+						symbolCache.push(new vscode.DocumentSymbol(
+							symbol.toLowerCase().replace(/(call|gosub|goto|:)$/i, ""),
+							symbolText,
+							symbolKind,
+							line.range,
+							line.range
+						));
+					}
+
 					if (symbolChildren) {
 						marker_symbol.children = symbolChildren;
 						symbolChildren = [];
