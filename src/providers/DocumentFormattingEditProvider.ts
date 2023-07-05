@@ -105,10 +105,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 	private cleanUpCode(code: string): string {
 
-		//
-
-		//.replaceAll(/(?<!")\s*:\s*/g, " : ")
-
 		code = code
 			.replaceAll(/(?<!")\s*-\s*/g, "-")
 			.replaceAll(/(?<!")\s*:\s*/g, " : ")
@@ -152,7 +148,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		} else if (code.toLowerCase().startsWith("rest.")) {
 			code = code.replace(".", " .")
 		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo") || code.toLowerCase().startsWith("$exeicon") || code.toLowerCase().startsWith("$color")) {
-			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0 || code.toLowerCase().indexOf("filedescription") > 0) {
+			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0 || code.toLowerCase().indexOf("filedescription") > 0 || code.toLowerCase().indexOf("comments") > 0) {
 				code = code.replace(/\s*:\s*/, ':');
 				code = code.replace(/\s*=\s*/, '=');
 			} else {
