@@ -152,7 +152,11 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			code = code.replace(/\s*-\s*/, '-');
 		} else if (code.toLowerCase().startsWith("rest.")) {
 			code = code.replace(".", " .")
-		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo") || code.toLowerCase().startsWith("$exeicon") || code.toLowerCase().startsWith("$color")) {
+		} else if (code.toLowerCase().startsWith("$resize")
+			|| code.toLowerCase().startsWith("$versioninfo")
+			|| code.toLowerCase().startsWith("$exeicon")
+			|| code.toLowerCase().startsWith("$color")
+			|| code.toLowerCase().startsWith("$checking")) {
 			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0 || code.toLowerCase().indexOf("filedescription") > 0 || code.toLowerCase().indexOf("comments") > 0) {
 				code = code.replace(/\s*:\s*/, ':');
 				code = code.replace(/\s*=\s*/, '=');
