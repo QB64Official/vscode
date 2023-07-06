@@ -111,7 +111,8 @@ class DebugAdapter extends debug.DebugSession {
 	private targetAppPath: string = "";
 	private targetTimeoutId: any;
 	private isDebuggerRunning: boolean = false;
-	private hwnd: bigint = undefined;
+	//private hwnd: bigint = undefined;
+	private hwnd: number = undefined;
 	private attached: boolean = false;
 
 	constructor(socket: net.Socket) {
@@ -136,60 +137,57 @@ class DebugAdapter extends debug.DebugSession {
 			this.targetSocket = socket;
 			socket.setTimeout(10000); // ten seconds
 
+			/*
 			this.targetTimeoutId = socket.on('timeout', () => {
 				this.writeLineToDebugConsole(`Connection to ${this.targetAppPath} timed out`, DebugCategories.StdErr);
 				this.stopDebugger();
 			});
+			*/
 
-			socket.on('data', (data) => {
+			socket.on('data', async (data) => {
 				let message: string = data.toString().trim();
 				if (message.startsWith("+") && message.includes("me:")) {
-					let appName = message.split('me:')[1].trim();
-
-					if (appName.toLowerCase() != this.targetAppPath.toLowerCase()) {
-						this.writeLineToDebugConsole(`Failed to initiate debug session. Expected: ${this.targetAppPath} | Found: ${appName}`);
+					if (!message.includes(this.targetAppPath)) {
+						this.writeLineToDebugConsole(`Failed to initiate debug session. Expected: ${this.targetAppPath} | Message: ${message}`);
 						this.stopDebugger();
 						return;
 					}
-					this.writeLineToDebugConsole(`Debugging: ${appName}`);
-					return;
+					this.writeLineToDebugConsole(`Debugging: ${this.targetAppPath}`);
 				}
 
 				if (message.includes(DebugCommands.Hwnd)) {
 					// Handshake
 					let hwnd: string = message.split('hwnd:')[1];
-					this.writeToTargetApp(DebugCommands.VWatch);
-					this.hwnd = BigInt(this.cvl(hwnd));
-					this.writeToTargetApp(`${DebugCommands.Hwnd}${this.mkl(this.hwnd)}`); // Echo hwnd back.					
-					// this.writeToTargetApp(`${DebugCommands.Hwnd}${hwnd}`); // Echo hwnd back.					
+					await this.writeToTargetApp(DebugCommands.VWatch);
+					//await this.writeToTargetApp(DebugCommands.VWatch);
+					//this.hwnd = BigInt(this.cvl(hwnd));
+					this.hwnd = this.cvl(hwnd);
+
+					this.writeToTargetApp(`${DebugCommands.Hwnd}${this.hwnd}`);
 
 					// Looks like the line count is always getting passed as 0 in the old code
 					// But based on the name I'll send the actual line count if possible.
 					if (vscode.window.activeTextEditor) {
-						this.writeToTargetApp(`${DebugCommands.LineCount}${this.mkl(vscode.window.activeTextEditor.document.lineCount)}`);
+						await this.writeToTargetApp(`${DebugCommands.LineCount}${vscode.window.activeTextEditor.document.lineCount}`);
 					} else {
-						this.writeToTargetApp(`${DebugCommands.LineCount}${this.mkl(0)}`);
+						await this.writeToTargetApp(`${DebugCommands.LineCount}0`);
 					}
-					//this.writeToTargetApp(DebugCommands.ClearAllBreakPoints);
-					this.writeLineToDebugConsole(DebugCommands.BreakpointList);
-					this.writeLineToDebugConsole(DebugCommands.SkipList);
+
+					await this.writeToTargetApp(DebugCommands.BreakpointList);
+					await this.writeToTargetApp(DebugCommands.SkipList);
 
 					// TODO: Check for breakpoint on the first line
-					this.writeLineToDebugConsole(DebugCommands.Run);
+					this.writeToTargetApp(DebugCommands.Run);
 
 					// After the handshake is complete. Reset the timeout.
-					/*
 					clearTimeout(this.targetTimeoutId);
 					this.targetTimeoutId = setTimeout(() => {
 						this.writeLineToDebugConsole('Debug session timed out after 15 minutes');
 						this.stopDebugger();
 					}, 900000); // 15 minutes in milliseconds
-					*/
 
 					return;
 				}
-
-
 
 				if (message.includes(DebugCommands.Quit)) {
 					const quitMessage: string = message.split(DebugCommands.Quit)[1];
@@ -216,7 +214,8 @@ class DebugAdapter extends debug.DebugSession {
 			});
 
 			socket.on('error', (err) => {
-				this.writeLineToDebugConsole("Error occurred with the target", DebugCategories.StdErr);
+				this.writeLineToDebugConsole(`Error occurred with the target: ${err}`, DebugCategories.StdErr);
+				this.stopDebugger();
 			});
 
 			socket.on('close', () => {
@@ -230,8 +229,15 @@ class DebugAdapter extends debug.DebugSession {
 		});
 
 		// Start listening for connections
-		this.targetServer.listen(this.targetPort, '127.0.0.1', () => { console.log(`Server listening on port ${this.targetPort}`); });
+		this.targetServer.listen(this.targetPort, '127.0.0.1');
 	}
+
+	private uint8ArrayToAsciiString(uint8Array: Uint8Array) {
+		let asciiString = '';
+		uint8Array.forEach(byte => { asciiString += String.fromCharCode(byte); });
+		return asciiString;
+	}
+
 
 	/**
 	* The CVL function decodes a 4-byte ASCII STRING value into a LONG numerical value.
@@ -251,7 +257,7 @@ class DebugAdapter extends debug.DebugSession {
 	}
 
 	/**
-	 * The MKL function encodes a LONG numerical value into an 8-byte ASCII STRING value.
+	 * The MKL (make long integer string) function encodes a LONG numerical value into an 8-byte ASCII STRING value.
 	 * @param longValue 
 	 * @returns An encoded a LONG numerical value into an 8-byte ASCII STRING value.
 	 */
@@ -262,23 +268,30 @@ class DebugAdapter extends debug.DebugSession {
 		let buffer: ArrayBuffer = new ArrayBuffer(8);
 		let view: DataView = new DataView(buffer);
 		view.setBigInt64(0, bigLongValue, true); // true for little endian
-		let uint8array: Uint8Array = new Uint8Array(buffer);
-		return Array.from(uint8array, byte => String.fromCharCode(byte)).join('');
+		const uint8array: Uint8Array = new Uint8Array(buffer);
+		//let asciiString = '';
+		//uint8array.forEach(byte => { asciiString += String.fromCharCode(byte); });
+		//return asciiString;
+		return this.uint8ArrayToAsciiString(uint8array);
 	}
 	/**
 	 * Sends a command via a socket to the taget
 	 * @param command The command to send to the target
 	 */
-	private writeToTargetApp(command: string) {
+	private async writeToTargetApp(command: string) {
 		if (!command || command.length < 1) {
 			this.writeLineToDebugConsole('writeToTargetApp: the command is empty', DebugCategories.StdErr);
 			return;
 		}
 
 		if (this.targetSocket && !this.targetSocket.destroyed) {
-			command = `${this.mkl(command.length)}${command}`
+			//let mklValue = `${this.mkl(command.length)}`.padStart(5, " ");
+			//command = `${mklValue}${command}`
+
+			command = `${command.length.toString().padStart(4, "0")}${command}`
 			this.writeLineToDebugConsole(`writeToTargetApp command sent: "${command}"`)
 			this.targetSocket.write(command);
+			await await new Promise(f => setTimeout(f, 450));
 		}
 	}
 
