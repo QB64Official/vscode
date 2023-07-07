@@ -109,11 +109,9 @@ class DebugAdapter extends debug.DebugSession {
 	private targetSocket: net.Socket;
 	private targetSpawn: ChildProcessWithoutNullStreams = null;
 	private targetAppPath: string = "";
-	private targetTimeoutId: any;
 	private isDebuggerRunning: boolean = false;
-	//private hwnd: bigint = undefined;
-	private hwnd: number = undefined;
 	private attached: boolean = false;
+	private sendMessageWaitTime: number = 275;
 
 	constructor(socket: net.Socket) {
 		super();
@@ -123,27 +121,32 @@ class DebugAdapter extends debug.DebugSession {
 		this.setupBreakpointListeners();
 	}
 
+
 	async startTargetConnection() {
 		this.targetPort = await getPort();
 		this.targetServer = net.createServer((socket) => {
 
-			// This callback is executed whenever a client connects
+			if (!this.isDebuggerRunning || !this.attached) {
+				socket.end();
+				return;
+			}
 
+			// This callback is executed whenever a client connects
 			if (this.targetSocket) {
 				this.writeLineToDebugConsole('New client attempted to connect, but a client is already connected. Connection denied.', DebugCategories.StdErr);
 				socket.end(); // Close connection immediately
 				return; // Exit the callback
 			}
 
-			this.targetSocket = socket;
-			socket.setTimeout(10000); // ten seconds
-
-			/*
-			this.targetTimeoutId = socket.on('timeout', () => {
+			const handshakeTimeout = () => {
 				this.writeLineToDebugConsole(`Connection to ${this.targetAppPath} timed out`, DebugCategories.StdErr);
 				this.stopDebugger();
-			});
-			*/
+			}
+
+
+			this.targetSocket = socket;
+			socket.setTimeout(10000); // ten seconds
+			socket.on('timeout', handshakeTimeout);
 
 			socket.on('data', async (data) => {
 				let message: string = data.toString().trim();
@@ -160,11 +163,9 @@ class DebugAdapter extends debug.DebugSession {
 					// Handshake
 					let hwnd: string = message.split('hwnd:')[1];
 					await this.writeToTargetApp(DebugCommands.VWatch);
-					//await this.writeToTargetApp(DebugCommands.VWatch);
-					//this.hwnd = BigInt(this.cvl(hwnd));
-					this.hwnd = this.cvl(hwnd);
+					//this.hwnd = this.cvl(hwnd);
 
-					this.writeToTargetApp(`${DebugCommands.Hwnd}${this.hwnd}`);
+					this.writeToTargetApp(`${DebugCommands.Hwnd}${this.cvl(hwnd)}`);
 
 					// Looks like the line count is always getting passed as 0 in the old code
 					// But based on the name I'll send the actual line count if possible.
@@ -174,30 +175,37 @@ class DebugAdapter extends debug.DebugSession {
 						await this.writeToTargetApp(`${DebugCommands.LineCount}0`);
 					}
 
-					//await this.writeToTargetApp(DebugCommands.BreakpointList);				
-
-					let breakpoints = vscode.debug.breakpoints;
-					breakpoints.forEach(async breakpoint => {
-						if (breakpoint instanceof vscode.SourceBreakpoint) {
-							let sourceBreakpoint = breakpoint as vscode.SourceBreakpoint;
-							if (sourceBreakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
-								console.log(`Breakpoint at file: ${sourceBreakpoint.location.uri.fsPath} Line: ${sourceBreakpoint.location.range.start.line}`);
-								await this.writeToTargetApp(`${DebugCommands.SetBreakPoint}${sourceBreakpoint.location.range.start.line}`);
+					const breakpoints = vscode.debug.breakpoints;
+					if (breakpoints.length > 0) {
+						let breakPoints: string = ""
+						breakpoints.forEach(async breakpoint => {
+							if (breakpoint instanceof vscode.SourceBreakpoint) {
+								let sourceBreakpoint = breakpoint as vscode.SourceBreakpoint;
+								if (sourceBreakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
+									console.log(`Breakpoint at file: ${sourceBreakpoint.location.uri.fsPath} Line: ${sourceBreakpoint.location.range.start.line}`);
+									breakPoints += this.padForVWatch(sourceBreakpoint.location.range.start.line);
+									//await this.writeToTargetApp(`${DebugCommands.SetBreakPoint}${sourceBreakpoint.location.range.start.line}`);
+								}
 							}
-						}
-					});
+						});
+						await this.writeToTargetApp(`${DebugCommands.BreakpointCount}${breakpoints.length}`);
+						//await this.writeToTargetApp(`${DebugCommands.BreakpointList}${breakPoints}`);
+					} else {
+						await this.writeToTargetApp(`${DebugCommands.BreakpointCount}`);
+						await this.writeToTargetApp(DebugCommands.BreakpointList);
+					}
 
 					await this.writeToTargetApp(DebugCommands.SkipList);
-
-					// TODO: Check for breakpoint on the first line
-					this.writeToTargetApp(DebugCommands.Run);
+					await this.writeToTargetApp(DebugCommands.Run);
 
 					// After the handshake is complete. Reset the timeout.
-					clearTimeout(this.targetTimeoutId);
-					this.targetTimeoutId = setTimeout(() => {
+					socket.off('timeout', handshakeTimeout);
+
+					socket.setTimeout(900000); // 15 minutes in milliseconds
+					socket.on('timeout', () => {
 						this.writeLineToDebugConsole('Debug session timed out after 15 minutes');
 						this.stopDebugger();
-					}, 900000); // 15 minutes in milliseconds
+					});
 
 					return;
 				}
@@ -246,7 +254,6 @@ class DebugAdapter extends debug.DebugSession {
 
 		});
 
-		// Start listening for connections
 		this.targetServer.listen(this.targetPort, '127.0.0.1');
 	}
 
@@ -295,7 +302,7 @@ class DebugAdapter extends debug.DebugSession {
 		let uint8array: Uint8Array = new Uint8Array(buffer);
 
 		// Populate the buffer with the input string's char codes
-		for (let i = 0; i < 4; i++) {
+		for (let i: number = 0; i < 4; i++) {
 			uint8array[i] = mklString.charCodeAt(i);
 		}
 		return view.getInt32(0, true); // true for little endian
@@ -312,14 +319,21 @@ class DebugAdapter extends debug.DebugSession {
 		}
 
 		if (this.targetSocket && !this.targetSocket.destroyed) {
-			//let mklValue = `${this.mkl(command.length)}`.padStart(5, " ");
-			//command = `${mklValue}${command}`
-
-			command = `${command.length.toString().padStart(4, "0")}${command}`
+			command = `${this.padForVWatch(command.length)}${command}`
 			this.writeLineToDebugConsole(`writeToTargetApp command sent: "${command}"`)
 			this.targetSocket.write(command);
-			await await new Promise(f => setTimeout(f, 450));
+			await await new Promise(f => setTimeout(f, this.sendMessageWaitTime));
 		}
+	}
+
+	/**
+	 * Pads the a number to for 4 digits with leading zeros.
+	 * This is for QB64's VWatch module.
+	 * @param value A number
+	 * @returns 
+	 */
+	private padForVWatch(value: number): string {
+		return value.toString().padStart(4, "0");
 	}
 
 	/**
@@ -327,19 +341,14 @@ class DebugAdapter extends debug.DebugSession {
 	 * @param message Message to write
 	 * @param category Type of message to write
 	 */
-	writeToDebugConsole(message: string, category: DebugCategories = DebugCategories.Console) {
-		this.sendEvent(new debug.OutputEvent(message, category));
-	}
+	private writeToDebugConsole(message: string, category: DebugCategories = DebugCategories.Console) { this.sendEvent(new debug.OutputEvent(message, category)); }
 
 	/**
 	 * Writes a message to the debug console with a \n append to the end.
 	 * @param message Message to write
 	 * @param category Type of message to write
 	 */
-	writeLineToDebugConsole(message: string, category: DebugCategories = DebugCategories.Console) {
-		this.writeToDebugConsole(`${message}\n`, category);
-	}
-
+	private writeLineToDebugConsole(message: string, category: DebugCategories = DebugCategories.Console) { this.writeToDebugConsole(`${message}\n`, category); }
 
 	protected stackTraceRequest(response: DebugProtocol.StackTraceResponse, args: DebugProtocol.StackTraceArguments) {
 		// Here, you'd communicate with your debugging engine to get the actual call stack.
@@ -433,6 +442,35 @@ class DebugAdapter extends debug.DebugSession {
 		}
 	}
 
+	deleteQB64Log(): void {
+		//TODO: delete qb64.log
+		/*
+		// QB64 Code
+		DIM SHARED debugPath$
+		debugPath$ = _CWD$
+		IF _FILEEXISTS(debugPath$ + "/qb64.log") THEN
+		KILL debugPath$ + "/qb64.log"
+		END IF
+
+		*/
+	}
+
+	/**
+	 * Is the the code in set for debug mode (has $debug)
+	 * @param cpde 
+	 */
+	isDebugMode(code: string): boolean {
+		let lines = code.split("\r");
+		for (let i: number = 0; i < lines.length; i++) {
+			let line = lines[i].trimEnd().toLowerCase();
+			if (line.startsWith("'") || line.startsWith("rem")) {
+				continue;
+			}
+			return (line === "$debug");
+		}
+		return false;
+	}
+
 	launchRequest(response: any, args: any) {
 		this.isDebuggerRunning = true;
 		vscode.commands.executeCommand('workbench.panel.repl.view.focus');
@@ -443,17 +481,6 @@ class DebugAdapter extends debug.DebugSession {
 				this.stopDebugger();
 				return;
 			}
-
-			//TODO: delete qb64.log
-			/*
-			// QB64 Code
-			DIM SHARED debugPath$
-			debugPath$ = _CWD$
-			IF _FILEEXISTS(debugPath$ + "/qb64.log") THEN
-			KILL debugPath$ + "/qb64.log"
-			END IF
-
-			*/
 
 			const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
 			const compilerPath: string = config.get("compilerPath");
@@ -470,9 +497,8 @@ class DebugAdapter extends debug.DebugSession {
 				return;
 			}
 
-			// TODO: Loop  through the code looking to see if the first non-comment line is $debug.
-			this.attached = data.split('\n')[0].trim().toLocaleLowerCase() === "$debug";
-
+			this.deleteQB64Log();
+			this.attached = this.isDebugMode(data);
 			this.targetAppPath = os.platform() === 'win32' ? args.program.replace(/\.bas$/i, '.exe') : args.program.replace(/\.bas$/i, '');
 			const compilerArgs: string[] = ["-w", "-x", args.program, '-o', this.targetAppPath];
 
@@ -506,7 +532,7 @@ class DebugAdapter extends debug.DebugSession {
 			// Fires before close -- then the app has quit.
 			compiler.on('exit', (code, signal) => {
 				if (code !== 0) {
-					//this.writeLineToDebugConsole(`The app to debug exited with code ${code} and signal ${signal}`, DebugCategories.StdErr);
+					this.writeLineToDebugConsole(`The compiler exited with code ${code} and signal ${signal}. Unable to start debugger.`, DebugCategories.StdErr);
 					this.stopDebugger();
 				}
 			});
@@ -569,7 +595,11 @@ class DebugAdapter extends debug.DebugSession {
 			this.stopDebugger();
 		}
 		// Then you can do something with the message, like sending it to VS Code:
-		if (
+		if (message.includes("breakpointLocations")) {
+			// Might need to just ignore this.
+			// this.writeLineToDebugConsole(`breakpointLocations: ${message}`, DebugCategories.Console);
+		}
+		else if (
 			!message.includes('"command":"initialize"')
 			&& !message.includes('"command":"launch"')
 			&& !message.includes('command":"disconnect')) {
@@ -587,9 +617,10 @@ class DebugAdapter extends debug.DebugSession {
 				}
 			}
 			this.sendEvent(new debug.TerminatedEvent());
-			vscode.commands.executeCommand('workbench.view.explorer'); // Open the explorer
+			vscode.commands.executeCommand('workbench.view.explorer'); // Open the explorer... should track if it was open before debugging stated 
 			vscode.commands.executeCommand('workbench.action.focusActiveEditorGroup'); // set focus back to the code window
 			this.isDebuggerRunning = false;
+			this.attached = false;
 		}
 	}
 
