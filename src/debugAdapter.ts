@@ -120,6 +120,7 @@ class DebugAdapter extends debug.DebugSession {
 		this.vscode = socket;
 		this.setDebuggerLinesStartAt1(true);
 		this.setDebuggerColumnsStartAt1(true);
+		this.setupBreakpointListeners();
 	}
 
 	async startTargetConnection() {
@@ -173,7 +174,19 @@ class DebugAdapter extends debug.DebugSession {
 						await this.writeToTargetApp(`${DebugCommands.LineCount}0`);
 					}
 
-					await this.writeToTargetApp(DebugCommands.BreakpointList);
+					//await this.writeToTargetApp(DebugCommands.BreakpointList);				
+
+					let breakpoints = vscode.debug.breakpoints;
+					breakpoints.forEach(async breakpoint => {
+						if (breakpoint instanceof vscode.SourceBreakpoint) {
+							let sourceBreakpoint = breakpoint as vscode.SourceBreakpoint;
+							if (sourceBreakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
+								console.log(`Breakpoint at file: ${sourceBreakpoint.location.uri.fsPath} Line: ${sourceBreakpoint.location.range.start.line}`);
+								await this.writeToTargetApp(`${DebugCommands.SetBreakPoint}${sourceBreakpoint.location.range.start.line}`);
+							}
+						}
+					});
+
 					await this.writeToTargetApp(DebugCommands.SkipList);
 
 					// TODO: Check for breakpoint on the first line
@@ -210,6 +223,11 @@ class DebugAdapter extends debug.DebugSession {
 					return;
 				}
 
+				if (message.includes("enter input:")) {
+					this.writeLineToDebugConsole("Waiting on input...");
+					return;
+				}
+
 				this.writeLineToDebugConsole(`Unknown debug command: ${message}`);
 			});
 
@@ -232,12 +250,39 @@ class DebugAdapter extends debug.DebugSession {
 		this.targetServer.listen(this.targetPort, '127.0.0.1');
 	}
 
-	private uint8ArrayToAsciiString(uint8Array: Uint8Array) {
-		let asciiString = '';
-		uint8Array.forEach(byte => { asciiString += String.fromCharCode(byte); });
-		return asciiString;
-	}
+	/**
+	 * Listen for breakpoint changes after debugging has started.
+	 */
+	private setupBreakpointListeners(): void {
+		vscode.debug.onDidChangeBreakpoints(event => {
+			event.added.forEach(async (breakpoint) => {
+				if (breakpoint instanceof vscode.SourceBreakpoint) {
+					if (breakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
+						console.log(`Breakpoint at file: ${breakpoint.location.uri.fsPath} Line: ${breakpoint.location.range.start.line}`);
+						await this.writeToTargetApp(`${DebugCommands.SetBreakPoint}${breakpoint.location.range.start.line}`);
+					}
+				}
+			});
 
+			event.removed.forEach(async (breakpoint) => {
+				if (breakpoint instanceof vscode.SourceBreakpoint) {
+					if (breakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
+						console.log(`Breakpoint removed at ${breakpoint.location.range.start.line}`);
+						//await this.writeToTargetApp(`${DebugCommands.SetBreakPoint}${breakpoint.location.range.start.line}`);
+					}
+				}
+			});
+
+			event.changed.forEach((breakpoint) => {
+				if (breakpoint instanceof vscode.SourceBreakpoint) {
+					if (breakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
+						console.log(`Breakpoint changed at ${breakpoint.location.range.start.line}`);
+						// await this.writeToTargetApp(`${DebugCommands.SetBreakPoint}${breakpoint.location.range.start.line}`);
+					}
+				}
+			});
+		});
+	}
 
 	/**
 	* The CVL function decodes a 4-byte ASCII STRING value into a LONG numerical value.
@@ -256,24 +301,6 @@ class DebugAdapter extends debug.DebugSession {
 		return view.getInt32(0, true); // true for little endian
 	}
 
-	/**
-	 * The MKL (make long integer string) function encodes a LONG numerical value into an 8-byte ASCII STRING value.
-	 * @param longValue 
-	 * @returns An encoded a LONG numerical value into an 8-byte ASCII STRING value.
-	 */
-	private mkl(longValue: number): string;
-	private mkl(longValue: bigint): string;
-	private mkl(longValue: number | bigint): string {
-		let bigLongValue: bigint = (typeof longValue === 'number' ? BigInt(longValue) : longValue);
-		let buffer: ArrayBuffer = new ArrayBuffer(8);
-		let view: DataView = new DataView(buffer);
-		view.setBigInt64(0, bigLongValue, true); // true for little endian
-		const uint8array: Uint8Array = new Uint8Array(buffer);
-		//let asciiString = '';
-		//uint8array.forEach(byte => { asciiString += String.fromCharCode(byte); });
-		//return asciiString;
-		return this.uint8ArrayToAsciiString(uint8array);
-	}
 	/**
 	 * Sends a command via a socket to the taget
 	 * @param command The command to send to the target
@@ -313,6 +340,7 @@ class DebugAdapter extends debug.DebugSession {
 		this.writeToDebugConsole(`${message}\n`, category);
 	}
 
+
 	protected stackTraceRequest(response: DebugProtocol.StackTraceResponse, args: DebugProtocol.StackTraceArguments) {
 		// Here, you'd communicate with your debugging engine to get the actual call stack.
 		// The specific implementation would depend on how your debugging engine works.
@@ -329,7 +357,6 @@ class DebugAdapter extends debug.DebugSession {
 		this.sendResponse(response);
 		*/
 	}
-
 
 	protected initializeRequest(response: DebugProtocol.InitializeResponse, args: DebugProtocol.InitializeRequestArguments): void {
 		// Build and return the capabilities of your debug adapter
