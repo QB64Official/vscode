@@ -206,8 +206,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 			for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
 
-				// logFunctions.writeLine(`Line Number: ${lineNumber}`, this.outputChannnel);
-
 				if (token.isCancellationRequested) {
 					return null;
 				}

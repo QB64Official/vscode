@@ -13,6 +13,7 @@ import { getPort } from "./extension";
 import { ChildProcessWithoutNullStreams } from "child_process";
 import { lintCompilerOutput } from "./lintFunctions"
 
+
 /*
 	target = app to be debugged.
 	
@@ -38,6 +39,7 @@ enum DebugCommands {
 	Run = "run",
 	RunToLine = "run to line:",
 	SetBreakPoint = "set breakpoint:",
+	Breakpoint = "breakpoint:",
 	SetGlobalAddress = "set global address:",
 	SetLocalAddress = "set local address:",
 	SetNextLine = "set next line:",
@@ -112,6 +114,7 @@ class DebugAdapter extends debug.DebugSession {
 	private isDebuggerRunning: boolean = false;
 	private attached: boolean = false;
 	private sendMessageWaitTime: number = 275;
+	private currentStack: DebugProtocol.StackFrame[] = [];
 
 	constructor(socket: net.Socket) {
 		super();
@@ -143,91 +146,32 @@ class DebugAdapter extends debug.DebugSession {
 				this.stopDebugger();
 			}
 
-
 			this.targetSocket = socket;
-			socket.setTimeout(10000); // ten seconds
-			socket.on('timeout', handshakeTimeout);
+			this.targetSocket.setTimeout(10000); // ten seconds
+			this.targetSocket.on('timeout', handshakeTimeout);
 
-			socket.on('data', async (data) => {
+			this.targetSocket.on('data', async (data) => {
+
 				let message: string = data.toString().trim();
+
 				if (message.startsWith("+") && message.includes("me:")) {
-					if (!message.includes(this.targetAppPath)) {
-						this.writeLineToDebugConsole(`Failed to initiate debug session. Expected: ${this.targetAppPath} | Message: ${message}`);
-						this.stopDebugger();
+					if (!this.meMessage(message)) {
 						return;
 					}
-					this.writeLineToDebugConsole(`Debugging: ${this.targetAppPath}`);
 				}
 
 				if (message.includes(DebugCommands.Hwnd)) {
-					// Handshake
-					let hwnd: string = message.split('hwnd:')[1];
-					await this.writeToTargetApp(DebugCommands.VWatch);
-					//this.hwnd = this.cvl(hwnd);
+					await this.handShakeMessage(message, handshakeTimeout);
+					return;
+				}
 
-					this.writeToTargetApp(`${DebugCommands.Hwnd}${this.cvl(hwnd)}`);
-
-					// Looks like the line count is always getting passed as 0 in the old code
-					// But based on the name I'll send the actual line count if possible.
-					if (vscode.window.activeTextEditor) {
-						await this.writeToTargetApp(`${DebugCommands.LineCount}${vscode.window.activeTextEditor.document.lineCount}`);
-					} else {
-						await this.writeToTargetApp(`${DebugCommands.LineCount}0`);
-					}
-
-					const breakpoints = vscode.debug.breakpoints;
-					if (breakpoints.length > 0) {
-						let breakPoints: string = ""
-						breakpoints.forEach(async breakpoint => {
-							if (breakpoint instanceof vscode.SourceBreakpoint) {
-								let sourceBreakpoint = breakpoint as vscode.SourceBreakpoint;
-								if (sourceBreakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
-									console.log(`Breakpoint at file: ${sourceBreakpoint.location.uri.fsPath} Line: ${sourceBreakpoint.location.range.start.line}`);
-									breakPoints += this.padForVWatch(sourceBreakpoint.location.range.start.line);
-									//await this.writeToTargetApp(`${DebugCommands.SetBreakPoint}${sourceBreakpoint.location.range.start.line}`);
-								}
-							}
-						});
-						await this.writeToTargetApp(`${DebugCommands.BreakpointCount}${breakpoints.length}`);
-						//await this.writeToTargetApp(`${DebugCommands.BreakpointList}${breakPoints}`);
-					} else {
-						await this.writeToTargetApp(`${DebugCommands.BreakpointCount}`);
-						await this.writeToTargetApp(DebugCommands.BreakpointList);
-					}
-
-					await this.writeToTargetApp(DebugCommands.SkipList);
-					await this.writeToTargetApp(DebugCommands.Run);
-
-					// After the handshake is complete. Reset the timeout.
-					socket.off('timeout', handshakeTimeout);
-
-					socket.setTimeout(900000); // 15 minutes in milliseconds
-					socket.on('timeout', () => {
-						this.writeLineToDebugConsole('Debug session timed out after 15 minutes');
-						this.stopDebugger();
-					});
-
+				if (message.includes(DebugCommands.Breakpoint)) {
+					await this.breakpointMessage(message);
 					return;
 				}
 
 				if (message.includes(DebugCommands.Quit)) {
-					const quitMessage: string = message.split(DebugCommands.Quit)[1];
-					if (quitMessage.toLowerCase().includes("error")) {
-						this.writeLineToDebugConsole(quitMessage, DebugCategories.StdErr);
-					} else {
-						this.writeLineToDebugConsole(quitMessage, DebugCategories.Console);
-					}
-					this.stopDebugger();
-					return;
-				}
-
-				if (message.includes(DebugCommands.BreakpointCount)) {
-					this.writeLineToDebugConsole(`BreakpointCount: ${message}`);
-					return;
-				}
-
-				if (message.includes(DebugCommands.BreakpointList)) {
-					this.writeLineToDebugConsole(`BreakpointList: ${message}`);
+					await this.quitMessage(message);
 					return;
 				}
 
@@ -244,17 +188,119 @@ class DebugAdapter extends debug.DebugSession {
 				this.stopDebugger();
 			});
 
-			socket.on('close', () => {
-				this.stopDebugger();
-			});
-
-			socket.on('end', () => {
-				this.stopDebugger();
-			});
+			socket.on('close', () => { this.stopDebugger(); });
+			socket.on('end', () => { this.stopDebugger(); });
 
 		});
 
 		this.targetServer.listen(this.targetPort, '127.0.0.1');
+	}
+
+	private async breakpointMessage(message: string) {
+		this.writeLineToDebugConsole(message, DebugCategories.Console);
+		// the 1 is the threadId, for now 1,  since QB64 does not have threads
+		const data = message.split("|");
+		this.currentStack.length = 0;
+		let stack: DebugProtocol.StackFrame = {
+			id: 1,
+			name: vscode.window.activeTextEditor?.document.fileName,
+			line: 0,
+			column: 0,
+			source: {
+				name: vscode.window.activeTextEditor?.document.fileName,
+				path: vscode.window.activeTextEditor?.document.uri.fsPath
+			}
+		}
+
+		for (let i: number = 0; i < data.length; i++) {
+			if (data[i].includes("breakpoint")) {
+				stack.line = Number(data[i].split(":")[1]);
+				continue;
+			}
+
+			// if (data[i].includes("current sub")) {
+			// 	stack.line = Number(data[i].split(":")[1]);
+			// }
+
+		}
+		this.currentStack.push(stack);
+		//this.currentStack = [{ name: "test", file: vscode.window.activeTextEditor.document.uri.fsPath, line: 3, column: 0 }];		
+		this.sendEvent(new debug.StoppedEvent("breakpoint", 1));
+	}
+
+	protected continueRequest(response: DebugProtocol.ContinueResponse, args: DebugProtocol.ContinueArguments): void {
+		this.currentStack = [];
+		this.writeToTargetApp(DebugCommands.Run);
+		this.sendResponse(response);
+	}
+
+	/**
+	 * Handles the quit command from the target app.
+	 * @param message Message form the target app
+	 */
+	private async quitMessage(message: string) {
+		const quitMessage: string = message.split(DebugCommands.Quit)[1];
+		if (quitMessage.toLowerCase().includes("error")) {
+			this.writeLineToDebugConsole(quitMessage, DebugCategories.StdErr);
+		} else {
+			this.writeLineToDebugConsole(quitMessage, DebugCategories.Console);
+		}
+		this.stopDebugger();
+	}
+
+	/**
+	 * * Handles the "me"" message from the target app.
+	 * @param message Message form the target app
+	 */
+	private meMessage(message: string): boolean {
+		if (!message.includes(this.targetAppPath)) {
+			this.writeLineToDebugConsole(`Failed to initiate debug session. Expected: ${this.targetAppPath} | Message: ${message}`);
+			this.stopDebugger();
+			return false;
+		}
+		this.writeLineToDebugConsole(`Debugging: ${this.targetAppPath}`);
+		return true;
+	}
+
+	private async handShakeMessage(message: string, handshakeTimeout: () => void) {
+		await this.writeToTargetApp(DebugCommands.VWatch);
+		await this.writeToTargetApp(`${DebugCommands.Hwnd}${message.split('hwnd:')[1].trim()}`);
+		await this.writeToTargetApp(`${DebugCommands.LineCount}${vscode.window.activeTextEditor.document.lineCount}`);
+
+		const breakpoints = vscode.debug.breakpoints;
+		let breakpointCount = 0;
+		if (breakpoints.length > 0) {
+			let breakPoints: string = ""
+			breakpoints.forEach(async (breakpoint) => {
+				if (breakpoint instanceof vscode.SourceBreakpoint) {
+					let sourceBreakpoint = breakpoint as vscode.SourceBreakpoint;
+					if (sourceBreakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
+						breakpointCount++;
+						console.log(`Breakpoint at file: ${sourceBreakpoint.location.uri.fsPath} Line: ${sourceBreakpoint.location.range.start.line + 1}`);
+						breakPoints += this.padForVWatch(sourceBreakpoint.location.range.start.line + 1);
+					}
+				}
+			});
+			if (breakpointCount > 0) {
+				await this.writeToTargetApp(`${DebugCommands.BreakpointCount}${breakpointCount}`);
+				await this.writeToTargetApp(`${DebugCommands.BreakpointList}${breakPoints}`);
+			}
+		} else {
+			await this.writeToTargetApp(`${DebugCommands.BreakpointCount}`);
+			await this.writeToTargetApp(DebugCommands.BreakpointList);
+		}
+
+		await this.writeToTargetApp(DebugCommands.SkipList);
+		await this.writeToTargetApp(DebugCommands.Run);
+
+		// After the handshake is complete. Reset the timeout.
+		this.targetSocket.off('timeout', handshakeTimeout);
+
+		this.targetSocket.setTimeout(900000); // 15 minutes in milliseconds
+		this.targetSocket.on('timeout', () => {
+			this.writeLineToDebugConsole('Debug session timed out after 15 minutes');
+			this.stopDebugger();
+		});
 	}
 
 	/**
@@ -341,43 +387,54 @@ class DebugAdapter extends debug.DebugSession {
 	 * @param message Message to write
 	 * @param category Type of message to write
 	 */
-	private writeToDebugConsole(message: string, category: DebugCategories = DebugCategories.Console) { this.sendEvent(new debug.OutputEvent(message, category)); }
+	private async writeToDebugConsole(message: string, category: DebugCategories = DebugCategories.Console) { this.sendEvent(new debug.OutputEvent(message, category)); }
 
 	/**
 	 * Writes a message to the debug console with a \n append to the end.
 	 * @param message Message to write
 	 * @param category Type of message to write
 	 */
-	private writeLineToDebugConsole(message: string, category: DebugCategories = DebugCategories.Console) { this.writeToDebugConsole(`${message}\n`, category); }
+	private async writeLineToDebugConsole(message: string, category: DebugCategories = DebugCategories.Console) { this.writeToDebugConsole(`${message}\n`, category); }
 
-	protected stackTraceRequest(response: DebugProtocol.StackTraceResponse, args: DebugProtocol.StackTraceArguments) {
-		// Here, you'd communicate with your debugging engine to get the actual call stack.
-		// The specific implementation would depend on how your debugging engine works.
-
-		/*
-		const frames = this.debuggingEngine.getCallStack()
-			 .map((frame, index) => new StackFrame(index, frame.functionName, new Source(frame.fileName), frame.line));
-  
+	/**
+	 * This will need to change if multi-threading is ever added to QB64
+	 * @param response 
+	 */
+	protected threadsRequest(response: DebugProtocol.ThreadsResponse): void {
 		response.body = {
-			 stackFrames: frames,
-			 totalFrames: frames.length
+			threads: [
+				new debug.Thread(1, "thread 1")
+			]
 		};
-  
 		this.sendResponse(response);
-		*/
+	}
+
+	protected stackTraceRequest(response: DebugProtocol.StackTraceResponse, args: DebugProtocol.StackTraceArguments): void {
+		const frames: DebugProtocol.StackFrame[] = this.currentStack.map((frame, index) => {
+			return new debug.StackFrame(
+				index, // frameId: A unique identifier for the frame.
+				frame.name, // name: Name of the frame, typically a method name.
+				new debug.Source(frame.source.path), // source: The source of the frame.
+				frame.line, // line: The line number in the source code.
+				frame.column // column: The column number in the source code.
+			);
+		});
+
+		response.body = {
+			stackFrames: frames,
+			totalFrames: frames.length
+		};
+
+		this.sendResponse(response);
 	}
 
 	protected initializeRequest(response: DebugProtocol.InitializeResponse, args: DebugProtocol.InitializeRequestArguments): void {
 		// Build and return the capabilities of your debug adapter
 		response.body = response.body || {};
-
-		// Enables or disables all breakpoints for this session.
 		response.body.supportsBreakpointLocationsRequest = true;
 
 		// The debug adapter supports setting value from the watch window.
 		response.body.supportsSetVariable = false;
-
-		// Other capabilities like configuration done request
 		response.body.supportsConfigurationDoneRequest = true;
 
 		//response.body.supportsContinueRequest = true;
@@ -459,7 +516,7 @@ class DebugAdapter extends debug.DebugSession {
 	 * Is the the code in set for debug mode (has $debug)
 	 * @param cpde 
 	 */
-	isDebugMode(code: string): boolean {
+	private isDebugMode(code: string): boolean {
 		let lines = code.split("\r");
 		for (let i: number = 0; i < lines.length; i++) {
 			let line = lines[i].trimEnd().toLowerCase();
@@ -591,7 +648,6 @@ class DebugAdapter extends debug.DebugSession {
 		// You could parse the data as a string and then handle it based on its contents.
 		const message: string = data.toString();
 		if (message.indexOf("{\"command\":\"disconnect\"") > -1) {
-			this.writeLineToDebugConsole("VSCode stopped the debugger.");
 			this.stopDebugger();
 		}
 		// Then you can do something with the message, like sending it to VS Code:
@@ -610,7 +666,9 @@ class DebugAdapter extends debug.DebugSession {
 	private stopDebugger(): void {
 		if (this.isDebuggerRunning) {
 			if (this.targetSpawn && this.attached) {
-				this.targetSpawn.kill();
+				if (!this.targetSpawn.killed) {
+					this.targetSpawn.kill();
+				}
 				this.targetSpawn = null;
 				if (this.targetSocket) {
 					this.targetSocket.end();

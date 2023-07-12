@@ -229,7 +229,7 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 			const matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 			if (matches) {
 				for (const match of matches) {
-					logFunctions.writeLine(`lineNumber: ${lineNumber} | RGB Match Found at Column: ${match.index}`, outputChannnel);
+					//logFunctions.writeLine(`lineNumber: ${lineNumber} | RGB Match Found at Column: ${match.index}`, outputChannnel);
 					let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
 					let work: vscode.Range[] = [commonFunctions.createRange(match, lineNumber, 0)];
 					let colorDec = vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})`, borderRadius: "5px" });
@@ -269,7 +269,6 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		let matches = lineOfCode.matchAll(/(?<=\W|^)(REM|'|\$DYNAMIC|\$STATIC|Option _Explicit|Option Explicit|option _explicitarray|option explicitarray|\$RESIZE:ON|\$RESIZE:OFF|\$RESIZE:STRETCH|\$RESIZE:SMOOTH|\$ASSERTS|\$Noprefix|\$CHECKING|\$COLOR|\$CONSOLE:ONLY|\$CONSOLE:ON|\$CONSOLE:OFF|\$CONSOLE|\$DEBUG|\$ERROR|\$EXEICON:|\$LET|\$IF|\$ELSEIF|\$END IF|\$SCREENHIDE|\$SCREENSHOW|\$VIRTUALKEYBOARD|\$VERSIONINFO:Comments|\$VERSIONINFO:CompanyName|\$VERSIONINFO:FileDescription|\$VERSIONINFO:FileVersion|\$VERSIONINFO:InternalName|\$VERSIONINFO:LegalCopyright|\$VERSIONINFO:LegalTrademarks|\$VERSIONINFO:OriginalFilename|\$VERSIONINFO:ProductName|\$VERSIONINFO:ProductVersion|\$VERSIONINFO:Web)(?=\W|$)/ig);
 		if (matches) {
 			for (const match of matches) {
-				logFunctions.writeLine(`lineNumber: ${lineNumber} | MetaCommand Match Found at Column: ${match.index}`, outputChannnel);
 				metacommands.push(commonFunctions.createRange(match, lineNumber, 0));
 			}
 		}
