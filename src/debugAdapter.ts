@@ -4,11 +4,11 @@ import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import * as fs from "fs";
-import { spawn } from 'node:child_process';
-import * as debug from "@vscode/debugadapter";
-import { DebugProtocol } from "@vscode/debugprotocol";
 import * as path from 'path';
 import * as os from 'os';
+import * as debug from "@vscode/debugadapter";
+import { spawn } from 'node:child_process';
+import { DebugProtocol } from "@vscode/debugprotocol";
 import { getPort } from "./extension";
 import { ChildProcessWithoutNullStreams } from "child_process";
 import { lintCompilerOutput } from "./lintFunctions"
@@ -70,8 +70,6 @@ class Debuggee {
 			await await new Promise(f => setTimeout(f, this.waitTime));
 		}
 	}
-
-
 }
 
 /*
@@ -86,6 +84,7 @@ class Debuggee {
 
 	Went with chr(31) -- Unit Separator Character 
 	https://www.nist.gov/system/files/documents/2021/03/23/ansi-nist_2010_traditional_encoding.pdf
+	https://ascii.cl/control-characters.htm
 
 */
 
@@ -181,7 +180,7 @@ class DebugAdapter extends debug.DebugSession {
 	private variableHandles = new Handles<string>();
 	private currentStack: DebugProtocol.StackFrame[] = [];
 	private variables: { [name: string]: DebugProtocol.Variable } = {};
-	private lastRequestId: number = 0;
+	private gotoLineTarget: DebugProtocol.GotoTarget = undefined;
 
 	// Used to get around timing problems to get a full call stack when stepping though the code.
 	private pendingCallStackRequests: Map<string, () => void> = new Map();
@@ -599,6 +598,43 @@ class DebugAdapter extends debug.DebugSession {
 			this.sendResponse(response);
 		}
 	}
+
+	/*
+	protected nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): void {
+		const threadId = args.threadId;
+		// You would need to find out the current line number for this thread, and then add 1 to get the next line
+		const currentLineNumber = 2 //this.getCurrentLineNumber(threadId);
+		const nextLineNumber = currentLineNumber + 1;
+		// Then send the appropriate message to your debuggee
+		this.debuggee.write(`${DebugCommands.SetNextLine}${nextLineNumber}`);
+
+		this.sendResponse(response);
+	}
+	*/
+
+	protected gotoTargetsRequest(response: DebugProtocol.GotoTargetsResponse, args: DebugProtocol.GotoTargetsArguments): void {
+		this.gotoLineTarget =
+		{
+			id: 1, // Assign a unique id to the target
+			label: "Target 1", // Give the target a label
+			line: args.line, // The target's line
+			column: args.column, // The target's column
+		};
+		response.body = { targets: [this.gotoLineTarget] };
+		this.sendResponse(response);
+	}
+
+	protected async gotoRequest(response: DebugProtocol.GotoResponse, args: DebugProtocol.GotoArguments): Promise<void> {
+		if (this.gotoLineTarget) {
+			// Code to instruct your debugger to jump to the target location
+			await this.debuggee.write(`${DebugCommands.SetNextLine}${this.gotoLineTarget.line}`);
+			response.success = true;
+		} else {
+			response.success = false;
+		}
+		this.sendResponse(response);
+	}
+
 
 	deleteQB64Log(): void {
 		//TODO: delete qb64.log
