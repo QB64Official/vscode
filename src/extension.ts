@@ -15,12 +15,10 @@ import { ReferenceProvider } from "./providers/ReferenceProvider";
 import { DefinitionProvider } from "./providers/DefinitionProvider";
 import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
 import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEditProvider";
-import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescriptorFactory";
 import { HoverProvider } from "./providers/HoverProvider";
 import { createDebuggerInterface } from './debugAdapter';
-const net = require('net');
+import net from 'net';
 import { TodoTreeProvider } from "./TodoTreeProvider";
-import { get } from "http";
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
