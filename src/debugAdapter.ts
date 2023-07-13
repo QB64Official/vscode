@@ -599,26 +599,13 @@ class DebugAdapter extends debug.DebugSession {
 		}
 	}
 
-	/*
-	protected nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): void {
-		const threadId = args.threadId;
-		// You would need to find out the current line number for this thread, and then add 1 to get the next line
-		const currentLineNumber = 2 //this.getCurrentLineNumber(threadId);
-		const nextLineNumber = currentLineNumber + 1;
-		// Then send the appropriate message to your debuggee
-		this.debuggee.write(`${DebugCommands.SetNextLine}${nextLineNumber}`);
-
-		this.sendResponse(response);
-	}
-	*/
-
 	protected gotoTargetsRequest(response: DebugProtocol.GotoTargetsResponse, args: DebugProtocol.GotoTargetsArguments): void {
 		this.gotoLineTarget =
 		{
-			id: 1, // Assign a unique id to the target
-			label: "Target 1", // Give the target a label
-			line: args.line, // The target's line
-			column: args.column, // The target's column
+			id: args.line + args.column, // Assign a unique id to the target
+			label: `Target ${args.line}`,
+			line: args.line,
+			column: args.column,
 		};
 		response.body = { targets: [this.gotoLineTarget] };
 		this.sendResponse(response);
@@ -628,6 +615,7 @@ class DebugAdapter extends debug.DebugSession {
 		if (this.gotoLineTarget) {
 			// Code to instruct your debugger to jump to the target location
 			await this.debuggee.write(`${DebugCommands.SetNextLine}${this.gotoLineTarget.line}`);
+			this.gotoLineTarget = undefined;
 			response.success = true;
 		} else {
 			response.success = false;
