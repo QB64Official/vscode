@@ -13,6 +13,17 @@ import { getPort } from "./extension";
 import { ChildProcessWithoutNullStreams } from "child_process";
 import { lintCompilerOutput } from "./lintFunctions"
 import { Handles } from "@vscode/debugadapter"
+import { skipLineRanges } from "./extension"
+import { activeEditor } from "./extension"
+
+export const decorationSkipLine: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
+	{
+		borderRadius: "2px",
+		dark: { backgroundColor: 'rgba(175, 243, 28, 0.2)' },
+		light: { backgroundColor: 'rgba(115, 115, 115, 0.2)' }
+	}
+);
+
 
 /**
  * Property bag to hold the debuggee stuff.
@@ -75,6 +86,15 @@ class Debuggee {
 	 * Stop debugging
 	 */
 	public async stopDebugger() {
+
+		if (activeEditor) {
+			activeEditor.setDecorations(decorationSkipLine, []);
+		}
+
+		if (skipLineRanges) {
+			skipLineRanges.length = 0;
+		}
+
 		if (this.spawn && this.attached) {
 			if (this.spawn && !this.spawn.killed) {
 				this.spawn.kill();
@@ -482,11 +502,13 @@ class DebugAdapter extends debug.DebugSession {
 	 * @param response 
 	 * @param args 
 	 */
-	protected customRequest(command: string, response: DebugProtocol.Response, args: any): void {
+	protected async customRequest(command: string, response: DebugProtocol.Response, args: any): Promise<void> {
 		switch (command) {
 			case DebugCommands.SetSkipLine:
-				const skipLineCommand = `${DebugCommands.SetSkipLine}${args.line + 1}`;
-				this.debuggee.write(skipLineCommand);
+				await this.debuggee.write(`${DebugCommands.SetSkipLine}${args.line + 1}`);
+				break;
+			case DebugCommands.ClearSkipLine:
+				await this.debuggee.write(`${DebugCommands.ClearSkipLine}${args.line + 1}`);
 				break;
 			default:
 				super.customRequest(command, response, args);

@@ -322,7 +322,7 @@
             },
             {
                 "command": "extension.skipLine",
-                "title": "Skip line"
+                "title": "Toggle Skip Line"
             }
         ],
         "menus": {

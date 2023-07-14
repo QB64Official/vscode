@@ -20,6 +20,7 @@ import { createDebuggerInterface } from './debugAdapter';
 import net from 'net';
 import { TodoTreeProvider } from "./TodoTreeProvider";
 import { DebugCommands } from "./debugAdapter"
+import { decorationSkipLine } from "./debugAdapter"
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -38,6 +39,8 @@ import { DebugCommands } from "./debugAdapter"
 //             ]
 //         }
 
+export var activeEditor: vscode.TextEditor | undefined = undefined;
+export var skipLineRanges: vscode.Range[] = []; // Global variable to keep track of the decorations
 export var symbolCache: vscode.DocumentSymbol[] = [];
 export var todoTreeProvider: TodoTreeProvider = null;
 export async function activate(context: vscode.ExtensionContext) {
@@ -80,10 +83,27 @@ export async function activate(context: vscode.ExtensionContext) {
 	//context.subscriptions.push(vscode.commands.registerCommand('extension.startDebugging', () => { createDebuggerInterface(Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000); }));
 
 	vscode.commands.registerCommand('extension.skipLine', () => {
-		if (vscode.window.activeTextEditor) {
-			if (vscode.debug.activeDebugSession) {
-				vscode.debug.activeDebugSession.customRequest(DebugCommands.SetSkipLine, { line: vscode.window.activeTextEditor.selection.active.line });
+		if (vscode.window.activeTextEditor && vscode.debug.activeDebugSession) {
+			const lineNumber = vscode.window.activeTextEditor.selection.active.line;
+			const range = new vscode.Range(
+				new vscode.Position(lineNumber, 0),
+				new vscode.Position(lineNumber, vscode.window.activeTextEditor.document.lineAt(lineNumber).text.length)
+			);
+
+			const index = skipLineRanges.findIndex(r => r.start.line === range.start.line && r.end.line === range.end.line);
+
+			if (index !== -1) {
+				skipLineRanges.splice(index, 1);
+				vscode.debug.activeDebugSession.customRequest(DebugCommands.ClearSkipLine, { line: lineNumber });
+			} else {
+				skipLineRanges.push(range);
+				vscode.debug.activeDebugSession.customRequest(DebugCommands.SetSkipLine, { line: lineNumber });
 			}
+			if (vscode.window.activeTextEditor && !activeEditor) {
+				activeEditor = vscode.window.activeTextEditor
+			}
+			// Update decorations
+			vscode.window.activeTextEditor.setDecorations(decorationSkipLine, skipLineRanges);
 		}
 	});
 
