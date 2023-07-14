@@ -319,6 +319,10 @@
                 "command": "extension.openCurrentFileInQB64",
                 "title": "Open Current File in QB64",
                 "category": "QB64"
+            },
+            {
+                "command": "extension.skipLine",
+                "title": "Skip line"
             }
         ],
         "menus": {
@@ -334,6 +338,11 @@
                 {
                     "command": "extension.openCurrentFileInQB64",
                     "when": "editorLangId == 'QB64'"
+                },
+                {
+                    "command": "extension.skipLine",
+                    "group": "debug",
+                    "when": "inDebugMode && editorLangId == 'QB64'"
                 }
             ],
             "explorer/context": [

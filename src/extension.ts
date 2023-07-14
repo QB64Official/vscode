@@ -19,6 +19,7 @@ import { HoverProvider } from "./providers/HoverProvider";
 import { createDebuggerInterface } from './debugAdapter';
 import net from 'net';
 import { TodoTreeProvider } from "./TodoTreeProvider";
+import { DebugCommands } from "./debugAdapter"
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -77,6 +78,14 @@ export async function activate(context: vscode.ExtensionContext) {
 	// Register Miscellaneous
 	//context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
 	//context.subscriptions.push(vscode.commands.registerCommand('extension.startDebugging', () => { createDebuggerInterface(Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000); }));
+
+	vscode.commands.registerCommand('extension.skipLine', () => {
+		if (vscode.window.activeTextEditor) {
+			if (vscode.debug.activeDebugSession) {
+				vscode.debug.activeDebugSession.customRequest(DebugCommands.SetSkipLine, { line: vscode.window.activeTextEditor.selection.active.line });
+			}
+		}
+	});
 
 	decoratorFunctions.setupDecorate();
 	vscodeFucnctions.createFiles();
