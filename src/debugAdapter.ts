@@ -579,6 +579,11 @@ class DebugAdapter extends debug.DebugSession {
 		}
 	}
 
+	/**
+	 * This is step into (F11)
+	 * @param response 
+	 * @param args 
+	 */
 	protected stepInRequest(response: DebugProtocol.Response, args: any): void {
 		try {
 			this.debuggee.write(DebugCommands.StepInto);
@@ -589,6 +594,11 @@ class DebugAdapter extends debug.DebugSession {
 		}
 	}
 
+	/**
+	 * This is step over (F10)
+	 * @param response 
+	 * @param args 
+	 */
 	protected nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): void {
 		try {
 			this.debuggee.write(DebugCommands.StepOver);
@@ -599,6 +609,11 @@ class DebugAdapter extends debug.DebugSession {
 		}
 	}
 
+	/**
+	 * For jump to cursor
+	 * @param response 
+	 * @param args 
+	 */
 	protected gotoTargetsRequest(response: DebugProtocol.GotoTargetsResponse, args: DebugProtocol.GotoTargetsArguments): void {
 		this.gotoLineTarget =
 		{
@@ -611,6 +626,11 @@ class DebugAdapter extends debug.DebugSession {
 		this.sendResponse(response);
 	}
 
+	/**
+	 * For jump to cursor
+	 * @param response 
+	 * @param args 
+	 */
 	protected async gotoRequest(response: DebugProtocol.GotoResponse, args: DebugProtocol.GotoArguments): Promise<void> {
 		if (this.gotoLineTarget) {
 			// Code to instruct your debugger to jump to the target location
