@@ -40,7 +40,15 @@ class Debuggee {
 	public readonly endOfTransmission: string = String.fromCharCode(4);
 	public readonly startOfTransmission: string = String.fromCharCode(2);
 	public readonly unitSeparator: string = String.fromCharCode(31)
-	public readonly waitTime: number = 75; //This should be a setting
+	public readonly waitTime: number = 20; //This should be a setting
+
+	constructor() {
+		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
+		const waitTime: number = config.get("debuggeeWaitTime")
+		if (waitTime) {
+			this.waitTime = waitTime;
+		}
+	}
 
 	/**
 	 * Pads the a number to the paddingSize digits with leading zeros.
@@ -78,7 +86,9 @@ class Debuggee {
 			command = `${this.padForVWatch(command.length)}${command}`
 			console.log(`writeToDebuggee command sent: "${command}"`)
 			this.socket.write(command);
-			await await new Promise(f => setTimeout(f, this.waitTime));
+			if (this.waitTime > 0) {
+				await await new Promise(f => setTimeout(f, this.waitTime));
+			}
 		}
 	}
 
