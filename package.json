@@ -327,7 +327,11 @@
             },
             {
                 "command": "extension.skipLine",
-                "title": "Toggle Skip Line"
+                "title": "Skip Line - Toggle"
+            },
+            {
+                "command": "extension.skipLineClearAll",
+                "title": "Skip Line - Clear All"
             }
         ],
         "menus": {
@@ -346,6 +350,11 @@
                 },
                 {
                     "command": "extension.skipLine",
+                    "group": "debug",
+                    "when": "inDebugMode && editorLangId == 'QB64'"
+                },
+                {
+                    "command": "extension.skipLineClearAll",
                     "group": "debug",
                     "when": "inDebugMode && editorLangId == 'QB64'"
                 }

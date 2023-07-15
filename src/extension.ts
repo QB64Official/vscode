@@ -107,6 +107,13 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
+	vscode.commands.registerCommand('extension.skipLineClearAll', () => {
+		skipLineRanges.length = 0;
+		vscode.window.activeTextEditor.setDecorations(decorationSkipLine, skipLineRanges);
+		vscode.debug.activeDebugSession.customRequest(DebugCommands.ClearAllSkips);
+	});
+
+
 	decoratorFunctions.setupDecorate();
 	vscodeFucnctions.createFiles();
 	gitFunctions.createGitignore();

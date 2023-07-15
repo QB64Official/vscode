@@ -144,6 +144,7 @@ export enum DebugCommands {
 	ClearAllBreakPoints = "clear all breakpoints",
 	ClearBreakPoint = "clear breakpoint:",
 	ClearSkipLine = "clear skip line:",
+	ClearAllSkips = "clear all skips",
 	GetCallStack = "call stack:",
 	GetGobbalVariables = "get global var:",
 	GetLocalVariables = "get local var:",
@@ -519,6 +520,9 @@ class DebugAdapter extends debug.DebugSession {
 				break;
 			case DebugCommands.ClearSkipLine:
 				await this.debuggee.write(`${DebugCommands.ClearSkipLine}${args.line + 1}`);
+				break;
+			case DebugCommands.ClearAllSkips:
+				await this.debuggee.write(DebugCommands.ClearAllSkips);
 				break;
 			default:
 				super.customRequest(command, response, args);
