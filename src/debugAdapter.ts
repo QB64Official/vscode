@@ -40,7 +40,7 @@ class Debuggee {
 	public readonly endOfTransmission: string = String.fromCharCode(4);
 	public readonly startOfTransmission: string = String.fromCharCode(2);
 	public readonly unitSeparator: string = String.fromCharCode(31)
-	public readonly waitTime: number = 265;
+	public readonly waitTime: number = 75; //This should be a setting
 
 	/**
 	 * Pads the a number to the paddingSize digits with leading zeros.
