@@ -160,6 +160,7 @@ export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = 
 				|| lintLine.startsWith("Only ")
 				|| lintLine.startsWith("Number required for function")
 				|| lintLine.startsWith("CVL ")
+				|| lintLine.startsWith("Expected IF expression THEN/GOTO")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {

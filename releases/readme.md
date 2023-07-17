@@ -12,6 +12,7 @@ All notable changes to the "QB64" extension will be documented in this file.
 
 ## 0.9.1
 - Enchantments
+  - Issue [#130](https://github.com/QB64Official/vscode/issues/130) Prompt the user before formatting large file
   - Issue [#121](https://github.com/QB64Official/vscode/issues/121) Additional Highlighting for $INCLUDE, $MetaCommands, and OPTION
   - Issue [#117](https://github.com/QB64Official/vscode/issues/117) Pressing F12 on $ExeIcon does not open the icon file.
   - Issue [#7](https://github.com/QB64Official/vscode/issues/7) Add TODO view that works like the outline.
