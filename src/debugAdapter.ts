@@ -279,13 +279,13 @@ class DebugAdapter extends debug.DebugSession {
 				let message: string = data.toString();
 
 				if (!message.startsWith(this.debuggee.startOfTransmission)) {
-					await this.writeLineToDebugConsole("Invalid message | Missing STX");
+					await this.writeLineToDebugConsole(`Invalid message | Missing STX: ${message}`);
 					await this.stopDebugger();
 					return;
 				}
 
 				if (!message.endsWith(this.debuggee.endOfTransmission)) {
-					await this.writeLineToDebugConsole("Invalid message | Missing EOT");
+					await this.writeLineToDebugConsole(`Invalid message | Missing EOT: ${message}`);
 					await this.stopDebugger();
 					return;
 				}
