@@ -186,8 +186,15 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		return code.trim();
 	}
 
-	provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
+	async provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): Promise<vscode.TextEdit[]> {
 		let retvalue: vscode.TextEdit[] = [];
+
+		if (document.lineCount > 2000) {
+			if (await vscode.window.showInformationMessage('Do you want to start the long running process?', 'Yes', 'No') !== 'Yes') {
+				return null;
+			}
+		}
+
 		// const operators = ",(+-=<>[{}]`);:.";
 		const qb64Config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
 		const vscodeConig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
