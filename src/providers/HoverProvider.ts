@@ -33,7 +33,7 @@ export class HoverProvider implements vscode.HoverProvider {
 
 			return this.doSearch(document, keywordInfo.token, cancellationToken).then(location => {
 				if (location) {
-					logFunctions.writeLine(`location found for ${keywordInfo.token}`, this.outputChannnel);
+					//logFunctions.writeLine(`location found for ${keywordInfo.token}`, this.outputChannnel);
 					let contents: string = "";
 					const sourcecode: string[] = fs.readFileSync(location.uri.fsPath).toString().split("\n");
 					const defLine = sourcecode[location.range.start.line].toLowerCase();
@@ -45,9 +45,9 @@ export class HoverProvider implements vscode.HoverProvider {
 						for (let index = location.range.start.line - 1; index > -1; index--) {
 							const currentLine = sourcecode[index];
 							const lowerLine = currentLine.toLowerCase();
-							logFunctions.writeLine(`Line: ${index}: ${lowerLine.replace("\r", "")} `, this.outputChannnel);
+							//logFunctions.writeLine(`Line: ${index}: ${lowerLine.replace("\r", "")} `, this.outputChannnel);
 							if (lowerLine.replace("\r", "").endsWith("------------") || (!lowerLine.startsWith("'") && !lowerLine.startsWith("rem"))) {
-								logFunctions.writeLine(`${contents}`, this.outputChannnel);
+								//logFunctions.writeLine(`${contents}`, this.outputChannnel);
 								break;
 							}
 							contents = `${currentLine.slice(lowerLine.startsWith("'") ? 1 : 3)}\n${contents}`;
@@ -70,16 +70,16 @@ export class HoverProvider implements vscode.HoverProvider {
 						return new vscode.Hover(markdownString);
 					}
 
-					logFunctions.writeLine("30", this.outputChannnel);
-					logFunctions.writeLine("Variable|Const declaration", this.outputChannnel);
 					contents = sourcecode[location.range.start.line].trim();
 
+					/*
 					if (contents) {
 						logFunctions.writeLine(`contents: ${contents}`, this.outputChannnel);
 					} else {
 						logFunctions.writeLine("contents are empty", this.outputChannnel);
 					}
-					logFunctions.writeLine("40", this.outputChannnel);
+					*/
+
 					const markdownString = new vscode.MarkdownString();
 					markdownString.appendCodeblock(contents);
 					return new vscode.Hover(markdownString);
@@ -128,12 +128,12 @@ export class HoverProvider implements vscode.HoverProvider {
 
 					let match = line.match(new RegExp(`\\W${commonFunctions.escapeRegExp(word)}\\W`, "i"));
 					if (match) {
-						logFunctions.writeLine(`Found 1 ${word} on line ${lineNumber} in ${vscode.Uri.file(document.fileName)}`, this.outputChannnel);
+						//logFunctions.writeLine(`Found 1 ${word} on line ${lineNumber} in ${vscode.Uri.file(document.fileName)}`, this.outputChannnel);
 						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber)));
 					}
 					match = line.match(new RegExp(`\\b${commonFunctions.escapeRegExp(word)}\\b`, "i"));
 					if (match) {
-						logFunctions.writeLine(`Found 2 ${word} on line ${lineNumber} in ${vscode.Uri.file(document.fileName)}`, this.outputChannnel);
+						//logFunctions.writeLine(`Found 2 ${word} on line ${lineNumber} in ${vscode.Uri.file(document.fileName)}`, this.outputChannnel);
 						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber)));
 					}
 				}
@@ -142,14 +142,14 @@ export class HoverProvider implements vscode.HoverProvider {
 					let selectedText: string = includedFiles[fileIndex];
 					let match = selectedText.match(regexIncludeFile)
 					if (match) {
-						logFunctions.writeLine(`Checking include file: ${selectedText}`, this.outputChannnel);
+						//logFunctions.writeLine(`Checking include file: ${selectedText}`, this.outputChannnel);
 						const path = require('path');
 						const fullPath = commonFunctions.getAbsolutePath(path.dirname(document.fileName).replaceAll("\\", "/",) + "/", match[1].replace("'", "").replaceAll("\\", "/"));
 						if (fs.existsSync(fullPath)) {
 							let includeFileDocument: vscode.TextDocument = await vscode.workspace.openTextDocument(fullPath)
 							let searchResults: vscode.Location = await this.doSearch(includeFileDocument, word, token);
 							if (searchResults) {
-								logFunctions.writeLine(`found ${word} in ${includeFileDocument.fileName}`, this.outputChannnel);
+								//logFunctions.writeLine(`found ${word} in ${includeFileDocument.fileName}`, this.outputChannnel);
 								return resolve(searchResults);
 							} else {
 								logFunctions.writeLine(`word: ${word} not found in ${includeFileDocument.fileName}`, this.outputChannnel);

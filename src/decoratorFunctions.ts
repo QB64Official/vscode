@@ -233,9 +233,6 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 			diagnostics.push(diagnostic);
 		}
 
-
-		//const config = vscode.workspace.getConfiguration("qb64")
-
 		if (lineOfCode.trim().toLocaleLowerCase().startsWith("rem") || ((lineOfCode.trim().startsWith("'") && lineOfCode.trim().toLowerCase().indexOf("include") < 0))) {
 			// Look for todo
 			if (isTodoHighlightEnabled) {
