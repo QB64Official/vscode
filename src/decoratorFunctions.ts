@@ -210,13 +210,13 @@ export function scanFile(editor: any, scanAllLines: boolean) {
  * @returns 
  */
 function decorate(editor: any, lineNumber: number, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[], metacommands: vscode.Range[], isTodoHighlightEnabled: boolean, isRgbColorEnabled: boolean, diagnostics: vscode.Diagnostic[]) {
-	let lineOfCode: string = editor.document.lineAt(lineNumber).text;
-
-	if (lineOfCode.trim().length < 2) {
+	const lineOfCode: string = editor.document.lineAt(lineNumber).text;
+	if (editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
 		return;
 	}
 
-	if (editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
+	const LineOfCodeTrimmed = lineOfCode.trim();
+	if (LineOfCodeTrimmed.length < 2) {
 		return;
 	}
 
@@ -224,16 +224,12 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 	const green = 1;
 	const blue = 2;
 	try {
+
 		if (hasMixedIndentation(lineOfCode)) {
-			let diagnostic = new vscode.Diagnostic(
-				new vscode.Range(new vscode.Position(lineNumber, 0), new vscode.Position(lineNumber, Number.MAX_VALUE)),
-				'Mixed Indentation',
-				vscode.DiagnosticSeverity.Information
-			);
-			diagnostics.push(diagnostic);
+			diagnostics.push(new vscode.Diagnostic(new vscode.Range(new vscode.Position(lineNumber, 0), new vscode.Position(lineNumber, Number.MAX_VALUE)), 'Mixed Indentation', vscode.DiagnosticSeverity.Information));
 		}
 
-		if (lineOfCode.trim().toLocaleLowerCase().startsWith("rem") || ((lineOfCode.trim().startsWith("'") && lineOfCode.trim().toLowerCase().indexOf("include") < 0))) {
+		if (LineOfCodeTrimmed.toLocaleLowerCase().startsWith("rem") || ((LineOfCodeTrimmed.startsWith("'") && LineOfCodeTrimmed.toLowerCase().indexOf("include") < 0))) {
 			// Look for todo
 			if (isTodoHighlightEnabled) {
 				const matches = lineOfCode.matchAll(/(?:'|\brem\b)\s*\b(todo|fixit|fixme)\b:?/ig);
@@ -251,22 +247,17 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 				for (const match of matches) {
 					//logFunctions.writeLine(`lineNumber: ${lineNumber} | RGB Match Found at Column: ${match.index}`, outputChannnel);
 					let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
-					let work: vscode.Range[] = [commonFunctions.createRange(match, lineNumber, 0)];
-					let colorDec = vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})`, borderRadius: "5px" });
-					editor.setDecorations(colorDec, work);
+					editor.setDecorations(vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})`, borderRadius: "5px" }), [commonFunctions.createRange(match, lineNumber, 0)]);
 				}
 			}
 		}
 
-		// Look for include files
-		if (!lineOfCode.toLowerCase().startsWith("rem")) {
-			let match = lineOfCode.match(/'\$INCLUDE:/i)
+		let match = lineOfCode.match(/'\$INCLUDE:/i)
+		if (match !== null && match.index !== undefined) {
+			includeLeading.push(commonFunctions.createRange(match, lineNumber, 0));
+			match = lineOfCode.match(/'(.*)'/i)
 			if (match !== null && match.index !== undefined) {
-				includeLeading.push(commonFunctions.createRange(match, lineNumber, 0));
-				match = lineOfCode.match(/'(.*)'/i)
-				if (match !== null && match.index !== undefined) {
-					includeTrailing.push(commonFunctions.createRange(match, lineNumber, 0));
-				}
+				includeTrailing.push(commonFunctions.createRange(match, lineNumber, 0));
 			}
 		}
 
@@ -293,30 +284,22 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 			}
 		}
 
-
 		if (symbolCache && symbolCache.length > 0) {
 			const tokens: string[] = Array.from(new Set(lineOfCode.replace(/'.*$/, '').trimEnd().split(/[\s(]+/).filter(token => token.trim() !== '')));
 			for (let tokenIndex = 0; tokenIndex < tokens.length; tokenIndex++) {
 				const sub = symbolCache.find((s) => s.name && s.name === tokens[tokenIndex].trim().toLowerCase().replace(/(call|gosub|goto|:)$/i, ""));
 				if (sub) {
-					// Typescritpt regex sucks.
-					// Remove the comments from the line and parse that.
-					const codeWithoutComments = lineOfCode.replace(/'.*$/, '').trimEnd();
 					let subName = commonFunctions.escapeRegExp(sub.name)
 
 					if (subName.endsWith(":")) {
 						subName = subName.slice(0, -1);
 					}
-					const matches = codeWithoutComments.matchAll(new RegExp(`\\b(?:call\\s*|gosub\\s*|goto\\s*|declare sub\\s*|sub\\s*|declare function\\s*|function\\s*)?(${subName})\\b|\\b(${subName}):`, 'gi'));
-
-					for (let match of matches) {
-						let start: number = match[1] ? match.index + match[0].indexOf(match[1]) : match.index || 0;
-
-						subs.push(
-							new vscode.Range(
-								new vscode.Position(lineNumber, start),
-								new vscode.Position(lineNumber, match.index < 1 ? start + sub.name.length : start + sub.name.length + 1)
-							));
+					// Typescritpt regex sucks.
+					// Remove the comments from the line and parse that.
+					const matches = lineOfCode.replace(/'.*$/, '').trimEnd().matchAll(new RegExp(`\\b(?:call\\s*|gosub\\s*|goto\\s*|declare sub\\s*|sub\\s*|declare function\\s*|function\\s*)?(${subName})\\b|\\b(${subName}):`, 'gi'));
+					for (const match of matches) {
+						const start: number = match[1] ? match.index + match[0].indexOf(match[1]) : match.index || 0;
+						subs.push(new vscode.Range(new vscode.Position(lineNumber, start), new vscode.Position(lineNumber, match.index < 1 ? start + sub.name.length : start + sub.name.length + 1)));
 					}
 				}
 			}
