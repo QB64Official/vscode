@@ -13,7 +13,9 @@ const decorationTypeCurrentRow: vscode.TextEditorDecorationType = vscode.window.
 	}
 );
 
+const diagnosticCollection = vscode.languages.createDiagnosticCollection('extension');
 let lastLine: vscode.Position;
+
 export function setupDecorate() {
 	symbolCache.length = 0;
 
@@ -29,6 +31,16 @@ export function setupDecorate() {
 				}
 			});
 		});
+}
+
+function hasMixedIndentation(lineOfCode: string): boolean {
+	let regex = /^[\t ]+/; // Match spaces or tabs at the start of a string
+	let match = lineOfCode.match(regex);
+	if (match) {
+		let leadingWhitespace = match[0];
+		return leadingWhitespace.includes('\t') && leadingWhitespace.includes(' ');
+	}
+	return false;
 }
 
 function getMetaCommandDecoration(scopeName: string): vscode.TextEditorDecorationType {
@@ -130,15 +142,16 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 		let todos: vscode.Range[] = [];
 		let subs: vscode.Range[] = [];
 		let metacommands: vscode.Range[] = [];
+		let diagnostics: vscode.Diagnostic[] = []
 
 		if (scanAllLines) {
 			const sourceCode = editor.document.getText().split('\n');
 			for (let currrentLineNumber = 0; currrentLineNumber < sourceCode.length; currrentLineNumber++) {
-				decorate(editor, currrentLineNumber, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands, isTodoHighlightEnabled, isRgbColorEnabled);
+				decorate(editor, currrentLineNumber, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands, isTodoHighlightEnabled, isRgbColorEnabled, diagnostics);
 			}
 		} else {
 			if ((lastLine && (lastLine.line !== currrentLine.line))) {
-				decorate(editor, lastLine.line, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands, isTodoHighlightEnabled, isRgbColorEnabled);
+				decorate(editor, lastLine.line, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands, isTodoHighlightEnabled, isRgbColorEnabled, diagnostics);
 			}
 		}
 
@@ -159,6 +172,10 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 		if (todoDecoration) {
 			editor.setDecorations(todoDecoration, todos);
 		}
+
+		//diagnosticCollection.set(editor.document.uri, []);
+		diagnosticCollection.delete(editor.document.uri);
+		diagnosticCollection.set(editor.document.uri, diagnostics);
 
 		if (currrentLine) {
 			const config = vscode.workspace.getConfiguration("qb64");
@@ -192,8 +209,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
  * @param subs Array of subs/functions decorations
  * @returns 
  */
-function decorate(editor: any, lineNumber: number, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[], metacommands: vscode.Range[], isTodoHighlightEnabled: boolean, isRgbColorEnabled: boolean) {
-
+function decorate(editor: any, lineNumber: number, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[], metacommands: vscode.Range[], isTodoHighlightEnabled: boolean, isRgbColorEnabled: boolean, diagnostics: vscode.Diagnostic[]) {
 	let lineOfCode: string = editor.document.lineAt(lineNumber).text;
 
 	if (lineOfCode.trim().length < 2) {
@@ -208,6 +224,15 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 	const green = 1;
 	const blue = 2;
 	try {
+		if (hasMixedIndentation(lineOfCode)) {
+			let diagnostic = new vscode.Diagnostic(
+				new vscode.Range(new vscode.Position(lineNumber, 0), new vscode.Position(lineNumber, Number.MAX_VALUE)),
+				'Mixed Indentation',
+				vscode.DiagnosticSeverity.Information
+			);
+			diagnostics.push(diagnostic);
+		}
+
 
 		//const config = vscode.workspace.getConfiguration("qb64")
 
