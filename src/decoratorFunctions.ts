@@ -123,8 +123,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 				break;
 			}
 			if (!found) {
-				// Can't log the file name. That cause an infinite loop.
-				return;
+				return; // Can't log the file name. That cause an infinite loop.
 			}
 		}
 	}
@@ -142,6 +141,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 		let todos: vscode.Range[] = [];
 		let subs: vscode.Range[] = [];
 		let metacommands: vscode.Range[] = [];
+		let existingDiagnostics: vscode.Diagnostic[] = []
 		let diagnostics: vscode.Diagnostic[] = []
 
 		if (scanAllLines) {
@@ -151,8 +151,23 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 			}
 		} else {
 			if ((lastLine && (lastLine.line !== currrentLine.line))) {
-				decorate(editor, lastLine.line, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands, isTodoHighlightEnabled, isRgbColorEnabled, diagnostics);
+				existingDiagnostics = diagnosticCollection.get(editor.document.uri).filter(diagnostic => diagnostic.range.start.line !== currrentLine.line);
+				decorate(editor, lastLine.line, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands, isTodoHighlightEnabled, isRgbColorEnabled, existingDiagnostics);
 			}
+		}
+
+		if (diagnostics.length > 0 || existingDiagnostics.length > 0) {
+			const mergedDiagnostics = existingDiagnostics.concat(diagnostics);
+			let uniqueMessages = new Set<string>();
+			let uniqueDiagnostics: vscode.Diagnostic[] = [];
+
+			mergedDiagnostics.forEach(diagnostic => {
+				if (!uniqueMessages.has(diagnostic.message)) {
+					uniqueMessages.add(diagnostic.message);
+					uniqueDiagnostics.push(diagnostic);
+				}
+			});
+			diagnosticCollection.set(editor.document.uri, mergedDiagnostics);
 		}
 
 		editor.setDecorations(decorationTypeIncludeLeading, includeLeading);
@@ -172,10 +187,6 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 		if (todoDecoration) {
 			editor.setDecorations(todoDecoration, todos);
 		}
-
-		//diagnosticCollection.set(editor.document.uri, []);
-		diagnosticCollection.delete(editor.document.uri);
-		diagnosticCollection.set(editor.document.uri, diagnostics);
 
 		if (currrentLine) {
 			const config = vscode.workspace.getConfiguration("qb64");
@@ -199,6 +210,21 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 }
 
 /**
+ * Add a diagnostic to the diagnostics array
+ */
+function addDiagnostic(lineNumber: number, lineLenght: number, message: string, diagnostics: vscode.Diagnostic[], diagnosticSeverity: vscode.DiagnosticSeverity) {
+	try {
+		const lineRange = new vscode.Range(new vscode.Position(lineNumber, 0), new vscode.Position(lineNumber, lineLenght));
+		const existingDiagnostic = diagnostics.find(diagnostic => diagnostic.range.isEqual(lineRange) && diagnostic.message === message);
+		if (!existingDiagnostic) {
+			diagnostics.push(new vscode.Diagnostic(lineRange, message, diagnosticSeverity));
+		}
+	} catch (error) {
+		console.log('Error while adding diagnostic:', error);
+	}
+}
+
+/**
  * Decorate a line or loads the an array of decorations
  * @param editor 
  * @param lineNumber Line Number in the code file.
@@ -215,8 +241,8 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		return;
 	}
 
-	const LineOfCodeTrimmed = lineOfCode.trim();
-	if (LineOfCodeTrimmed.length < 2) {
+	const lineOfCodeTrimmed = lineOfCode.trim();
+	if (lineOfCodeTrimmed.length < 2) {
 		return;
 	}
 
@@ -226,10 +252,10 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 	try {
 
 		if (hasMixedIndentation(lineOfCode)) {
-			diagnostics.push(new vscode.Diagnostic(new vscode.Range(new vscode.Position(lineNumber, 0), new vscode.Position(lineNumber, Number.MAX_VALUE)), 'Mixed Indentation', vscode.DiagnosticSeverity.Information));
+			addDiagnostic(lineNumber, lineOfCode.length, "Mixed Indentation", diagnostics, vscode.DiagnosticSeverity.Information);
 		}
 
-		if (LineOfCodeTrimmed.toLocaleLowerCase().startsWith("rem") || ((LineOfCodeTrimmed.startsWith("'") && LineOfCodeTrimmed.toLowerCase().indexOf("include") < 0))) {
+		if (lineOfCodeTrimmed.toLocaleLowerCase().startsWith("rem") || ((lineOfCodeTrimmed.startsWith("'") && lineOfCodeTrimmed.toLowerCase().indexOf("include") < 0))) {
 			// Look for todo
 			if (isTodoHighlightEnabled) {
 				const matches = lineOfCode.matchAll(/(?:'|\brem\b)\s*\b(todo|fixit|fixme)\b:?/ig);
@@ -240,6 +266,10 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 			return;
 		}
 		//logFunctions.writeLine(`decorate(${lineNumber + 1}) | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
+
+		if (lineOfCodeTrimmed.toLowerCase().startsWith("$virtualkeyboard")) {
+			addDiagnostic(lineNumber, lineOfCode.length, "Deprecated feature", diagnostics, vscode.DiagnosticSeverity.Warning);
+		}
 
 		if (isRgbColorEnabled) {
 			const matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);

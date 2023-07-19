@@ -154,17 +154,17 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			code = code.replace(".", " .")
 		} else if (code.toLowerCase().startsWith("$resize")
 			|| code.toLowerCase().startsWith("$versioninfo")
+			|| code.toLowerCase().startsWith("$virtualkeyboard")
 			|| code.toLowerCase().startsWith("$exeicon")
 			|| code.toLowerCase().startsWith("$color")
 			|| code.toLowerCase().startsWith("$checking")) {
-			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0 || code.toLowerCase().indexOf("filedescription") > 0 || code.toLowerCase().indexOf("comments") > 0) {
+			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0 || code.toLowerCase().indexOf("filedescription") > 0 || code.toLowerCase().indexOf("comments") > 0 || code.toLowerCase().indexOf("virtualkeyboard") > 0) {
 				code = code.replace(/\s*:\s*/, ':');
 				code = code.replace(/\s*=\s*/, '=');
 			} else {
 				code = code.replaceAll(/\s*/g, "");
 			}
 		}
-
 		if (!code.toLocaleLowerCase().startsWith("data")) {
 			code = code.replaceAll(/(?<=[0-9])-/g, " - ") // This should be moved to cleanUpCode
 		} else {
