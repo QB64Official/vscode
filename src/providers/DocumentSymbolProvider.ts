@@ -4,7 +4,6 @@ import { symbolCache } from "../extension";
 import { todoTreeProvider } from "../extension";
 import { TodoItem } from "../TodoItem";
 
-
 // Setup the Outline window
 export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 	public provideDocumentSymbols(

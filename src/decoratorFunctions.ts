@@ -4,7 +4,6 @@ import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import { symbolCache } from "./extension";
 
-
 class DecorateArgs {
 	public includeLeading: vscode.Range[] = [];
 	public includeTrailing: vscode.Range[] = [];
@@ -13,17 +12,19 @@ class DecorateArgs {
 	public metacommands: vscode.Range[] = [];
 	public existingDiagnostics: vscode.Diagnostic[] = [];
 	public diagnostics: vscode.Diagnostic[] = [];
-	public IsDebugMode: boolean;
-	public editor: any;
+	public IsDebugMode: boolean = false;
+	public editor: any = null;
 	public lineNumber: number = -1;
-	public isRgbColorEnabled: boolean;
-	public isTodoHighlightEnabled: boolean;
-	public isCurrentRowHighlightEnabled: boolean;
+	public isRgbColorEnabled: boolean = false;
+	public isTodoHighlightEnabled: boolean = false;
+	public isCurrentRowHighlightEnabled: boolean = false;
 	public readonly outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
-	public editorConfig: any;
+	public editorConfig: any = null;
 	public lineOfCode: string = "";
-	public lineOfCodeTrimmed: string = "";
-	public lineLenght = 0;
+	public lineOfCodeTrimmedLowered: string = "";
+	public lineLenght: number = 0;
+	public hasOptionExplicit: boolean = false;
+	public isRunCPCHeckesEnabled: boolean = true;
 
 	constructor() {
 		this.reset();
@@ -32,16 +33,17 @@ class DecorateArgs {
 	public setCode(lineOfCode: string, lineNumber: number) {
 		this.lineOfCode = lineOfCode;
 		this.lineLenght = lineOfCode.length;
-		this.lineOfCodeTrimmed = lineOfCode.trim().toLowerCase();
+		this.lineOfCodeTrimmedLowered = lineOfCode.trim().toLowerCase();
 		this.lineNumber = lineNumber;
 	}
 
-	public reset() {
+	public reset(resetAllScanAll: boolean = false, editor: any = null) {
 		const config = vscode.workspace.getConfiguration("qb64");
 		this.isRgbColorEnabled = config.get("isRgbColorEnabled");
 		this.isTodoHighlightEnabled = config.get("isTodoHighlightEnabled");
 		this.editorConfig = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
 		this.isCurrentRowHighlightEnabled = config.get("isCurrentRowHighlightEnabled");
+		this.isRunCPCHeckesEnabled = config.get("isRunCPCheckesEnabled");
 		this.includeLeading.length = 0;
 		this.includeTrailing.length = 0;
 		this.todos.length = 0;
@@ -49,8 +51,11 @@ class DecorateArgs {
 		this.metacommands.length = 0;
 		this.existingDiagnostics.length = 0;
 		this.diagnostics.length = 0;
+		this.editor = editor;
+		if (resetAllScanAll) {
+			this.hasOptionExplicit = false;
+		}
 	}
-
 }
 
 const decorationTypeCurrentRow: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
@@ -180,37 +185,48 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 
 		const decorationTypeIncludeLeading: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
 		const decorationTypeIncludeTrailing: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
-		decorateArgs.reset();
-		decorateArgs.editor = editor;
 
 		if (scanAllLines) {
+			decorateArgs.reset(true, editor);
 			const sourceCode = editor.document.getText().split('\n');
 			for (let currrentLineNumber = 0; currrentLineNumber < sourceCode.length; currrentLineNumber++) {
 				decorateArgs.lineNumber = currrentLineNumber;
 				decorateArgs.setCode(decorateArgs.editor.document.lineAt(decorateArgs.lineNumber).text, currrentLineNumber)
 				decorate(decorateArgs);
 			}
+
+			if (decorateArgs.isRunCPCHeckesEnabled && !decorateArgs.hasOptionExplicit) {
+				decorateArgs.setCode("", 0);
+				addDiagnostic(decorateArgs, "CP: Should have 'Option Explicit'", vscode.DiagnosticSeverity.Warning);
+			}
+
 		} else {
 			if ((lastLine && (lastLine.line !== currrentLine.line))) {
-				decorateArgs.existingDiagnostics = diagnosticCollection.get(editor.document.uri).filter(diagnostic => diagnostic.range.start.line !== currrentLine.line);
+				decorateArgs.reset(false, editor);
+				decorateArgs.lineNumber = lastLine.line;
+				decorateArgs.existingDiagnostics = diagnosticCollection.get(editor.document.uri).filter(diagnostic => diagnostic.range.start.line !== lastLine.line);
 				decorateArgs.setCode(decorateArgs.editor.document.lineAt(decorateArgs.lineNumber).text, lastLine.line)
 				decorate(decorateArgs);
+
+				if (decorateArgs.hasOptionExplicit) {
+					let diagnostics = diagnosticCollection.get(editor.document.uri);
+					diagnostics = diagnostics.filter(diagnostic => diagnostic.message !== "CP: Should have 'Option Explicit'");
+					diagnosticCollection.set(editor.document.uri, diagnostics);
+				}
+
 			}
 		}
 
-		if (decorateArgs.diagnostics.length > 0 || decorateArgs.existingDiagnostics.length > 0) {
-			const mergedDiagnostics = decorateArgs.existingDiagnostics.concat(decorateArgs.diagnostics);
-			let uniqueMessages = new Set<string>();
-			let uniqueDiagnostics: vscode.Diagnostic[] = [];
-
-			mergedDiagnostics.forEach(diagnostic => {
-				if (!uniqueMessages.has(diagnostic.message)) {
-					uniqueMessages.add(diagnostic.message);
-					uniqueDiagnostics.push(diagnostic);
-				}
-			});
-			diagnosticCollection.set(editor.document.uri, mergedDiagnostics);
-		}
+		const mergedDiagnostics = decorateArgs.existingDiagnostics.concat(decorateArgs.diagnostics);
+		let uniqueMessages = new Set<string>();
+		let uniqueDiagnostics: vscode.Diagnostic[] = [];
+		mergedDiagnostics.forEach(diagnostic => {
+			if (!uniqueMessages.has(diagnostic.message)) {
+				uniqueMessages.add(diagnostic.message);
+				uniqueDiagnostics.push(diagnostic);
+			}
+		});
+		diagnosticCollection.set(editor.document.uri, mergedDiagnostics);
 
 		editor.setDecorations(decorationTypeIncludeLeading, decorateArgs.includeLeading);
 		editor.setDecorations(decorationTypeIncludeTrailing, decorateArgs.includeTrailing);
@@ -279,12 +295,11 @@ function decorate(decorateArgs: DecorateArgs) {
 		return;
 	}
 
-
-	if (decorateArgs.lineOfCodeTrimmed.length < 2) {
+	if (decorateArgs.lineOfCodeTrimmedLowered.length < 2) {
 		return;
 	}
 
-	if (decorateArgs.lineOfCodeTrimmed.startsWith("$debug")) {
+	if (decorateArgs.lineOfCodeTrimmedLowered.startsWith("$debug")) {
 		decorateArgs.IsDebugMode = true;
 	}
 
@@ -297,7 +312,7 @@ function decorate(decorateArgs: DecorateArgs) {
 			addDiagnostic(decorateArgs, "Mixed Indentation", vscode.DiagnosticSeverity.Information);
 		}
 
-		if (decorateArgs.lineOfCodeTrimmed.startsWith("rem") || ((decorateArgs.lineOfCodeTrimmed.startsWith("'") && decorateArgs.lineOfCodeTrimmed.indexOf("include") < 0))) {
+		if (decorateArgs.lineOfCodeTrimmedLowered.startsWith("rem") || ((decorateArgs.lineOfCodeTrimmedLowered.startsWith("'") && decorateArgs.lineOfCodeTrimmedLowered.indexOf("include") < 0))) {
 			// Look for todo
 			if (decorateArgs.isTodoHighlightEnabled) {
 				const matches = decorateArgs.lineOfCode.matchAll(/(?:'|\brem\b)\s*\b(todo|fixit|fixme)\b:?/ig);
@@ -307,13 +322,20 @@ function decorate(decorateArgs: DecorateArgs) {
 			}
 			return;
 		}
-		//logFunctions.writeLine(`decorate(${lineNumber + 1}) | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
 
-		if (decorateArgs.lineOfCodeTrimmed.startsWith("$virtualkeyboard")) {
+		if (decorateArgs.lineOfCodeTrimmedLowered.startsWith("option _explicit") || decorateArgs.lineOfCodeTrimmedLowered.startsWith("option explicit")) {
+			decorateArgs.hasOptionExplicit = true;
+		}
+
+		if (decorateArgs.lineOfCodeTrimmedLowered.startsWith("$virtualkeyboard")) {
 			addDiagnostic(decorateArgs, "Deprecated feature", vscode.DiagnosticSeverity.Warning);
 		}
 
-		if (decorateArgs.IsDebugMode && decorateArgs.lineOfCodeTrimmed.startsWith("$checking") && decorateArgs.lineOfCodeTrimmed.endsWith("off")) {
+		if (decorateArgs.isRunCPCHeckesEnabled && decorateArgs.lineOfCodeTrimmedLowered.match(/^(?!('|rem).*).*\bgoto\b/im)) {
+			addDiagnostic(decorateArgs, "CP: Avoid using GOTO", vscode.DiagnosticSeverity.Warning);
+		}
+
+		if (decorateArgs.IsDebugMode && decorateArgs.lineOfCodeTrimmedLowered.startsWith("$checking") && decorateArgs.lineOfCodeTrimmedLowered.endsWith("off")) {
 			addDiagnostic(decorateArgs, "$Debug features won't work in $Checking:Off blocks", vscode.DiagnosticSeverity.Warning);
 		}
 
@@ -328,8 +350,15 @@ function decorate(decorateArgs: DecorateArgs) {
 			}
 		}
 
-		let match = decorateArgs.lineOfCode.match(/'\$INCLUDE:/i)
-		if (match !== null && match.index !== undefined) {
+		if (decorateArgs.isRunCPCHeckesEnabled) {
+			let match: RegExpMatchArray = decorateArgs.lineOfCode.match(/^dim\s+\b([a-hj-z]\$?%?&?!?#?)(\s+as\s+\w+)?\b/gi)
+			if (match) {
+				addDiagnostic(decorateArgs, "CP: Avoid single letter variable names", vscode.DiagnosticSeverity.Information);
+			}
+		}
+
+		let match: RegExpMatchArray = decorateArgs.lineOfCode.match(/'\$INCLUDE:/i)
+		if (match && match.index !== undefined) {
 			decorateArgs.includeLeading.push(commonFunctions.createRange(match, decorateArgs.lineNumber, 0));
 			match = decorateArgs.lineOfCode.match(/'(.*)'/i)
 			if (match !== null && match.index !== undefined) {
