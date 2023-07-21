@@ -579,26 +579,26 @@ class DebugAdapter extends debug.DebugSession {
 		const variables: DebugProtocol.Variable[] = [];
 		const scope = this.variableHandles.get(args.variablesReference);
 
+		/*
 		if (scope === 'local') {
 			const variable1 = {
 				name: "name1",
 				value: "tom",
 				variablesReference: 0
 			};
+			variables.push(variable1);
+			this.variables[variable1.name] = variable1;
 			const variable2 = {
 				name: "name$",
 				value: "var with a $",
 				variablesReference: 0
 			};
-			variables.push(variable1);
-			variables.push(variable2);
-
-			// Store the variables
-			this.variables[variable1.name] = variable1;
 			this.variables[variable2.name] = variable2;
+			variables.push(variable2);						
 		}
+		*/
 
-		response.body = { variables: variables };
+		//response.body = { variables: variables };
 		this.sendResponse(response);
 	}
 
