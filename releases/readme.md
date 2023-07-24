@@ -10,6 +10,10 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 1.0.1
+- Enchantments
+  - Added the setting filesToSkip.  This is list of files to not run the CP checks against
+
 ## 1.0.0
 - Enchantments
   - Added debugging
