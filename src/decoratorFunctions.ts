@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import { symbolCache } from "./extension";
+import * as path from 'path';
 
 class DecorateArgs {
 	public includeLeading: vscode.Range[] = [];
@@ -24,7 +25,7 @@ class DecorateArgs {
 	public lineOfCodeTrimmedLowered: string = "";
 	public lineLenght: number = 0;
 	public hasOptionExplicit: boolean = false;
-	public isRunCPCHeckesEnabled: boolean = true;
+	public isRunCPCheckesEnabled: boolean = false;
 
 	constructor() {
 		this.reset();
@@ -43,7 +44,14 @@ class DecorateArgs {
 		this.isTodoHighlightEnabled = config.get("isTodoHighlightEnabled");
 		this.editorConfig = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
 		this.isCurrentRowHighlightEnabled = config.get("isCurrentRowHighlightEnabled");
-		this.isRunCPCHeckesEnabled = config.get("isRunCPCheckesEnabled");
+
+		const filesToSkip: string[] = config.get('filesToSkip', []).map(file => file.toLowerCase());
+		if (editor && filesToSkip.includes(path.parse(editor.document.fileName.toLowerCase()).base)) {
+			this.isRunCPCheckesEnabled = false;
+		} else {
+			this.isRunCPCheckesEnabled = config.get("isRunCPCheckesEnabled");
+		}
+
 		this.includeLeading.length = 0;
 		this.includeTrailing.length = 0;
 		this.todos.length = 0;
@@ -195,12 +203,15 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 				decorate(decorateArgs);
 			}
 
-			if (decorateArgs.isRunCPCHeckesEnabled && !decorateArgs.hasOptionExplicit) {
-				decorateArgs.setCode("", 0);
-				addDiagnostic(decorateArgs, "CP: Should have 'Option Explicit'", vscode.DiagnosticSeverity.Warning);
+			if (decorateArgs.isRunCPCheckesEnabled && !decorateArgs.hasOptionExplicit) {
+				if (path.extname(editor.document.uri.fsPath).toLowerCase() == ".bas") {
+					decorateArgs.setCode("", 0);
+					addDiagnostic(decorateArgs, "CP: Should have 'Option Explicit'", vscode.DiagnosticSeverity.Warning);
+				}
 			}
 
 		} else {
+
 			if ((lastLine && (lastLine.line !== currrentLine.line))) {
 				decorateArgs.reset(false, editor);
 				decorateArgs.lineNumber = lastLine.line;
@@ -331,7 +342,7 @@ function decorate(decorateArgs: DecorateArgs) {
 			addDiagnostic(decorateArgs, "Deprecated feature", vscode.DiagnosticSeverity.Warning);
 		}
 
-		if (decorateArgs.isRunCPCHeckesEnabled && decorateArgs.lineOfCodeTrimmedLowered.match(/^(?!('|rem).*).*\bgoto\b/im)) {
+		if (decorateArgs.isRunCPCheckesEnabled && decorateArgs.lineOfCodeTrimmedLowered.match(/^(?!('|rem).*).*\bgoto\b/im)) {
 			addDiagnostic(decorateArgs, "CP: Avoid using GOTO", vscode.DiagnosticSeverity.Warning);
 		}
 
@@ -343,14 +354,13 @@ function decorate(decorateArgs: DecorateArgs) {
 			const matches = decorateArgs.lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 			if (matches) {
 				for (const match of matches) {
-					//logFunctions.writeLine(`lineNumber: ${lineNumber} | RGB Match Found at Column: ${match.index}`, outputChannnel);
 					let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
 					decorateArgs.editor.setDecorations(vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})`, borderRadius: "5px" }), [commonFunctions.createRange(match, decorateArgs.lineNumber, 0)]);
 				}
 			}
 		}
 
-		if (decorateArgs.isRunCPCHeckesEnabled) {
+		if (decorateArgs.isRunCPCheckesEnabled) {
 			let match: RegExpMatchArray = decorateArgs.lineOfCode.match(/^dim\s+\b([a-hj-z]\$?%?&?!?#?)(\s+as\s+\w+)?\b/gi)
 			if (match) {
 				addDiagnostic(decorateArgs, "CP: Avoid single letter variable names", vscode.DiagnosticSeverity.Information);

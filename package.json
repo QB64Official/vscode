@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "engines": {
         "vscode": "^1.78.1"
     },
@@ -167,7 +167,7 @@
                 },
                 "qb64.debuggeeWaitTime": {
                     "type": "number",
-                    "default": 15,
+                    "default": 25,
                     "description": "Debugger: the tcpip wait time in milliseconds."
                 },
                 "qb64.isOpenHelpInEditModeEnabled": {
@@ -179,6 +179,14 @@
                     "type": "boolean",
                     "default": true,
                     "description": "CP:Enable Add warning for good code practice violations."
+                },
+                "qb64.filesToSkip": {
+                    "type": "array",
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "CP: An array of file to not run CP on."
                 }
             }
         },

@@ -53,14 +53,14 @@ export function createFiles() {
 				"label": "Clean QB64",
 				"type": "shell",
 				"options": {
-					"cwd": "` + "${config:qb64.installPath}/internal" + `",
+					"cwd": "` + "${config:qb64.installPath}/internal" + `"
 				},
 				"command": "` + "${config:qb64.installPath}/internal/clean.bat" + `",
 				"linux": {
-					"command":"` + "${config:qb64.installPath}/internal/clean.sh" + `",
+					"command":"` + "${config:qb64.installPath}/internal/clean.sh" + `"
 				},
 				"osx": {
-					"command":"` + "${config:qb64.installPath}/internal/clean.sh" + `",
+					"command":"` + "${config:qb64.installPath}/internal/clean.sh" + `"
 				},
 				"group": {
 					"kind": "build",
@@ -120,6 +120,12 @@ export function createFiles() {
 		"workbench.editorAssociations": { "*.md": "vscode.markdown.preview.editor"	},
 		"debug.console.wordWrap": false,
 		"files.defaultLanguage": "QB64",
+		"qb64.filesToSkip": [
+			"qb64.bas",
+			"qb64pe.bas",
+			"vwatch.bm",
+			"vwatch2.bm"
+		],
 		"editor.tokenColorCustomizations": {
 			"textMateRules": [
 				{

@@ -404,7 +404,7 @@ class DebugAdapter extends debug.DebugSession {
 		const messageUnits = this.debuggee.splitMessage(message);
 		for (let i: number = 0; i < messageUnits.length; i++) {
 			if (messageUnits[i].includes(DebugCommands.Hwnd)) {
-				await this.debuggee.write(`${DebugCommands.Hwnd}${this.debuggee.getUnitValue(messageUnits[i])}}`);
+				await this.debuggee.write(`${DebugCommands.Hwnd}${this.debuggee.getUnitValue(messageUnits[i].trim())}}`);
 			}
 
 			if (messageUnits[i].includes(DebugCommands.PaddingSize)) {
@@ -429,6 +429,7 @@ class DebugAdapter extends debug.DebugSession {
 				}
 			});
 			if (breakpointCount > 0) {
+				console.log("Setting Breakpoints");
 				await this.debuggee.write(`${DebugCommands.BreakpointCount}${breakpointCount}`);
 				await this.debuggee.write(`${DebugCommands.BreakpointList}${breakPoints}`);
 			}
@@ -732,12 +733,14 @@ class DebugAdapter extends debug.DebugSession {
 	}
 
 	deleteQB64Log(compilerPath: any): void {
-		const logFile = path.dirname(compilerPath) + "/qb64.log"
-		this.writeToDebugConsole(`$Delete log file here might|This File?: ${logFile}`);
+		let parsedPath = path.parse(compilerPath);
+		parsedPath.ext = '.log';
+		parsedPath.base = `${parsedPath.name}${parsedPath.ext}`;
+		const logFile = path.format(parsedPath);
 		if (fs.existsSync(logFile)) {
-			this.writeToDebugConsole(`File '${logFile}' Found`);
+			// this.writeToDebugConsole(`File '${logFile}' Found`);
 		} else {
-			this.writeToDebugConsole(`File '${logFile}' Not Found`);
+			// this.writeToDebugConsole(`File '${logFile}' Not Found`);
 		}
 		//TODO: delete qb64.log
 		/*
