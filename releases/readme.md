@@ -25,6 +25,7 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Issue [#117](https://github.com/QB64Official/vscode/issues/117) Pressing F12 on $ExeIcon does not open the icon file.
   - Issue [#7](https://github.com/QB64Official/vscode/issues/7) Add TODO view that works like the outline.
 - Bugs
+  - Issue [#131](https://github.com/QB64Official/vscode/issues/131) Lint: Deleted the source file not the binary
   - Issue [#127](https://github.com/QB64Official/vscode/issues/127) Formatter: Breaks "$Checking:off"
   - Issue [#126](https://github.com/QB64Official/vscode/issues/126) Formatter: Breaks some single line ifs
   - Issue [#125](https://github.com/QB64Official/vscode/issues/125) Formatter: Removes spaces from $VERSIONINFO:Comments

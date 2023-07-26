@@ -809,7 +809,7 @@ class DebugAdapter extends debug.DebugSession {
 			*/
 
 			let env: any = { ...process.env }; // Make a copy of the current environment variables
-			env.QB64DBVER = "2";
+			env.QB64IDEVER = "2";
 			const compiler = spawn(compilerPath, compilerArgs,
 				{
 					cwd: path.dirname(args.program),

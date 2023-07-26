@@ -165,7 +165,7 @@ function isOutputWindowActive(activeEditor: { document: { uri: { scheme: any; };
  */
 export function scanFile(editor: any, scanAllLines: boolean) {
 
-	if (!editor || isOutputWindowActive(editor) || editor.document.languageId.toLowerCase() === "log" || editor.document.languageId.toLowerCase() === "jsonc" || editor.document.fileName.toLowerCase().indexOf("qb64: ") > 0) {
+	if (!editor || !editor.document || isOutputWindowActive(editor) || editor.document.languageId.toLowerCase() === "log" || editor.document.languageId.toLowerCase() === "jsonc" || editor.document.fileName.toLowerCase().indexOf("qb64: ") > 0) {
 		return;
 	}
 
