@@ -5,6 +5,7 @@ import { exec } from "child_process";
 import * as commonFunctions from "./commonFunctions";
 import * as logFunctions from "./logFunctions";
 import os from 'os';
+import fs from 'fs';
 
 var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('QB64-lint')
 
@@ -40,17 +41,25 @@ export function runLint() {
 
 		let sourceCode = vscode.window.activeTextEditor.document.fileName;
 		let baseFilename = path.dirname(sourceCode) + "/" + path.basename(sourceCode);
-		let exeName = baseFilename;
+		let binaryName = baseFilename;
 
 		if (os.platform() == "win32") {
-			exeName = exeName + '.exe';
+			binaryName = binaryName + '.exe';
+		} else {
+			binaryName = binaryName + '.bin';
 		}
 
-		const command = `${compilerPath} -c "${sourceCode}" -o "${exeName}" -x -w `;
+		const command = `${compilerPath} -c "${sourceCode}" -o "${binaryName}" -x -w `;
 		outputChannnel.clear();
 		if (config.get("isShowLintChannelEnabled")) {
 			outputChannnel.show(true)
 		}
+
+		if (!fs.existsSync(binaryName)) {
+			logFunctions.writeLine(`File: ${binaryName} Not Found`, outputChannnel);
+			return;
+		}
+
 		logFunctions.writeLine(`Running: ${command}`, outputChannnel);
 
 		exec(command, (error, stdout, stderr) => {
@@ -63,8 +72,10 @@ export function runLint() {
 			if (stdout) {
 				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
 				lintCurrentFile(stdout);
-				logFunctions.writeLine(`Delete file ${exeName}`, outputChannnel);
-				deleteFile(exeName, outputChannnel);
+				logFunctions.writeLine(`Delete file ${binaryName}`, outputChannnel);
+				if (sourceCode != binaryName) {
+					deleteFile(binaryName, outputChannnel);
+				}
 			} else {
 				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
 			}
@@ -84,8 +95,10 @@ function deleteFile(fileName: string, outputChannnel: any) {
 	const { unlink } = require('fs/promises');
 	(async function (path) {
 		try {
-			await unlink(path);
-			logFunctions.writeLine(`File ${path} Deleted`, outputChannnel)
+			if (fs.existsSync(path)) {
+				await unlink(path);
+				logFunctions.writeLine(`File ${path} Deleted`, outputChannnel)
+			}
 		} catch (error) {
 			logFunctions.writeLine(`ERROR in deleteFile: ${error.message}`, outputChannnel)
 		}
