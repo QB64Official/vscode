@@ -194,16 +194,8 @@ enum DebugCategories {
 export function createDebuggerInterface(vsCodePort: number) {
 	// Create a server that VS Code can connect to
 	let server = net.createServer(async function (socket: net.Socket) {
-		// 'connection' listener
-		socket.on('end', function () {
-			let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.debugger);
-			logFunctions.writeLine(outputChannnel, `[${commonFunctions.getCurrentDateTime()}]DebugAdapter Disconnected`);
-		});
-
-		// When data is received from VS Code, handle it with the debug adapter
-		socket.on('data', function (data) {
-			debugerSession.handleDataFromVsCode(data);
-		});
+		socket.on('end', function () { console.log(`[${commonFunctions.getCurrentDateTime()}]DebugAdapter Disconnected`); });
+		socket.on('data', function (data) { debugerSession.handleDataFromVsCode(data); });
 
 		let debugerSession = new DebugAdapter(socket);
 		await debugerSession.startDebuggeeConnection()
@@ -212,10 +204,13 @@ export function createDebuggerInterface(vsCodePort: number) {
 	});
 
 	server.listen(vsCodePort, function () {
-		let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.debugger);
-		logFunctions.writeLine(outputChannnel, 'server listening on port ' + server.address());
+		const address = server.address();
+		if (typeof address === 'string') {
+			console.log(`server is listening at ${address}`);
+		} else {
+			console.log(`server listening on port ${address?.port}`);
+		}
 	});
-
 	return server;
 }
 
@@ -277,6 +272,7 @@ class DebugAdapter extends debug.DebugSession {
 			this.debuggee.socket.on('data', async (data) => {
 
 				let message: string = data.toString();
+
 
 				if (!message.startsWith(this.debuggee.startOfTransmission)) {
 					await this.writeLineToDebugConsole(`Invalid message | Missing STX: ${message}`);

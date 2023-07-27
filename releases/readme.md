@@ -10,6 +10,11 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 1.0.2
+   - Bugs
+     - Fixed a couple of errors showing in the console.
+     - Added "debug.allowBreakpointsEverywhere": true to the settings.json
+     
 ## 1.0.1
 - Enchantments
   - Added the setting filesToSkip.  This is list of files to not run the CP checks against

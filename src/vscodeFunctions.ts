@@ -119,6 +119,7 @@ export function createFiles() {
 		"editor.multiCursorModifier": "ctrlCmd",
 		"workbench.editorAssociations": { "*.md": "vscode.markdown.preview.editor"	},
 		"debug.console.wordWrap": false,
+		"debug.allowBreakpointsEverywhere": true,
 		"files.defaultLanguage": "QB64",
 		"qb64.filesToSkip": [
 			"qb64.bas",
