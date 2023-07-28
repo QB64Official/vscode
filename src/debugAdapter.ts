@@ -345,7 +345,6 @@ class DebugAdapter extends debug.DebugSession {
 
 		// TODO: Somehow handle include files
 		for (let i: number = stacks.length - 1; i >= 0; i--) {
-			this.writeLineToDebugConsole(stacks[i], DebugCategories.Console);
 			const stackInfo = stacks[i].split(",");
 			const stack: DebugProtocol.StackFrame = {
 				id: i,
