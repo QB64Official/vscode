@@ -245,7 +245,7 @@ class DebugAdapter extends debug.DebugSession {
 
 
 	async startDebuggeeConnection() {
-		this.debuggee.port = await getPort();
+		this.debuggee.port = await getPort("debuggerPort");
 		this.debuggee.server = net.createServer((socket) => {
 
 			if (!this.isDebuggerRunning || !this.debuggee.attached) {

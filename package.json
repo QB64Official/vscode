@@ -170,10 +170,15 @@
                     "default": 25,
                     "description": "Debugger: the tcpip wait time in milliseconds."
                 },
-                "qb64.debugger": {
+                "qb64.debuggerPort": {
                     "type": "number",
                     "default": 0,
                     "description": "Debugger: The port for the debugger to use.  0 (default) for a random port."
+                },
+                "qb64.vsCodePort": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Debugger: The port used by VSCode for debugging.  0 (default) for a random port."
                 },
                 "qb64.isOpenHelpInEditModeEnabled": {
                     "type": "boolean",

@@ -133,7 +133,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// The number are to make sure the port is in the range of 1024 to 49151
 	// Don't loop forever.
-	let vsCodePort: number = await getPort();
+	let vsCodePort: number = await getPort("vsCodePort");
 
 	if (vsCodePort >= 1024) {
 		createDebuggerInterface(vsCodePort);
@@ -147,15 +147,20 @@ export async function activate(context: vscode.ExtensionContext) {
 	}
 }
 
-export async function getPort(): Promise<number> {
+export async function getPort(portType: string = ""): Promise<number> {
+	if (!portType || portType.length < 1) {
+		console.log(`${consolePrefix}Porttype: not set.`);
+		return -1;
+	}
+
 	const config = vscode.workspace.getConfiguration("qb64")
-	let port: number = config.get("debugPort");
-	if (port > 0) {
+	let port: number = config.get(portType);
+	if (port && port > 0) {
 		if ((await isPortInUse(port))) {
 			port = -1;
 			console.log(`${consolePrefix}Port: ${port} already in use.`);
 		} else {
-			console.log(`${consolePrefix}Using port: ${port} from settings`);
+			console.log(`${consolePrefix}Using port: ${port} from setting ${portType}`);
 		}
 		return port;
 	}
