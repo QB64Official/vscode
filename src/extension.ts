@@ -39,6 +39,7 @@ import { decorationSkipLine } from "./debugAdapter"
 //             ]
 //         }
 
+export var consolePrefix: string = "QB64: ";
 export var activeEditor: vscode.TextEditor | undefined = undefined;
 export var skipLineRanges: vscode.Range[] = []; // Global variable to keep track of the decorations
 export var symbolCache: vscode.DocumentSymbol[] = [];
@@ -146,9 +147,19 @@ export async function activate(context: vscode.ExtensionContext) {
 	}
 }
 
-
 export async function getPort(): Promise<number> {
-	let port: number = -1;
+	const config = vscode.workspace.getConfiguration("qb64")
+	let port: number = config.get("debugPort");
+	if (port > 0) {
+		if ((await isPortInUse(port))) {
+			port = -1;
+			console.log(`${consolePrefix}Port: ${port} already in use.`);
+		} else {
+			console.log(`${consolePrefix}Using port: ${port} from settings`);
+		}
+		return port;
+	}
+
 	for (let i: number = 0; i < 20; i++) {
 		try {
 			let testPort = Math.floor(Math.random() * (49151 - 1024 + 1)) + 1024
@@ -157,7 +168,7 @@ export async function getPort(): Promise<number> {
 				break;
 			}
 		} catch (err) {
-			console.log('Error when checking port:', err);
+			console.log(`${consolePrefix}Error when checking port: ${err}`, err);
 			port = -1;
 		}
 	}

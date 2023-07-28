@@ -10,6 +10,11 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 1.0.3
+- Enchantments
+  - Added the setting debuggerPort.  Port to use when debugging defualt is 0 - 0 means use a random open port.
+  - Added const to the variables pane
+
 ## 1.0.2
    - Bugs
      - Fixed a couple of errors showing in the console.

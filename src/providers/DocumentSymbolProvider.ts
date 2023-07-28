@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import { symbolCache } from "../extension";
 import { todoTreeProvider } from "../extension";
 import { TodoItem } from "../TodoItem";
+import { clearConstVariables, constVariables } from "../debugAdapter";
 
 // Setup the Outline window
 export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
@@ -10,6 +11,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 		document: vscode.TextDocument,
 		_token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
 		return new Promise(function (resolve, _reject): void {
+			clearConstVariables();
 
 			function getParams(code: string) {
 				return code.trim().substring(code.trim().indexOf("(") + 1, code.trim().lastIndexOf(")"));
@@ -59,11 +61,6 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 					symbolText = (line.text.trim().indexOf("(") != -1) ? 'Declare Function (' + getParams(line.text) + ')' : 'Declare Function';
 				}
 				else if (/^\s*\w+:\s*$/.test(lineText)) {
-
-					if (lineText.indexOf("exitdebugmode") >= 0) {
-						console.log("Here 0");
-					}
-
 					symbolKind = vscode.SymbolKind.Method;
 					symbolText = line.text.trim();
 				}
@@ -74,7 +71,13 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 						symbol = line.text.trim().substring(6, equal_pos - 1).trim();
 						if (symbol != '_') {
 							symbolKind = vscode.SymbolKind.Constant;
-							symbolText = '= ' + line.text.trim().substring(equal_pos + 1);
+							symbolText = '= ' + line.text.trim().substring(equal_pos + 1).trim();
+							constVariables.push(
+								{
+									name: symbol,
+									value: line.text.trim().substring(equal_pos + 1).trim(),
+									variablesReference: 0
+								});
 						}
 					}
 				}
@@ -131,9 +134,9 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 					symbolText = 'Loop';
 				}
 
-				if (symbol.toLocaleLowerCase().indexOf("exitdebugmode") >= 0) {
-					console.log("Here 0");
-				}
+				// if (symbol.toLocaleLowerCase().indexOf("exitdebugmode") >= 0) {
+				// 	console.log(`${consolePrefix}Here 0`);
+				// }
 
 				if (symbolKind) {
 
