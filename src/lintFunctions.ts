@@ -4,8 +4,9 @@ import path from "path";
 import { exec } from "child_process";
 import * as commonFunctions from "./commonFunctions";
 import * as logFunctions from "./logFunctions";
-import os from 'os';
-import fs from 'fs';
+import os from "os";
+import fs from "fs";
+import { globalCache } from "./globalCache";
 
 var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('QB64-lint')
 
@@ -21,7 +22,7 @@ export function runLint() {
 			return;
 		}
 
-		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
+		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {

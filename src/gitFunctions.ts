@@ -2,13 +2,14 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import * as logFunctions from "./logFunctions"
+import { globalCache } from "./globalCache"
 
 export function createGitignore() {
 
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.git);
 	try {
 
-		const config = vscode.workspace.getConfiguration("qb64")
+		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
 		const isCreateGitIgnoreEnabled: boolean = config.get("isCreateGitIgnoreEnabled");
 
 		if (!isCreateGitIgnoreEnabled) {

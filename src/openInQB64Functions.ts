@@ -2,6 +2,7 @@
 import { exec } from "child_process";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
+import { globalCache } from "./globalCache";
 
 export function openCurrentFileInQB64() {
 	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.openInQB64);
@@ -12,7 +13,7 @@ export function openCurrentFileInQB64() {
 		}
 
 		logFunctions.writeLine("Starting Open In QB64", outputChannnel);
-		const config = vscode.workspace.getConfiguration("qb64")
+		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {

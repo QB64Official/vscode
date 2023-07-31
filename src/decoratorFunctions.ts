@@ -2,8 +2,8 @@
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
-import { symbolCache } from "./extension";
-import * as path from 'path';
+import { globalCache } from "./globalCache"
+import * as path from "path";
 
 class DecorateArgs {
 	public includeLeading: vscode.Range[] = [];
@@ -39,7 +39,7 @@ class DecorateArgs {
 	}
 
 	public reset(resetAllScanAll: boolean = false, editor: any = null) {
-		const config = vscode.workspace.getConfiguration("qb64");
+		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
 		this.isRgbColorEnabled = config.get("isRgbColorEnabled");
 		this.isTodoHighlightEnabled = config.get("isTodoHighlightEnabled");
 		this.editorConfig = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
@@ -80,7 +80,7 @@ let lastLine: vscode.Position;
 let decorateArgs: DecorateArgs = new DecorateArgs();
 
 export function setupDecorate() {
-	symbolCache.length = 0;
+	globalCache.symbols.length = 0;
 
 	// Needed for the first opening VsCode
 	vscode.commands.executeCommand<vscode.DocumentSymbol[]>('vscode.executeDocumentSymbolProvider', vscode.window.activeTextEditor.document.uri)
@@ -136,7 +136,7 @@ function getSubDecoration(decorateArgs: DecorateArgs): vscode.TextEditorDecorati
 			return decorationTypeSub;
 		}
 
-		const config: any = vscode.workspace.getConfiguration("qb64");
+		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
 		let userFunctionColorRule: any = textMateRules.find(rule => rule.scope == 'userfunctions.QB64');
 		let userFunctionColor: string = userFunctionColorRule ? userFunctionColorRule.settings.foreground : undefined;
 		let fontWeight: string = config.get("isBoldingSubsAndFunctionsEnabled") ? "bolder" : "normal";
@@ -399,10 +399,10 @@ function decorate(decorateArgs: DecorateArgs) {
 			}
 		}
 
-		if (symbolCache && symbolCache.length > 0) {
+		if (globalCache.symbols && globalCache.symbols.length > 0) {
 			const tokens: string[] = Array.from(new Set(decorateArgs.lineOfCode.replace(/'.*$/, '').trimEnd().split(/[\s(]+/).filter(token => token.trim() !== '')));
 			for (let tokenIndex = 0; tokenIndex < tokens.length; tokenIndex++) {
-				const sub = symbolCache.find((s) => s.name && s.name === tokens[tokenIndex].trim().toLowerCase().replace(/(call|gosub|goto|:)$/i, ""));
+				const sub = globalCache.symbols.find((s) => s.name && s.name === tokens[tokenIndex].trim().toLowerCase().replace(/(call|gosub|goto|:)$/i, ""));
 				if (sub) {
 					let subName = commonFunctions.escapeRegExp(sub.name)
 

@@ -4,6 +4,7 @@ import * as commonFunctions from "../commonFunctions";
 import * as logFunctions from "../logFunctions";
 import * as fs from "fs";
 import { TokenInfo } from "../TokenInfo"
+import { globalCache } from "../globalCache";
 
 export class HoverProvider implements vscode.HoverProvider {
 
@@ -15,7 +16,7 @@ export class HoverProvider implements vscode.HoverProvider {
 			return null;
 		}
 
-		const config = vscode.workspace.getConfiguration("qb64");
+		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
 		if (!config.get("isHoverTextFileEnabled")) {
 			logFunctions.writeLine("Hovertext is disabled.", this.outputChannnel);
 			return null;

@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
+import { globalCache } from "./globalCache";
 
 export class TokenInfo {
 	private outputChannnel: any = null;
@@ -43,7 +44,7 @@ export class TokenInfo {
 
 		this.token = token;
 		this.keyword = token;
-		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
+		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
 		const path = require('path');
 
 		let helpPath: string = config.get("helpPath");
@@ -160,7 +161,7 @@ export class TokenInfo {
 		let retvalue = ""
 		if (this.isKeyword) {
 			if (this.offlinehelp.length > 0) {
-				const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
+				const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
 				let helpPath: string = config.get("helpPath");
 				retvalue = fs.readFileSync(this.offlinehelp).toString();
 				retvalue = retvalue.replaceAll(/\[([\w|\$]*)\]\(([\w|\$]*)\)/igm, '[$1](file:' + helpPath.replaceAll('\\', '/') + '/$1.md)');
@@ -176,7 +177,7 @@ export class TokenInfo {
 	 */
 	public showHelp() {
 		try {
-			const config = vscode.workspace.getConfiguration("qb64");
+			const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
 			if (this.offlinehelp.length > 0) {
 				if (config.get("isOpenHelpInEditModeEnabled")) {
 					logFunctions.writeLine(`Open ${this.offlinehelp} in edit mode`, this.outputChannnel);

@@ -18,34 +18,17 @@ import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEd
 import { HoverProvider } from "./providers/HoverProvider";
 import { createDebuggerInterface } from './debugAdapter';
 import net from 'net';
-import { TodoTreeProvider } from "./TodoTreeProvider";
 import { DebugCommands } from "./debugAdapter"
-import { decorationSkipLine } from "./debugAdapter"
+import { globalCache } from "./globalCache"
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
 
-// TODO: Get the TODOs window working.
-// 	This needs to go in the package.json in the contributes
-// 	,
-//         "views": {
-//             "explorer": [
-//                 {
-//                     "id": "todo",
-//                     "name": "TODOs",
-//                     "icon": "images\\todo.svg",
-//                     "contextualTitle": "View TODOs"
-//                 }
-//             ]
-//         }
+//export var cache: GlobalCache = new GlobalCache();
 
-export var consolePrefix: string = "QB64: ";
-export var activeEditor: vscode.TextEditor | undefined = undefined;
-export var skipLineRanges: vscode.Range[] = []; // Global variable to keep track of the decorations
-export var symbolCache: vscode.DocumentSymbol[] = [];
-export var todoTreeProvider: TodoTreeProvider = null;
 export async function activate(context: vscode.ExtensionContext) {
-	const config = vscode.workspace.getConfiguration("qb64")
+	//cache = new GlobalCache();
+	const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
 	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
 
 	vscode.workspace.onWillSaveTextDocument(() => {
@@ -91,26 +74,26 @@ export async function activate(context: vscode.ExtensionContext) {
 				new vscode.Position(lineNumber, vscode.window.activeTextEditor.document.lineAt(lineNumber).text.length)
 			);
 
-			const index = skipLineRanges.findIndex(r => r.start.line === range.start.line && r.end.line === range.end.line);
+			const index = globalCache.skipLineRanges.findIndex(r => r.start.line === range.start.line && r.end.line === range.end.line);
 
 			if (index !== -1) {
-				skipLineRanges.splice(index, 1);
+				globalCache.skipLineRanges.splice(index, 1);
 				vscode.debug.activeDebugSession.customRequest(DebugCommands.ClearSkipLine, { line: lineNumber });
 			} else {
-				skipLineRanges.push(range);
+				globalCache.skipLineRanges.push(range);
 				vscode.debug.activeDebugSession.customRequest(DebugCommands.SetSkipLine, { line: lineNumber });
 			}
-			if (vscode.window.activeTextEditor && !activeEditor) {
-				activeEditor = vscode.window.activeTextEditor
+			if (vscode.window.activeTextEditor && !globalCache.activeEditor) {
+				globalCache.activeEditor = vscode.window.activeTextEditor
 			}
 			// Update decorations
-			vscode.window.activeTextEditor.setDecorations(decorationSkipLine, skipLineRanges);
+			vscode.window.activeTextEditor.setDecorations(globalCache.decorationSkipLine, globalCache.skipLineRanges);
 		}
 	});
 
 	vscode.commands.registerCommand('extension.skipLineClearAll', () => {
-		skipLineRanges.length = 0;
-		vscode.window.activeTextEditor.setDecorations(decorationSkipLine, skipLineRanges);
+		globalCache.skipLineRanges.length = 0;
+		vscode.window.activeTextEditor.setDecorations(globalCache.decorationSkipLine, globalCache.skipLineRanges);
 		vscode.debug.activeDebugSession.customRequest(DebugCommands.ClearAllSkips);
 	});
 
@@ -125,10 +108,8 @@ export async function activate(context: vscode.ExtensionContext) {
 		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
 	}
 
-	// Todo window stuff
-	todoTreeProvider = new TodoTreeProvider();
-	vscode.window.registerTreeDataProvider('todo', todoTreeProvider);
-	vscode.commands.registerCommand('extension.refreshTodo', () => todoTreeProvider.refresh());
+	vscode.window.registerTreeDataProvider('todo', globalCache.todoTreeProvider);
+	vscode.commands.registerCommand('extension.refreshTodo', () => globalCache.todoTreeProvider.refresh());
 
 
 	// The number are to make sure the port is in the range of 1024 to 49151
@@ -149,7 +130,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 export async function getPort(portType: string = ""): Promise<number> {
 	if (!portType || portType.length < 1) {
-		console.log(`${consolePrefix}Porttype: not set.`);
+		console.log(`${globalCache.consolePrefix}Porttype: not set.`);
 		return -1;
 	}
 
@@ -158,9 +139,9 @@ export async function getPort(portType: string = ""): Promise<number> {
 	if (port && port > 0) {
 		if ((await isPortInUse(port))) {
 			port = -1;
-			console.log(`${consolePrefix}Port: ${port} already in use.`);
+			console.log(`${globalCache.consolePrefix}Port: ${port} already in use.`);
 		} else {
-			console.log(`${consolePrefix}Using port: ${port} from setting ${portType}`);
+			console.log(`${globalCache.consolePrefix}Using port: ${port} from setting ${portType}`);
 		}
 		return port;
 	}
@@ -173,7 +154,7 @@ export async function getPort(portType: string = ""): Promise<number> {
 				break;
 			}
 		} catch (err) {
-			console.log(`${consolePrefix}Error when checking port: ${err}`, err);
+			console.log(`${globalCache.consolePrefix}Error when checking port: ${err}`, err);
 			port = -1;
 		}
 	}

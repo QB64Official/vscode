@@ -1,9 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
-import { symbolCache } from "../extension";
-import { todoTreeProvider } from "../extension";
 import { TodoItem } from "../TodoItem";
-import { clearConstVariables, constVariables } from "../debugAdapter";
+import { globalCache } from "../globalCache";
 
 // Setup the Outline window
 export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
@@ -11,13 +9,13 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 		document: vscode.TextDocument,
 		_token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
 		return new Promise(function (resolve, _reject): void {
-			clearConstVariables();
+			globalCache.clearConstVariables();
 
 			function getParams(code: string) {
 				return code.trim().substring(code.trim().indexOf("(") + 1, code.trim().lastIndexOf(")"));
 			}
 
-			todoTreeProvider.clear();
+			globalCache.todoTreeProvider.clear();
 
 			const todoRegex = /(?:'|\brem\b).*(todo|fixit|fixme):?/i;
 			let symbols: vscode.DocumentSymbol[] = [];
@@ -37,7 +35,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				if (todoMatch) {
 					const todoComment = line.text.trim().substring(todoMatch.index! + todoMatch[0].length).trim(); // Don't use lineText - it is all lower case.
 					const todoItem = new TodoItem(todoComment, vscode.TreeItemCollapsibleState.None, new vscode.Range(line.lineNumber, 0, line.lineNumber, line.text.length), document.uri);
-					todoTreeProvider.addTodoItem(todoItem);
+					globalCache.todoTreeProvider.addTodoItem(todoItem);
 				}
 
 				if (lineText.startsWith('sub ')) {
@@ -72,7 +70,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 						if (symbol != '_') {
 							symbolKind = vscode.SymbolKind.Constant;
 							symbolText = '= ' + line.text.trim().substring(equal_pos + 1).trim();
-							constVariables.push(
+							globalCache.constVariables.push(
 								{
 									name: symbol,
 									value: line.text.trim().substring(equal_pos + 1).trim(),
@@ -150,9 +148,9 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
 					if (symbolKind === vscode.SymbolKind.Method || symbolKind === vscode.SymbolKind.Function) {
 						const symbolName = symbol.toLowerCase().replace(/(call|gosub|goto|:)$/i, "");
-						const existingSymbol = symbolCache.find(s => s.name === symbolName);
+						const existingSymbol = globalCache.symbols.find(s => s.name === symbolName);
 						if (!existingSymbol) {
-							symbolCache.push(new vscode.DocumentSymbol(
+							globalCache.symbols.push(new vscode.DocumentSymbol(
 								symbol.toLowerCase().replace(/(call|gosub|goto|:)$/i, ""),
 								symbolText,
 								symbolKind,
@@ -170,7 +168,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				}
 			}
 			resolve(symbols);
-			todoTreeProvider.refresh();
+			globalCache.todoTreeProvider.refresh();
 
 		});
 	}
