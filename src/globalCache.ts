@@ -2,6 +2,12 @@ import * as vscode from "vscode";
 import { TodoTreeProvider } from "./TodoTreeProvider";
 import { DebugProtocol } from "@vscode/debugprotocol";
 
+const lintChannel: vscode.OutputChannel = vscode.window.createOutputChannel("QB64: Lint", "QB64");
+
+export enum channelType {
+	lint = 3
+}
+
 export class GlobalCache {
 	public consolePrefix: string = "QB64: ";
 	public activeEditor: vscode.TextEditor | undefined = undefined;
@@ -9,6 +15,7 @@ export class GlobalCache {
 	public symbols: vscode.DocumentSymbol[] = [];
 	public todoTreeProvider: TodoTreeProvider = new TodoTreeProvider();
 	public constVariables: DebugProtocol.Variable[] = [];
+	public sharedVariables: DebugProtocol.Variable[] = [];
 
 	public readonly decorationSkipLine: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
 		{
@@ -22,15 +29,45 @@ export class GlobalCache {
 	 * Gets the Configuration for the QB64 extension
 	 * @returns Configuration for the QB64 workspace
 	 */
-	public GetConfiguration(): vscode.WorkspaceConfiguration {
+	public getConfiguration(): vscode.WorkspaceConfiguration {
 		return vscode.workspace.getConfiguration("qb64");
 	}
 
+	public LogError(message: string) {
+		console.error(`${this.consolePrefix}${message}`);
+	}
+
+	public log(message: string) {
+		console.log(`${this.consolePrefix}${message}`);
+	}
+
 	/**
-	 * Remove all rows from constVariables
+	 * Writes a line to the output channel
+	 * @param message Message to write to the output channel
+	 * @param outputChannel The channel to write the message to.
 	 */
-	public clearConstVariables() {
-		this.constVariables.length = 0;
+	public writeToChannel(message: string, outputChannel: vscode.OutputChannel) {
+		if (outputChannel) {
+			outputChannel.appendLine(message);
+		} else {
+			this.log(message);
+		}
+	}
+
+	/**
+	 * Gets an output channel
+	 * @param type The type of output channel to get.
+	 */
+
+	public getChannel(type: channelType) {
+		switch (type) {
+
+			case channelType.lint:
+				return lintChannel;
+
+			default:
+				throw `Unknown channelType of ${type}`;
+		}
 	}
 
 

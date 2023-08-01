@@ -1,46 +1,41 @@
 "use strict";
 import { exec } from "child_process";
 import * as vscode from "vscode";
-import * as logFunctions from "./logFunctions";
 import { globalCache } from "./globalCache";
 
 export function openCurrentFileInQB64() {
-	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.openInQB64);
+
 	try {
 		if (!vscode.window.activeTextEditor) {
-			logFunctions.writeLine("Cannot find activeTextEditor", outputChannnel);
 			return;
 		}
 
-		logFunctions.writeLine("Starting Open In QB64", outputChannnel);
-		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			logFunctions.writeLine("The QB64 compiler path is not set.", outputChannnel);
+			globalCache.LogError("The QB64 compiler path is not set.");
 			return;
 		}
 
 		let command = `${compilerPath} "${vscode.window.activeTextEditor.document.fileName}"`;
-		logFunctions.writeLine(`Run: ${command}`, outputChannnel);
 
 		exec(command, (error, stdout, stderr) => {
 			if (error) {
-				logFunctions.writeLine(error.message, outputChannnel);
+				globalCache.LogError(error.message);
 			}
 
 			if (stderr) {
-				logFunctions.writeLine(stderr, outputChannnel);
+				globalCache.LogError(stderr);
 			}
 
 			if (stdout) {
-				logFunctions.writeLine("QB64 stdout:\n", outputChannnel);
-				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
+				globalCache.log(stdout);
 			} else {
-				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
+				globalCache.LogError("No stdout from the compiler found");
 			}
 		});
 	} catch (error) {
-		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
+		globalCache.LogError(`ERROR: ${error}`);
 	}
 }

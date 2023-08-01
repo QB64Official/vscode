@@ -5,7 +5,6 @@ import * as gitFunctions from "./gitFunctions";
 import * as vscodeFucnctions from "./vscodeFunctions";
 import * as decoratorFunctions from "./decoratorFunctions";
 import * as lintFunctions from "./lintFunctions";
-import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
@@ -28,7 +27,7 @@ import { globalCache } from "./globalCache"
 
 export async function activate(context: vscode.ExtensionContext) {
 	//cache = new GlobalCache();
-	const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+	const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
 
 	vscode.workspace.onWillSaveTextDocument(() => {
@@ -83,10 +82,6 @@ export async function activate(context: vscode.ExtensionContext) {
 				globalCache.skipLineRanges.push(range);
 				vscode.debug.activeDebugSession.customRequest(DebugCommands.SetSkipLine, { line: lineNumber });
 			}
-			if (vscode.window.activeTextEditor && !globalCache.activeEditor) {
-				globalCache.activeEditor = vscode.window.activeTextEditor
-			}
-			// Update decorations
 			vscode.window.activeTextEditor.setDecorations(globalCache.decorationSkipLine, globalCache.skipLineRanges);
 		}
 	});
@@ -96,7 +91,6 @@ export async function activate(context: vscode.ExtensionContext) {
 		vscode.window.activeTextEditor.setDecorations(globalCache.decorationSkipLine, globalCache.skipLineRanges);
 		vscode.debug.activeDebugSession.customRequest(DebugCommands.ClearAllSkips);
 	});
-
 
 	decoratorFunctions.setupDecorate();
 	vscodeFucnctions.createFiles();
@@ -130,7 +124,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 export async function getPort(portType: string = ""): Promise<number> {
 	if (!portType || portType.length < 1) {
-		console.log(`${globalCache.consolePrefix}Porttype: not set.`);
+		globalCache.LogError('Porttype: not set.');
 		return -1;
 	}
 
@@ -139,9 +133,9 @@ export async function getPort(portType: string = ""): Promise<number> {
 	if (port && port > 0) {
 		if ((await isPortInUse(port))) {
 			port = -1;
-			console.log(`${globalCache.consolePrefix}Port: ${port} already in use.`);
+			globalCache.LogError(`Port: ${port} already in use.`);
 		} else {
-			console.log(`${globalCache.consolePrefix}Using port: ${port} from setting ${portType}`);
+			globalCache.log(`Using port: ${port} from setting ${portType}`);
 		}
 		return port;
 	}
@@ -154,7 +148,7 @@ export async function getPort(portType: string = ""): Promise<number> {
 				break;
 			}
 		} catch (err) {
-			console.log(`${globalCache.consolePrefix}Error when checking port: ${err}`, err);
+			globalCache.LogError(`Error when checking port: ${err}`);
 			port = -1;
 		}
 	}
@@ -336,7 +330,7 @@ export function runLint() {
  * @returns True if the file was created
  */
 function createBackup() {
-	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.createBackup);
+
 	try {
 
 		if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId != "QB64") {
@@ -351,12 +345,10 @@ function createBackup() {
 
 		let source = vscode.window.activeTextEditor.document.fileName
 		let backupFile = source + "-bak";
-		outputChannnel.appendLine(`Tying to copy ${source} to ${backupFile}`);
 		fs.copyFileSync(source, backupFile)
-		outputChannnel.appendLine(`File ${source} copied to ${backupFile}`);
 		return true;
 	} catch (error) {
-		outputChannnel.appendLine(`ERROR: in createBackup:  ${error}`);
+		globalCache.LogError(`ERROR in createBackup: ${error}`)
 		return false;
 	}
 }

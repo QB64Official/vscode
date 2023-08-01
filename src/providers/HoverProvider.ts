@@ -1,14 +1,11 @@
 "use strict";
 import * as vscode from "vscode";
 import * as commonFunctions from "../commonFunctions";
-import * as logFunctions from "../logFunctions";
 import * as fs from "fs";
 import { TokenInfo } from "../TokenInfo"
 import { globalCache } from "../globalCache";
 
 export class HoverProvider implements vscode.HoverProvider {
-
-	outputChannnel = logFunctions.getChannel(logFunctions.channelType.hoverProvider);
 
 	provideHover(document: vscode.TextDocument, position: vscode.Position, cancellationToken: vscode.CancellationToken): vscode.ProviderResult<vscode.Hover> {
 
@@ -16,16 +13,16 @@ export class HoverProvider implements vscode.HoverProvider {
 			return null;
 		}
 
-		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 		if (!config.get("isHoverTextFileEnabled")) {
-			logFunctions.writeLine("Hovertext is disabled.", this.outputChannnel);
+			globalCache.log("Hovertext is disabled.");
 			return null;
 		}
 
 		try {
 
 			const token = commonFunctions.getQB64WordFromDocument(document, position);
-			const keywordInfo = new TokenInfo(token, document.lineAt(position.line).text, this.outputChannnel);
+			const keywordInfo = new TokenInfo(token, document.lineAt(position.line).text);
 			if (keywordInfo.offlinehelp.length > 0) {
 				const markdownString = new vscode.MarkdownString(keywordInfo.getHoverText());
 				markdownString.isTrusted = true;
@@ -87,7 +84,7 @@ export class HoverProvider implements vscode.HoverProvider {
 				}
 			});
 		} catch (error) {
-			logFunctions.writeLine(`ERROR in HoverProvider.provideHover: ${error}`, this.outputChannnel);
+			globalCache.LogError(`ERROR in HoverProvider.provideHover: ${error}`);
 		}
 		return null;
 	}
@@ -95,13 +92,11 @@ export class HoverProvider implements vscode.HoverProvider {
 	private async doSearch(document: vscode.TextDocument, word: string, token: vscode.CancellationToken): Promise<vscode.Location> {
 		return new Promise<vscode.Location>(async (resolve) => {
 			try {
-				logFunctions.writeLine(`checking document: ${document.fileName}`, this.outputChannnel);
 				const regexIncludeFile = /include:(.*)'/i
 				const sourceLines = document.getText().split("\n");
 				let includedFiles: string[] = []
 				for (let lineNumber = 0; lineNumber < sourceLines.length; lineNumber++) {
 					if (token.isCancellationRequested) {
-						logFunctions.writeLine("token.isCancellationRequested", this.outputChannnel);
 						return Promise.reject(null);
 					}
 
@@ -150,16 +145,15 @@ export class HoverProvider implements vscode.HoverProvider {
 							let includeFileDocument: vscode.TextDocument = await vscode.workspace.openTextDocument(fullPath)
 							let searchResults: vscode.Location = await this.doSearch(includeFileDocument, word, token);
 							if (searchResults) {
-								//logFunctions.writeLine(`found ${word} in ${includeFileDocument.fileName}`, this.outputChannnel);
 								return resolve(searchResults);
 							} else {
-								logFunctions.writeLine(`word: ${word} not found in ${includeFileDocument.fileName}`, this.outputChannnel);
+								globalCache.log(`word: ${word} not found in ${includeFileDocument.fileName}`);
 							}
 						}
 					}
 				}
 			} catch (error) {
-				logFunctions.writeLine(`ERROR in doSearch: ${error}`, this.outputChannnel)
+				globalCache.LogError(`ERROR in doSearch: ${error}`);
 			}
 			return resolve(null);
 		});

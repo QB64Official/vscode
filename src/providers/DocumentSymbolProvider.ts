@@ -9,7 +9,10 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 		document: vscode.TextDocument,
 		_token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
 		return new Promise(function (resolve, _reject): void {
-			globalCache.clearConstVariables();
+
+			globalCache.activeEditor = vscode.window.activeTextEditor
+			globalCache.constVariables.length = 0;
+			globalCache.sharedVariables.length = 0;
 
 			function getParams(code: string) {
 				return code.trim().substring(code.trim().indexOf("(") + 1, code.trim().lastIndexOf(")"));
@@ -78,7 +81,18 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 								});
 						}
 					}
+				} else {
+					const match = lineText.match(/\bdim\s+shared\s+(\w+)/i);
+					if (match && match[1]) {
+						globalCache.sharedVariables.push(
+							{
+								name: match[1],
+								value: "",
+								variablesReference: 0
+							});
+					}
 				}
+
 				let pieces: string[];
 				if (lineText.startsWith("'$include:")) {
 					symbolKind = vscode.SymbolKind.Module;
@@ -132,12 +146,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 					symbolText = 'Loop';
 				}
 
-				// if (symbol.toLocaleLowerCase().indexOf("exitdebugmode") >= 0) {
-				// 	console.log(`${consolePrefix}Here 0`);
-				// }
-
 				if (symbolKind) {
-
 					let marker_symbol = new vscode.DocumentSymbol(
 						symbol,
 						symbolText,

@@ -1,13 +1,12 @@
 "use strict";
 import * as vscode from "vscode";
 import * as commonFunctions from "../commonFunctions";
-import * as logFunctions from "../logFunctions";
 import { TokenInfo } from "../TokenInfo";
 import * as fs from "fs";
+import { globalCache } from "../globalCache";
 
 export class DefinitionProvider implements vscode.DefinitionProvider {
 	regexIncludeFile = /include:(.*)'/i
-	outputChannnel = logFunctions.getChannel(logFunctions.channelType.definitionProvider);
 	config: vscode.WorkspaceConfiguration = null;
 
 	constructor(config?: vscode.WorkspaceConfiguration) {
@@ -41,7 +40,6 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						return resolve([new vscode.Location(vscode.Uri.file(fullPath), range)]);
 					});
 				} else {
-					this.outputChannnel.appendLine("File " + fullPath + " not found.");
 					return null;
 				}
 			}
@@ -50,13 +48,11 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 			if (match) {
 				let fullPath = commonFunctions.getAbsolutePath(path.dirname(vscode.window.activeTextEditor.document.fileName).replaceAll("\\", "/",) + "/", match[1]);
 				if (fs.existsSync(fullPath)) {
-					this.outputChannnel.appendLine("File " + fullPath + " found.");
 					return new Promise<vscode.Location[]>((resolve) => {
 						let range = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 0));
 						return resolve([new vscode.Location(vscode.Uri.file(fullPath), range)]);
 					});
 				}
-				this.outputChannnel.appendLine("File " + fullPath + " not found.");
 				return null;
 			}
 
@@ -66,15 +62,13 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 			}
 			const searchResults = await this.doSearch(word, document, token);
 			if (searchResults && searchResults.length > 0) {
-				logFunctions.writeLine(`searchResults (${searchResults.length}): ${searchResults[0].uri}`, this.outputChannnel);
 				return new Promise<vscode.Location[]>((resolve) => { resolve(searchResults); });
 			} else {
-				logFunctions.writeLine(`Open Help for: ${word}`, this.outputChannnel);
-				new TokenInfo(word, "", this.outputChannnel).showHelp();
+				new TokenInfo(word, "").showHelp();
 				return null;
 			}
 		} catch (error) {
-			this.outputChannnel.appendLine("ERROR in DefinitionProvider: " + error);
+			globalCache.LogError(`ERROR in DefinitionProvider: ${error}`);
 		}
 		return null;
 	}
@@ -105,7 +99,6 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						continue;
 					}
 
-					logFunctions.writeLine(line, this.outputChannnel)
 					if (!(line.startsWith("sub") || line.startsWith("dim") || line.startsWith("function") || line.startsWith("type") || line.startsWith("const") || line.startsWith(`${word.toLowerCase()}:`))) {
 						continue;
 					}
@@ -130,29 +123,24 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 							const path = require('path');
 							const fullPath = commonFunctions.getAbsolutePath(path.dirname(document.fileName).replaceAll("\\", "/",) + "/", match[1].replace("'", "").replaceAll("\\", "/"));
 							if (fs.existsSync(fullPath)) {
-								logFunctions.writeLine(`Looking for ${word} in ${fullPath}`, this.outputChannnel);
 								let includeFileDocument = await vscode.workspace.openTextDocument(fullPath); // Change to use then
 								let searchResults: vscode.Location[] = await this.doSearch(word, includeFileDocument, token);
 								if (searchResults) {
-									logFunctions.writeLine(`Found ${word} in ${fullPath}`, this.outputChannnel)
 									vscode.window.showTextDocument(includeFileDocument).then(() => {
 										let range = searchResults[0].range;
-										logFunctions.writeLine(`Open ${fullPath} at line ${searchResults[0].range.start.line + 1}`, this.outputChannnel);
 										vscode.window.activeTextEditor.selection = new vscode.Selection(range.start, range.end);
 										vscode.window.activeTextEditor.revealRange(range);
 									});
 									return resolve(searchResults);
 								}
-							} else {
-								logFunctions.writeLine("File " + fullPath + " not found.", this.outputChannnel);
 							}
 						}
 					} catch (error) {
-						logFunctions.writeLine("ERROR in doSearch: " + error, this.outputChannnel);
+						globalCache.LogError(`ERROR in doSearch: ${error}`);
 					}
 				}
 			} catch (error) {
-				logFunctions.writeLine(`ERROR in doSearch: ${error}`, this.outputChannnel)
+				globalCache.LogError(`ERROR in doSearch: ${error}`);
 			} finally {
 				return resolve(null);
 			}

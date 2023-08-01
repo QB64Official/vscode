@@ -13,7 +13,8 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 1.0.3
 - Enchantments
   - Added the setting debuggerPort.  Port to use when debugging defualt is 0 - 0 means use a random open port.
-  - Added const to the variables pane
+  - Added constants,globals,locals to the variables pane (not values yet just names)
+  - Refactoring
 
 ## 1.0.2
    - Bugs

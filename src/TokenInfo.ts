@@ -1,7 +1,6 @@
 "use strict";
 import * as fs from "fs";
 import * as vscode from "vscode";
-import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import { globalCache } from "./globalCache";
 
@@ -16,7 +15,7 @@ export class TokenInfo {
 	public WordFormatted: string = ""; // Should be read only or have a private setter.
 	public readonly isKeyword: boolean = true;
 
-	constructor(token?: string, lineOfCode?: string, outputChannnelToUse?: any) {
+	constructor(token?: string, lineOfCode?: string) {
 		if (!token || token.length < 1) {
 			const editor = vscode.window.activeTextEditor;
 			let word: string = "";
@@ -36,15 +35,9 @@ export class TokenInfo {
 			}
 		}
 
-		if (outputChannnelToUse) {
-			this.outputChannnel = outputChannnelToUse;
-		} else {
-			this.outputChannnel = logFunctions.getChannel(logFunctions.channelType.help);
-		}
-
 		this.token = token;
 		this.keyword = token;
-		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 		const path = require('path');
 
 		let helpPath: string = config.get("helpPath");
@@ -161,7 +154,7 @@ export class TokenInfo {
 		let retvalue = ""
 		if (this.isKeyword) {
 			if (this.offlinehelp.length > 0) {
-				const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+				const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 				let helpPath: string = config.get("helpPath");
 				retvalue = fs.readFileSync(this.offlinehelp).toString();
 				retvalue = retvalue.replaceAll(/\[([\w|\$]*)\]\(([\w|\$]*)\)/igm, '[$1](file:' + helpPath.replaceAll('\\', '/') + '/$1.md)');
@@ -177,21 +170,21 @@ export class TokenInfo {
 	 */
 	public showHelp() {
 		try {
-			const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+			const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 			if (this.offlinehelp.length > 0) {
 				if (config.get("isOpenHelpInEditModeEnabled")) {
-					logFunctions.writeLine(`Open ${this.offlinehelp} in edit mode`, this.outputChannnel);
+					globalCache.writeToChannel(`Open ${this.offlinehelp} in edit mode`, this.outputChannnel);
 					vscode.workspace.openTextDocument(this.offlinehelp).then(d => vscode.window.showTextDocument(d));
 				} else {
-					logFunctions.writeLine(`Open ${this.offlinehelp} in view mode`, this.outputChannnel);
+					globalCache.writeToChannel(`Open ${this.offlinehelp} in view mode`, this.outputChannnel);
 					vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.file(this.offlinehelp));
 				}
 			} else if (config.get("isOpenOnLineHelpEnabled")) {
-				logFunctions.writeLine(`Open URL: ${this.onlineHelp} `, this.outputChannnel);
+				globalCache.writeToChannel(`Open URL: ${this.onlineHelp} `, this.outputChannnel);
 				vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(this.onlineHelp));
 			}
 		} catch (error) {
-			logFunctions.writeLine(`ERROR in showHelp: ${error}`, this.outputChannnel);
+			globalCache.writeToChannel(`ERROR in showHelp: ${error}`, this.outputChannnel);
 			vscode.window.showErrorMessage(`"ERROR: ${error}`)
 		}
 	}

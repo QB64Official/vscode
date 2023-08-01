@@ -25,6 +25,7 @@ class Debuggee {
 	public port: number = -1;
 	public socket: net.Socket = null;
 	public attached: boolean = false;
+	public currentLine: number = -1;
 	public spawn: ChildProcessWithoutNullStreams = null;
 	public readonly endOfTransmission: string = String.fromCharCode(4);
 	public readonly startOfTransmission: string = String.fromCharCode(2);
@@ -32,7 +33,7 @@ class Debuggee {
 	public readonly waitTime: number = 20; //This should be a setting
 
 	constructor() {
-		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 		const waitTime: number = config.get("debuggeeWaitTime")
 		if (waitTime) {
 			this.waitTime = waitTime;
@@ -73,7 +74,7 @@ class Debuggee {
 
 		if (this.socket && !this.socket.destroyed) {
 			command = `${this.padForVWatch(command.length)}${command}`
-			console.log(`${globalCache.consolePrefix}writeToDebuggee command sent: "${command}"`)
+			globalCache.log(`writeToDebuggee command sent: "${command}"`)
 			this.socket.write(command);
 			if (this.waitTime > 0) {
 				await await new Promise(f => setTimeout(f, this.waitTime));
@@ -96,7 +97,7 @@ class Debuggee {
 
 		if (this.spawn && this.attached) {
 			if (this.spawn && !this.spawn.killed) {
-				this.spawn.kill();
+				//this.spawn.kill();
 			}
 			this.spawn = null;
 
@@ -183,7 +184,7 @@ enum DebugCategories {
 export function createDebuggerInterface(vsCodePort: number) {
 	// Create a server that VS Code can connect to
 	let server = net.createServer(async function (socket: net.Socket) {
-		socket.on('end', function () { console.log(`[${commonFunctions.getCurrentDateTime()}]DebugAdapter Disconnected`); });
+		socket.on('end', function () { globalCache.log('DebugAdapter Disconnected'); });
 		socket.on('data', function (data) { debugerSession.handleDataFromVsCode(data); });
 
 		let debugerSession = new DebugAdapter(socket);
@@ -195,9 +196,9 @@ export function createDebuggerInterface(vsCodePort: number) {
 	server.listen(vsCodePort, function () {
 		const address = server.address();
 		if (typeof address === 'string') {
-			console.log(`${globalCache.consolePrefix}server is listening at ${address}`);
+			globalCache.log(`${globalCache.consolePrefix}server is listening at ${address}`)
 		} else {
-			console.log(`${globalCache.consolePrefix}server listening on port ${address?.port}`);
+			globalCache.log(`${globalCache.consolePrefix}server listening on port ${address?.port}`);
 		}
 	});
 	return server;
@@ -297,7 +298,12 @@ class DebugAdapter extends debug.DebugSession {
 					return;
 				}
 
-				if (message.includes(DebugCommands.LocalVariables)) {
+				if (message.includes("address read")) {
+					await this.localVariablesMessage(message);
+					return;
+				}
+
+				if (message.includes(DebugCommands.GetLocalVariables)) {
 					await this.localVariablesMessage(message);
 					return;
 				}
@@ -342,6 +348,10 @@ class DebugAdapter extends debug.DebugSession {
 			}
 			this.currentStack.push(stack);
 		}
+		//if (this.currentStack.length > 0) {
+		// Set the current line -- Needed for the local variables
+		//	this.debuggee.currentLine = this.currentStack[0].line;
+		//}
 	}
 
 	private async localVariablesMessage(message: string) {
@@ -406,13 +416,12 @@ class DebugAdapter extends debug.DebugSession {
 					let sourceBreakpoint = breakpoint as vscode.SourceBreakpoint;
 					if (sourceBreakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
 						breakpointCount++;
-						console.log(`${globalCache.consolePrefix}Breakpoint at file: ${sourceBreakpoint.location.uri.fsPath} Line: ${sourceBreakpoint.location.range.start.line + 1}`);
+						globalCache.log(`${globalCache.consolePrefix}Breakpoint at file: ${sourceBreakpoint.location.uri.fsPath} Line: ${sourceBreakpoint.location.range.start.line + 1}`);
 						breakPoints += this.debuggee.padForVWatch(sourceBreakpoint.location.range.start.line + 1);
 					}
 				}
 			});
 			if (breakpointCount > 0) {
-				console.log(`${globalCache.consolePrefix}Setting Breakpoints`);
 				await this.debuggee.write(`${DebugCommands.BreakpointCount}${breakpointCount}`);
 				await this.debuggee.write(`${DebugCommands.BreakpointList}${breakPoints}`);
 			}
@@ -427,7 +436,7 @@ class DebugAdapter extends debug.DebugSession {
 
 		this.debuggee.socket.setTimeout(900000); // 15 minutes in milliseconds
 		this.debuggee.socket.on('timeout', async () => {
-			console.log(`${globalCache.consolePrefix}Debug session timed out after 15 minutes`);
+			globalCache.LogError('Debug session timed out after 15 minutes');
 			await this.writeLineToDebugConsole('Debug session timed out after 15 minutes');
 			await this.stopDebugger();
 		});
@@ -442,7 +451,7 @@ class DebugAdapter extends debug.DebugSession {
 			event.added.forEach(async (breakpoint) => {
 				if (breakpoint instanceof vscode.SourceBreakpoint) {
 					if (breakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
-						console.log(`${globalCache.consolePrefix}Breakpoint at file: ${breakpoint.location.uri.fsPath} Line: ${breakpoint.location.range.start.line}`);
+						globalCache.log(`Breakpoint at file: ${breakpoint.location.uri.fsPath} Line: ${breakpoint.location.range.start.line}`);
 						await this.debuggee.write(`${DebugCommands.SetBreakPoint}${breakpoint.location.range.start.line + 1}`);
 					}
 				}
@@ -451,7 +460,6 @@ class DebugAdapter extends debug.DebugSession {
 			event.removed.forEach(async (breakpoint) => {
 				if (breakpoint instanceof vscode.SourceBreakpoint) {
 					if (breakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
-						console.log(`${globalCache.consolePrefix}Breakpoint removed at ${breakpoint.location.range.start.line}`);
 						await this.debuggee.write(`${DebugCommands.ClearBreakPoint}${breakpoint.location.range.start.line + 1}`);
 					}
 				}
@@ -460,7 +468,6 @@ class DebugAdapter extends debug.DebugSession {
 			event.changed.forEach(async (breakpoint) => {
 				if (breakpoint instanceof vscode.SourceBreakpoint) {
 					if (breakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
-						console.log(`${globalCache.consolePrefix}Breakpoint changed at ${breakpoint.location.range.start.line}`);
 						await this.debuggee.write(`${DebugCommands.SetBreakPoint}${breakpoint.location.range.start.line + 1}`);
 					}
 				}
@@ -563,10 +570,10 @@ class DebugAdapter extends debug.DebugSession {
 		this.sendResponse(response);
 	}
 
-	protected variablesRequest(response: DebugProtocol.VariablesResponse, args: DebugProtocol.VariablesArguments): void {
+	protected async variablesRequest(response: DebugProtocol.VariablesResponse, args: DebugProtocol.VariablesArguments): Promise<void> {
 		let variables: DebugProtocol.Variable[] = [];
 		const scope = this.variableHandles.get(args.variablesReference);
-		//console.log(`${consolePrefix}Scope = ${scope}`);
+		globalCache.log(`Scope = ${scope}`);
 		switch (scope) {
 			case "Constants":
 				{
@@ -575,31 +582,43 @@ class DebugAdapter extends debug.DebugSession {
 				}
 			case "Globals":
 				{
+					variables = globalCache.sharedVariables;
+					await this.debuggee.write(`${DebugCommands.GetGobbalVariables}${variables[0].name}`);
 					break;
 				}
 			case "Locals":
 				{
-					/*
-					const variable1 = {
-						name: "name1",
-						value: "tom",
-						variablesReference: 0
-					};
-					variables.push(variable1);
-					this.variables[variable1.name] = variable1;
-					const variable2 = {
-						name: "name$",
-						value: "var with a $",
-						variablesReference: 0
-					};
-					this.variables[variable2.name] = variable2;
-					variables.push(variable2);
-					*/
+
+					if (!globalCache.activeEditor || !globalCache.activeEditor.document) {
+						break;
+					}
+
+					const currentLine = this.currentStack[0].line - 1
+					const fileContent = globalCache.activeEditor.document.getText().split("\r");
+
+					// Loop backward through the file content starting from the current line
+					for (let i = currentLine; i >= 0; i--) {
+						const lineText = fileContent[i].trim().replace("\n", "");
+						if (lineText.match(/^\s*(sub|function)\b/i)) {
+							break; // End of current scope
+						}
+						//const match = lineText.match(/^\s*dim(?!.*\bshared\b)\s+(\w+)/i);
+						//const match = lineText.match(/^\s*dim(?!.*\bshared\b)\s+(\w+[$%#!`%&]?)/i);
+						const match = lineText.match(/^\s*dim(?!.*\bshared\b)\s+(\w+(?:~[%!]|[$%#!])?)/i);
+						if (match && match[1]) {
+							variables.push(
+								{
+									name: match[1],
+									value: "",
+									variablesReference: 0
+								});
+						}
+					}
 					break;
 				}
 			default:
 				{
-					console.log(`${globalCache.consolePrefix}Unknown Scope: ${scope}`);
+					globalCache.LogError(`${globalCache.consolePrefix}Unknown Scope: ${scope}`);
 					break;
 				}
 		}
@@ -785,7 +804,7 @@ class DebugAdapter extends debug.DebugSession {
 				return;
 			}
 
-			const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+			const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 			const compilerPath: string = config.get("compilerPath");
 
 			if (!compilerPath || compilerPath.length < 1) {

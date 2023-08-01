@@ -3,10 +3,9 @@ import * as vscode from "vscode";
 import path from "path";
 import { exec } from "child_process";
 import * as commonFunctions from "./commonFunctions";
-import * as logFunctions from "./logFunctions";
 import os from "os";
 import fs from "fs";
-import { globalCache } from "./globalCache";
+import { globalCache, channelType } from "./globalCache";
 
 var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('QB64-lint')
 
@@ -14,29 +13,21 @@ var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createD
  * Runs the compiler/linter then calls lintCurrentFile with the output.
  */
 export function runLint() {
-	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
+	const outputChannnel: any = globalCache.getChannel(channelType.lint);
 
 	try {
 		if (!vscode.window.activeTextEditor) {
-			logFunctions.writeLine("Cannot find activeTextEditor", outputChannnel);
+			globalCache.LogError("Cannot find activeTextEditor");
 			return;
 		}
 
-		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			logFunctions.writeLine("The QB64 compiler path is not set.", outputChannnel);
+			globalCache.LogError("The compiler path is not set.");
 			return;
 		}
-
-		/*
-		if (os.platform() == "win32") {
-			compilerPath = path.join(compilerPath, "qb64.exe");
-		} else {
-			compilerPath = path.join(compilerPath, "qb64");
-		}
-		*/
 
 		compilerPath = compilerPath.replaceAll("\\", "/");
 
@@ -57,33 +48,30 @@ export function runLint() {
 		}
 
 		if (!fs.existsSync(binaryName)) {
-			logFunctions.writeLine(`File: ${binaryName} Not Found`, outputChannnel);
+			globalCache.LogError(`File: ${binaryName} Not Found`);
+			globalCache.writeToChannel(`File: ${binaryName} Not Found`, outputChannnel);
 			return;
 		}
 
-		logFunctions.writeLine(`Running: ${command}`, outputChannnel);
-
 		exec(command, (error, stdout, stderr) => {
 			if (error) {
-				logFunctions.writeLine(error.message, outputChannnel);
+				globalCache.LogError(error.message);
 			}
 			if (stderr) {
-				logFunctions.writeLine(stderr, outputChannnel);
+				globalCache.LogError(stderr);
 			}
 			if (stdout) {
-				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
 				lintCompilerOutput(stdout);
-				logFunctions.writeLine(`Delete file ${binaryName}`, outputChannnel);
 				if (sourceCode != binaryName) {
-					deleteFile(binaryName, outputChannnel);
+					deleteFile(binaryName);
 				}
 			} else {
-				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
+				globalCache.LogError("No stdout from compiler found")
 			}
 		});
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR in runLint: ${error}`, outputChannnel);
+		globalCache.LogError(`ERROR in runLint: ${error}`);
 	}
 }
 
@@ -92,16 +80,15 @@ export function runLint() {
  * @param fileName {string} File to delete
  * @returns void
  */
-function deleteFile(fileName: string, outputChannnel: any) {
+function deleteFile(fileName: string) {
 	const { unlink } = require('fs/promises');
 	(async function (path) {
 		try {
 			if (fs.existsSync(path)) {
 				await unlink(path);
-				logFunctions.writeLine(`File ${path} Deleted`, outputChannnel)
 			}
 		} catch (error) {
-			logFunctions.writeLine(`ERROR in deleteFile: ${error.message}`, outputChannnel)
+			globalCache.LogError(`ERROR in deleteFile: ${error.message}`);
 		}
 	})(fileName);
 }
@@ -112,13 +99,13 @@ function deleteFile(fileName: string, outputChannnel: any) {
  * @returns void
  */
 export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = false) {
-	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
+	const outputChannnel: any = globalCache.getChannel(channelType.lint);
 	const lintSource = "QB64-lint"
 
 	try {
 		let document: vscode.TextDocument = vscode.window.activeTextEditor.document;
 		if (!document) {
-			outputChannnel.appendLine("Unable to find document");
+			globalCache.LogError("Unable to find document");
 			return;
 		}
 		let sourceCode: string[] = document.getText().split('\n')
@@ -238,6 +225,7 @@ export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = 
 		}
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
+		globalCache.LogError(`ERROR: ${error}`);
+		globalCache.writeToChannel(`ERROR: ${error}`, outputChannnel);
 	}
 }

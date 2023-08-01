@@ -1,6 +1,5 @@
 "use strict";
 import * as vscode from "vscode";
-import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import { globalCache } from "./globalCache"
 import * as path from "path";
@@ -19,7 +18,7 @@ class DecorateArgs {
 	public isRgbColorEnabled: boolean = false;
 	public isTodoHighlightEnabled: boolean = false;
 	public isCurrentRowHighlightEnabled: boolean = false;
-	public readonly outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
+	//public readonly outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
 	public editorConfig: any = null;
 	public lineOfCode: string = "";
 	public lineOfCodeTrimmedLowered: string = "";
@@ -39,7 +38,7 @@ class DecorateArgs {
 	}
 
 	public reset(resetAllScanAll: boolean = false, editor: any = null) {
-		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 		this.isRgbColorEnabled = config.get("isRgbColorEnabled");
 		this.isTodoHighlightEnabled = config.get("isTodoHighlightEnabled");
 		this.editorConfig = vscode.workspace.getConfiguration("editor.tokenColorCustomizations");
@@ -118,7 +117,7 @@ function getMetaCommandDecoration(decorateArgs: DecorateArgs, scopeName: string)
 
 		return vscode.window.createTextEditorDecorationType({ color: color });
 	} catch (error) {
-		logFunctions.writeLine(`ERROR in getMetaCommandDecoration: ${error}`, logFunctions.getChannel(logFunctions.channelType.decorator));
+		globalCache.LogError(`ERROR in getMetaCommandDecoration: ${error}`);
 		return null;
 	}
 }
@@ -136,7 +135,7 @@ function getSubDecoration(decorateArgs: DecorateArgs): vscode.TextEditorDecorati
 			return decorationTypeSub;
 		}
 
-		const config: vscode.WorkspaceConfiguration = globalCache.GetConfiguration();
+		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
 		let userFunctionColorRule: any = textMateRules.find(rule => rule.scope == 'userfunctions.QB64');
 		let userFunctionColor: string = userFunctionColorRule ? userFunctionColorRule.settings.foreground : undefined;
 		let fontWeight: string = config.get("isBoldingSubsAndFunctionsEnabled") ? "bolder" : "normal";
@@ -148,7 +147,7 @@ function getSubDecoration(decorateArgs: DecorateArgs): vscode.TextEditorDecorati
 		}
 		return decorationTypeSub;
 	} catch (error) {
-		logFunctions.writeLine(`ERROR in getSubdecoration: ${error}`, logFunctions.getChannel(logFunctions.channelType.decorator));
+		globalCache.LogError(`ERROR in getSubdecoration: ${error}`)
 		return null;
 	}
 }
@@ -266,7 +265,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 		}
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR in scanFile: ${error}`, decorateArgs.outputChannnel);
+		globalCache.LogError(`ERROR in scanFile: ${error}`)
 	} finally {
 		if (currrentLine) {
 			lastLine = currrentLine;
@@ -285,7 +284,7 @@ function addDiagnostic(decorateArgs: DecorateArgs, message: string, diagnosticSe
 			decorateArgs.diagnostics.push(new vscode.Diagnostic(lineRange, message, diagnosticSeverity));
 		}
 	} catch (error) {
-		console.log('Error while adding diagnostic:', error);
+		globalCache.LogError(`Error while adding diagnostic: ${error}`)
 	}
 }
 
@@ -421,6 +420,6 @@ function decorate(decorateArgs: DecorateArgs) {
 		}
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR in decorate: ${error}`, decorateArgs.outputChannnel);
+		globalCache.LogError(`ERROR in decorate: ${error}`)
 	}
 }

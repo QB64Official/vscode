@@ -1,14 +1,13 @@
 "use strict";
 import * as vscode from "vscode";
 import * as commonFunctions from "../commonFunctions";
-import * as logFunctions from "../logFunctions";
+import { globalCache } from "../globalCache";
 
 // 
 //  https://github.com/gayanhewa/vscode-find-all-references/blob/master/src/Providers/ReferenceProvider.ts
 //
 
 export class ReferenceProvider implements vscode.ReferenceProvider {
-	outputChannnel = logFunctions.getChannel(logFunctions.channelType.referenceProvider);
 	config = vscode.workspace.getConfiguration("qb64");
 
 	provideReferences(document: vscode.TextDocument, position: vscode.Position, context: vscode.ReferenceContext, token: vscode.CancellationToken): vscode.ProviderResult<vscode.Location[]> {
@@ -28,8 +27,6 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
 
 			const word = commonFunctions.getQB64Word(vscode.window.activeTextEditor)
 			const escapedWord = commonFunctions.escapeRegExp(word);
-
-			logFunctions.writeLine(`Search Word: ${word} |  Escaped Word: ${escapedWord}`, this.outputChannnel);
 			let list: vscode.Location[] = [];
 			this.doSearch(document, list, token, escapedWord);
 			return resolve(list);
@@ -45,8 +42,6 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
 	 */
 	private async doSearch(document: vscode.TextDocument, list: vscode.Location[], token: vscode.CancellationToken, escapedWord: string) {
 		const sourceLines = document.getText().split("\n");
-
-		logFunctions.writeLine(`Total Lines to Check: ${sourceLines.length}`, this.outputChannnel);
 		for (let lineNumber = 0; lineNumber < sourceLines.length; lineNumber++) {
 			if (token.isCancellationRequested) {
 				break;
@@ -60,7 +55,8 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
 					}
 				}
 			} catch (error) {
-				logFunctions.writeLine("ERROR: " + error, this.outputChannnel);
+				globalCache.LogError(`ERROR: ${error}`);
+
 			}
 		}
 	}
