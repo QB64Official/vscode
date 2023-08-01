@@ -1,6 +1,5 @@
 "use strict";
 import * as vscode from "vscode";
-import * as commonFunctions from "../commonFunctions";
 import * as fs from "fs";
 import { TokenInfo } from "../TokenInfo"
 import { globalCache } from "../globalCache";
@@ -21,7 +20,7 @@ export class HoverProvider implements vscode.HoverProvider {
 
 		try {
 
-			const token = commonFunctions.getQB64WordFromDocument(document, position);
+			const token = globalCache.getQB64WordFromDocument(document, position);
 			const keywordInfo = new TokenInfo(token, document.lineAt(position.line).text);
 			if (keywordInfo.offlinehelp.length > 0) {
 				const markdownString = new vscode.MarkdownString(keywordInfo.getHoverText());
@@ -84,7 +83,7 @@ export class HoverProvider implements vscode.HoverProvider {
 				}
 			});
 		} catch (error) {
-			globalCache.LogError(`ERROR in HoverProvider.provideHover: ${error}`);
+			globalCache.logError(`ERROR in HoverProvider.provideHover: ${error}`);
 		}
 		return null;
 	}
@@ -122,15 +121,13 @@ export class HoverProvider implements vscode.HoverProvider {
 						continue;
 					}
 
-					let match = line.match(new RegExp(`\\W${commonFunctions.escapeRegExp(word)}\\W`, "i"));
+					let match = line.match(new RegExp(`\\W${globalCache.escapeRegExp(word)}\\W`, "i"));
 					if (match) {
-						//logFunctions.writeLine(`Found 1 ${word} on line ${lineNumber} in ${vscode.Uri.file(document.fileName)}`, this.outputChannnel);
-						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber)));
+						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), globalCache.createRange(match, lineNumber)));
 					}
-					match = line.match(new RegExp(`\\b${commonFunctions.escapeRegExp(word)}\\b`, "i"));
+					match = line.match(new RegExp(`\\b${globalCache.escapeRegExp(word)}\\b`, "i"));
 					if (match) {
-						//logFunctions.writeLine(`Found 2 ${word} on line ${lineNumber} in ${vscode.Uri.file(document.fileName)}`, this.outputChannnel);
-						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber)));
+						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), globalCache.createRange(match, lineNumber)));
 					}
 				}
 
@@ -138,9 +135,8 @@ export class HoverProvider implements vscode.HoverProvider {
 					let selectedText: string = includedFiles[fileIndex];
 					let match = selectedText.match(regexIncludeFile)
 					if (match) {
-						//logFunctions.writeLine(`Checking include file: ${selectedText}`, this.outputChannnel);
 						const path = require('path');
-						const fullPath = commonFunctions.getAbsolutePath(path.dirname(document.fileName).replaceAll("\\", "/",) + "/", match[1].replace("'", "").replaceAll("\\", "/"));
+						const fullPath = globalCache.getAbsolutePath(path.dirname(document.fileName).replaceAll("\\", "/",) + "/", match[1].replace("'", "").replaceAll("\\", "/"));
 						if (fs.existsSync(fullPath)) {
 							let includeFileDocument: vscode.TextDocument = await vscode.workspace.openTextDocument(fullPath)
 							let searchResults: vscode.Location = await this.doSearch(includeFileDocument, word, token);
@@ -153,7 +149,7 @@ export class HoverProvider implements vscode.HoverProvider {
 					}
 				}
 			} catch (error) {
-				globalCache.LogError(`ERROR in doSearch: ${error}`);
+				globalCache.logError(`ERROR in doSearch: ${error}`);
 			}
 			return resolve(null);
 		});

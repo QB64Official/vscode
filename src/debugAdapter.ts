@@ -1,7 +1,6 @@
 "use strict";
 import * as net from "net";
 import * as vscode from "vscode";
-import * as commonFunctions from "./commonFunctions";
 import * as fs from "fs";
 import * as path from 'path';
 import * as os from 'os';
@@ -436,7 +435,7 @@ class DebugAdapter extends debug.DebugSession {
 
 		this.debuggee.socket.setTimeout(900000); // 15 minutes in milliseconds
 		this.debuggee.socket.on('timeout', async () => {
-			globalCache.LogError('Debug session timed out after 15 minutes');
+			globalCache.logError('Debug session timed out after 15 minutes');
 			await this.writeLineToDebugConsole('Debug session timed out after 15 minutes');
 			await this.stopDebugger();
 		});
@@ -618,7 +617,7 @@ class DebugAdapter extends debug.DebugSession {
 				}
 			default:
 				{
-					globalCache.LogError(`${globalCache.consolePrefix}Unknown Scope: ${scope}`);
+					globalCache.logError(`${globalCache.consolePrefix}Unknown Scope: ${scope}`);
 					break;
 				}
 		}

@@ -325,7 +325,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			}
 
 		} catch (error) {
-			globalCache.LogError(`ERROR in provideDocumentFormattingEdits: ${error}`);
+			globalCache.logError(`ERROR in provideDocumentFormattingEdits: ${error}`);
 		}
 		return retvalue;
 	}
@@ -361,7 +361,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			if (tokenInfo) {
 				return tokenInfo.WordFormatted;
 			} else {
-				globalCache.LogError(`Unable to find ${word}`);
+				globalCache.logError(`Unable to find ${word}`);
 			}
 		}
 		return word;

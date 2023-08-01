@@ -1,6 +1,5 @@
 "use strict";
 import * as vscode from "vscode";
-import * as commonFunctions from "./commonFunctions";
 import { globalCache } from "./globalCache"
 import * as path from "path";
 
@@ -18,7 +17,6 @@ class DecorateArgs {
 	public isRgbColorEnabled: boolean = false;
 	public isTodoHighlightEnabled: boolean = false;
 	public isCurrentRowHighlightEnabled: boolean = false;
-	//public readonly outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
 	public editorConfig: any = null;
 	public lineOfCode: string = "";
 	public lineOfCodeTrimmedLowered: string = "";
@@ -117,7 +115,7 @@ function getMetaCommandDecoration(decorateArgs: DecorateArgs, scopeName: string)
 
 		return vscode.window.createTextEditorDecorationType({ color: color });
 	} catch (error) {
-		globalCache.LogError(`ERROR in getMetaCommandDecoration: ${error}`);
+		globalCache.logError(`ERROR in getMetaCommandDecoration: ${error}`);
 		return null;
 	}
 }
@@ -147,7 +145,7 @@ function getSubDecoration(decorateArgs: DecorateArgs): vscode.TextEditorDecorati
 		}
 		return decorationTypeSub;
 	} catch (error) {
-		globalCache.LogError(`ERROR in getSubdecoration: ${error}`)
+		globalCache.logError(`ERROR in getSubdecoration: ${error}`)
 		return null;
 	}
 }
@@ -265,7 +263,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 		}
 
 	} catch (error) {
-		globalCache.LogError(`ERROR in scanFile: ${error}`)
+		globalCache.logError(`ERROR in scanFile: ${error}`)
 	} finally {
 		if (currrentLine) {
 			lastLine = currrentLine;
@@ -284,7 +282,7 @@ function addDiagnostic(decorateArgs: DecorateArgs, message: string, diagnosticSe
 			decorateArgs.diagnostics.push(new vscode.Diagnostic(lineRange, message, diagnosticSeverity));
 		}
 	} catch (error) {
-		globalCache.LogError(`Error while adding diagnostic: ${error}`)
+		globalCache.logError(`Error while adding diagnostic: ${error}`)
 	}
 }
 
@@ -327,7 +325,7 @@ function decorate(decorateArgs: DecorateArgs) {
 			if (decorateArgs.isTodoHighlightEnabled) {
 				const matches = decorateArgs.lineOfCode.matchAll(/(?:'|\brem\b)\s*\b(todo|fixit|fixme)\b:?/ig);
 				for (const match of matches) {
-					decorateArgs.todos.push(commonFunctions.createRange(match, decorateArgs.lineNumber, 0));
+					decorateArgs.todos.push(globalCache.createRange(match, decorateArgs.lineNumber, 0));
 				}
 			}
 			return;
@@ -354,7 +352,7 @@ function decorate(decorateArgs: DecorateArgs) {
 			if (matches) {
 				for (const match of matches) {
 					let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
-					decorateArgs.editor.setDecorations(vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})`, borderRadius: "5px" }), [commonFunctions.createRange(match, decorateArgs.lineNumber, 0)]);
+					decorateArgs.editor.setDecorations(vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})`, borderRadius: "5px" }), [globalCache.createRange(match, decorateArgs.lineNumber, 0)]);
 				}
 			}
 		}
@@ -368,10 +366,10 @@ function decorate(decorateArgs: DecorateArgs) {
 
 		let match: RegExpMatchArray = decorateArgs.lineOfCode.match(/'\$INCLUDE:/i)
 		if (match && match.index !== undefined) {
-			decorateArgs.includeLeading.push(commonFunctions.createRange(match, decorateArgs.lineNumber, 0));
+			decorateArgs.includeLeading.push(globalCache.createRange(match, decorateArgs.lineNumber, 0));
 			match = decorateArgs.lineOfCode.match(/'(.*)'/i)
 			if (match !== null && match.index !== undefined) {
-				decorateArgs.includeTrailing.push(commonFunctions.createRange(match, decorateArgs.lineNumber, 0));
+				decorateArgs.includeTrailing.push(globalCache.createRange(match, decorateArgs.lineNumber, 0));
 			}
 		}
 
@@ -394,7 +392,7 @@ function decorate(decorateArgs: DecorateArgs) {
 		let matches = decorateArgs.lineOfCode.matchAll(/(?<=\W|^)(REM|'|\$DYNAMIC|\$STATIC|Option _Explicit|Option Explicit|option _explicitarray|option explicitarray|\$RESIZE:ON|\$RESIZE:OFF|\$RESIZE:STRETCH|\$RESIZE:SMOOTH|\$ASSERTS|\$Noprefix|\$CHECKING|\$COLOR|\$CONSOLE:ONLY|\$CONSOLE:ON|\$CONSOLE:OFF|\$CONSOLE|\$DEBUG|\$ERROR|\$EXEICON:|\$LET|\$IF|\$ELSEIF|\$END IF|\$SCREENHIDE|\$SCREENSHOW|\$VIRTUALKEYBOARD|\$VERSIONINFO:Comments|\$VERSIONINFO:CompanyName|\$VERSIONINFO:FileDescription|\$VERSIONINFO:FileVersion|\$VERSIONINFO:InternalName|\$VERSIONINFO:LegalCopyright|\$VERSIONINFO:LegalTrademarks|\$VERSIONINFO:OriginalFilename|\$VERSIONINFO:ProductName|\$VERSIONINFO:ProductVersion|\$VERSIONINFO:Web)(?=\W|$)/ig);
 		if (matches) {
 			for (const match of matches) {
-				decorateArgs.metacommands.push(commonFunctions.createRange(match, decorateArgs.lineNumber, 0));
+				decorateArgs.metacommands.push(globalCache.createRange(match, decorateArgs.lineNumber, 0));
 			}
 		}
 
@@ -403,7 +401,7 @@ function decorate(decorateArgs: DecorateArgs) {
 			for (let tokenIndex = 0; tokenIndex < tokens.length; tokenIndex++) {
 				const sub = globalCache.symbols.find((s) => s.name && s.name === tokens[tokenIndex].trim().toLowerCase().replace(/(call|gosub|goto|:)$/i, ""));
 				if (sub) {
-					let subName = commonFunctions.escapeRegExp(sub.name)
+					let subName = globalCache.escapeRegExp(sub.name)
 
 					if (subName.endsWith(":")) {
 						subName = subName.slice(0, -1);
@@ -420,6 +418,6 @@ function decorate(decorateArgs: DecorateArgs) {
 		}
 
 	} catch (error) {
-		globalCache.LogError(`ERROR in decorate: ${error}`)
+		globalCache.logError(`ERROR in decorate: ${error}`)
 	}
 }

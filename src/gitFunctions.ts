@@ -22,7 +22,7 @@ export function createGitignore() {
 		fs.writeFileSync(giPath, createGitIngoreText())
 
 	} catch (error) {
-		globalCache.LogError(`ERROR: ${error}`)
+		globalCache.logError(`ERROR: ${error}`)
 	}
 }
 
@@ -32,7 +32,7 @@ export function addToGitIgnore(items: any) {
 	try {
 
 		if (!fs.existsSync(giPath)) {
-			globalCache.LogError(`File: ${giPath} Not Found`)
+			globalCache.logError(`File: ${giPath} Not Found`)
 			return;
 		}
 
@@ -47,14 +47,14 @@ export function addToGitIgnore(items: any) {
 			}
 		}
 	} catch (error) {
-		globalCache.LogError(`ERROR: ${error}`);
+		globalCache.logError(`ERROR: ${error}`);
 	}
 }
 
 function addSingleItemGitIgnore(itemToAdd: string, giPath: string) {
 
 	if (!(itemToAdd)) {
-		globalCache.LogError(`Item to add is null`)
+		globalCache.logError(`Item to add is null`)
 		return;
 	}
 

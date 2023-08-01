@@ -1,7 +1,6 @@
 "use strict";
 import * as fs from "fs";
 import * as vscode from "vscode";
-import * as commonFunctions from "./commonFunctions";
 import { globalCache } from "./globalCache";
 
 export class TokenInfo {
@@ -23,7 +22,7 @@ export class TokenInfo {
 			if (word.length > 0) {
 				token = word.split(" ")[0];
 			} else {
-				token = commonFunctions.getQB64Word(editor);
+				token = globalCache.getQB64Word(editor);
 			}
 		}
 

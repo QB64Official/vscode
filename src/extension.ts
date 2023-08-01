@@ -5,7 +5,6 @@ import * as gitFunctions from "./gitFunctions";
 import * as vscodeFucnctions from "./vscodeFunctions";
 import * as decoratorFunctions from "./decoratorFunctions";
 import * as lintFunctions from "./lintFunctions";
-import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
 import * as path from 'path';
@@ -28,7 +27,7 @@ import { globalCache } from "./globalCache"
 export async function activate(context: vscode.ExtensionContext) {
 	//cache = new GlobalCache();
 	const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
-	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
+	const documentSelector: vscode.DocumentSelector = globalCache.getDocumentSelector()
 
 	vscode.workspace.onWillSaveTextDocument(() => {
 		if (config.get("isCreateBakFileEnabled")) {
@@ -55,8 +54,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.renumberLines', () => { renumberLines(); }));
 
 	// Register Providers here
-	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
-	context.subscriptions.push(vscode.languages.registerDefinitionProvider(commonFunctions.getDocumentSelector(), new DefinitionProvider()));
+	context.subscriptions.push(vscode.languages.registerReferenceProvider(globalCache.getDocumentSelector(), new ReferenceProvider()));
+	context.subscriptions.push(vscode.languages.registerDefinitionProvider(globalCache.getDocumentSelector(), new DefinitionProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(documentSelector, new DocumentSymbolProvider()));
 	context.subscriptions.push(vscode.languages.registerHoverProvider(documentSelector, new HoverProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
@@ -124,7 +123,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 export async function getPort(portType: string = ""): Promise<number> {
 	if (!portType || portType.length < 1) {
-		globalCache.LogError('Porttype: not set.');
+		globalCache.logError('Porttype: not set.');
 		return -1;
 	}
 
@@ -133,7 +132,7 @@ export async function getPort(portType: string = ""): Promise<number> {
 	if (port && port > 0) {
 		if ((await isPortInUse(port))) {
 			port = -1;
-			globalCache.LogError(`Port: ${port} already in use.`);
+			globalCache.logError(`Port: ${port} already in use.`);
 		} else {
 			globalCache.log(`Using port: ${port} from setting ${portType}`);
 		}
@@ -148,7 +147,7 @@ export async function getPort(portType: string = ""): Promise<number> {
 				break;
 			}
 		} catch (err) {
-			globalCache.LogError(`Error when checking port: ${err}`);
+			globalCache.logError(`Error when checking port: ${err}`);
 			port = -1;
 		}
 	}
@@ -348,7 +347,7 @@ function createBackup() {
 		fs.copyFileSync(source, backupFile)
 		return true;
 	} catch (error) {
-		globalCache.LogError(`ERROR in createBackup: ${error}`)
+		globalCache.logError(`ERROR in createBackup: ${error}`)
 		return false;
 	}
 }

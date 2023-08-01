@@ -14,7 +14,7 @@ export function openCurrentFileInQB64() {
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			globalCache.LogError("The QB64 compiler path is not set.");
+			globalCache.logError("The QB64 compiler path is not set.");
 			return;
 		}
 
@@ -22,20 +22,20 @@ export function openCurrentFileInQB64() {
 
 		exec(command, (error, stdout, stderr) => {
 			if (error) {
-				globalCache.LogError(error.message);
+				globalCache.logError(error.message);
 			}
 
 			if (stderr) {
-				globalCache.LogError(stderr);
+				globalCache.logError(stderr);
 			}
 
 			if (stdout) {
 				globalCache.log(stdout);
 			} else {
-				globalCache.LogError("No stdout from the compiler found");
+				globalCache.logError("No stdout from the compiler found");
 			}
 		});
 	} catch (error) {
-		globalCache.LogError(`ERROR: ${error}`);
+		globalCache.logError(`ERROR: ${error}`);
 	}
 }

@@ -210,6 +210,6 @@ export function createFiles() {
 		}
 
 	} catch (error) {
-		globalCache.LogError(`ERROR: ${error}`);
+		globalCache.logError(`ERROR: ${error}`);
 	}
 }

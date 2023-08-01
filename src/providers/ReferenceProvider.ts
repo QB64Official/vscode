@@ -1,6 +1,5 @@
 "use strict";
 import * as vscode from "vscode";
-import * as commonFunctions from "../commonFunctions";
 import { globalCache } from "../globalCache";
 
 // 
@@ -25,8 +24,8 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
 	private processSearch(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Thenable<vscode.Location[]> {
 		return new Promise<vscode.Location[]>((resolve) => {
 
-			const word = commonFunctions.getQB64Word(vscode.window.activeTextEditor)
-			const escapedWord = commonFunctions.escapeRegExp(word);
+			const word = globalCache.getQB64Word(vscode.window.activeTextEditor)
+			const escapedWord = globalCache.escapeRegExp(word);
 			let list: vscode.Location[] = [];
 			this.doSearch(document, list, token, escapedWord);
 			return resolve(list);
@@ -51,11 +50,11 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
 				const matches = line.matchAll(new RegExp("\\b" + escapedWord + "\\b", "ig"));
 				if (matches) {
 					for (const match of matches) {
-						list.push(new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber)));
+						list.push(new vscode.Location(vscode.Uri.file(document.fileName), globalCache.createRange(match, lineNumber)));
 					}
 				}
 			} catch (error) {
-				globalCache.LogError(`ERROR: ${error}`);
+				globalCache.logError(`ERROR: ${error}`);
 
 			}
 		}
