@@ -1,7 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
 import * as fs from "fs";
-import { globalCache } from "./globalCache";
+import { utilities } from "./utilities";
 
 export function createFiles() {
 
@@ -187,29 +187,29 @@ export function createFiles() {
 
 
 		if (!fs.existsSync(vscodeFolder)) {
-			globalCache.log(`Creating folder: ${vscodeFolder}`);
+			utilities.log(`Creating folder: ${vscodeFolder}`);
 			fs.mkdirSync(vscodeFolder);
 		}
 
 		const launchFile = vscodeFolder + "/launch.json";
 		if (!fs.existsSync(launchFile)) {
-			globalCache.log(`Creating File: ${launchFile}`);
+			utilities.log(`Creating File: ${launchFile}`);
 			fs.writeFileSync(launchFile, launchJson);
 		}
 
 		const settingsFile: string = vscodeFolder + "/settings.json";
 		if (!fs.existsSync(settingsFile)) {
-			globalCache.log(`Creating File: ${settingsFile}`);
+			utilities.log(`Creating File: ${settingsFile}`);
 			fs.writeFileSync(settingsFile, settingsJson);
 		}
 
 		const buildTaskFile: string = vscodeFolder + "/tasks.json";
 		if (!fs.existsSync(buildTaskFile)) {
-			globalCache.log(`Creating File: ${buildTaskFile}`);
+			utilities.log(`Creating File: ${buildTaskFile}`);
 			fs.writeFileSync(buildTaskFile, tasksJson);
 		}
 
 	} catch (error) {
-		globalCache.logError(`ERROR: ${error}`);
+		utilities.logError(`ERROR: ${error}`);
 	}
 }

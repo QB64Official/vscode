@@ -1,7 +1,7 @@
 "use strict";
 import { exec } from "child_process";
 import * as vscode from "vscode";
-import { globalCache } from "./globalCache";
+import { utilities } from "./utilities";
 
 export function openCurrentFileInQB64() {
 
@@ -10,11 +10,11 @@ export function openCurrentFileInQB64() {
 			return;
 		}
 
-		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
+		const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			globalCache.logError("The QB64 compiler path is not set.");
+			utilities.logError("The QB64 compiler path is not set.");
 			return;
 		}
 
@@ -22,20 +22,20 @@ export function openCurrentFileInQB64() {
 
 		exec(command, (error, stdout, stderr) => {
 			if (error) {
-				globalCache.logError(error.message);
+				utilities.logError(error.message);
 			}
 
 			if (stderr) {
-				globalCache.logError(stderr);
+				utilities.logError(stderr);
 			}
 
 			if (stdout) {
-				globalCache.log(stdout);
+				utilities.log(stdout);
 			} else {
-				globalCache.logError("No stdout from the compiler found");
+				utilities.logError("No stdout from the compiler found");
 			}
 		});
 	} catch (error) {
-		globalCache.logError(`ERROR: ${error}`);
+		utilities.logError(`ERROR: ${error}`);
 	}
 }

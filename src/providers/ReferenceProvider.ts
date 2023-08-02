@@ -1,6 +1,6 @@
 "use strict";
 import * as vscode from "vscode";
-import { globalCache } from "../globalCache";
+import { utilities } from "../utilities";
 
 // 
 //  https://github.com/gayanhewa/vscode-find-all-references/blob/master/src/Providers/ReferenceProvider.ts
@@ -24,8 +24,8 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
 	private processSearch(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Thenable<vscode.Location[]> {
 		return new Promise<vscode.Location[]>((resolve) => {
 
-			const word = globalCache.getQB64Word(vscode.window.activeTextEditor)
-			const escapedWord = globalCache.escapeRegExp(word);
+			const word = utilities.getQB64Word(vscode.window.activeTextEditor)
+			const escapedWord = utilities.escapeRegExp(word);
 			let list: vscode.Location[] = [];
 			this.doSearch(document, list, token, escapedWord);
 			return resolve(list);
@@ -50,11 +50,11 @@ export class ReferenceProvider implements vscode.ReferenceProvider {
 				const matches = line.matchAll(new RegExp("\\b" + escapedWord + "\\b", "ig"));
 				if (matches) {
 					for (const match of matches) {
-						list.push(new vscode.Location(vscode.Uri.file(document.fileName), globalCache.createRange(match, lineNumber)));
+						list.push(new vscode.Location(vscode.Uri.file(document.fileName), utilities.createRange(match, lineNumber)));
 					}
 				}
 			} catch (error) {
-				globalCache.logError(`ERROR: ${error}`);
+				utilities.logError(`ERROR: ${error}`);
 
 			}
 		}

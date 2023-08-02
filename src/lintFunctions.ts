@@ -4,7 +4,7 @@ import path from "path";
 import { exec } from "child_process";
 import os from "os";
 import fs from "fs";
-import { globalCache } from "./globalCache";
+import { utilities } from "./utilities";
 
 var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('QB64-lint')
 
@@ -12,19 +12,19 @@ var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createD
  * Runs the compiler/linter then calls lintCurrentFile with the output.
  */
 export function runLint() {
-	const outputChannnel: any = globalCache.getChannel();
+	const outputChannnel: any = utilities.getChannel();
 
 	try {
 		if (!vscode.window.activeTextEditor) {
-			globalCache.logError("Cannot find activeTextEditor");
+			utilities.logError("Cannot find activeTextEditor");
 			return;
 		}
 
-		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
+		const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			globalCache.logError("The compiler path is not set.");
+			utilities.logError("The compiler path is not set.");
 			return;
 		}
 
@@ -47,17 +47,17 @@ export function runLint() {
 		}
 
 		if (!fs.existsSync(binaryName)) {
-			globalCache.logError(`File: ${binaryName} Not Found`);
-			globalCache.writeToChannel(`File: ${binaryName} Not Found`, outputChannnel);
+			utilities.logError(`File: ${binaryName} Not Found`);
+			utilities.writeToChannel(`File: ${binaryName} Not Found`, outputChannnel);
 			return;
 		}
 
 		exec(command, (error, stdout, stderr) => {
 			if (error) {
-				globalCache.logError(error.message);
+				utilities.logError(error.message);
 			}
 			if (stderr) {
-				globalCache.logError(stderr);
+				utilities.logError(stderr);
 			}
 			if (stdout) {
 				lintCompilerOutput(stdout);
@@ -65,12 +65,12 @@ export function runLint() {
 					deleteFile(binaryName);
 				}
 			} else {
-				globalCache.logError("No stdout from compiler found")
+				utilities.logError("No stdout from compiler found")
 			}
 		});
 
 	} catch (error) {
-		globalCache.logError(`ERROR in runLint: ${error}`);
+		utilities.logError(`ERROR in runLint: ${error}`);
 	}
 }
 
@@ -87,7 +87,7 @@ function deleteFile(fileName: string) {
 				await unlink(path);
 			}
 		} catch (error) {
-			globalCache.logError(`ERROR in deleteFile: ${error.message}`);
+			utilities.logError(`ERROR in deleteFile: ${error.message}`);
 		}
 	})(fileName);
 }
@@ -98,13 +98,13 @@ function deleteFile(fileName: string) {
  * @returns void
  */
 export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = false) {
-	const outputChannnel: any = globalCache.getChannel();
+	const outputChannnel: any = utilities.getChannel();
 	const lintSource = "QB64-lint"
 
 	try {
 		let document: vscode.TextDocument = vscode.window.activeTextEditor.document;
 		if (!document) {
-			globalCache.logError("Unable to find document");
+			utilities.logError("Unable to find document");
 			return;
 		}
 		let sourceCode: string[] = document.getText().split('\n')
@@ -169,7 +169,7 @@ export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = 
 					if (element.startsWith("LINE ")) {
 						const work: string[] = element.split(":")
 						if (work.length > 0) {
-							code = globalCache.escapeRegExp(work[1].replace("\r", "")).trim();
+							code = utilities.escapeRegExp(work[1].replace("\r", "")).trim();
 							if (!code || code.length < 1) {
 								code = lintLine;
 							}
@@ -184,10 +184,10 @@ export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = 
 				}
 
 				let diagnostic: vscode.Diagnostic
-				const match = sourceCode[errorLineNumber].match(new RegExp("(" + globalCache.escapeRegExp(code) + ")", "i"));
+				const match = sourceCode[errorLineNumber].match(new RegExp("(" + utilities.escapeRegExp(code) + ")", "i"));
 				const message = lintLine.replace("\r", "") + "\n" + lines[lineIndex + 1].replace("\r", "");
 				if (match) {
-					diagnostic = new vscode.Diagnostic(globalCache.createRange(match, errorLineNumber), message);
+					diagnostic = new vscode.Diagnostic(utilities.createRange(match, errorLineNumber), message);
 				} else {
 					diagnostic = new vscode.Diagnostic(new vscode.Range(new vscode.Position(errorLineNumber, 0), new vscode.Position(errorLineNumber, 9999)), message);
 				}
@@ -224,7 +224,7 @@ export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = 
 		}
 
 	} catch (error) {
-		globalCache.logError(`ERROR: ${error}`);
-		globalCache.writeToChannel(`ERROR: ${error}`, outputChannnel);
+		utilities.logError(`ERROR: ${error}`);
+		utilities.writeToChannel(`ERROR: ${error}`, outputChannnel);
 	}
 }

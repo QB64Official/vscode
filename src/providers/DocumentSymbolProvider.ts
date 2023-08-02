@@ -1,7 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
 import { TodoItem } from "../TodoItem";
-import { globalCache } from "../globalCache";
+import { utilities } from "../utilities";
 
 // Setup the Outline window
 export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
@@ -10,15 +10,15 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 		_token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
 		return new Promise(function (resolve, _reject): void {
 
-			globalCache.activeEditor = vscode.window.activeTextEditor
-			globalCache.constVariables.length = 0;
-			globalCache.sharedVariables.length = 0;
+			utilities.activeEditor = vscode.window.activeTextEditor
+			utilities.constVariables.length = 0;
+			utilities.sharedVariables.length = 0;
 
 			function getParams(code: string) {
 				return code.trim().substring(code.trim().indexOf("(") + 1, code.trim().lastIndexOf(")"));
 			}
 
-			globalCache.todoTreeProvider.clear();
+			utilities.todoTreeProvider.clear();
 
 			const todoRegex = /(?:'|\brem\b).*(todo|fixit|fixme):?/i;
 			let symbols: vscode.DocumentSymbol[] = [];
@@ -38,7 +38,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				if (todoMatch) {
 					const todoComment = line.text.trim().substring(todoMatch.index! + todoMatch[0].length).trim(); // Don't use lineText - it is all lower case.
 					const todoItem = new TodoItem(todoComment, vscode.TreeItemCollapsibleState.None, new vscode.Range(line.lineNumber, 0, line.lineNumber, line.text.length), document.uri);
-					globalCache.todoTreeProvider.addTodoItem(todoItem);
+					utilities.todoTreeProvider.addTodoItem(todoItem);
 				}
 
 				if (lineText.startsWith('sub ')) {
@@ -73,7 +73,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 						if (symbol != '_') {
 							symbolKind = vscode.SymbolKind.Constant;
 							symbolText = '= ' + line.text.trim().substring(equal_pos + 1).trim();
-							globalCache.constVariables.push(
+							utilities.constVariables.push(
 								{
 									name: symbol,
 									value: line.text.trim().substring(equal_pos + 1).trim(),
@@ -84,7 +84,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				} else {
 					const match = lineText.match(/\bdim\s+shared\s+(\w+)/i);
 					if (match && match[1]) {
-						globalCache.sharedVariables.push(
+						utilities.sharedVariables.push(
 							{
 								name: match[1],
 								value: "",
@@ -157,9 +157,9 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
 					if (symbolKind === vscode.SymbolKind.Method || symbolKind === vscode.SymbolKind.Function) {
 						const symbolName = symbol.toLowerCase().replace(/(call|gosub|goto|:)$/i, "");
-						const existingSymbol = globalCache.symbols.find(s => s.name === symbolName);
+						const existingSymbol = utilities.symbols.find(s => s.name === symbolName);
 						if (!existingSymbol) {
-							globalCache.symbols.push(new vscode.DocumentSymbol(
+							utilities.symbols.push(new vscode.DocumentSymbol(
 								symbol.toLowerCase().replace(/(call|gosub|goto|:)$/i, ""),
 								symbolText,
 								symbolKind,
@@ -177,7 +177,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				}
 			}
 			resolve(symbols);
-			globalCache.todoTreeProvider.refresh();
+			utilities.todoTreeProvider.refresh();
 
 		});
 	}

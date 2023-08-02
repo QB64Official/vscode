@@ -17,7 +17,7 @@ import { HoverProvider } from "./providers/HoverProvider";
 import { createDebuggerInterface } from './debugAdapter';
 import net from 'net';
 import { DebugCommands } from "./debugAdapter"
-import { globalCache } from "./globalCache"
+import { utilities } from "./utilities"
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
@@ -26,8 +26,8 @@ import { globalCache } from "./globalCache"
 
 export async function activate(context: vscode.ExtensionContext) {
 	//cache = new GlobalCache();
-	const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
-	const documentSelector: vscode.DocumentSelector = globalCache.getDocumentSelector()
+	const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
+	const documentSelector: vscode.DocumentSelector = utilities.getDocumentSelector()
 
 	vscode.workspace.onWillSaveTextDocument(() => {
 		if (config.get("isCreateBakFileEnabled")) {
@@ -54,8 +54,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.renumberLines', () => { renumberLines(); }));
 
 	// Register Providers here
-	context.subscriptions.push(vscode.languages.registerReferenceProvider(globalCache.getDocumentSelector(), new ReferenceProvider()));
-	context.subscriptions.push(vscode.languages.registerDefinitionProvider(globalCache.getDocumentSelector(), new DefinitionProvider()));
+	context.subscriptions.push(vscode.languages.registerReferenceProvider(utilities.getDocumentSelector(), new ReferenceProvider()));
+	context.subscriptions.push(vscode.languages.registerDefinitionProvider(utilities.getDocumentSelector(), new DefinitionProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(documentSelector, new DocumentSymbolProvider()));
 	context.subscriptions.push(vscode.languages.registerHoverProvider(documentSelector, new HoverProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
@@ -72,22 +72,22 @@ export async function activate(context: vscode.ExtensionContext) {
 				new vscode.Position(lineNumber, vscode.window.activeTextEditor.document.lineAt(lineNumber).text.length)
 			);
 
-			const index = globalCache.skipLineRanges.findIndex(r => r.start.line === range.start.line && r.end.line === range.end.line);
+			const index = utilities.skipLineRanges.findIndex(r => r.start.line === range.start.line && r.end.line === range.end.line);
 
 			if (index !== -1) {
-				globalCache.skipLineRanges.splice(index, 1);
+				utilities.skipLineRanges.splice(index, 1);
 				vscode.debug.activeDebugSession.customRequest(DebugCommands.ClearSkipLine, { line: lineNumber });
 			} else {
-				globalCache.skipLineRanges.push(range);
+				utilities.skipLineRanges.push(range);
 				vscode.debug.activeDebugSession.customRequest(DebugCommands.SetSkipLine, { line: lineNumber });
 			}
-			vscode.window.activeTextEditor.setDecorations(globalCache.decorationSkipLine, globalCache.skipLineRanges);
+			vscode.window.activeTextEditor.setDecorations(utilities.decorationSkipLine, utilities.skipLineRanges);
 		}
 	});
 
 	vscode.commands.registerCommand('extension.skipLineClearAll', () => {
-		globalCache.skipLineRanges.length = 0;
-		vscode.window.activeTextEditor.setDecorations(globalCache.decorationSkipLine, globalCache.skipLineRanges);
+		utilities.skipLineRanges.length = 0;
+		vscode.window.activeTextEditor.setDecorations(utilities.decorationSkipLine, utilities.skipLineRanges);
 		vscode.debug.activeDebugSession.customRequest(DebugCommands.ClearAllSkips);
 	});
 
@@ -101,8 +101,8 @@ export async function activate(context: vscode.ExtensionContext) {
 		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
 	}
 
-	vscode.window.registerTreeDataProvider('todo', globalCache.todoTreeProvider);
-	vscode.commands.registerCommand('extension.refreshTodo', () => globalCache.todoTreeProvider.refresh());
+	vscode.window.registerTreeDataProvider('todo', utilities.todoTreeProvider);
+	vscode.commands.registerCommand('extension.refreshTodo', () => utilities.todoTreeProvider.refresh());
 
 
 	// The number are to make sure the port is in the range of 1024 to 49151
@@ -123,7 +123,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 export async function getPort(portType: string = ""): Promise<number> {
 	if (!portType || portType.length < 1) {
-		globalCache.logError('Porttype: not set.');
+		utilities.logError('Porttype: not set.');
 		return -1;
 	}
 
@@ -132,9 +132,9 @@ export async function getPort(portType: string = ""): Promise<number> {
 	if (port && port > 0) {
 		if ((await isPortInUse(port))) {
 			port = -1;
-			globalCache.logError(`Port: ${port} already in use.`);
+			utilities.logError(`Port: ${port} already in use.`);
 		} else {
-			globalCache.log(`Using port: ${port} from setting ${portType}`);
+			utilities.log(`Using port: ${port} from setting ${portType}`);
 		}
 		return port;
 	}
@@ -147,7 +147,7 @@ export async function getPort(portType: string = ""): Promise<number> {
 				break;
 			}
 		} catch (err) {
-			globalCache.logError(`Error when checking port: ${err}`);
+			utilities.logError(`Error when checking port: ${err}`);
 			port = -1;
 		}
 	}
@@ -347,7 +347,7 @@ function createBackup() {
 		fs.copyFileSync(source, backupFile)
 		return true;
 	} catch (error) {
-		globalCache.logError(`ERROR in createBackup: ${error}`)
+		utilities.logError(`ERROR in createBackup: ${error}`)
 		return false;
 	}
 }

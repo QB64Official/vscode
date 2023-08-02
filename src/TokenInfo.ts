@@ -1,7 +1,7 @@
 "use strict";
 import * as fs from "fs";
 import * as vscode from "vscode";
-import { globalCache } from "./globalCache";
+import { utilities } from "./utilities";
 
 export class TokenInfo {
 	private outputChannnel: any = null;
@@ -22,7 +22,7 @@ export class TokenInfo {
 			if (word.length > 0) {
 				token = word.split(" ")[0];
 			} else {
-				token = globalCache.getQB64Word(editor);
+				token = utilities.getQB64Word(editor);
 			}
 		}
 
@@ -36,7 +36,7 @@ export class TokenInfo {
 
 		this.token = token;
 		this.keyword = token;
-		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
+		const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 		const path = require('path');
 
 		let helpPath: string = config.get("helpPath");
@@ -153,7 +153,7 @@ export class TokenInfo {
 		let retvalue = ""
 		if (this.isKeyword) {
 			if (this.offlinehelp.length > 0) {
-				const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
+				const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 				let helpPath: string = config.get("helpPath");
 				retvalue = fs.readFileSync(this.offlinehelp).toString();
 				retvalue = retvalue.replaceAll(/\[([\w|\$]*)\]\(([\w|\$]*)\)/igm, '[$1](file:' + helpPath.replaceAll('\\', '/') + '/$1.md)');
@@ -169,21 +169,21 @@ export class TokenInfo {
 	 */
 	public showHelp() {
 		try {
-			const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
+			const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 			if (this.offlinehelp.length > 0) {
 				if (config.get("isOpenHelpInEditModeEnabled")) {
-					globalCache.writeToChannel(`Open ${this.offlinehelp} in edit mode`, this.outputChannnel);
+					utilities.writeToChannel(`Open ${this.offlinehelp} in edit mode`, this.outputChannnel);
 					vscode.workspace.openTextDocument(this.offlinehelp).then(d => vscode.window.showTextDocument(d));
 				} else {
-					globalCache.writeToChannel(`Open ${this.offlinehelp} in view mode`, this.outputChannnel);
+					utilities.writeToChannel(`Open ${this.offlinehelp} in view mode`, this.outputChannnel);
 					vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.file(this.offlinehelp));
 				}
 			} else if (config.get("isOpenOnLineHelpEnabled")) {
-				globalCache.writeToChannel(`Open URL: ${this.onlineHelp} `, this.outputChannnel);
+				utilities.writeToChannel(`Open URL: ${this.onlineHelp} `, this.outputChannnel);
 				vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(this.onlineHelp));
 			}
 		} catch (error) {
-			globalCache.writeToChannel(`ERROR in showHelp: ${error}`, this.outputChannnel);
+			utilities.writeToChannel(`ERROR in showHelp: ${error}`, this.outputChannnel);
 			vscode.window.showErrorMessage(`"ERROR: ${error}`)
 		}
 	}

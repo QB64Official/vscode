@@ -1,7 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
 import { TokenInfo } from "../TokenInfo";
-import { globalCache } from "../globalCache";
+import { utilities } from "../utilities";
 
 // Code Formatter
 // Seems like a good place to find includes and make the double click to open work.
@@ -325,7 +325,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			}
 
 		} catch (error) {
-			globalCache.logError(`ERROR in provideDocumentFormattingEdits: ${error}`);
+			utilities.logError(`ERROR in provideDocumentFormattingEdits: ${error}`);
 		}
 		return retvalue;
 	}
@@ -361,7 +361,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			if (tokenInfo) {
 				return tokenInfo.WordFormatted;
 			} else {
-				globalCache.logError(`Unable to find ${word}`);
+				utilities.logError(`Unable to find ${word}`);
 			}
 		}
 		return word;

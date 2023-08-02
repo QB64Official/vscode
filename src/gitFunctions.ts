@@ -1,13 +1,13 @@
 "use strict";
 import * as vscode from "vscode";
 import * as fs from "fs";
-import { globalCache } from "./globalCache"
+import { utilities } from "./utilities"
 
 export function createGitignore() {
 
 	try {
 
-		const config: vscode.WorkspaceConfiguration = globalCache.getConfiguration();
+		const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 		const isCreateGitIgnoreEnabled: boolean = config.get("isCreateGitIgnoreEnabled");
 
 		if (!isCreateGitIgnoreEnabled) {
@@ -22,7 +22,7 @@ export function createGitignore() {
 		fs.writeFileSync(giPath, createGitIngoreText())
 
 	} catch (error) {
-		globalCache.logError(`ERROR: ${error}`)
+		utilities.logError(`ERROR: ${error}`)
 	}
 }
 
@@ -32,7 +32,7 @@ export function addToGitIgnore(items: any) {
 	try {
 
 		if (!fs.existsSync(giPath)) {
-			globalCache.logError(`File: ${giPath} Not Found`)
+			utilities.logError(`File: ${giPath} Not Found`)
 			return;
 		}
 
@@ -47,14 +47,14 @@ export function addToGitIgnore(items: any) {
 			}
 		}
 	} catch (error) {
-		globalCache.logError(`ERROR: ${error}`);
+		utilities.logError(`ERROR: ${error}`);
 	}
 }
 
 function addSingleItemGitIgnore(itemToAdd: string, giPath: string) {
 
 	if (!(itemToAdd)) {
-		globalCache.logError(`Item to add is null`)
+		utilities.logError(`Item to add is null`)
 		return;
 	}
 

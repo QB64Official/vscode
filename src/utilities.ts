@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { TodoTreeProvider } from "./TodoTreeProvider";
 import { DebugProtocol } from "@vscode/debugprotocol";
 
-export class GlobalCache {
+export class Utilities {
 	public consolePrefix: string = "QB64: ";
 	public activeEditor: vscode.TextEditor | undefined = undefined;
 	public skipLineRanges: vscode.Range[] = []; // Global variable to keep track of the decorations
@@ -194,4 +194,4 @@ export class GlobalCache {
 }
 
 const qb64Channel: vscode.OutputChannel = vscode.window.createOutputChannel("QB64", "QB64");
-export var globalCache: GlobalCache = new GlobalCache();
+export var utilities: Utilities = new Utilities();
