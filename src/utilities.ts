@@ -49,8 +49,11 @@ export class Utilities {
 		return vscode.workspace.getConfiguration("qb64");
 	}
 
-	public logError(message: string) {
+	public logError(message: string, showError: boolean = true) {
 		console.error(`${this.consolePrefix}${message}`);
+		if (showError) {
+			vscode.window.showErrorMessage(message);
+		}
 	}
 
 	public log(message: string) {

@@ -15,6 +15,7 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Added the setting debuggerPort.  Port to use when debugging defualt is 0 - 0 means use a random open port.
   - Added constants,globals,locals to the variables pane (not values yet just names)
   - Refactoring
+  - Added Error message if the server port for the debugger can't be opened.
 
 ## 1.0.2
    - Bugs

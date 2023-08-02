@@ -96,8 +96,9 @@ class Debuggee {
 
 		if (this.spawn && this.attached) {
 			if (this.spawn && !this.spawn.killed) {
-				//this.spawn.kill();
+				this.spawn.kill();
 			}
+
 			this.spawn = null;
 
 			if (this.socket) {
@@ -192,12 +193,23 @@ export function createDebuggerInterface(vsCodePort: number) {
 
 	});
 
+
+	server.on('error', (error: any) => {
+		if (error.code === 'EADDRINUSE') {
+			utilities.logError(`Port ${vsCodePort} is in use`);
+		} else if (error.code === 'EACCES') {
+			utilities.logError(`Permission denied on port ${vsCodePort}`);
+		} else {
+			utilities.logError(`An error occurred on the server: ${error.message}`);
+		}
+	});
+
 	server.listen(vsCodePort, function () {
 		const address = server.address();
 		if (typeof address === 'string') {
-			utilities.log(`${utilities.consolePrefix}server is listening at ${address} `)
+			utilities.log(`server is listening at ${address}`)
 		} else {
-			utilities.log(`${utilities.consolePrefix}server listening on port ${address?.port} `);
+			utilities.log(`server listening on port ${address?.port}`);
 		}
 	});
 	return server;
@@ -960,5 +972,4 @@ class DebugAdapter extends debug.DebugSession {
 			this.isDebuggerRunning = false;
 		}
 	}
-
 }
