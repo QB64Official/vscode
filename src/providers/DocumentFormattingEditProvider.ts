@@ -37,10 +37,15 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		}
 
 		//const work = lowerLine.substring(lowerLine.indexOf("'", lowerLine.indexOf("then")));
-		if (lowerLine.match(/then\s*'/i)) {
+		//if (lowerLine.match(/then\s*'/i)) {
+		//	return false;
+		//}
+
+		if (lowerLine.match(/^IF\s+.*(\s+THEN\s+.*|\s+ELSE\s+.*|)?$/i)) {
+			return true;
+		} else {
 			return false;
 		}
-		return true;
 	}
 
 	/**
@@ -105,10 +110,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 	private cleanUpCode(code: string): string {
 
-		//
-
-		//.replaceAll(/(?<!")\s*:\s*/g, " : ")
-
 		code = code
 			.replaceAll(/(?<!")\s*-\s*/g, "-")
 			.replaceAll(/(?<!")\s*:\s*/g, " : ")
@@ -144,15 +145,19 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			.trim();
 
 		if (code.toLowerCase().endsWith(" :")) {
-			code = code.replace(" :", ":"); // TODO: needs to only replace the one at the end of the line
+			code = code.replace(" :", ":");
 		}
 
 		if (code.toLowerCase().startsWith("defint")) {
 			code = code.replace(/\s*-\s*/, '-');
 		} else if (code.toLowerCase().startsWith("rest.")) {
 			code = code.replace(".", " .")
-		} else if (code.toLowerCase().startsWith("$resize") || code.toLowerCase().startsWith("$versioninfo") || code.toLowerCase().startsWith("$exeicon")) {
-			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0 || code.toLowerCase().indexOf("filedescription") > 0) {
+		} else if (code.toLowerCase().startsWith("$resize")
+			|| code.toLowerCase().startsWith("$versioninfo")
+			|| code.toLowerCase().startsWith("$exeicon")
+			|| code.toLowerCase().startsWith("$color")
+			|| code.toLowerCase().startsWith("$checking")) {
+			if (code.toLowerCase().indexOf("legalcopyright") > 0 || code.toLowerCase().indexOf("companyname") > 0 || code.toLowerCase().indexOf("filedescription") > 0 || code.toLowerCase().indexOf("comments") > 0) {
 				code = code.replace(/\s*:\s*/, ':');
 				code = code.replace(/\s*=\s*/, '=');
 			} else {
@@ -181,8 +186,15 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		return code.trim();
 	}
 
-	provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TextEdit[]> {
+	async provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): Promise<vscode.TextEdit[]> {
 		let retvalue: vscode.TextEdit[] = [];
+
+		if (document.lineCount > 2000) {
+			if (await vscode.window.showInformationMessage('Do you want to start the long running process?', 'Yes', 'No') !== 'Yes') {
+				return null;
+			}
+		}
+
 		// const operators = ",(+-=<>[{}]`);:.";
 		const qb64Config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
 		const vscodeConig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
@@ -212,49 +224,42 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 				let lowerLine = newLine.toLowerCase();
 				const isSingleLineIf: boolean = this.isSingleLineIf(newLine.toLowerCase());
 
-				if (lowerLine == "endif") {
-					newLine = "end if";
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine == "endsub") {
-					newLine = "end sub";
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine == "endfunction") {
-					newLine = "end function";
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine == "endtype") {
-					newLine = "end type";
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine == "endselect") {
-					newLine = "end select";
-					lowerLine = newLine.toLowerCase();
-				} else if (newLine.startsWith("? ")) {
-					newLine = newLine.replace("? ", "print ");
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine.startsWith("if ") && lowerLine.indexOf(" then") < 0) {
-					newLine = `${newLine} then`
-					lowerLine = newLine.toLowerCase();
-				} else if (lowerLine.startsWith("elseif ") && lowerLine.indexOf(" then") < 0) {
-					newLine = `${newLine} then`
-					lowerLine = newLine.toLowerCase();
-					// } else {
-					// 	newLine = newLine.replace("++", "+ 1");
-					// 	newLine = newLine.replace(/(?<!")(?<=[A-Za-z])--/i, " - 1")
-				}
-
 				if (!isSingleLineIf) {
+					if (lowerLine == "endif") {
+						newLine = "end if";
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine == "endsub") {
+						newLine = "end sub";
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine == "endfunction") {
+						newLine = "end function";
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine == "endtype") {
+						newLine = "end type";
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine == "endselect") {
+						newLine = "end select";
+						lowerLine = newLine.toLowerCase();
+					} else if (newLine.startsWith("? ")) {
+						newLine = newLine.replace("? ", "print ");
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine.startsWith("if ") && lowerLine.indexOf(" then") < 0) {
+						newLine = `${newLine} then`
+						lowerLine = newLine.toLowerCase();
+					} else if (lowerLine.startsWith("elseif ") && lowerLine.indexOf(" then") < 0) {
+						newLine = `${newLine} then`
+						lowerLine = newLine.toLowerCase();
+					}
+
 					if (inDeclare && (lowerLine.startsWith("function") || lowerLine.startsWith("sub"))) {
-						// logFunctions.writeLine(`In declare block - ${lineNumber} | ${lowerLine}`, this.outputChannnel);
 					} else if (this.shouldIndentLine(lowerLine)) {
 						level++;
 						if (lowerLine.startsWith("declare dynamic library") || (lowerLine.startsWith("declare library"))) {
-							//level++;
 							inDeclare = true;
 						}
 					} else if (this.shouldRemoveLineIndent(lowerLine)) {
 						level--;
 						if (lowerLine.startsWith("end declare") || lowerLine.startsWith("enddeclare")) {
-							//logFunctions.writeLine(`Set declare false - ${lineNumber} | ${lowerLine}`, this.outputChannnel);						
-							//level--;
 							inDeclare = false;
 						}
 					} else if (lowerLine.startsWith("case ") && !inCase) {
@@ -268,7 +273,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 							level--
 						}
 					}
-
 				}
 
 				if (this.shouldProcessLine(lowerLine)) {
@@ -291,7 +295,6 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 						newLine = work + newLine.substring(start);
 					} else {
 
-						//if (lowerLine.indexOf("legalcopyright") < 1 && lowerLine.indexOf("companyname") < 1 && lowerLine.indexOf("FileDescription") < 1) {
 						newLine = this.addOperatorSpaces(newLine);
 						//}
 

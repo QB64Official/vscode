@@ -9,28 +9,29 @@ export class HoverProvider implements vscode.HoverProvider {
 
 	outputChannnel = logFunctions.getChannel(logFunctions.channelType.hoverProvider);
 
-	provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<vscode.Hover> {
+	provideHover(document: vscode.TextDocument, position: vscode.Position, cancellationToken: vscode.CancellationToken): vscode.ProviderResult<vscode.Hover> {
 
 		if (!document || !position) {
 			return null;
 		}
 
-		const config = vscode.workspace.getConfiguration("qb64")
+		const config = vscode.workspace.getConfiguration("qb64");
 		if (!config.get("isHoverTextFileEnabled")) {
 			logFunctions.writeLine("Hovertext is disabled.", this.outputChannnel);
 			return null;
 		}
 
 		try {
-			const keywordInfo = new TokenInfo(commonFunctions.getQB64WordFromDocument(document, position), document.lineAt(position.line).text, this.outputChannnel);
+
+			const token = commonFunctions.getQB64WordFromDocument(document, position);
+			const keywordInfo = new TokenInfo(token, document.lineAt(position.line).text, this.outputChannnel);
 			if (keywordInfo.offlinehelp.length > 0) {
 				const markdownString = new vscode.MarkdownString(keywordInfo.getHoverText());
 				markdownString.isTrusted = true;
 				return new vscode.Hover(markdownString);
 			}
-			logFunctions.writeLine(`offline hover not found: ${keywordInfo.token}`, this.outputChannnel);
 
-			return this.doSearch(document, keywordInfo.token, token).then(location => {
+			return this.doSearch(document, keywordInfo.token, cancellationToken).then(location => {
 				if (location) {
 					logFunctions.writeLine(`location found for ${keywordInfo.token}`, this.outputChannnel);
 					let contents: string = "";
@@ -107,7 +108,9 @@ export class HoverProvider implements vscode.HoverProvider {
 						continue;
 					}
 
-					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "");
+
+					// Remove the comments from the line and parse that.					
+					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "").replace(/'.*$/, '').trimEnd();
 
 					if (line.match(regexIncludeFile)) {
 						includedFiles.push(line);

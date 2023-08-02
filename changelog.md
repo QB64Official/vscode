@@ -10,6 +10,25 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.9.1
+- Enchantments
+  - Issue [#130](https://github.com/QB64Official/vscode/issues/130) Prompt the user before formatting large file
+  - Issue [#121](https://github.com/QB64Official/vscode/issues/121) Additional Highlighting for $INCLUDE, $MetaCommands, and OPTION
+  - Issue [#117](https://github.com/QB64Official/vscode/issues/117) Pressing F12 on $ExeIcon does not open the icon file.
+  - Issue [#7](https://github.com/QB64Official/vscode/issues/7) Add TODO view that works like the outline.
+- Bugs
+  - Issue [#131](https://github.com/QB64Official/vscode/issues/131) Lint: Deleted the source file not the binary
+  - Issue [#127](https://github.com/QB64Official/vscode/issues/127) Formatter: Breaks "$Checking:off"
+  - Issue [#126](https://github.com/QB64Official/vscode/issues/126) Formatter: Breaks some single line ifs
+  - Issue [#125](https://github.com/QB64Official/vscode/issues/125) Formatter: Removes spaces from $VERSIONINFO:Comments
+  - Issue [#124](https://github.com/QB64Official/vscode/issues/124) Pressing just Ctrl opens help
+  - Issue [#123](https://github.com/QB64Official/vscode/issues/123) Lint: CVL requires a STRING argument
+  - Issue [#122](https://github.com/QB64Official/vscode/issues/122) _SND* missing from sound.QB64 highlighting
+  - Issue [#120](https://github.com/QB64Official/vscode/issues/119) Please do not change the font style of anything by default
+  - Issue [#119](https://github.com/QB64Official/vscode/issues/119) Please do not hard code colors into the extension but instead use themeable properties.
+  - Issue [#118](https://github.com/QB64Official/vscode/issues/118) F12 on a label doesn't go to the label
+  - Issue [#115](https://github.com/QB64Official/vscode/issues/115) Version 0.9.1 Highlighting changes
+
 ## 0.9.0
 - Enchantments
   - Issue [#112](https://github.com/QB64Official/vscode/issues/112) Add a command to remove line numbers (use Command Palette to access),

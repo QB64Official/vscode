@@ -115,7 +115,8 @@ export function createFiles() {
 			"**/*.cmp-out": true,
 			"**/*.json-bak": true,
 			"**/desktop.ini": true
-		},
+		},		
+		"editor.multiCursorModifier": "ctrlCmd",
 		"workbench.editorAssociations": {
 			"*.md": "vscode.markdown.preview.editor"
 		},
@@ -144,6 +145,39 @@ export function createFiles() {
 					],
 					"settings": {
 						"foreground": "#d611f0"
+					}
+				},
+				{
+					"scope": [
+						"debug.QB64"
+					],
+					"settings": {
+						"foreground": "#f59324"
+					}
+				},
+				{
+					"scope": [
+						"userfunctions.QB64"
+					],
+					"settings": {
+						"foreground": "#9eaa67"
+					}
+				},
+				{
+					"scope": [
+						"metacommand.QB64"
+					],
+					"settings": {
+						"foreground": "#6d6b6b"
+					}
+				},
+				{
+					"scope": [
+						"todo.QB64"
+					],
+					"settings": {
+						"foreground": "#84e9a6",
+						"fontStyle": "bold"
 					}
 				}
 			]

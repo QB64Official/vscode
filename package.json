@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "engines": {
         "vscode": "^1.78.1"
     },
@@ -20,10 +20,7 @@
     },
     "icon": "images/qb64.ico",
     "main": "./out/main.js",
-    "activationEvents": [
-        "onLanguage:QB64",
-        "onCommand:extension.showAsciiChart"
-    ],
+    "activationEvents": [],
     "configurationDefaults": {
         "[QB64]": {
             "breadcrumbs.enabled": true,
@@ -35,6 +32,16 @@
         }
     },
     "contributes": {
+        "views": {
+            "explorer": [
+                {
+                    "id": "todo",
+                    "name": "QB64 TODOs",
+                    "icon": "images\\todo.svg",
+                    "contextualTitle": "View TODOs"
+                }
+            ]
+        },
         "debuggers": [
             {
                 "type": "QB64",
@@ -136,6 +143,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Decorate|Enable: Highlight TODO in comments"
+                },
+                "qb64.isBoldingSubsAndFunctionsEnabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Decorate|Enable: Bold subs and functions."
                 },
                 "qb64.isOpenOnLineHelpEnabled": {
                     "type": "boolean",
