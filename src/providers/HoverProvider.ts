@@ -53,6 +53,10 @@ export class HoverProvider implements vscode.HoverProvider {
 						return new vscode.Hover(markdownString);
 					}
 
+					if (defLine == "sub playkingsquesttheme") {
+						utilities.log("Here");
+					}
+
 					if (defLine.startsWith("sub ") || defLine.startsWith("function ") || defLine.startsWith("type ")) {
 						for (let index = location.range.start.line; index < sourcecode.length; index++) {
 							const currentLine = sourcecode[index].replace("\r", "");
@@ -121,11 +125,11 @@ export class HoverProvider implements vscode.HoverProvider {
 						continue;
 					}
 
-					let match = line.match(new RegExp(`\\W${utilities.escapeRegExp(word)} \\W`, "i"));
+					let match = line.match(new RegExp(`\\W${utilities.escapeRegExp(word)}\\W`, "i"));
 					if (match) {
 						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), utilities.createRange(match, lineNumber)));
 					}
-					match = line.match(new RegExp(`\\b${ utilities.escapeRegExp(word) } \\b`, "i"));
+					match = line.match(new RegExp(`\\b${utilities.escapeRegExp(word)}\\b`, "i"));
 					if (match) {
 						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), utilities.createRange(match, lineNumber)));
 					}
@@ -143,13 +147,13 @@ export class HoverProvider implements vscode.HoverProvider {
 							if (searchResults) {
 								return resolve(searchResults);
 							} else {
-								utilities.log(`word: ${ word } not found in ${ includeFileDocument.fileName } `);
+								utilities.log(`word: ${word} not found in ${includeFileDocument.fileName} `);
 							}
 						}
 					}
 				}
 			} catch (error) {
-				utilities.logError(`ERROR in doSearch: ${ error } `);
+				utilities.logError(`ERROR in doSearch: ${error} `);
 			}
 			return resolve(null);
 		});
