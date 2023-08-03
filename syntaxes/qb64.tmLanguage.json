@@ -121,7 +121,7 @@
 					"name": "sound.QB64"
 				}
 			},
-			"match": "(?i:(dim shared?|dim|redim))\\s*(?:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)\\s*(,?))",
+			"match": "(?i:(dim shared?|redim shared?|dim|redim))\\s*(?:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)\\s*(,?))",
 			"name": "variable.other.dim.QB64"
 		},
 		{
