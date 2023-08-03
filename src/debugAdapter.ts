@@ -359,10 +359,14 @@ class DebugAdapter extends debug.DebugSession {
 			}
 			this.currentStack.push(stack);
 		}
-		//if (this.currentStack.length > 0) {
-		// Set the current line -- Needed for the local variables
-		//	this.debuggee.currentLine = this.currentStack[0].line;
-		//}
+	}
+
+	private async setTabToCurrentStack() {
+		if (this.currentStack.length > 0) {
+			const uri = vscode.Uri.file(this.currentStack[0].source?.path!);
+			const document = await vscode.workspace.openTextDocument(uri);
+			await vscode.window.showTextDocument(document);
+		}
 	}
 
 	private async localVariablesMessage(message: string) {
@@ -694,8 +698,9 @@ class DebugAdapter extends debug.DebugSession {
 		}
 	}
 
-	protected stepOutArguments(response: DebugProtocol.Response, args: any): void {
+	protected async stepOutArguments(response: DebugProtocol.Response, args: any): Promise<void> {
 		try {
+			await this.setTabToCurrentStack()
 			this.debuggee.write(DebugCommands.StepOut);
 		} catch (err) {
 			vscode.window.showErrorMessage(err);
@@ -709,8 +714,9 @@ class DebugAdapter extends debug.DebugSession {
 	 * @param response 
 	 * @param args 
 	 */
-	protected stepInRequest(response: DebugProtocol.Response, args: any): void {
+	protected async stepInRequest(response: DebugProtocol.Response, args: any): Promise<void> {
 		try {
+			await this.setTabToCurrentStack()
 			this.debuggee.write(DebugCommands.StepInto);
 		} catch (err) {
 			vscode.window.showErrorMessage(err);
@@ -724,8 +730,9 @@ class DebugAdapter extends debug.DebugSession {
 	 * @param response 
 	 * @param args 
 	 */
-	protected nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): void {
+	protected async nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): Promise<void> {
 		try {
+			await this.setTabToCurrentStack()
 			this.debuggee.write(DebugCommands.StepOver);
 		} catch (err) {
 			vscode.window.showErrorMessage(err);
