@@ -807,8 +807,6 @@ class DebugAdapter extends debug.DebugSession {
 
 	launchRequest(response: any, args: any) {
 		this.isDebuggerRunning = true;
-
-
 		let programPath = args.program;
 		if (!path.isAbsolute(programPath)) { // Resolve the path if it's relative
 			programPath = path.resolve(vscode.workspace.rootPath!, programPath);
