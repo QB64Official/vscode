@@ -80,7 +80,7 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 		return new Promise<vscode.Location[]>(async (resolve) => {
 			try {
 				let includedFiles: string[] = []
-				const sourceLines = document.getText().split("\n");
+				const sourceLines = document.getText().split("\r");
 
 				for (let lineNumber = 0; lineNumber < sourceLines.length; lineNumber++) {
 					if (token.isCancellationRequested) {
@@ -91,7 +91,7 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						continue;
 					}
 
-					const line = sourceLines[lineNumber].toLowerCase().replace("\r", "").toLowerCase().trim();
+					const line = sourceLines[lineNumber].replace("\n", "").trim().toLowerCase();
 
 					if (line.match(this.regexIncludeFile)) {
 						includedFiles.push(line);
@@ -102,7 +102,8 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						continue;
 					}
 
-					let match = line.match(new RegExp(`\\W${utilities.escapeRegExp(word)} \\W`, "i"));
+					let match = line.match(new RegExp(`\\b${utilities.escapeRegExp(word)}\\b`, "i"));
+
 					if (match) {
 						return resolve([new vscode.Location(vscode.Uri.file(document.fileName), utilities.createRange(match, lineNumber))]);
 					}
