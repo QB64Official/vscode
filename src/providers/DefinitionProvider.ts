@@ -102,13 +102,12 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 						continue;
 					}
 
-					let match = line.match(new RegExp(`\\b${utilities.escapeRegExp(word)}\\b`, "i"));
-
+					let match = line.match(new RegExp(`\\W${utilities.escapeRegExp(word)}\\W`, "i"));
 					if (match) {
 						return resolve([new vscode.Location(vscode.Uri.file(document.fileName), utilities.createRange(match, lineNumber))]);
 					}
 
-					match = line.match(new RegExp(`\\b${utilities.escapeRegExp(word)} \\b`, "i"));
+					match = line.match(new RegExp(`\\b${utilities.escapeRegExp(word)}\\b`, "i"));
 					if (match) {
 						return resolve([new vscode.Location(vscode.Uri.file(document.fileName), utilities.createRange(match, lineNumber))]);
 					}
