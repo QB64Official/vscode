@@ -807,6 +807,14 @@ class DebugAdapter extends debug.DebugSession {
 
 	launchRequest(response: any, args: any) {
 		this.isDebuggerRunning = true;
+
+
+		let programPath = args.program;
+		if (!path.isAbsolute(programPath)) { // Resolve the path if it's relative
+			programPath = path.resolve(vscode.workspace.rootPath!, programPath);
+		}
+		// Open the document
+		vscode.workspace.openTextDocument(programPath).then((document) => { vscode.window.showTextDocument(document); });
 		vscode.commands.executeCommand('workbench.panel.repl.view.focus');
 
 		fs.readFile(args.program, 'utf8', (err: any, data: string) => {
