@@ -194,16 +194,8 @@ enum DebugCategories {
 export function createDebuggerInterface(vsCodePort: number) {
 	// Create a server that VS Code can connect to
 	let server = net.createServer(async function (socket: net.Socket) {
-		// 'connection' listener
-		socket.on('end', function () {
-			let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.debugger);
-			logFunctions.writeLine(outputChannnel, `[${commonFunctions.getCurrentDateTime()}]DebugAdapter Disconnected`);
-		});
-
-		// When data is received from VS Code, handle it with the debug adapter
-		socket.on('data', function (data) {
-			debugerSession.handleDataFromVsCode(data);
-		});
+		socket.on('end', function () { console.log(`[${commonFunctions.getCurrentDateTime()}]DebugAdapter Disconnected`); });
+		socket.on('data', function (data) { debugerSession.handleDataFromVsCode(data); });
 
 		let debugerSession = new DebugAdapter(socket);
 		await debugerSession.startDebuggeeConnection()
@@ -212,10 +204,13 @@ export function createDebuggerInterface(vsCodePort: number) {
 	});
 
 	server.listen(vsCodePort, function () {
-		let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.debugger);
-		logFunctions.writeLine(outputChannnel, 'server listening on port ' + server.address());
+		const address = server.address();
+		if (typeof address === 'string') {
+			console.log(`server is listening at ${address}`);
+		} else {
+			console.log(`server listening on port ${address?.port}`);
+		}
 	});
-
 	return server;
 }
 
@@ -382,6 +377,10 @@ class DebugAdapter extends debug.DebugSession {
 	 * @param message Message form the debuggee app
 	 */
 	private async quitMessage(message: string) {
+		if (!message)
+		{
+			return;
+		}
 		const quitMessage: string = message.split(DebugCommands.Quit)[1];
 		if (quitMessage.toLowerCase().includes("error")) {
 			await this.writeLineToDebugConsole(quitMessage, DebugCategories.StdErr);
@@ -392,7 +391,10 @@ class DebugAdapter extends debug.DebugSession {
 	}
 
 	private async handShakeMessage(message: string, handshakeTimeout: () => void) {
-
+		if (!message)
+		{
+			return;
+		}
 		if (!message.includes(this.debuggee.appPath)) {
 			await this.writeLineToDebugConsole(`Failed to initiate debug session. Expected: ${this.debuggee.appPath} | Message: ${message}`);
 			await this.stopDebugger();
@@ -404,7 +406,7 @@ class DebugAdapter extends debug.DebugSession {
 		const messageUnits = this.debuggee.splitMessage(message);
 		for (let i: number = 0; i < messageUnits.length; i++) {
 			if (messageUnits[i].includes(DebugCommands.Hwnd)) {
-				await this.debuggee.write(`${DebugCommands.Hwnd}${this.debuggee.getUnitValue(messageUnits[i].trim())}}`);
+				await this.debuggee.write(`${DebugCommands.Hwnd}${this.debuggee.getUnitValue(messageUnits[i].trim())}`);
 			}
 
 			if (messageUnits[i].includes(DebugCommands.PaddingSize)) {

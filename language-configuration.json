@@ -64,5 +64,5 @@
             "\""
         ],
     ],
-    "wordPattern": "(?i)[a-z_][a-z0-9_]*"
+    "wordPattern": "/[a-z_][a-z0-9_]*/i"
 }
