@@ -1,8 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
-import { symbolCache } from "../extension";
-import { todoTreeProvider } from "../extension";
 import { TodoItem } from "../TodoItem";
+import { utilities } from "../utilities";
 
 // Setup the Outline window
 export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
@@ -11,11 +10,15 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 		_token: vscode.CancellationToken): Promise<vscode.DocumentSymbol[]> {
 		return new Promise(function (resolve, _reject): void {
 
+			utilities.activeEditor = vscode.window.activeTextEditor
+			utilities.constVariables.length = 0;
+			utilities.sharedVariables.length = 0;
+
 			function getParams(code: string) {
 				return code.trim().substring(code.trim().indexOf("(") + 1, code.trim().lastIndexOf(")"));
 			}
 
-			todoTreeProvider.clear();
+			utilities.todoTreeProvider.clear();
 
 			const todoRegex = /(?:'|\brem\b).*(todo|fixit|fixme):?/i;
 			let symbols: vscode.DocumentSymbol[] = [];
@@ -35,7 +38,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				if (todoMatch) {
 					const todoComment = line.text.trim().substring(todoMatch.index! + todoMatch[0].length).trim(); // Don't use lineText - it is all lower case.
 					const todoItem = new TodoItem(todoComment, vscode.TreeItemCollapsibleState.None, new vscode.Range(line.lineNumber, 0, line.lineNumber, line.text.length), document.uri);
-					todoTreeProvider.addTodoItem(todoItem);
+					utilities.todoTreeProvider.addTodoItem(todoItem);
 				}
 
 				if (lineText.startsWith('sub ')) {
@@ -59,11 +62,6 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 					symbolText = (line.text.trim().indexOf("(") != -1) ? 'Declare Function (' + getParams(line.text) + ')' : 'Declare Function';
 				}
 				else if (/^\s*\w+:\s*$/.test(lineText)) {
-
-					if (lineText.indexOf("exitdebugmode") >= 0) {
-						console.log("Here 0");
-					}
-
 					symbolKind = vscode.SymbolKind.Method;
 					symbolText = line.text.trim();
 				}
@@ -74,10 +72,27 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 						symbol = line.text.trim().substring(6, equal_pos - 1).trim();
 						if (symbol != '_') {
 							symbolKind = vscode.SymbolKind.Constant;
-							symbolText = '= ' + line.text.trim().substring(equal_pos + 1);
+							symbolText = '= ' + line.text.trim().substring(equal_pos + 1).trim();
+							utilities.constVariables.push(
+								{
+									name: symbol,
+									value: line.text.trim().substring(equal_pos + 1).trim(),
+									variablesReference: 0
+								});
 						}
 					}
+				} else {
+					const match = lineText.match(/\bdim\s+shared\s+(\w+)/i);
+					if (match && match[1]) {
+						utilities.sharedVariables.push(
+							{
+								name: match[1],
+								value: "",
+								variablesReference: 0
+							});
+					}
 				}
+
 				let pieces: string[];
 				if (lineText.startsWith("'$include:")) {
 					symbolKind = vscode.SymbolKind.Module;
@@ -131,12 +146,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 					symbolText = 'Loop';
 				}
 
-				if (symbol.toLocaleLowerCase().indexOf("exitdebugmode") >= 0) {
-					console.log("Here 0");
-				}
-
 				if (symbolKind) {
-
 					let marker_symbol = new vscode.DocumentSymbol(
 						symbol,
 						symbolText,
@@ -147,9 +157,9 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
 					if (symbolKind === vscode.SymbolKind.Method || symbolKind === vscode.SymbolKind.Function) {
 						const symbolName = symbol.toLowerCase().replace(/(call|gosub|goto|:)$/i, "");
-						const existingSymbol = symbolCache.find(s => s.name === symbolName);
+						const existingSymbol = utilities.symbols.find(s => s.name === symbolName);
 						if (!existingSymbol) {
-							symbolCache.push(new vscode.DocumentSymbol(
+							utilities.symbols.push(new vscode.DocumentSymbol(
 								symbol.toLowerCase().replace(/(call|gosub|goto|:)$/i, ""),
 								symbolText,
 								symbolKind,
@@ -167,7 +177,7 @@ export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 				}
 			}
 			resolve(symbols);
-			todoTreeProvider.refresh();
+			utilities.todoTreeProvider.refresh();
 
 		});
 	}

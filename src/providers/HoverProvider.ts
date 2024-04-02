@@ -1,13 +1,10 @@
 "use strict";
 import * as vscode from "vscode";
-import * as commonFunctions from "../commonFunctions";
-import * as logFunctions from "../logFunctions";
 import * as fs from "fs";
 import { TokenInfo } from "../TokenInfo"
+import { utilities } from "../utilities";
 
 export class HoverProvider implements vscode.HoverProvider {
-
-	outputChannnel = logFunctions.getChannel(logFunctions.channelType.hoverProvider);
 
 	provideHover(document: vscode.TextDocument, position: vscode.Position, cancellationToken: vscode.CancellationToken): vscode.ProviderResult<vscode.Hover> {
 
@@ -15,16 +12,16 @@ export class HoverProvider implements vscode.HoverProvider {
 			return null;
 		}
 
-		const config = vscode.workspace.getConfiguration("qb64");
+		const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 		if (!config.get("isHoverTextFileEnabled")) {
-			logFunctions.writeLine("Hovertext is disabled.", this.outputChannnel);
+			utilities.log("Hovertext is disabled.");
 			return null;
 		}
 
 		try {
 
-			const token = commonFunctions.getQB64WordFromDocument(document, position);
-			const keywordInfo = new TokenInfo(token, document.lineAt(position.line).text, this.outputChannnel);
+			const token = utilities.getQB64WordFromDocument(document, position);
+			const keywordInfo = new TokenInfo(token, document.lineAt(position.line).text);
 			if (keywordInfo.offlinehelp.length > 0) {
 				const markdownString = new vscode.MarkdownString(keywordInfo.getHoverText());
 				markdownString.isTrusted = true;
@@ -54,6 +51,10 @@ export class HoverProvider implements vscode.HoverProvider {
 						}
 						const markdownString = new vscode.MarkdownString(contents);
 						return new vscode.Hover(markdownString);
+					}
+
+					if (defLine == "sub playkingsquesttheme") {
+						utilities.log("Here");
 					}
 
 					if (defLine.startsWith("sub ") || defLine.startsWith("function ") || defLine.startsWith("type ")) {
@@ -86,7 +87,7 @@ export class HoverProvider implements vscode.HoverProvider {
 				}
 			});
 		} catch (error) {
-			logFunctions.writeLine(`ERROR in HoverProvider.provideHover: ${error}`, this.outputChannnel);
+			utilities.logError(`ERROR in HoverProvider.provideHover: ${error}`);
 		}
 		return null;
 	}
@@ -94,13 +95,11 @@ export class HoverProvider implements vscode.HoverProvider {
 	private async doSearch(document: vscode.TextDocument, word: string, token: vscode.CancellationToken): Promise<vscode.Location> {
 		return new Promise<vscode.Location>(async (resolve) => {
 			try {
-				logFunctions.writeLine(`checking document: ${document.fileName}`, this.outputChannnel);
 				const regexIncludeFile = /include:(.*)'/i
 				const sourceLines = document.getText().split("\n");
 				let includedFiles: string[] = []
 				for (let lineNumber = 0; lineNumber < sourceLines.length; lineNumber++) {
 					if (token.isCancellationRequested) {
-						logFunctions.writeLine("token.isCancellationRequested", this.outputChannnel);
 						return Promise.reject(null);
 					}
 
@@ -126,15 +125,13 @@ export class HoverProvider implements vscode.HoverProvider {
 						continue;
 					}
 
-					let match = line.match(new RegExp(`\\W${commonFunctions.escapeRegExp(word)}\\W`, "i"));
+					let match = line.match(new RegExp(`\\W${utilities.escapeRegExp(word)}\\W`, "i"));
 					if (match) {
-						//logFunctions.writeLine(`Found 1 ${word} on line ${lineNumber} in ${vscode.Uri.file(document.fileName)}`, this.outputChannnel);
-						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber)));
+						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), utilities.createRange(match, lineNumber)));
 					}
-					match = line.match(new RegExp(`\\b${commonFunctions.escapeRegExp(word)}\\b`, "i"));
+					match = line.match(new RegExp(`\\b${utilities.escapeRegExp(word)}\\b`, "i"));
 					if (match) {
-						//logFunctions.writeLine(`Found 2 ${word} on line ${lineNumber} in ${vscode.Uri.file(document.fileName)}`, this.outputChannnel);
-						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), commonFunctions.createRange(match, lineNumber)));
+						return resolve(new vscode.Location(vscode.Uri.file(document.fileName), utilities.createRange(match, lineNumber)));
 					}
 				}
 
@@ -142,23 +139,21 @@ export class HoverProvider implements vscode.HoverProvider {
 					let selectedText: string = includedFiles[fileIndex];
 					let match = selectedText.match(regexIncludeFile)
 					if (match) {
-						//logFunctions.writeLine(`Checking include file: ${selectedText}`, this.outputChannnel);
 						const path = require('path');
-						const fullPath = commonFunctions.getAbsolutePath(path.dirname(document.fileName).replaceAll("\\", "/",) + "/", match[1].replace("'", "").replaceAll("\\", "/"));
+						const fullPath = utilities.getAbsolutePath(path.dirname(document.fileName).replaceAll("\\", "/",) + "/", match[1].replace("'", "").replaceAll("\\", "/"));
 						if (fs.existsSync(fullPath)) {
 							let includeFileDocument: vscode.TextDocument = await vscode.workspace.openTextDocument(fullPath)
 							let searchResults: vscode.Location = await this.doSearch(includeFileDocument, word, token);
 							if (searchResults) {
-								//logFunctions.writeLine(`found ${word} in ${includeFileDocument.fileName}`, this.outputChannnel);
 								return resolve(searchResults);
 							} else {
-								logFunctions.writeLine(`word: ${word} not found in ${includeFileDocument.fileName}`, this.outputChannnel);
+								utilities.log(`word: ${word} not found in ${includeFileDocument.fileName} `);
 							}
 						}
 					}
 				}
 			} catch (error) {
-				logFunctions.writeLine(`ERROR in doSearch: ${error}`, this.outputChannnel)
+				utilities.logError(`ERROR in doSearch: ${error} `);
 			}
 			return resolve(null);
 		});

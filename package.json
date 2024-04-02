@@ -2,7 +2,7 @@
     "name": "qb64",
     "displayName": "QB64",
     "description": "QB64 language support for Visual Studio Code.",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "engines": {
         "vscode": "^1.78.1"
     },
@@ -169,6 +169,16 @@
                     "type": "number",
                     "default": 25,
                     "description": "Debugger: the tcpip wait time in milliseconds."
+                },
+                "qb64.debuggerPort": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Debugger: The port for the debugger to use.  0 (default) for a random port."
+                },
+                "qb64.vsCodePort": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Debugger: The port used by VSCode for debugging.  0 (default) for a random port."
                 },
                 "qb64.isOpenHelpInEditModeEnabled": {
                     "type": "boolean",

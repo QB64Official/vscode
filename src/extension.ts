@@ -5,8 +5,6 @@ import * as gitFunctions from "./gitFunctions";
 import * as vscodeFucnctions from "./vscodeFunctions";
 import * as decoratorFunctions from "./decoratorFunctions";
 import * as lintFunctions from "./lintFunctions";
-import * as logFunctions from "./logFunctions";
-import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
 import * as openInQB64Functions from "./openInQB64Functions";
 import * as path from 'path';
@@ -18,34 +16,18 @@ import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEd
 import { HoverProvider } from "./providers/HoverProvider";
 import { createDebuggerInterface } from './debugAdapter';
 import net from 'net';
-import { TodoTreeProvider } from "./TodoTreeProvider";
 import { DebugCommands } from "./debugAdapter"
-import { decorationSkipLine } from "./debugAdapter"
+import { utilities } from "./utilities"
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
 
-// TODO: Get the TODOs window working.
-// 	This needs to go in the package.json in the contributes
-// 	,
-//         "views": {
-//             "explorer": [
-//                 {
-//                     "id": "todo",
-//                     "name": "TODOs",
-//                     "icon": "images\\todo.svg",
-//                     "contextualTitle": "View TODOs"
-//                 }
-//             ]
-//         }
+//export var cache: GlobalCache = new GlobalCache();
 
-export var activeEditor: vscode.TextEditor | undefined = undefined;
-export var skipLineRanges: vscode.Range[] = []; // Global variable to keep track of the decorations
-export var symbolCache: vscode.DocumentSymbol[] = [];
-export var todoTreeProvider: TodoTreeProvider = null;
 export async function activate(context: vscode.ExtensionContext) {
-	const config = vscode.workspace.getConfiguration("qb64")
-	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
+	//cache = new GlobalCache();
+	const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
+	const documentSelector: vscode.DocumentSelector = utilities.getDocumentSelector()
 
 	vscode.workspace.onWillSaveTextDocument(() => {
 		if (config.get("isCreateBakFileEnabled")) {
@@ -72,8 +54,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.renumberLines', () => { renumberLines(); }));
 
 	// Register Providers here
-	context.subscriptions.push(vscode.languages.registerReferenceProvider(commonFunctions.getDocumentSelector(), new ReferenceProvider()));
-	context.subscriptions.push(vscode.languages.registerDefinitionProvider(commonFunctions.getDocumentSelector(), new DefinitionProvider()));
+	context.subscriptions.push(vscode.languages.registerReferenceProvider(utilities.getDocumentSelector(), new ReferenceProvider()));
+	context.subscriptions.push(vscode.languages.registerDefinitionProvider(utilities.getDocumentSelector(), new DefinitionProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(documentSelector, new DocumentSymbolProvider()));
 	context.subscriptions.push(vscode.languages.registerHoverProvider(documentSelector, new HoverProvider()));
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
@@ -90,29 +72,24 @@ export async function activate(context: vscode.ExtensionContext) {
 				new vscode.Position(lineNumber, vscode.window.activeTextEditor.document.lineAt(lineNumber).text.length)
 			);
 
-			const index = skipLineRanges.findIndex(r => r.start.line === range.start.line && r.end.line === range.end.line);
+			const index = utilities.skipLineRanges.findIndex(r => r.start.line === range.start.line && r.end.line === range.end.line);
 
 			if (index !== -1) {
-				skipLineRanges.splice(index, 1);
+				utilities.skipLineRanges.splice(index, 1);
 				vscode.debug.activeDebugSession.customRequest(DebugCommands.ClearSkipLine, { line: lineNumber });
 			} else {
-				skipLineRanges.push(range);
+				utilities.skipLineRanges.push(range);
 				vscode.debug.activeDebugSession.customRequest(DebugCommands.SetSkipLine, { line: lineNumber });
 			}
-			if (vscode.window.activeTextEditor && !activeEditor) {
-				activeEditor = vscode.window.activeTextEditor
-			}
-			// Update decorations
-			vscode.window.activeTextEditor.setDecorations(decorationSkipLine, skipLineRanges);
+			vscode.window.activeTextEditor.setDecorations(utilities.decorationSkipLine, utilities.skipLineRanges);
 		}
 	});
 
 	vscode.commands.registerCommand('extension.skipLineClearAll', () => {
-		skipLineRanges.length = 0;
-		vscode.window.activeTextEditor.setDecorations(decorationSkipLine, skipLineRanges);
+		utilities.skipLineRanges.length = 0;
+		vscode.window.activeTextEditor.setDecorations(utilities.decorationSkipLine, utilities.skipLineRanges);
 		vscode.debug.activeDebugSession.customRequest(DebugCommands.ClearAllSkips);
 	});
-
 
 	decoratorFunctions.setupDecorate();
 	vscodeFucnctions.createFiles();
@@ -124,15 +101,13 @@ export async function activate(context: vscode.ExtensionContext) {
 		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
 	}
 
-	// Todo window stuff
-	todoTreeProvider = new TodoTreeProvider();
-	vscode.window.registerTreeDataProvider('todo', todoTreeProvider);
-	vscode.commands.registerCommand('extension.refreshTodo', () => todoTreeProvider.refresh());
+	vscode.window.registerTreeDataProvider('todo', utilities.todoTreeProvider);
+	vscode.commands.registerCommand('extension.refreshTodo', () => utilities.todoTreeProvider.refresh());
 
 
 	// The number are to make sure the port is in the range of 1024 to 49151
 	// Don't loop forever.
-	let vsCodePort: number = await getPort();
+	let vsCodePort: number = await getPort("vsCodePort");
 
 	if (vsCodePort >= 1024) {
 		createDebuggerInterface(vsCodePort);
@@ -146,9 +121,24 @@ export async function activate(context: vscode.ExtensionContext) {
 	}
 }
 
+export async function getPort(portType: string = ""): Promise<number> {
+	if (!portType || portType.length < 1) {
+		utilities.logError('Porttype: not set.');
+		return -1;
+	}
 
-export async function getPort(): Promise<number> {
-	let port: number = -1;
+	const config = vscode.workspace.getConfiguration("qb64")
+	let port: number = config.get(portType);
+	if (port && port > 0) {
+		if ((await isPortInUse(port))) {
+			port = -1;
+			utilities.logError(`Port: ${port} already in use.`);
+		} else {
+			utilities.log(`Using port: ${port} from setting ${portType}`);
+		}
+		return port;
+	}
+
 	for (let i: number = 0; i < 20; i++) {
 		try {
 			let testPort = Math.floor(Math.random() * (49151 - 1024 + 1)) + 1024
@@ -157,7 +147,7 @@ export async function getPort(): Promise<number> {
 				break;
 			}
 		} catch (err) {
-			console.log('Error when checking port:', err);
+			utilities.logError(`Error when checking port: ${err}`);
 			port = -1;
 		}
 	}
@@ -339,7 +329,7 @@ export function runLint() {
  * @returns True if the file was created
  */
 function createBackup() {
-	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.createBackup);
+
 	try {
 
 		if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId != "QB64") {
@@ -354,12 +344,10 @@ function createBackup() {
 
 		let source = vscode.window.activeTextEditor.document.fileName
 		let backupFile = source + "-bak";
-		outputChannnel.appendLine(`Tying to copy ${source} to ${backupFile}`);
 		fs.copyFileSync(source, backupFile)
-		outputChannnel.appendLine(`File ${source} copied to ${backupFile}`);
 		return true;
 	} catch (error) {
-		outputChannnel.appendLine(`ERROR: in createBackup:  ${error}`);
+		utilities.logError(`ERROR in createBackup: ${error}`)
 		return false;
 	}
 }

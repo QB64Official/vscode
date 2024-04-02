@@ -1,12 +1,11 @@
 "use strict";
 import * as vscode from "vscode";
-import * as logFunctions from "../logFunctions";
 import { TokenInfo } from "../TokenInfo";
+import { utilities } from "../utilities";
 
 // Code Formatter
 // Seems like a good place to find includes and make the double click to open work.
 export class DocumentFormattingEditProvider implements vscode.DocumentFormattingEditProvider {
-	outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.formatter);
 	//regexOperators = /\s+,|\(|\)|\+|-|=|<|>|\[|\]|\/|{|}|`|;|:|\*|:\s+/g;
 
 	/**
@@ -326,7 +325,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			}
 
 		} catch (error) {
-			logFunctions.writeLine(`ERROR in provideDocumentFormattingEdits: ${error}`, this.outputChannnel);
+			utilities.logError(`ERROR in provideDocumentFormattingEdits: ${error}`);
 		}
 		return retvalue;
 	}
@@ -339,7 +338,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			if (tokenCache.has(word.toLowerCase())) {
 				tokenInfo = tokenCache.get(word.toLowerCase());
 			} else {
-				tokenInfo = new TokenInfo(word, "", this.outputChannnel);
+				tokenInfo = new TokenInfo(word, "");
 				if (previousWord.toLowerCase() == "const") {
 					let spot: number = tokenInfo.WordFormatted.lastIndexOf(".")
 					if (spot > 1) {
@@ -362,7 +361,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			if (tokenInfo) {
 				return tokenInfo.WordFormatted;
 			} else {
-				logFunctions.writeLine(`Unable to find ${word}`, this.outputChannnel)
+				utilities.logError(`Unable to find ${word}`);
 			}
 		}
 		return word;

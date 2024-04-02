@@ -1,29 +1,17 @@
 "use strict";
 import * as net from "net";
 import * as vscode from "vscode";
-import * as logFunctions from "./logFunctions";
-import * as commonFunctions from "./commonFunctions";
 import * as fs from "fs";
 import * as path from 'path';
 import * as os from 'os';
 import * as debug from "@vscode/debugadapter";
 import { spawn } from 'node:child_process';
 import { DebugProtocol } from "@vscode/debugprotocol";
-import { getPort } from "./extension";
 import { ChildProcessWithoutNullStreams } from "child_process";
 import { lintCompilerOutput } from "./lintFunctions"
 import { Handles } from "@vscode/debugadapter"
-import { skipLineRanges } from "./extension"
-import { activeEditor } from "./extension"
-
-export const decorationSkipLine: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
-	{
-		borderRadius: "2px",
-		dark: { backgroundColor: 'rgba(175, 243, 28, 0.2)' },
-		light: { backgroundColor: 'rgba(115, 115, 115, 0.2)' }
-	}
-);
-
+import { utilities } from "./utilities"
+import { getPort } from "./extension"
 
 /**
  * Property bag to hold the debuggee stuff.
@@ -36,6 +24,7 @@ class Debuggee {
 	public port: number = -1;
 	public socket: net.Socket = null;
 	public attached: boolean = false;
+	public currentLine: number = -1;
 	public spawn: ChildProcessWithoutNullStreams = null;
 	public readonly endOfTransmission: string = String.fromCharCode(4);
 	public readonly startOfTransmission: string = String.fromCharCode(2);
@@ -43,7 +32,7 @@ class Debuggee {
 	public readonly waitTime: number = 20; //This should be a setting
 
 	constructor() {
-		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
+		const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 		const waitTime: number = config.get("debuggeeWaitTime")
 		if (waitTime) {
 			this.waitTime = waitTime;
@@ -84,7 +73,7 @@ class Debuggee {
 
 		if (this.socket && !this.socket.destroyed) {
 			command = `${this.padForVWatch(command.length)}${command}`
-			console.log(`writeToDebuggee command sent: "${command}"`)
+			utilities.log(`writeToDebuggee command sent: "${command}"`)
 			this.socket.write(command);
 			if (this.waitTime > 0) {
 				await await new Promise(f => setTimeout(f, this.waitTime));
@@ -97,18 +86,19 @@ class Debuggee {
 	 */
 	public async stopDebugger() {
 
-		if (activeEditor) {
-			activeEditor.setDecorations(decorationSkipLine, []);
+		if (utilities.activeEditor) {
+			utilities.activeEditor.setDecorations(utilities.decorationSkipLine, []);
 		}
 
-		if (skipLineRanges) {
-			skipLineRanges.length = 0;
+		if (utilities.skipLineRanges) {
+			utilities.skipLineRanges.length = 0;
 		}
 
 		if (this.spawn && this.attached) {
 			if (this.spawn && !this.spawn.killed) {
 				this.spawn.kill();
 			}
+
 			this.spawn = null;
 
 			if (this.socket) {
@@ -194,7 +184,7 @@ enum DebugCategories {
 export function createDebuggerInterface(vsCodePort: number) {
 	// Create a server that VS Code can connect to
 	let server = net.createServer(async function (socket: net.Socket) {
-		socket.on('end', function () { console.log(`[${commonFunctions.getCurrentDateTime()}]DebugAdapter Disconnected`); });
+		socket.on('end', function () { utilities.log('DebugAdapter Disconnected'); });
 		socket.on('data', function (data) { debugerSession.handleDataFromVsCode(data); });
 
 		let debugerSession = new DebugAdapter(socket);
@@ -203,12 +193,23 @@ export function createDebuggerInterface(vsCodePort: number) {
 
 	});
 
+
+	server.on('error', (error: any) => {
+		if (error.code === 'EADDRINUSE') {
+			utilities.logError(`Port ${vsCodePort} is in use`);
+		} else if (error.code === 'EACCES') {
+			utilities.logError(`Permission denied on port ${vsCodePort}`);
+		} else {
+			utilities.logError(`An error occurred on the server: ${error.message}`);
+		}
+	});
+
 	server.listen(vsCodePort, function () {
 		const address = server.address();
 		if (typeof address === 'string') {
-			console.log(`server is listening at ${address}`);
+			utilities.log(`server is listening at ${address}`)
 		} else {
-			console.log(`server listening on port ${address?.port}`);
+			utilities.log(`server listening on port ${address?.port}`);
 		}
 	});
 	return server;
@@ -240,7 +241,7 @@ class DebugAdapter extends debug.DebugSession {
 
 
 	async startDebuggeeConnection() {
-		this.debuggee.port = await getPort();
+		this.debuggee.port = await getPort("debuggerPort");
 		this.debuggee.server = net.createServer((socket) => {
 
 			if (!this.isDebuggerRunning || !this.debuggee.attached) {
@@ -273,14 +274,15 @@ class DebugAdapter extends debug.DebugSession {
 
 				let message: string = data.toString();
 
+
 				if (!message.startsWith(this.debuggee.startOfTransmission)) {
-					await this.writeLineToDebugConsole(`Invalid message | Missing STX: ${message}`);
+					await this.writeLineToDebugConsole(`Invalid message | Missing STX: ${message} `);
 					await this.stopDebugger();
 					return;
 				}
 
 				if (!message.endsWith(this.debuggee.endOfTransmission)) {
-					await this.writeLineToDebugConsole(`Invalid message | Missing EOT: ${message}`);
+					await this.writeLineToDebugConsole(`Invalid message | Missing EOT: ${message} `);
 					await this.stopDebugger();
 					return;
 				}
@@ -307,7 +309,12 @@ class DebugAdapter extends debug.DebugSession {
 					return;
 				}
 
-				if (message.includes(DebugCommands.LocalVariables)) {
+				if (message.includes("address read")) {
+					await this.localVariablesMessage(message);
+					return;
+				}
+
+				if (message.includes(DebugCommands.GetLocalVariables)) {
 					await this.localVariablesMessage(message);
 					return;
 				}
@@ -317,11 +324,11 @@ class DebugAdapter extends debug.DebugSession {
 					return;
 				}
 
-				this.writeLineToDebugConsole(`Unknown debug command: ${message}`);
+				this.writeLineToDebugConsole(`Unknown debug command: ${message} `);
 			});
 
 			socket.on('error', async (err) => {
-				this.writeLineToDebugConsole(`Error occurred with the debuggee: ${err}`, DebugCategories.StdErr);
+				this.writeLineToDebugConsole(`Error occurred with the debuggee: ${err} `, DebugCategories.StdErr);
 				await this.stopDebugger();
 			});
 
@@ -339,7 +346,6 @@ class DebugAdapter extends debug.DebugSession {
 
 		// TODO: Somehow handle include files
 		for (let i: number = stacks.length - 1; i >= 0; i--) {
-			this.writeLineToDebugConsole(stacks[i], DebugCategories.Console);
 			const stackInfo = stacks[i].split(",");
 			const stack: DebugProtocol.StackFrame = {
 				id: i,
@@ -355,6 +361,14 @@ class DebugAdapter extends debug.DebugSession {
 		}
 	}
 
+	private async setTabToCurrentStack() {
+		if (this.currentStack.length > 0) {
+			const uri = vscode.Uri.file(this.currentStack[0].source?.path!);
+			const document = await vscode.workspace.openTextDocument(uri);
+			await vscode.window.showTextDocument(document);
+		}
+	}
+
 	private async localVariablesMessage(message: string) {
 		// TODO: Load the variables array here
 		this.writeLineToDebugConsole(message);
@@ -362,7 +376,6 @@ class DebugAdapter extends debug.DebugSession {
 
 	private async stopAtLineMessage() {
 		await this.debuggee.write(DebugCommands.GetCallStack);
-		//await this.debuggee.write(DebugCommands.GetLocalVariables);
 		this.sendEvent(new debug.StoppedEvent("breakpoint", 1));
 	}
 
@@ -377,8 +390,7 @@ class DebugAdapter extends debug.DebugSession {
 	 * @param message Message form the debuggee app
 	 */
 	private async quitMessage(message: string) {
-		if (!message)
-		{
+		if (!message) {
 			return;
 		}
 		const quitMessage: string = message.split(DebugCommands.Quit)[1];
@@ -391,22 +403,22 @@ class DebugAdapter extends debug.DebugSession {
 	}
 
 	private async handShakeMessage(message: string, handshakeTimeout: () => void) {
-		if (!message)
-		{
+		if (!message) {
 			return;
 		}
 		if (!message.includes(this.debuggee.appPath)) {
-			await this.writeLineToDebugConsole(`Failed to initiate debug session. Expected: ${this.debuggee.appPath} | Message: ${message}`);
+			await this.writeLineToDebugConsole(`Failed to initiate debug session.Expected: ${this.debuggee.appPath} | Message: ${message} `);
 			await this.stopDebugger();
 			return false;
 		}
-		await this.writeLineToDebugConsole(`Debugging: ${this.debuggee.appPath}`);
+		await this.writeLineToDebugConsole(`Debugging: ${this.debuggee.appPath} `);
 		await this.debuggee.write(DebugCommands.VWatch);
 
 		const messageUnits = this.debuggee.splitMessage(message);
 		for (let i: number = 0; i < messageUnits.length; i++) {
 			if (messageUnits[i].includes(DebugCommands.Hwnd)) {
-				await this.debuggee.write(`${DebugCommands.Hwnd}${this.debuggee.getUnitValue(messageUnits[i].trim())}`);
+				await this.debuggee.write(`${DebugCommands.Hwnd}${this.debuggee.getUnitValue(messageUnits[i].trim())}
+	}`);
 			}
 
 			if (messageUnits[i].includes(DebugCommands.PaddingSize)) {
@@ -425,13 +437,12 @@ class DebugAdapter extends debug.DebugSession {
 					let sourceBreakpoint = breakpoint as vscode.SourceBreakpoint;
 					if (sourceBreakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
 						breakpointCount++;
-						console.log(`Breakpoint at file: ${sourceBreakpoint.location.uri.fsPath} Line: ${sourceBreakpoint.location.range.start.line + 1}`);
+						utilities.log(`${utilities.consolePrefix}Breakpoint at file: ${sourceBreakpoint.location.uri.fsPath} Line: ${sourceBreakpoint.location.range.start.line + 1}`);
 						breakPoints += this.debuggee.padForVWatch(sourceBreakpoint.location.range.start.line + 1);
 					}
 				}
 			});
 			if (breakpointCount > 0) {
-				console.log("Setting Breakpoints");
 				await this.debuggee.write(`${DebugCommands.BreakpointCount}${breakpointCount}`);
 				await this.debuggee.write(`${DebugCommands.BreakpointList}${breakPoints}`);
 			}
@@ -442,11 +453,11 @@ class DebugAdapter extends debug.DebugSession {
 
 		await this.debuggee.write(DebugCommands.SkipList);
 		await this.debuggee.write(DebugCommands.Run);
-
 		this.debuggee.socket.off('timeout', handshakeTimeout); // After the handshake is complete. Reset the timeout.
 
 		this.debuggee.socket.setTimeout(900000); // 15 minutes in milliseconds
 		this.debuggee.socket.on('timeout', async () => {
+			utilities.logError('Debug session timed out after 15 minutes');
 			await this.writeLineToDebugConsole('Debug session timed out after 15 minutes');
 			await this.stopDebugger();
 		});
@@ -461,7 +472,7 @@ class DebugAdapter extends debug.DebugSession {
 			event.added.forEach(async (breakpoint) => {
 				if (breakpoint instanceof vscode.SourceBreakpoint) {
 					if (breakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
-						console.log(`Breakpoint at file: ${breakpoint.location.uri.fsPath} Line: ${breakpoint.location.range.start.line}`);
+						utilities.log(`Breakpoint at file: ${breakpoint.location.uri.fsPath} Line: ${breakpoint.location.range.start.line}`);
 						await this.debuggee.write(`${DebugCommands.SetBreakPoint}${breakpoint.location.range.start.line + 1}`);
 					}
 				}
@@ -470,7 +481,6 @@ class DebugAdapter extends debug.DebugSession {
 			event.removed.forEach(async (breakpoint) => {
 				if (breakpoint instanceof vscode.SourceBreakpoint) {
 					if (breakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
-						console.log(`Breakpoint removed at ${breakpoint.location.range.start.line}`);
 						await this.debuggee.write(`${DebugCommands.ClearBreakPoint}${breakpoint.location.range.start.line + 1}`);
 					}
 				}
@@ -479,7 +489,6 @@ class DebugAdapter extends debug.DebugSession {
 			event.changed.forEach(async (breakpoint) => {
 				if (breakpoint instanceof vscode.SourceBreakpoint) {
 					if (breakpoint.location.uri.fsPath == vscode.window.activeTextEditor.document.uri.fsPath) {
-						console.log(`Breakpoint changed at ${breakpoint.location.range.start.line}`);
 						await this.debuggee.write(`${DebugCommands.SetBreakPoint}${breakpoint.location.range.start.line + 1}`);
 					}
 				}
@@ -560,48 +569,82 @@ class DebugAdapter extends debug.DebugSession {
 	}
 
 	protected scopesRequest(response: DebugProtocol.ScopesResponse, args: DebugProtocol.ScopesArguments): void {
-		// TODO: Figure out how to handle Global scope (shared)
 		const scopes: DebugProtocol.Scope[] = [
 			{
-				name: "Local",
-				variablesReference: this.variableHandles.create("local"),
+				name: "Locals",
+				variablesReference: this.variableHandles.create("Locals"),
 				expensive: false,
 			},
 			{
-				name: "Shared",
-				variablesReference: this.variableHandles.create("Shared"),
+				name: "Globals",
+				variablesReference: this.variableHandles.create("Globals"),
 				expensive: false,
+			},
+			{
+				name: "Constants",
+				variablesReference: this.variableHandles.create("Constants"),
+				expensive: false,
+
 			}
 		];
 		response.body = { scopes: scopes };
 		this.sendResponse(response);
 	}
 
-	protected variablesRequest(response: DebugProtocol.VariablesResponse, args: DebugProtocol.VariablesArguments): void {
-		// TODO:  This will go away at somepoint.
-		const variables: DebugProtocol.Variable[] = [];
+	protected async variablesRequest(response: DebugProtocol.VariablesResponse, args: DebugProtocol.VariablesArguments): Promise<void> {
+		let variables: DebugProtocol.Variable[] = [];
 		const scope = this.variableHandles.get(args.variablesReference);
+		utilities.log(`Scope = ${scope}`);
+		switch (scope) {
+			case "Constants":
+				{
+					variables = utilities.constVariables;
+					break;
+				}
+			case "Globals":
+				{
+					variables = utilities.sharedVariables;
+					await this.debuggee.write(`${DebugCommands.GetGobbalVariables}${variables[0].name}`);
+					break;
+				}
+			case "Locals":
+				{
 
-		/*
-		if (scope === 'local') {
-			const variable1 = {
-				name: "name1",
-				value: "tom",
-				variablesReference: 0
-			};
-			variables.push(variable1);
-			this.variables[variable1.name] = variable1;
-			const variable2 = {
-				name: "name$",
-				value: "var with a $",
-				variablesReference: 0
-			};
-			this.variables[variable2.name] = variable2;
-			variables.push(variable2);						
+					if (!utilities.activeEditor || !utilities.activeEditor.document) {
+						break;
+					}
+
+					const currentLine = this.currentStack[0].line - 1
+					const fileContent = utilities.activeEditor.document.getText().split("\r");
+
+					// Loop backward through the file content starting from the current line
+					for (let i = currentLine; i >= 0; i--) {
+						const lineText = fileContent[i].trim().replace("\n", "");
+						if (lineText.match(/^\s*(sub|function)\b/i)) {
+							break; // End of current scope
+						}
+						//const match = lineText.match(/^\s*dim(?!.*\bshared\b)\s+(\w+)/i);
+						//const match = lineText.match(/^\s*dim(?!.*\bshared\b)\s+(\w+[$%#!`%&]?) / i);
+						const match = lineText.match(/^\s*dim(?!.*\bshared\b)\s+(\w+(?:~[%!]|[$%#!])?)/i);
+						if (match && match[1]) {
+							variables.push(
+								{
+									name: match[1],
+									value: "",
+									variablesReference: 0
+								});
+						}
+					}
+					break;
+				}
+			default:
+				{
+					utilities.logError(`${utilities.consolePrefix}Unknown Scope: ${scope} `);
+					break;
+				}
 		}
-		*/
 
-		//response.body = { variables: variables };
+		response.body = { variables: variables };
 		this.sendResponse(response);
 	}
 
@@ -650,7 +693,7 @@ class DebugAdapter extends debug.DebugSession {
 			this.debuggee.write(DebugCommands.ClearAllBreakPoints);
 
 			for (const bp of args.breakpoints || []) {
-				this.debuggee.write(`${DebugCommands.SetBreakPoint}${bp.line}`);
+				this.debuggee.write(`${DebugCommands.SetBreakPoint}${bp.line} `);
 			}
 		} catch (err) {
 			this.writeLineToDebugConsole(err, DebugCategories.StdErr);
@@ -660,8 +703,9 @@ class DebugAdapter extends debug.DebugSession {
 		}
 	}
 
-	protected stepOutArguments(response: DebugProtocol.Response, args: any): void {
+	protected async stepOutArguments(response: DebugProtocol.Response, args: any): Promise<void> {
 		try {
+			await this.setTabToCurrentStack()
 			this.debuggee.write(DebugCommands.StepOut);
 		} catch (err) {
 			vscode.window.showErrorMessage(err);
@@ -675,8 +719,9 @@ class DebugAdapter extends debug.DebugSession {
 	 * @param response 
 	 * @param args 
 	 */
-	protected stepInRequest(response: DebugProtocol.Response, args: any): void {
+	protected async stepInRequest(response: DebugProtocol.Response, args: any): Promise<void> {
 		try {
+			await this.setTabToCurrentStack()
 			this.debuggee.write(DebugCommands.StepInto);
 		} catch (err) {
 			vscode.window.showErrorMessage(err);
@@ -690,8 +735,9 @@ class DebugAdapter extends debug.DebugSession {
 	 * @param response 
 	 * @param args 
 	 */
-	protected nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): void {
+	protected async nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): Promise<void> {
 		try {
+			await this.setTabToCurrentStack()
 			this.debuggee.write(DebugCommands.StepOver);
 		} catch (err) {
 			vscode.window.showErrorMessage(err);
@@ -709,7 +755,7 @@ class DebugAdapter extends debug.DebugSession {
 		this.gotoLineTarget =
 		{
 			id: args.line + args.column, // Assign a unique id to the target
-			label: `Target ${args.line}`,
+			label: `Target ${args.line} `,
 			line: args.line,
 			column: args.column,
 		};
@@ -725,7 +771,7 @@ class DebugAdapter extends debug.DebugSession {
 	protected async gotoRequest(response: DebugProtocol.GotoResponse, args: DebugProtocol.GotoArguments): Promise<void> {
 		if (this.gotoLineTarget) {
 			// Code to instruct your debugger to jump to the target location
-			await this.debuggee.write(`${DebugCommands.SetNextLine}${this.gotoLineTarget.line}`);
+			await this.debuggee.write(`${DebugCommands.SetNextLine}${this.gotoLineTarget.line} `);
 			this.gotoLineTarget = undefined;
 			response.success = true;
 		} else {
@@ -737,7 +783,7 @@ class DebugAdapter extends debug.DebugSession {
 	deleteQB64Log(compilerPath: any): void {
 		let parsedPath = path.parse(compilerPath);
 		parsedPath.ext = '.log';
-		parsedPath.base = `${parsedPath.name}${parsedPath.ext}`;
+		parsedPath.base = `${parsedPath.name}${parsedPath.ext} `;
 		const logFile = path.format(parsedPath);
 		if (fs.existsSync(logFile)) {
 			// this.writeToDebugConsole(`File '${logFile}' Found`);
@@ -762,7 +808,7 @@ class DebugAdapter extends debug.DebugSession {
 	private isDebugMode(code: string): boolean {
 		let lines = code.split("\r");
 		for (let i: number = 0; i < lines.length; i++) {
-			let line = lines[i].trimEnd().toLowerCase();
+			let line = lines[i].trimEnd().toLowerCase().replace("\n", "");
 			if (line.startsWith("'") || line.startsWith("rem")) {
 				continue;
 			}
@@ -773,6 +819,12 @@ class DebugAdapter extends debug.DebugSession {
 
 	launchRequest(response: any, args: any) {
 		this.isDebuggerRunning = true;
+		let programPath = args.program;
+		if (!path.isAbsolute(programPath)) { // Resolve the path if it's relative
+			programPath = path.resolve(vscode.workspace.rootPath!, programPath);
+		}
+		// Open the document
+		vscode.workspace.openTextDocument(programPath).then((document) => { vscode.window.showTextDocument(document); });
 		vscode.commands.executeCommand('workbench.panel.repl.view.focus');
 
 		fs.readFile(args.program, 'utf8', (err: any, data: string) => {
@@ -782,7 +834,7 @@ class DebugAdapter extends debug.DebugSession {
 				return;
 			}
 
-			const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
+			const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 			const compilerPath: string = config.get("compilerPath");
 
 			if (!compilerPath || compilerPath.length < 1) {
@@ -841,11 +893,22 @@ class DebugAdapter extends debug.DebugSession {
 				if (code !== 0) {
 					this.writeLineToDebugConsole(`The compiler exited with code ${code} and signal ${signal}. Unable to start debugger.`, DebugCategories.StdErr);
 					this.stopDebugger();
+
+					if (compilerOutput.length > 0) {
+						lintCompilerOutput(compilerOutput, this.debuggee.attached)
+						compilerOutput = "";
+					}
+					return;
 				}
 			});
 
 			// Fires after exit -- Then the output stream stops
 			compiler.on('close', (code: number) => {
+
+				if (code !== 0) {
+					this.stopDebugger();
+					return;
+				}
 
 				if (compilerOutput.length > 0) {
 					lintCompilerOutput(compilerOutput, this.debuggee.attached)
@@ -867,7 +930,7 @@ class DebugAdapter extends debug.DebugSession {
 					return
 				}
 
-				let env: any = { ...process.env }; // Make a copy of the current environment variables
+				let env: any = { ...process.env };
 				env.QB64DEBUGPORT = `${this.debuggee.port}`; // Set the QB64 debugging port
 				this.debuggee.spawn = spawn(this.debuggee.appPath, [],
 					{
@@ -927,5 +990,4 @@ class DebugAdapter extends debug.DebugSession {
 			this.isDebuggerRunning = false;
 		}
 	}
-
 }

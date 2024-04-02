@@ -2,10 +2,9 @@
 import * as vscode from "vscode";
 import path from "path";
 import { exec } from "child_process";
-import * as commonFunctions from "./commonFunctions";
-import * as logFunctions from "./logFunctions";
-import os from 'os';
-import fs from 'fs';
+import os from "os";
+import fs from "fs";
+import { utilities } from "./utilities";
 
 var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('QB64-lint')
 
@@ -13,29 +12,21 @@ var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createD
  * Runs the compiler/linter then calls lintCurrentFile with the output.
  */
 export function runLint() {
-	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
+	const outputChannnel: any = utilities.getChannel();
 
 	try {
 		if (!vscode.window.activeTextEditor) {
-			logFunctions.writeLine("Cannot find activeTextEditor", outputChannnel);
+			utilities.logError("Cannot find activeTextEditor");
 			return;
 		}
 
-		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
+		const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			logFunctions.writeLine("The QB64 compiler path is not set.", outputChannnel);
+			utilities.logError("The compiler path is not set.");
 			return;
 		}
-
-		/*
-		if (os.platform() == "win32") {
-			compilerPath = path.join(compilerPath, "qb64.exe");
-		} else {
-			compilerPath = path.join(compilerPath, "qb64");
-		}
-		*/
 
 		compilerPath = compilerPath.replaceAll("\\", "/");
 
@@ -56,33 +47,30 @@ export function runLint() {
 		}
 
 		if (!fs.existsSync(binaryName)) {
-			logFunctions.writeLine(`File: ${binaryName} Not Found`, outputChannnel);
+			utilities.logError(`File: ${binaryName} Not Found`);
+			utilities.writeToChannel(`File: ${binaryName} Not Found`, outputChannnel);
 			return;
 		}
 
-		logFunctions.writeLine(`Running: ${command}`, outputChannnel);
-
 		exec(command, (error, stdout, stderr) => {
 			if (error) {
-				logFunctions.writeLine(error.message, outputChannnel);
+				utilities.logError(error.message);
 			}
 			if (stderr) {
-				logFunctions.writeLine(stderr, outputChannnel);
+				utilities.logError(stderr);
 			}
 			if (stdout) {
-				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
 				lintCompilerOutput(stdout);
-				logFunctions.writeLine(`Delete file ${binaryName}`, outputChannnel);
 				if (sourceCode != binaryName) {
-					deleteFile(binaryName, outputChannnel);
+					deleteFile(binaryName);
 				}
 			} else {
-				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
+				utilities.logError("No stdout from compiler found")
 			}
 		});
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR in runLint: ${error}`, outputChannnel);
+		utilities.logError(`ERROR in runLint: ${error}`);
 	}
 }
 
@@ -91,16 +79,15 @@ export function runLint() {
  * @param fileName {string} File to delete
  * @returns void
  */
-function deleteFile(fileName: string, outputChannnel: any) {
+function deleteFile(fileName: string) {
 	const { unlink } = require('fs/promises');
 	(async function (path) {
 		try {
 			if (fs.existsSync(path)) {
 				await unlink(path);
-				logFunctions.writeLine(`File ${path} Deleted`, outputChannnel)
 			}
 		} catch (error) {
-			logFunctions.writeLine(`ERROR in deleteFile: ${error.message}`, outputChannnel)
+			utilities.logError(`ERROR in deleteFile: ${error.message}`);
 		}
 	})(fileName);
 }
@@ -111,13 +98,13 @@ function deleteFile(fileName: string, outputChannnel: any) {
  * @returns void
  */
 export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = false) {
-	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
+	const outputChannnel: any = utilities.getChannel();
 	const lintSource = "QB64-lint"
 
 	try {
 		let document: vscode.TextDocument = vscode.window.activeTextEditor.document;
 		if (!document) {
-			outputChannnel.appendLine("Unable to find document");
+			utilities.logError("Unable to find document");
 			return;
 		}
 		let sourceCode: string[] = document.getText().split('\n')
@@ -174,6 +161,7 @@ export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = 
 				|| lintLine.startsWith("Number required for function")
 				|| lintLine.startsWith("CVL ")
 				|| lintLine.startsWith("Expected IF expression THEN/GOTO")
+				|| lintLine.startsWith("Name already in use")
 			) {
 				let code: string = "";
 				for (let x = lineIndex; x < lines.length; x++) {
@@ -181,7 +169,7 @@ export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = 
 					if (element.startsWith("LINE ")) {
 						const work: string[] = element.split(":")
 						if (work.length > 0) {
-							code = commonFunctions.escapeRegExp(work[1].replace("\r", "")).trim();
+							code = utilities.escapeRegExp(work[1].replace("\r", "")).trim();
 							if (!code || code.length < 1) {
 								code = lintLine;
 							}
@@ -196,10 +184,10 @@ export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = 
 				}
 
 				let diagnostic: vscode.Diagnostic
-				const match = sourceCode[errorLineNumber].match(new RegExp("(" + commonFunctions.escapeRegExp(code) + ")", "i"));
+				const match = sourceCode[errorLineNumber].match(new RegExp("(" + utilities.escapeRegExp(code) + ")", "i"));
 				const message = lintLine.replace("\r", "") + "\n" + lines[lineIndex + 1].replace("\r", "");
 				if (match) {
-					diagnostic = new vscode.Diagnostic(commonFunctions.createRange(match, errorLineNumber), message);
+					diagnostic = new vscode.Diagnostic(utilities.createRange(match, errorLineNumber), message);
 				} else {
 					diagnostic = new vscode.Diagnostic(new vscode.Range(new vscode.Position(errorLineNumber, 0), new vscode.Position(errorLineNumber, 9999)), message);
 				}
@@ -236,6 +224,7 @@ export function lintCompilerOutput(compilerOutput: string, debugMode: boolean = 
 		}
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
+		utilities.logError(`ERROR: ${error}`);
+		utilities.writeToChannel(`ERROR: ${error}`, outputChannnel);
 	}
 }

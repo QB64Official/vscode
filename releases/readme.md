@@ -10,6 +10,18 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 1.0.3
+- Enchantments
+  - Added the setting debuggerPort.  Port to use when debugging defualt is 0 - 0 means use a random open port.
+  - Added constants,globals,locals to the variables pane (not values yet just names)
+  - Refactoring
+  - Added Error message if the server port for the debugger can't be opened.
+
+## 1.0.2
+   - Bugs
+     - Fixed a couple of errors showing in the console.
+     - Added "debug.allowBreakpointsEverywhere": true to the settings.json
+     
 ## 1.0.1
 - Enchantments
   - Added the setting filesToSkip.  This is list of files to not run the CP checks against

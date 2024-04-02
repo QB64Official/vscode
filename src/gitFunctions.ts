@@ -1,41 +1,38 @@
 "use strict";
 import * as vscode from "vscode";
 import * as fs from "fs";
-import * as logFunctions from "./logFunctions"
+import { utilities } from "./utilities"
 
 export function createGitignore() {
 
-	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.git);
 	try {
 
-		const config = vscode.workspace.getConfiguration("qb64")
+		const config: vscode.WorkspaceConfiguration = utilities.getConfiguration();
 		const isCreateGitIgnoreEnabled: boolean = config.get("isCreateGitIgnoreEnabled");
 
 		if (!isCreateGitIgnoreEnabled) {
-			logFunctions.writeLine("isCreateGitIgnoreEnabled: False", outputChannnel);
 			return
 		}
 		const giPath: string = vscode.workspace.workspaceFolders[0].uri.fsPath + "/.gitignore"
 
 		if (fs.existsSync(giPath)) {
-			logFunctions.writeLine(`File: ${giPath} already exists`, outputChannnel);
 			return;
 		}
 
 		fs.writeFileSync(giPath, createGitIngoreText())
 
 	} catch (error) {
-		logFunctions.writeLine("ERROR: " + error, outputChannnel);
+		utilities.logError(`ERROR: ${error}`)
 	}
 }
 
 export function addToGitIgnore(items: any) {
 	const giPath: string = vscode.workspace.workspaceFolders[0].uri.fsPath + "/.gitignore"
-	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.git);
+
 	try {
 
 		if (!fs.existsSync(giPath)) {
-			logFunctions.writeLine(`File: ${giPath} Not Found`, outputChannnel);
+			utilities.logError(`File: ${giPath} Not Found`)
 			return;
 		}
 
@@ -43,21 +40,21 @@ export function addToGitIgnore(items: any) {
 			if (items[index] instanceof Array) {
 				const item = items[index]
 				for (let x = 0; x < item.length; x++) {
-					addSingleItemGitIgnore(item[x].fsPath, outputChannnel, giPath);
+					addSingleItemGitIgnore(item[x].fsPath, giPath);
 				}
 			} else {
-				addSingleItemGitIgnore(items[index].fsPath, outputChannnel, giPath);
+				addSingleItemGitIgnore(items[index].fsPath, giPath);
 			}
 		}
 	} catch (error) {
-		logFunctions.writeLine("ERROR: " + error, outputChannnel);
+		utilities.logError(`ERROR: ${error}`);
 	}
 }
 
-function addSingleItemGitIgnore(itemToAdd: string, outputChannnel: any, giPath: string) {
+function addSingleItemGitIgnore(itemToAdd: string, giPath: string) {
 
 	if (!(itemToAdd)) {
-		logFunctions.writeLine("Item to add is null", outputChannnel);
+		utilities.logError(`Item to add is null`)
 		return;
 	}
 
@@ -76,10 +73,7 @@ function addSingleItemGitIgnore(itemToAdd: string, outputChannnel: any, giPath: 
 		if (gitIgnoreContent.indexOf(newLine) > 0) {
 			return;
 		}
-		logFunctions.writeLine(`Appending "${newLine}" to ${giPath}`, outputChannnel);
 		fs.appendFileSync(giPath, `${newLine}\n`);
-	} else {
-		logFunctions.writeLine("New line is empty not doing anything", outputChannnel);
 	}
 }
 

@@ -8,5 +8,5 @@
 		"src/webpack.config.js": true,
 		"db/qb64.sqbpro": true
 	},
-	"window.title": "VSCODE - ${activeEditorShort}",
+	"window.title": "VSCODE - ${activeEditorShort}"
 }
