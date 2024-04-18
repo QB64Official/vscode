@@ -1,7 +1,7 @@
 "use strict";
 import { exec } from "child_process";
 import * as vscode from "vscode";
-import { utilities } from "./utilities";
+import { utilities } from "./Utilities";
 
 export function openCurrentFileInQB64() {
 

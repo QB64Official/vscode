@@ -1,7 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
 import { TodoItem } from "../TodoItem";
-import { utilities } from "../utilities";
+import { utilities } from "../Utilities";
 
 // Setup the Outline window
 export class DocumentSymbolProvider implements vscode.DocumentSymbolProvider {

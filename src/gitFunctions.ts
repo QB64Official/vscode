@@ -1,7 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
 import * as fs from "fs";
-import { utilities } from "./utilities"
+import { utilities } from "./Utilities"
 
 export function createGitignore() {
 

@@ -2,7 +2,7 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import { TokenInfo } from "../TokenInfo"
-import { utilities } from "../utilities";
+import { utilities } from "../Utilities";
 
 export class HoverProvider implements vscode.HoverProvider {
 

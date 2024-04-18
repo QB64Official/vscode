@@ -1,7 +1,7 @@
 "use strict";
 import * as fs from "fs";
 import * as vscode from "vscode";
-import { utilities } from "./utilities";
+import { utilities } from "./Utilities";
 
 export class TokenInfo {
 	private outputChannnel: any = null;

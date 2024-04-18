@@ -10,7 +10,7 @@ import { DebugProtocol } from "@vscode/debugprotocol";
 import { ChildProcessWithoutNullStreams } from "child_process";
 import { lintCompilerOutput } from "./lintFunctions"
 import { Handles } from "@vscode/debugadapter"
-import { utilities } from "./utilities"
+import { utilities } from "./Utilities"
 import { getPort } from "./extension"
 
 /**
@@ -136,8 +136,9 @@ export enum DebugCommands {
 	ClearSkipLine = "clear skip line:",
 	ClearAllSkips = "clear all skips",
 	GetCallStack = "call stack:",
-	GetGobbalVariables = "get global var:",
-	GetLocalVariables = "get local var:",
+	GetGobbalVariable = "get global var:",
+	GetLocalVariable = "get local var:",
+	GetAllVariables = "get all vars",
 	Hwnd = "hwnd:",
 	LineCount = "line count:",
 	LineNumber = "line number:",
@@ -309,13 +310,13 @@ class DebugAdapter extends debug.DebugSession {
 					return;
 				}
 
-				if (message.includes("address read")) {
-					await this.localVariablesMessage(message);
+				if (message.includes(DebugCommands.GetLocalVariable)) {
+					await this.localVariableMessage(message);
 					return;
 				}
 
-				if (message.includes(DebugCommands.GetLocalVariables)) {
-					await this.localVariablesMessage(message);
+				if (message.includes(DebugCommands.GetAllVariables)) {
+					await this.getAllVariablesMessage(message);
 					return;
 				}
 
@@ -369,8 +370,18 @@ class DebugAdapter extends debug.DebugSession {
 		}
 	}
 
-	private async localVariablesMessage(message: string) {
+	private async localVariableMessage(message: string) {
+		this.writeLineToDebugConsole(message);
+	}
+
+	private async getAllVariablesMessage(message: string) {
 		// TODO: Load the variables array here
+		/*
+		if (!this.variables.indexOf("") )
+		{
+
+		}
+		*/
 		this.writeLineToDebugConsole(message);
 	}
 
@@ -417,8 +428,7 @@ class DebugAdapter extends debug.DebugSession {
 		const messageUnits = this.debuggee.splitMessage(message);
 		for (let i: number = 0; i < messageUnits.length; i++) {
 			if (messageUnits[i].includes(DebugCommands.Hwnd)) {
-				await this.debuggee.write(`${DebugCommands.Hwnd}${this.debuggee.getUnitValue(messageUnits[i].trim())}
-	}`);
+				await this.debuggee.write(`${DebugCommands.Hwnd}${this.debuggee.getUnitValue(messageUnits[i].trim())}`);
 			}
 
 			if (messageUnits[i].includes(DebugCommands.PaddingSize)) {
@@ -601,19 +611,19 @@ class DebugAdapter extends debug.DebugSession {
 					variables = utilities.constVariables;
 					break;
 				}
+
 			case "Globals":
 				{
 					variables = utilities.sharedVariables;
-					await this.debuggee.write(`${DebugCommands.GetGobbalVariables}${variables[0].name}`);
+					await this.debuggee.write(`${DebugCommands.GetGobbalVariable}${variables[0].name}`);
 					break;
 				}
-			case "Locals":
+			default:
 				{
-
 					if (!utilities.activeEditor || !utilities.activeEditor.document) {
 						break;
 					}
-
+					await this.debuggee.write(`${DebugCommands.GetAllVariables}`);
 					const currentLine = this.currentStack[0].line - 1
 					const fileContent = utilities.activeEditor.document.getText().split("\r");
 
@@ -635,11 +645,6 @@ class DebugAdapter extends debug.DebugSession {
 								});
 						}
 					}
-					break;
-				}
-			default:
-				{
-					utilities.logError(`${utilities.consolePrefix}Unknown Scope: ${scope} `);
 					break;
 				}
 		}

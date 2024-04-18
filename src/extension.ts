@@ -17,7 +17,7 @@ import { HoverProvider } from "./providers/HoverProvider";
 import { createDebuggerInterface } from './debugAdapter';
 import net from 'net';
 import { DebugCommands } from "./debugAdapter"
-import { utilities } from "./utilities"
+import { utilities } from "./Utilities"
 
 // To swith to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing

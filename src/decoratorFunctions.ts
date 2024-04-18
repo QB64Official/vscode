@@ -1,6 +1,6 @@
 "use strict";
 import * as vscode from "vscode";
-import { utilities } from "./utilities"
+import { utilities } from "./Utilities"
 import * as path from "path";
 
 class DecorateArgs {
@@ -256,9 +256,11 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 
 		if (currrentLine) {
 			if (decorateArgs.isCurrentRowHighlightEnabled) {
-				let current: vscode.Range[] = [new vscode.Range(new vscode.Position(currrentLine.line, 0), new vscode.Position(currrentLine.line, editor.document.lineAt(currrentLine.line).text.length))];
-				editor.setDecorations(decorationTypeCurrentRow, []);
-				editor.setDecorations(decorationTypeCurrentRow, current);
+				if (currrentLine.line) {
+					let current: vscode.Range[] = [new vscode.Range(new vscode.Position(currrentLine.line, 0), new vscode.Position(currrentLine.line, editor.document.lineAt(currrentLine.line).text.length))];
+					editor.setDecorations(decorationTypeCurrentRow, []);
+					editor.setDecorations(decorationTypeCurrentRow, current);
+				}
 			}
 		}
 

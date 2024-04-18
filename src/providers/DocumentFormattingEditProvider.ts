@@ -1,7 +1,7 @@
 "use strict";
 import * as vscode from "vscode";
 import { TokenInfo } from "../TokenInfo";
-import { utilities } from "../utilities";
+import { utilities } from "../Utilities";
 
 // Code Formatter
 // Seems like a good place to find includes and make the double click to open work.

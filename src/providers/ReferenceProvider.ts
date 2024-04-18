@@ -1,6 +1,6 @@
 "use strict";
 import * as vscode from "vscode";
-import { utilities } from "../utilities";
+import { utilities } from "../Utilities";
 
 // 
 //  https://github.com/gayanhewa/vscode-find-all-references/blob/master/src/Providers/ReferenceProvider.ts

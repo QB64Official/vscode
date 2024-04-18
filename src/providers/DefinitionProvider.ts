@@ -2,7 +2,7 @@
 import * as vscode from "vscode";
 import { TokenInfo } from "../TokenInfo";
 import * as fs from "fs";
-import { utilities } from "../utilities";
+import { utilities } from "../Utilities";
 
 export class DefinitionProvider implements vscode.DefinitionProvider {
 	regexIncludeFile = /include:(.*)'/i
