@@ -69,8 +69,12 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 				logFunctions.writeLine(`searchResults (${searchResults.length}): ${searchResults[0].uri}`, this.outputChannnel);
 				return new Promise<vscode.Location[]>((resolve) => { resolve(searchResults); });
 			} else {
-				logFunctions.writeLine(`Open Help for: ${word}`, this.outputChannnel);
-				new TokenInfo(word, "", this.outputChannnel).showHelp();
+				logFunctions.writeLine(`Open Help for: ${word} - not found in search`, this.outputChannnel);
+				if (this.config.get("isClickKeywordHelpFileEnabled")) {
+					new TokenInfo(word, "", this.outputChannnel).showHelp();
+				} else {
+					logFunctions.writeLine(`Open Help for: ${word} - not found in search and isClickKeywordHelpFileEnabled = false`, this.outputChannnel);
+				}
 				return null;
 			}
 		} catch (error) {

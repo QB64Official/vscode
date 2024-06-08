@@ -169,6 +169,11 @@
                     "default": true,
                     "description": "Enable: Enable hovertext"
                 },
+                "qb64.isClickKeywordHelpFileEnabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Enable: Open online help if offline help is not found when CTRL/ALT+Click"
+                },
                 "qb64.isLintOnSaveEnabled": {
                     "type": "boolean",
                     "default": false,
@@ -417,6 +422,7 @@
         "@types/vscode": "^1.70.1",
         "@vscode/debugadapter": "^1.57.0",
         "@vscode/debugprotocol": "^1.57.0",
+        "@vscode/vsce": "^2.27.0",
         "mocha": "10.0.0",
         "typescript": "^4.7.4",
         "vsce": "^2.10.2"

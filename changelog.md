@@ -10,6 +10,11 @@ All notable changes to the "QB64" extension will be documented in this file.
   - Minor: new functionality
   - Point: Bug Fixes|Polish
 
+## 0.9.2
+- Enchantments
+  - Added configuration option: `qb64.isClickKeywordHelpFileEnabled`
+    - Enable: Open online help if offline help is not found when CTRL/ALT+Click
+
 ## 0.9.1
 - Enchantments
   - Issue [#130](https://github.com/QB64Official/vscode/issues/130) Prompt the user before formatting large file
