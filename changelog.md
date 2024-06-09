@@ -13,7 +13,9 @@ All notable changes to the "QB64" extension will be documented in this file.
 ## 0.9.2
 - Enchantments
   - Added configuration option: `qb64.isClickKeywordHelpFileEnabled`
-    - Enable: Open online help if offline help is not found when CTRL/ALT+Click
+  - Enable: Open online help if offline help is not found when CTRL/ALT+Click
+- Bugs
+   Issue [#138](https://github.com/QB64Official/vscode/issues/131) _keyclear does not turn blue
 
 ## 0.9.1
 - Enchantments
