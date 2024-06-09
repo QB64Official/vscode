@@ -8,7 +8,15 @@
 				"esbuild",
 				"vsce",
 				"release"
-			]
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
 		},
 		{
 			"label": "vsce",
@@ -45,21 +53,21 @@
 					"changelog.md",
 					"/y",
 					"/f"
-				],
+				]
 			},
 			"linux": {
 				"command": "cp",
 				"args": [
 					"releases/readme.md",
-					"changelog.md",
-				],
+					"changelog.md"
+				]
 			},
 			"osx": {
 				"command": "cp",
 				"args": [
 					"releases/readme.md",
-					"changelog.md",
-				],
+					"changelog.md"
+				]
 			},
 			"presentation": {
 				"reveal": "always",
