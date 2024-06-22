@@ -1,6 +1,6 @@
-{
+{	
 	"information_for_contributors": [
-		"This file was copied from https://github.com/microsoft/vscode/blob/main/extensions/vb/syntaxes/asp-vb-net.tmlanguage.json"
+		"This file was copied from https://github.com/microsoft/vscode/blob/main/extensions/vb/syntaxes/asp-vb-net.tmLanguage.json"
 	],
 	"name": "QB64PE",
 	"scopeName": "source.QB64PE",
