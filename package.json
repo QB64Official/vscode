@@ -26,7 +26,7 @@
     "main": "./out/main.js",
     "activationEvents": [],
     "configurationDefaults": {
-        "[QB64]": {
+        "[QB64PE]": {
             "breadcrumbs.enabled": true,
             "files.trimTrailingWhitespace": true,
             "editor.formatOnSave": true,
