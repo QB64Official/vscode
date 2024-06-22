@@ -60,7 +60,7 @@ The *style* value sets each 16 pixel line section as the value's bits are set on
 ```vb
 
 SCREEN 13
-_FULLSCREEN 'required in QB64 only
+_FULLSCREEN 'required in QB64PE only
 _DELAY 5
 FOR i% = 1 TO 2 ^ 15 'use exponential value instead of -32768
     COLOR 15:LOCATE 10, 5: PRINT i%;

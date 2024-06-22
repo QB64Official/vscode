@@ -10,13 +10,13 @@ The '''SHELL''' function displays the console and returns the [[INTEGER]] code v
 
 
 ''Usage:''
-* A SHELL to a QB64 EXE program with an exit return code parameter after [[END]] or [[SYSTEM]] will return that code value.
+* A SHELL to a QB64PE EXE program with an exit return code parameter after [[END]] or [[SYSTEM]] will return that code value.
 * The return_code is usually 0 when the external program ends with no errors.
 * The console window may appear when using the SHELL function. The [[_SHELLHIDE]] function will hide the console from view.
 
 
-''Example:'' Shelling to another QB64 program will return the exit code when one is set in the  program that is run.
-{{TextStart}}''''DesktopSize.BAS ''' Compile in Windows with QB64 first
+''Example:'' Shelling to another QB64PE program will return the exit code when one is set in the  program that is run.
+{{TextStart}}''''DesktopSize.BAS ''' Compile in Windows with QB64PE first
 
 {{Cb|CONST}} SM_CXSCREEN = 0
 {{Cb|CONST}} SM_CYSCREEN = 1
@@ -38,9 +38,9 @@ trimstr = {{Cb|LTRIM$}}({{Cb|RTRIM$}}({{Cb|STR$}}(whatever)))
 {{TextEnd}}
 : ''Explanation:'' To set a program exit code use an [[INTEGER]] parameter value after [[END]] or [[SYSTEM]] in the called program. 
 
-: After compiling ''DesktopSize.EXE'' run the following code in the QB64 IDE. After 1st program is done 3 will appear on screen:
+: After compiling ''DesktopSize.EXE'' run the following code in the QB64PE IDE. After 1st program is done 3 will appear on screen:
 {{CodeStart}} '' ''
-returncode% = {{Cl|SHELL (function)|SHELL}}("DesktopSize") 'replace call with name of any QB64 program EXE
+returncode% = {{Cl|SHELL (function)|SHELL}}("DesktopSize") 'replace call with name of any QB64PE program EXE
 
 {{Cl|PRINT}} returncode% 'prints code sent by called program after it is closed
 

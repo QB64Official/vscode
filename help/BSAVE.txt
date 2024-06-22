@@ -2,7 +2,7 @@
 
 
 {{PageLegacySupport}}
-* QB64 can save larger arrays directly to binary files using [[PUT]] # and [[GET]] # without [[BSAVE]]. For that reason, use of [[BSAVE]] is no longer recommended practice but is supported to maintain compatibility with legacy code.
+* QB64PE can save larger arrays directly to binary files using [[PUT]] # and [[GET]] # without [[BSAVE]]. For that reason, use of [[BSAVE]] is no longer recommended practice but is supported to maintain compatibility with legacy code.
 
 
 {{PageSyntax}}
@@ -68,7 +68,7 @@
     {{Cl|IF...THEN|IF}} Graphic%(i%) &lt;> 0 {{Cl|THEN}} {{Cl|EXIT FOR}} 'find image color not black
 {{Cl|NEXT}}
 size% = i% + 4 'size plus 2 integers(4  bytes) for dimensions 
-{{Cl|REDIM}} {{Cl|_PRESERVE}} Graphic%(size%) 'resize existing array in QB64 only!
+{{Cl|REDIM}} {{Cl|_PRESERVE}} Graphic%(size%) 'resize existing array in QB64PE only!
 
 {{Cl|OPEN}} "example2.BIN" {{Cl|FOR (file statement)|FOR}} {{Cl|BINARY}} {{Cl|AS}} #1 ' {{Cl|PUT}} to a file
 {{Cl|PUT}} #1, , Graphic%()

@@ -14,7 +14,7 @@
 * argumentList contains the list of arguments passed to the procedure.
 * integerOffset contains the offset from the current code segment, set by [DEF SEG](DEF-SEG) and [SADD](SADD), to the starting location of the called procedure.
 * **QB64** has the ABSOLUTE statement built in and requires no external library, like QuickBASIC did.
-* **NOTE: QB64 does not support INT 33h mouse functions above 3 or [BYVAL](BYVAL) in an ABSOLUTE statement. Registers are emulated.**
+* **NOTE: QB64PE does not support INT 33h mouse functions above 3 or [BYVAL](BYVAL) in an ABSOLUTE statement. Registers are emulated.**
 
 ## See Also
 

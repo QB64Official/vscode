@@ -39,7 +39,7 @@ How good are you at counting from zero? This might seem like a simple question, 
 
 [OPTION BASE](OPTION-BASE) 1 will cause all array dimensions to begin at 1, [OPTION BASE](OPTION-BASE) 0 will cause all dimensions to begin at 0. The default when just using the maximum array size is 0. Use whatever option you are comfortable with.
 
-Arrays in QuickBASIC 4.5 and QBasic are limited to 32767 elements, while arrays in **QB64** are limited to 2147483647 elements (over 2 billion). When the 64-bit version of QB64 is implemented 9223372036854775807 elements will be the limit (but only on 64-bit systems).
+Arrays in QuickBASIC 4.5 and QBasic are limited to 32767 elements, while arrays in **QB64** are limited to 2147483647 elements (over 2 billion). When the 64-bit version of QB64PE is implemented 9223372036854775807 elements will be the limit (but only on 64-bit systems).
 
 [DIM](DIM) reserves the array's name, variable type and number of elements in memory before the array is used. DIM reserves a [STATIC](STATIC) (unchangeable) array unless the [$DYNAMIC]($DYNAMIC) (changeable) metacommand is used at the program's start or [REDIM](REDIM) was used to dimension the array originally.
 
@@ -247,7 +247,7 @@ END
 
 ```
 
-**Note: QB64 can [GET (graphics statement)](GET-(graphics-statement)) the entire SCREEN 12 area into one array!**
+**Note: QB64PE can [GET (graphics statement)](GET-(graphics-statement)) the entire SCREEN 12 area into one array!**
 
 See also: [Creating Sprite Masks](Creating-Sprite-Masks)
 

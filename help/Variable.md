@@ -2,7 +2,7 @@ A **variable** is a "container" name that can hold a numerical or string value w
 
 **Variable names**
 
-Variables in QB64 can be any name except the names of QB64 or QBasic keywords and may not contain spaces or non-alphabetical/non-numerical characters (except "." and "_"). Numerical characters cannot be  used as the first character of a variable or array name! **QB64 reserves the use of a leading underscore to QB64 procedural or variable type names only!**
+Variables in QB64PE can be any name except the names of QB64PE or QBasic keywords and may not contain spaces or non-alphabetical/non-numerical characters (except "." and "_"). Numerical characters cannot be  used as the first character of a variable or array name! **QB64 reserves the use of a leading underscore to QB64PE procedural or variable type names only!**
 
 Variable values can be passed to sub-procedures by using the name as a [SUB](SUB) or [FUNCTION](FUNCTION) parameter in a [CALL](CALL). Variable names in the main program module can be passed to sub-procedures by using [DIM](DIM) [SHARED](SHARED) without using them as [CALL](CALL) parameters.
 
@@ -12,11 +12,11 @@ Dot variable names are normally used with [TYPE](TYPE) variable definitions. The
 
 **Variable types**
 
-Variables can be defined as a specific type using a variable type suffix or by using a [DIM](DIM) or [REDIM](REDIM)(for dynamic arrays only) statement [AS](AS) a variable type of [_BIT](_BIT), [_BYTE](_BYTE), [INTEGER](INTEGER), [LONG](LONG), [SINGLE](SINGLE), [DOUBLE](DOUBLE), [_INTEGER64](_INTEGER64), [_FLOAT](_FLOAT) or [STRING](STRING) in QB64. 
+Variables can be defined as a specific type using a variable type suffix or by using a [DIM](DIM) or [REDIM](REDIM)(for dynamic arrays only) statement [AS](AS) a variable type of [_BIT](_BIT), [_BYTE](_BYTE), [INTEGER](INTEGER), [LONG](LONG), [SINGLE](SINGLE), [DOUBLE](DOUBLE), [_INTEGER64](_INTEGER64), [_FLOAT](_FLOAT) or [STRING](STRING) in qb64pe. 
 
-Groups of variable names can be type defined by the first letter or list of letters of the names using [DEFINT](DEFINT), [DEFLNG](DEFLNG), [DEFSNG](DEFSNG), [DEFDBL](DEFDBL), [DEFSTR](DEFSTR) or [_DEFINE](_DEFINE) [AS](AS) in QB64.
+Groups of variable names can be type defined by the first letter or list of letters of the names using [DEFINT](DEFINT), [DEFLNG](DEFLNG), [DEFSNG](DEFSNG), [DEFDBL](DEFDBL), [DEFSTR](DEFSTR) or [_DEFINE](_DEFINE) [AS](AS) in qb64pe.
 
-[$DYNAMIC]($DYNAMIC) arrays can be resized and can retain their remaining element values when used with [REDIM](REDIM) [_PRESERVE](_PRESERVE) in QB64. [ERASE](ERASE) or [CLEAR](CLEAR) removes the array entirely from memory!
+[$DYNAMIC]($DYNAMIC) arrays can be resized and can retain their remaining element values when used with [REDIM](REDIM) [_PRESERVE](_PRESERVE) in qb64pe. [ERASE](ERASE) or [CLEAR](CLEAR) removes the array entirely from memory!
 
 [$STATIC]($STATIC) arrays cannot be resized, but cannot be removed either. [ERASE](ERASE) or [CLEAR](CLEAR) will clear the array element values only!
 

@@ -1,19 +1,19 @@
-# QB64 PE (Phoenix Edition) for Visual Studio Code
+# QB64PE PE (Phoenix Edition) for Visual Studio Code
 
 A VSCode extension that adds support for [QB64 PE](https://www.qb64phoenix.com).
 
-> This fork was created with permission from LordDurus to enhance and extend the vscode extension to support QB64 PE.
+> This fork was created with permission from LordDurus to enhance and extend the vscode extension to support QB64PE PE.
 
 ## Features
 
-* Utilize `F1` to *open help* via the QB64 PE Wiki
+* Utilize `F1` to *open help* via the QB64PE PE Wiki
 * Ctrl+F1 to *open keyword list alphabetical*
 * Shift+F1 to *open keyword list by usage*
 * Go to Definition `F12`
 * `F12` to *follow* (open) an Include file
 * `F5` to Build & Run
 * `ctrl+shift+b` to build the current file
-* Syntax highlighting for QB64 PE (up to the latest version)
+* Syntax highlighting for QB64PE PE (up to the latest version)
 * Code outline (`CTRL+F2`)
 * Code folding
 * Build Only
@@ -33,7 +33,7 @@ A VSCode extension that adds support for [QB64 PE](https://www.qb64phoenix.com).
 * [QB64 PE](https://www.qb64phoenix.com) installed.
 * Latest *vsix* installed from [here](https://github.com/grymmjack/qb64pe-vscode/tree/main/releases).
 
-## Get Started Writing QB64 PE with VS Code
+## Get Started Writing QB64PE PE with VS Code
 
 * [Wiki](https://qb64phoenix.com/qb64wiki)
 
@@ -43,11 +43,11 @@ Please utilize the [Issues](https://github.com/grymmjack/qb64pe-vscode/issues) a
 
 ## License
 
-The VS Code for QB64 extension is subject to these license terms. The source code to this extension is available on https://github.com/grymmjack/qb64pe-vscode and licensed under the [MIT license](https://github.com/grymmjack/qb64pe-vscode/blob/main/LICENSE).
+The VS Code for QB64PE extension is subject to these license terms. The source code to this extension is available on https://github.com/grymmjack/qb64pe-vscode and licensed under the [MIT license](https://github.com/grymmjack/qb64pe-vscode/blob/main/LICENSE).
 
 ## Acknowledgments
 
-* This QB64 PE (Phoenix Edition) version of the vscode extension is based on work completed by [Lord Durus](https://github.com/grymmjack/qb64pe-vscode/commits?author=LordDurus).
+* This QB64PE PE (Phoenix Edition) version of the vscode extension is based on work completed by [Lord Durus](https://github.com/grymmjack/qb64pe-vscode/commits?author=LordDurus).
 * Extensions Highlighting: based on: https://github.com/sorucoder/freebasic-vscode-extension
 * Syntax coloring is based on: https://github.com/microsoft/vscode/blob/main/extensions/vb/syntaxes/asp-vb-net.tmlanguage.json
 * OutLine based on: https://github.com/svaberg/SWMF-grammar

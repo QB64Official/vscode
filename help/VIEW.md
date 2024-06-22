@@ -11,7 +11,7 @@ The **VIEW** statement creates a graphics view port area by defining the coordin
 * Border requires any valid color attribute to draw a line around the VIEW area if there is room for it.
 * VIEW without any parameters disables the previous viewport. [RUN](RUN) and [SCREEN](SCREEN) can also disable any VIEW port.
 * [CLS](CLS) or [CLS](CLS) clears the active graphics VIEW port area only. Disable a viewport before attempting to clear the entire screen!
-* **Note: QB64 [RUN](RUN) statements will not close [VIEW PRINT](VIEW-PRINT), [VIEW](VIEW) or [WINDOW](WINDOW) view ports presently!**
+* **Note: QB64PE [RUN](RUN) statements will not close [VIEW PRINT](VIEW-PRINT), [VIEW](VIEW) or [WINDOW](WINDOW) view ports presently!**
 
 ## Example(s)
 

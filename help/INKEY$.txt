@@ -159,7 +159,7 @@ DO
 {{CodeEnd}}
 
 
-''Example 6:'' Using INKEY$ with the arrow or WASD keys to move the QB64 bee image sprite with [[_PUTIMAGE]]:
+''Example 6:'' Using INKEY$ with the arrow or WASD keys to move the QB64PE bee image sprite with [[_PUTIMAGE]]:
 {{CodeStart}} '' ''
 {{Cl|DIM}} image {{Cl|AS}} {{Cl|LONG}}
 {{Cl|DIM}} x {{Cl|AS}} {{Cl|INTEGER}}
@@ -170,7 +170,7 @@ DO
 
 x = 0
 y = 0
-image = {{Cl|_LOADIMAGE}}("QB64bee.png") 'Here I actually used the QB64 icon
+image = {{Cl|_LOADIMAGE}}("QB64bee.png") 'Here I actually used the QB64PE icon
 
 DO
   {{Cl|_PUTIMAGE}} (x, y), image

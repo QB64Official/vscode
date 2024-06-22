@@ -1,12 +1,12 @@
 **QB64** uses C++ to compile a BAS program into an executable program. The following is a list of the **C [FUNCTION](FUNCTION)s** that can be used.
 
-**Note: C++ Header files should be placed in the QB64 folder and are not required after a program is compiled.**
+**Note: C++ Header files should be placed in the QB64PE folder and are not required after a program is compiled.**
 
 
 ## **C++ Variable Types**
 
 
-| C Name   |     Description         |          Size    |  QB64 Type |
+| C Name   |     Description         |          Size    |  QB64PE Type |
 | ----------- | ----------------------- | ----------------- | ------------ |
 |[_BYTE](_BYTE)    |     Character or small integer. |  1 byte  |    [_BYTE](_BYTE) |
 |[INTEGER](INTEGER) |   Short Integer(Word)     |      2 byte   |   [INTEGER](INTEGER)|
@@ -767,7 +767,7 @@ double High_ACotH(double x)
 
 inline float High_Sign(float f)
 {
-  //this may or may not be used in QB64 in the future
+  //this may or may not be used in QB64PE in the future
   if (((int&)f & 0x7FFFFFFF)## 0)
     {
      return 0.0f;

@@ -2,9 +2,9 @@
 
 **IMPORTANT**
 
-> * 1) Make sure you are running QB64 V0.942 or higher
-> * 2) Download 'mysql.dll' and place it in your qb64 folder (not provided)
-> * 3) Create 'mysql_helper.h' in your QB64 folder (see below)
+> * 1) Make sure you are running QB64PE V0.942 or higher
+> * 2) Download 'mysql.dll' and place it in your QB64PE folder (not provided)
+> * 3) Create 'mysql_helper.h' in your QB64PE folder (see below)
 > * 4) Run & enjoy browsing our sample database as a member with read-only privileges.
 
 >  *mysql_helper.h*
@@ -173,7 +173,7 @@ DIM ft AS MYSQL_FIELD_TYPE
 OFFSETtoMYSQL_FIELD ft, f%&, LEN(ft)
 PRINT offset_to_string(ft.name)
 PRINT offset_to_string(ft.org_name)
-x%& = ft.length: PRINT x%& '***PRINT ft.length doesn't work in QB64 yet, this needs to be addressed***
+x%& = ft.length: PRINT x%& '***PRINT ft.length doesn't work in QB64PE yet, this needs to be addressed***
 
 END
 
@@ -200,7 +200,7 @@ This version has much the same functionality with a few bug fixes, better exampl
 
 **IMPORTANT**
 
-> * Download 'mysql.dll' and place it in your qb64 folder (not provided)
+> * Download 'mysql.dll' and place it in your QB64PE folder (not provided)
 > * Find a SQL database server to connect to OR download your own [http://dev.mysql.com/downloads/] 
 > * Setup you IP, username and password in the code below...
 
@@ -538,7 +538,7 @@ This works in Linux (Ubuntu) too with minimal changes:
 1. Use the 'Synaptic Package Manager' to install 'mysql-client-5.1'
 2. Change: DECLARE DYNAMIC LIBRARY "mysql" to DECLARE DYNAMIC LIBRARY "mysqlclient:16.0.0" 
 
->  Or just copy this .so lib to your QB64 folder and rename it *libmysql.so*(do not use *.so* extension in [DECLARE LIBRARY](DECLARE-LIBRARY) name).
+>  Or just copy this .so lib to your QB64PE folder and rename it *libmysql.so*(do not use *.so* extension in [DECLARE LIBRARY](DECLARE-LIBRARY) name).
 
 ## See Also
 

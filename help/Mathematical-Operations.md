@@ -1,4 +1,4 @@
-## Basic and QB64 Numerical Types
+## Basic and QB64PE Numerical Types
 
 **QBasic Number Types**
 
@@ -57,7 +57,7 @@ There is also an operator for **exponential** calculations. The exponential oper
 ### Notes
 
 * Exponent fractions should be enclosed in () brackets in order to be treated as a root rather than as division.
-* Negative exponential values must be enclosed in () brackets in QB64.
+* Negative exponential values must be enclosed in () brackets in qb64pe.
 
 ## Basic's Order of Operations
 

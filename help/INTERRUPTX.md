@@ -10,7 +10,7 @@ The [INTERRUPTX](INTERRUPTX) statement is an assembly routine for accessing comp
 
 ## Parameter(s)
 
-* Registers are emulated in QB64 and there is no support for intNum 33h mouse functions above 3 or intNum requests other than 33.
+* Registers are emulated in QB64PE and there is no support for intNum 33h mouse functions above 3 or intNum requests other than 33.
 * inRegs are the values placed into the call and outRegs are the register return values.
 
 ## QBasic

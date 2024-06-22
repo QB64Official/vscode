@@ -10,7 +10,7 @@ The [[_CONSOLE]] statement can be used to turn a console window ON/OFF.
 * [[_CONSOLE]] OFF or ON must be used after the [[$CONSOLE]] [[Metacommand]] has established that a console window is desired.
 * [[_CONSOLE]] OFF turns the console window off once a console has been established using [[$CONSOLE]]:ON or ONLY.
 * [[_CONSOLE]] ON should only be used after the console window has been turned OFF previously.
-* [[_DEST]] [[_CONSOLE]] can be used to send screen output to the console window using QB64 commands such as [[PRINT]].
+* [[_DEST]] [[_CONSOLE]] can be used to send screen output to the console window using QB64PE commands such as [[PRINT]].
 * [[_SCREENHIDE]] or [[_SCREENSHOW]] can be used to hide or display the main program window.
 * The [[$SCREENHIDE]] [[Metacommand]] can hide the main program window throughout a program when only the console is used.
 * '''Note:''' Text can be copied partially or totally from console screens in Windows by highlighting and using the title bar menu. 

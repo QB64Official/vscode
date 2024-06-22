@@ -282,7 +282,7 @@ SUB ThirtyTwoBit (x1%, y1%, x2%, y2%, image&, Filename$)
   IF pixelbytes& = 0 THEN BEEP: EXIT SUB 'no text screens
 
   FileType$ = "BM"
-  QB64$ = "QB64"           'free advertiising in reserved bytes
+  QB64$ = "QB64PE"           'free advertiising in reserved bytes
   IF pixelbytes& = 1 THEN OffsetBITS& = 1078 ELSE OffsetBITS& = 54 'no palette in 24/32 bit
   InfoHEADER& = 40
   PictureWidth& = (x2% - x1%) + 1  ' don't exceed maximum screen resolutions!

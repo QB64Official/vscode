@@ -38,7 +38,7 @@
 
 ## Example(s)
 
-Using a string type suffix with a fixed length byte size in QB64 only. The number designates the fixed string length.
+Using a string type suffix with a fixed length byte size in QB64PE only. The number designates the fixed string length.
 
 ```vb
 
@@ -76,7 +76,7 @@ I am "10" years old. How old are you?
 
 > *Note:* Since quotation marks are used to denote the ends of literal strings, [CHR$](CHR$)(34) must be used to place quotes inside them.
 
-How QB64 string type suffixes can fix the length by adding a number of bytes after it.
+How QB64PE string type suffixes can fix the length by adding a number of bytes after it.
 
 ```vb
 

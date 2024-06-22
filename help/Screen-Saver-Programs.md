@@ -1,6 +1,6 @@
-**Creating a QB64 Screen Saver**
+**Creating a QB64PE Screen Saver**
 
-Screen savers are simply graphics EXE programs renamed with the SCR file extension. The program should NOT use a lot of Window's CPU resources! To check the CPU usage, open **Task Manager** by pressing *Ctrl + Alt + Delete* keys and look for the QB64 program running in the *Processes* tab list. CPU usage should be less than 50% and ideally less than 20%. Use [_LIMIT](_LIMIT) or [SLEEP](SLEEP) when needed.
+Screen savers are simply graphics EXE programs renamed with the SCR file extension. The program should NOT use a lot of Window's CPU resources! To check the CPU usage, open **Task Manager** by pressing *Ctrl + Alt + Delete* keys and look for the QB64PE program running in the *Processes* tab list. CPU usage should be less than 50% and ideally less than 20%. Use [_LIMIT](_LIMIT) or [SLEEP](SLEEP) when needed.
 
 **Renaming an EXE Program to a SCR File and Installing**
 

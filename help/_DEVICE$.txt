@@ -44,7 +44,7 @@ Buttons: 9 Axis: 6 Wheels: 0
 :Note: The [[STRIG]]/[[STICK]] commands won't read from the keyboard or mouse device the above example lists. They will only work on controllers.
 
 
-''Example 2:'' Finding the number of mouse buttons available in QB64. This could also be used for other devices.
+''Example 2:'' Finding the number of mouse buttons available in qb64pe. This could also be used for other devices.
 {{CodeStart}} '' ''
 {{Cl|FOR...NEXT|FOR}} d = 1 {{Cl|TO}} {{Cl|_DEVICES}}  'number of input devices found
   dev$ = {{Cl|_DEVICE$}}(d)

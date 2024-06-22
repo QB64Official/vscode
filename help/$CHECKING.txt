@@ -12,7 +12,7 @@ The [[$CHECKING]] metacommand turns C++ event checking ON or OFF.
 * '''Warning: Turning OFF error checking could create a General Protection Fault (or segfault). Use only with 100% stable sections of code.'''
 
 ===Details===
-* After every QB64 command is translated to C++, the compiler adds special code sections to check for [[ON TIMER (n)]] events and errors that may have occured in the last function call. Disabling error checking with the [[$CHECKING]]:OFF directive prevents the compiler from adding the extra code sections.
+* After every QB64PE command is translated to C++, the compiler adds special code sections to check for [[ON TIMER (n)]] events and errors that may have occured in the last function call. Disabling error checking with the [[$CHECKING]]:OFF directive prevents the compiler from adding the extra code sections.
 * Setting [[$CHECKING]]:OFF is only designed for 100% stable, errorless sections of code, where every CPU cycle saved counts, such as in a software 3D texture mapper, for example.
 
 

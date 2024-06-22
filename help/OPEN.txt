@@ -26,7 +26,7 @@ The [[OPEN]] statement is used to open a file or [[OPEN_COM|COM]] serial communi
 * {{Parameter|fileName$}} can be up to 255 characters with no limit on file name extension length in '''QB64'''. 
 * Once a file or port is opened, it can be used in any program procedure using the assigned file number. 
 * The '''"SCRN:"''' device is supported in '''version 1.000 and up''' (see Example 3).
-* '''Devices such as "KYBD:", "CONS:", and "LPTn:" are [[Keywords currently not supported by QB64|not supported in QB64.]]'''. 
+* '''Devices such as "KYBD:", "CONS:", and "LPTn:" are [[Keywords currently not supported by QB64|not supported in qb64pe.]]'''. 
 : '''Note:''' OPEN "LPTn" is not supported by QB64, but may be supported directly by your operating system. 
 * [[OPEN COM]] can also be used for serial port access in '''QB64'''.
 
@@ -90,7 +90,7 @@ file$ = "Hello,~1.mp3"      'example call below
   CheckName% = E%
 {{Cl|END FUNCTION}} '' ''
 {{CodeEnd}}
-''Note: The QBasic character error list is commented out and the function will return invalid filenames under QB64.
+''Note: The QBasic character error list is commented out and the function will return invalid filenames under qb64pe.
 
 {{OutputStart}}
                          {{text|Hello|#54FC54}}{{text|,|red}}{{text|~1.mp3|#54FC54}}  {{text|Total Errors|yellow}}&lt;nowiki> = &lt;/nowiki>{{text|1|yellow}}

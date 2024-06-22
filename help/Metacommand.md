@@ -19,19 +19,19 @@
 * [$STATIC]($STATIC) makes all arrays unchangeable in size.
 * **QBasic metacommands should have their own program line because they are commented.**
 
-## QB64 metacommands
+## QB64PE metacommands
 
 ### Syntax
 
-> [$CHECKING]($CHECKING){OFF|ON} 'disables QB64 C++ event and error checking (no spaces)
+> [$CHECKING]($CHECKING){OFF|ON} 'disables QB64PE C++ event and error checking (no spaces)
 
-> [$CONSOLE]($CONSOLE) 'creates a QB64 console window throughout the program
+> [$CONSOLE]($CONSOLE) 'creates a QB64PE console window throughout the program
 
 > [$RESIZE]($RESIZE):{ON|OFF} 'determines if re-sizing of the program screen by the user is allowed(no spaces)
 
-> [$SCREENHIDE]($SCREENHIDE) 'hides the QB64 program window throughout the program
+> [$SCREENHIDE]($SCREENHIDE) 'hides the QB64PE program window throughout the program
 
-> [$SCREENSHOW]($SCREENSHOW) 'displays the main QB64 program window
+> [$SCREENSHOW]($SCREENSHOW) 'displays the main QB64PE program window
 
 > [$EXEICON]($EXEICON):'iconfile.ico' 'embeds an .ICO file into the final executable (Windows only)
 
@@ -45,9 +45,9 @@
 * [$CHECKING]($CHECKING):OFF should only be used with **errorless** code where every CPU cycle counts! Use **ON** to re-enable event checking. Event checking can be turned OFF or ON throughout a program.
 * [$CONSOLE]($CONSOLE) creates a console window which can be turned off later with [_CONSOLE](_CONSOLE) OFF.
 * [$RESIZE]($RESIZE):ON allows a user to resize the program window. OFF is default.
-* [$SCREENHIDE]($SCREENHIDE) hides the QB64 program window throughout the program until [$SCREENSHOW]($SCREENSHOW) is used.
+* [$SCREENHIDE]($SCREENHIDE) hides the QB64PE program window throughout the program until [$SCREENSHOW]($SCREENSHOW) is used.
 * [$IF]($IF)...[$END IF]($END-IF) allows selective inclusion of code in the final program.
-* **Do not comment out with ' or [REM](REM) QB64-specific metacommands.**
+* **Do not comment out with ' or [REM](REM) QB64PE-specific metacommands.**
 
 ## See Also
 

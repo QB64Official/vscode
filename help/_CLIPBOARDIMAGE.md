@@ -1,4 +1,4 @@
-The [_CLIPBOARDIMAGE](_CLIPBOARDIMAGE) statement copies a valid QB64 image to the clipboard.
+The [_CLIPBOARDIMAGE](_CLIPBOARDIMAGE) statement copies a valid QB64PE image to the clipboard.
 
 ## Syntax
 
@@ -6,7 +6,7 @@ The [_CLIPBOARDIMAGE](_CLIPBOARDIMAGE) statement copies a valid QB64 image to th
 
 ## Description
 
-* existingImageHandle& is a valid handle to a graphic QB64 image in memory, created with [_NEWIMAGE](_NEWIMAGE), [_LOADIMAGE](_LOADIMAGE) or [_COPYIMAGE](_COPYIMAGE).
+* existingImageHandle& is a valid handle to a graphic QB64PE image in memory, created with [_NEWIMAGE](_NEWIMAGE), [_LOADIMAGE](_LOADIMAGE) or [_COPYIMAGE](_COPYIMAGE).
 * You can pass [_SOURCE](_SOURCE), [_DEST](_DEST) or [_DISPLAY](_DISPLAY) to copy the current source, destination or active display pages, as long as they are valid graphic images.
 * SCREEN 0 handles (created either with [_NEWIMAGE](_NEWIMAGE) or passed using _DEST while in a text screen) are not valid and will create an [ERROR Codes](ERROR-Codes) or [ERROR Codes](ERROR-Codes) error.
 * [Keywords currently not supported](Keywords-currently-not-supported-by-QB64).

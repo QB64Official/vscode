@@ -8,14 +8,14 @@ import * as lintFunctions from "./lintFunctions";
 import * as logFunctions from "./logFunctions";
 import * as commonFunctions from "./commonFunctions";
 import * as webViewFunctions from "./webViewFunctions";
-import * as openInQB64Functions from "./openInQB64Functions";
+import * as openInQB64PEFunctions from "./openInQB64PEFunctions";
 import * as path from 'path';
 import { TokenInfo } from "./TokenInfo";
 import { ReferenceProvider } from "./providers/ReferenceProvider";
 import { DefinitionProvider } from "./providers/DefinitionProvider";
 import { DocumentSymbolProvider } from "./providers/DocumentSymbolProvider";
 import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEditProvider";
-import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescriptorFactory";
+// import { DebugAdapterDescriptorFactory } from "./providers/DebugAdapterDescriptorFactory";
 import { HoverProvider } from "./providers/HoverProvider";
 import { TodoTreeProvider } from "./TodoTreeProvider";
 
@@ -39,7 +39,7 @@ import { TodoTreeProvider } from "./TodoTreeProvider";
 export var symbolCache: vscode.DocumentSymbol[] = [];
 export var todoTreeProvider: TodoTreeProvider = null;
 export async function activate(context: vscode.ExtensionContext) {
-	const config = vscode.workspace.getConfiguration("qb64")
+	const config = vscode.workspace.getConfiguration("qb64pe")
 	const documentSelector: vscode.DocumentSelector = commonFunctions.getDocumentSelector()
 
 	vscode.workspace.onWillSaveTextDocument(() => {
@@ -61,7 +61,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexAlphabetical', () => { showHelpByName("Keyword-Reference---Alphabetical"); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.showHelpIndexUsage', () => { showHelpByName("Keyword-Reference---By-Usage"); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.runLint', () => { runLint(); }));
-	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64', () => { openCurrentFileInQB64(); }));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.openCurrentFileInQB64PE', () => { openCurrentFileInQB64PE(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.addToGitIgnore', async (...selectedItems) => { addToGitIgnore(selectedItems); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.removeLineNumbers', () => { removeLineNumbers(); }));
 	context.subscriptions.push(vscode.commands.registerCommand('extension.renumberLines', () => { renumberLines(); }));
@@ -74,7 +74,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(documentSelector, new DocumentFormattingEditProvider()));
 
 	// Register Miscellaneous
-	context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("QB64", new DebugAdapterDescriptorFactory()));
+	// context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("qb64pe", new DebugAdapterDescriptorFactory()));
 
 	decoratorFunctions.setupDecorate();
 	vscodeFucnctions.createFiles();
@@ -98,7 +98,7 @@ export async function activate(context: vscode.ExtensionContext) {
  * Tries to find compilelog.txt and open it.
  */
 export function openCompileLog() {
-	const config = vscode.workspace.getConfiguration("qb64")
+	const config = vscode.workspace.getConfiguration("qb64pe")
 	try {
 		let baseFolder: string = path.dirname(config.get("compilerPath"));
 		if (baseFolder) {
@@ -127,7 +127,7 @@ export function openCompileLog() {
 				vscode.window.showErrorMessage("Unable to open compilelog.txt");
 			}
 		} else {
-			vscode.window.showErrorMessage("The setting qb64.installPath must be set.")
+			vscode.window.showErrorMessage("The setting qb64pe.installPath must be set.")
 		}
 	} catch (error) {
 		vscode.window.showErrorMessage(`Error IN openCompileLog: ${error}`);
@@ -136,7 +136,7 @@ export function openCompileLog() {
 
 /**
  * Looks in the temp folder for compilelog.txt, if it's found the file is opened
- * @param qb64InstallPath The QB64 install path
+ * @param qb64InstallPath The QB64PE install path
  * @param tempFolderName Name of the temp folder to check
  * @returns True if the file was found and opened
  */
@@ -201,8 +201,8 @@ export function renumberLines() {
 /**
  * Opens the current file in QB64
  */
-export function openCurrentFileInQB64() {
-	openInQB64Functions.openCurrentFileInQB64();
+export function openCurrentFileInQB64PE() {
+	openInQB64PEFunctions.openCurrentFileInQB64PE();
 }
 
 /**
@@ -218,7 +218,7 @@ export function showHelp() {
 }
 
 export function showHelpByName(itemName: string) {
-	const config = vscode.workspace.getConfiguration("qb64")
+	const config = vscode.workspace.getConfiguration("qb64pe")
 	const path = require('path');
 
 	let helpPath: string = config.get("installPath");
@@ -230,7 +230,7 @@ export function showHelpByName(itemName: string) {
 			vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.file(helpFile));
 		}
 	} else if (config.get("isOpenOnLineHelpEnabled")) {
-		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(itemName)}`));
+		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://qb64phoenix.com/qb64wiki/index.php?search=${encodeURIComponent(itemName)}`));
 	}
 }
 
@@ -249,7 +249,7 @@ function createBackup() {
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.createBackup);
 	try {
 
-		if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId != "QB64") {
+		if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId != "QB64PE") {
 			return false;
 		}
 

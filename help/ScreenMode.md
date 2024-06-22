@@ -17,7 +17,7 @@ DO
   PRINT "   11     (640)   480       2 "
   PRINT "   12     (640)   480      16 "
   PRINT "   13      320    200     256 "
-  PRINT "  QB64 _NEWIMAGE screens      "
+  PRINT "  QB64PE _NEWIMAGE screens      "
   PRINT "   14     (600, 600, 32)   32 bit"
   PRINT "   15     (800, 600, 256) 256 "
   PRINT "   16     (900, 600, 13)  256 " 'simulate screen 13
@@ -58,7 +58,7 @@ IF colors = 2 AND deep& = 480 THEN mode& = 11
 IF colors = 17 AND deep& = 480 THEN mode& = 12
 IF colors > 17 AND wide& = 320 AND deep& = 200 THEN mode& = 13
 IF _PIXELSIZE = 0 THEN mode& = 0 'screen 0 any size
-IF mode& = -1 THEN mode& = _DEST 'must be a QB64 screen
+IF mode& = -1 THEN mode& = _DEST 'must be a QB64PE screen
 IF colors = 1 THEN colors = 4
 IF colors = 17 THEN colors = 16
 IF colors > 17 THEN colors = 256
@@ -69,7 +69,7 @@ END FUNCTION
 ```
 <sub>Code by Ted Weissgerber</sub>
 
-> *Note:* Function returns the negative handle value with up to 256 colors or 32 for 32 bit in QB64 [_NEWIMAGE](_NEWIMAGE) screens.
+> *Note:* Function returns the negative handle value with up to 256 colors or 32 for 32 bit in QB64PE [_NEWIMAGE](_NEWIMAGE) screens.
 
 ## See Also
 

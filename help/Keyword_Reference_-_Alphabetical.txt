@@ -1,5 +1,5 @@
 __NOTOC__
-&lt;div id="toc">&lt;p style="text-align: center">&lt;br> '''Alphabetical QB64 Keyword Listings''' &lt;br>&lt;br>     '''QB64:'''  [[#uA|_A]] [[#uB|_B]] [[#uC|_C]] [[#uD|_D]] [[#uE|_E]] [[#uF|_F]] [[#uG|_G]] [[#uH|_H]] [[#uI|_I]] [[#uK|_K]] [[#uL|_L]] [[#uM|_M]] [[#uN|_N]] [[#uO|_O]] [[#uP|_P]] [[#uR|_R]] [[#uS|_S]] [[#uT|_T]] [[#uU|_U]] [[#uV|_V]] [[#uW|_W]]                &lt;br>&lt;br>'''QBasic:'''  [[#A|A]]   [[#B|B]]   [[#C|C]]   [[#D|D]]   [[#E|E]]    [[#F|F]]   [[#G|G]]   [[#H|H]]    [[#I| I]]    [[#K|K]]   [[#L|L]]   [[#M|M]]   [[#N|N]]    [[#O|O]]   [[#P|P]]    [[#R|R]]   [[#S|S]]    [[#T|T]]   [[#U|U]]   [[#V|V]]   [[#W|W]]   [[#X|X]]   &lt;br>&lt;br> [[#symbols|Symbols]] '''   -   ''' [[#references|References]]&lt;br>&lt;br>{{small|Menu Created by Cyperium}}&lt;/p>&lt;/div>
+&lt;div id="toc">&lt;p style="text-align: center">&lt;br> '''Alphabetical QB64PE Keyword Listings''' &lt;br>&lt;br>     '''QB64:'''  [[#uA|_A]] [[#uB|_B]] [[#uC|_C]] [[#uD|_D]] [[#uE|_E]] [[#uF|_F]] [[#uG|_G]] [[#uH|_H]] [[#uI|_I]] [[#uK|_K]] [[#uL|_L]] [[#uM|_M]] [[#uN|_N]] [[#uO|_O]] [[#uP|_P]] [[#uR|_R]] [[#uS|_S]] [[#uT|_T]] [[#uU|_U]] [[#uV|_V]] [[#uW|_W]]                &lt;br>&lt;br>'''QBasic:'''  [[#A|A]]   [[#B|B]]   [[#C|C]]   [[#D|D]]   [[#E|E]]    [[#F|F]]   [[#G|G]]   [[#H|H]]    [[#I| I]]    [[#K|K]]   [[#L|L]]   [[#M|M]]   [[#N|N]]    [[#O|O]]   [[#P|P]]    [[#R|R]]   [[#S|S]]    [[#T|T]]   [[#U|U]]   [[#V|V]]   [[#W|W]]   [[#X|X]]   &lt;br>&lt;br> [[#symbols|Symbols]] '''   -   ''' [[#references|References]]&lt;br>&lt;br>{{small|Menu Created by Cyperium}}&lt;/p>&lt;/div>
 
 
 
@@ -7,15 +7,15 @@ __NOTOC__
 
 &lt;p style="text-align: center">[[Keyword Reference - By usage|Keywords by usage]]&lt;/p>
 
-&lt;p style="text-align: center">Keywords beginning with _underscores are QB64 specific. '''To use them without the prefix, use [[$NOPREFIX]].'''&lt;/p>
+&lt;p style="text-align: center">Keywords beginning with _underscores are QB64PE specific. '''To use them without the prefix, use [[$NOPREFIX]].'''&lt;/p>
 
 &lt;p style="text-align: center">[[Keywords currently not supported by QB64]]&lt;/p>
 
 &lt;p style="text-align: center">[[Keywords currently not supported by QB64#Keywords_Not_Supported_in_Linux_or_MAC_OSX_versions|Keywords not supported in Linux or MAC versions]]&lt;/p>
 
-&lt;p style="text-align: center">Keywords without the underscore at the beginning should work with both QB 4.5 and QB64.&lt;/p>
+&lt;p style="text-align: center">Keywords without the underscore at the beginning should work with both QB 4.5 and qb64pe.&lt;/p>
 
-&lt;p style="text-align: center">For comments or suggestions about this WIKI goto the [http://www.qb64.org/forum/index.php QB64 Forum].&lt;/p>
+&lt;p style="text-align: center">For comments or suggestions about this WIKI goto the [http://www.qb64pe.org/forum/index.php QB64PE Forum].&lt;/p>
 
 &lt;center> '''If code examples only display partial code, use the browser Refresh button'''&lt;/center>
 
@@ -25,7 +25,7 @@ __NOTOC__
 
 ==QB64 specific keywords:==
 
-&lt;p style="text-align: center">The underscore prefix is reserved for QB64 _KEYWORDS only.&lt;/p>
+&lt;p style="text-align: center">The underscore prefix is reserved for QB64PE _KEYWORDS only.&lt;/p>
 
 &lt;div id = "uA">_A&lt;/div>
 * [[_ACCEPTFILEDROP]] (statement) {{text|turns a program window into a valid drop destination for dragging files from Windows Explorer.}}
@@ -79,8 +79,8 @@ __NOTOC__
 * [[_CLIP]] ([[PUT (graphics statement)|PUT]] graphics option) {{text|allows placement of an image partially off of the screen.}}
 * [[_CLIPBOARD$]] (function) {{text|returns the operating system's clipboard contents as a [[STRING]].}}
 * [[_CLIPBOARD$ (statement)]] {{text|sets and overwrites the [[STRING]] value in the operating system's clipboard.}} 
-* [[_CLIPBOARDIMAGE (function)]] {{text|pastes an image from the clipboard into a new QB64 image in memory.}}
-* [[_CLIPBOARDIMAGE]] {{text|(statement) copies a valid QB64 image to the clipboard.}}
+* [[_CLIPBOARDIMAGE (function)]] {{text|pastes an image from the clipboard into a new QB64PE image in memory.}}
+* [[_CLIPBOARDIMAGE]] {{text|(statement) copies a valid QB64PE image to the clipboard.}}
 * [[$COLOR]] ([[metacommand]]) {{text|includes named color constants in a program}}
 * [[_COMMANDCOUNT]] (function) {{text|returns the number of arguments passed to the compiled program from the command line.}}
 * [[_CONNECTED]] (function) {{text|returns the status of a TCP/IP connection handle.}}
@@ -147,7 +147,7 @@ __NOTOC__
 * [[$ERROR]]  (precompiler [[metacommand]]) {{text|used to trigger compiler errors.}}
 * [[_ERRORLINE]] (function) {{text|returns the source code line number that caused the most recent runtime error.}}
 * [[_ERRORMESSAGE$]] (function) {{text|returns a human-readable message describing the most recent runtime error.}}
-* [[$EXEICON]] (precompiler [[metacommand]]) {{text|used with a .ICO icon file name to embed the image into the QB64 executable.}}
+* [[$EXEICON]] (precompiler [[metacommand]]) {{text|used with a .ICO icon file name to embed the image into the QB64PE executable.}}
 * [[_EXIT (function)]] {{text|prevents a user exit and indicates if a user has clicked the close X window button or CTRL + BREAK.}}
 
 &lt;p style="text-align: center">([[#toc|Return to Table of Contents]])&lt;/p>
@@ -158,7 +158,7 @@ __NOTOC__
 &lt;div id = "uF">_F&lt;/div>
 * [[_FILEEXISTS]] (function) {{text|returns -1 if the file name [[STRING|string]] parameter exists. Zero if it does not.}}
 * [[_FINISHDROP]] (statement) {{text| resets [[_TOTALDROPPEDFILES]] and clears the [[_DROPPEDFILE]] list of items (files/folders).}}
-* [[_FLOAT]] (numerical type ##) {{text|offers the maximum floating-point decimal precision available using QB64.}}
+* [[_FLOAT]] (numerical type ##) {{text|offers the maximum floating-point decimal precision available using qb64pe.}}
 * [[_FONT]] (statement) {{text|sets the current font handle to be used by PRINT or [[_PRINTSTRING]].}}
 * [[_FONT (function)]] {{text|creates a new font handle from a designated image handle.}}
 * [[_FONTHEIGHT]] (function) {{text|returns the current text or font height.}}
@@ -266,7 +266,7 @@ __NOTOC__
 
 &lt;div id = "uN">_N&lt;/div>
 * [[_NEWIMAGE]] (function) {{text|creates a designated size program [[SCREEN]] or page image and returns a handle value.}}
-* [[$NOPREFIX]] ([[metacommand]]) {{text|allows QB64-specific keywords to be used without the underscore prefix.}}
+* [[$NOPREFIX]] ([[metacommand]]) {{text|allows QB64PE-specific keywords to be used without the underscore prefix.}}
 * [[_NUMLOCK (function)]] {{text|returns -1 when Num Lock is on}}
 * [[_NUMLOCK]] (statement) {{text|sets Num Lock key state}}
 
@@ -283,7 +283,7 @@ __NOTOC__
 * [[_OPENHOST]] (TCP/IP function) {{text|opens a Host and returns a Host status handle.}}
 * [[OPTION _EXPLICIT]] (precompiler statement) {{text|instructs the compiler to require variable declaration with [[DIM]] or an equivalent statement.}}
 * [[OPTION _EXPLICITARRAY]] (precompiler statement) {{text|instructs the compiler to require array declaration with [[DIM]] or an equivalent statement.}} 
-* [[_OS$]] (function) {{text|returns the QB64 compiler version in which the program was compiled as [WINDOWS], [LINUX] or [MACOSX] and [32BIT] or [64BIT].}}
+* [[_OS$]] (function) {{text|returns the QB64PE compiler version in which the program was compiled as [WINDOWS], [LINUX] or [MACOSX] and [32BIT] or [64BIT].}}
 
 
 ----
@@ -428,10 +428,10 @@ __NOTOC__
 &lt;p style="text-align: center">([[#toc|Return to Table of Contents]])&lt;/p>
 
 
-&lt;center>([[Keyword Reference - Alphabetical#QB64 specific keywords:|Top of QB64 specific keywords]])&lt;/center>
+&lt;center>([[Keyword Reference - Alphabetical#QB64 specific keywords:|Top of QB64PE specific keywords]])&lt;/center>
 
 ==Original QBasic keywords:==
-'''&lt;p style="text-align: center">These QBasic keywords (with a few noted exceptions) will work in all versions of QB64.&lt;/p>'''
+'''&lt;p style="text-align: center">These QBasic keywords (with a few noted exceptions) will work in all versions of qb64pe.&lt;/p>'''
 
 &lt;div id = "A">A&lt;/div>
 * [[ABS]] (function) {{text|converts any negative numerical value to a positive value.}}
@@ -545,7 +545,7 @@ __NOTOC__
 * [[FIX]] (function) {{text|returns the rounded [[INTEGER]] value of a numerical value.}}
 * [[FOR...NEXT]] (statement) {{text|creates a recursive loop procedure that loop a specified number of times.}}
 * [[FOR (file statement)]] {{text|used in an [[OPEN]] file or device statement to indicate the access mode.}}
-* [[TIMER (statement)|FREE (QB64 TIMER statement)]] {{text|frees a numbered TIMER event in QB64.}}
+* [[TIMER (statement)|FREE (QB64 TIMER statement)]] {{text|frees a numbered TIMER event in qb64pe.}}
 * [[FREEFILE]] (file function) {{text|returns a file number that is currently not in use by the Operating System.}}
 * [[FUNCTION]] (procedure block) {{text|sub-procedure that can calculate and return one value to a program in its name.}}
 
@@ -828,7 +828,7 @@ __NOTOC__
 
 &lt;center>([[Keyword Reference - Alphabetical#Original QBasic keywords:|Top of Original QB keywords]])&lt;/center>
 
-&lt;!-- (referenced by QB64 IDE HELP)
+&lt;!-- (referenced by QB64PE IDE HELP)
 -->
 
 
@@ -915,13 +915,13 @@ __NOTOC__
 
 '''Got a question about something?''' 
 
-[[QB64 FAQ|Visit the QB64 FAQ]]
+[[QB64 FAQ|Visit the QB64PE FAQ]]
 
-[https://www.qb64.org Visit the QB64 Main Site]
+[https://www.qb64pe.org Visit the QB64PE Main Site]
 
-[https://www.qb64.org/forum/ Visit QB64 Community Forum]
+[https://www.qb64pe.org/forum/ Visit QB64PE Community Forum]
 
-[http://discord.qb64.org Join our Discord server]
+[http://discord.qb64pe.org Join our Discord server]
 
 
 &lt;p style="text-align: center">([[#toc|Return to Table of Contents]])&lt;/p>

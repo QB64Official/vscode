@@ -1,8 +1,8 @@
-This page lists all the error codes defined in QB64 that can occur in a program when running. Unless overridden with an [ON ERROR](ON-ERROR) handler, these result in a dialog box appearing. Due to legacy holdovers from previous BASIC dialects, not all of these errors may actually occur in a program (unless manually triggered with [ERROR](ERROR)).
+This page lists all the error codes defined in QB64PE that can occur in a program when running. Unless overridden with an [ON ERROR](ON-ERROR) handler, these result in a dialog box appearing. Due to legacy holdovers from previous BASIC dialects, not all of these errors may actually occur in a program (unless manually triggered with [ERROR](ERROR)).
 
-If you encounter an error while editing in the QB64 IDE or when compiling (especially a "C++ Compilation Failed" message), or believe your program is correct, please report the error at https://github.com/QB64Official/qb64/issues.
+If you encounter an error while editing in the QB64PE IDE or when compiling (especially a "C++ Compilation Failed" message), or believe your program is correct, please report the error at https://github.com/QB64Official/qb64/issues.
 
-It's a good idea to exclude qb64.exe from any real-time anti-virus scanning to prevent generic strange errors when editing or compiling.
+It's a good idea to exclude qb64pe.exe from any real-time anti-virus scanning to prevent generic strange errors when editing or compiling.
 
 ##  Recoverable errors 
 
@@ -22,7 +22,7 @@ These errors can be triggered in QB64, and may be caught by an [ON ERROR](ON-ERR
 | 13 | Type mismatch | A [PRINT USING](PRINT-USING) format string did not match the type of the supplied variables. |
 | 20 | RESUME without error | The [RESUME](RESUME) statement was encountered outside of an [ON ERROR](ON-ERROR) error handler. |
 | 50 | FIELD overflow | The [FIELD](FIELD) statement tried to allocate more bytes than were specified for the record length of a random access file. |
-| 51 | Internal error | Generic error | This error should be reported to the QB64 organization through Issues on GitHub. |
+| 51 | Internal error | Generic error | This error should be reported to the QB64PE organization through Issues on GitHub. |
 | 52 | Bad file name or number | A file handle was used that does not correspond to a valid opened file. |
 | 53 | File not found | Attempt to open a file that does not (yet) exist. See File Error below. |
 | 54 | Bad file mode | A file operation was not compatible with the mode used in the [OPEN](OPEN) statement. |
@@ -41,7 +41,7 @@ Error handling of file operations varies between operating systems and is highly
 
 ##  Critical errors 
 
-These errors can be triggered in QB64 but will not be caught by an [ON ERROR](ON-ERROR) handler. They are always fatal, causing the program to exit.
+These errors can be triggered in QB64PE but will not be caught by an [ON ERROR](ON-ERROR) handler. They are always fatal, causing the program to exit.
 
 | Code | Description | Notes |
 | - | - | - |
@@ -113,7 +113,7 @@ Any code not listed above may be used as a custom error code with [ERROR](ERROR)
 
 ## Other Errors
 
-*Syntax errors: QB64 will display most statement syntax and parameter errors in the Status area below the editing area in the IDE. It may also show missing brackets or other syntax punctuation required. Check the keyword's syntax when necessary.
+*Syntax errors: QB64PE will display most statement syntax and parameter errors in the Status area below the editing area in the IDE. It may also show missing brackets or other syntax punctuation required. Check the keyword's syntax when necessary.
 *Memory errors: Loading many resources with a function like [_LOADIMAGE](_LOADIMAGE) and not freeing (e.g. [_FREEIMAGE](_FREEIMAGE)) can cause out of memory conditions, especially when executed in a loop.
 *CPU consumption: Loops will tend to use 100% of a processor by default. Consider using [_LIMIT](_LIMIT) to restrict CPU usage.
 

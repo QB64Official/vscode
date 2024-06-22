@@ -78,7 +78,7 @@ CLS
 PRINT "This is a directory test..."
 SCREEN 0, 0, 1, 0
 COLOR 0 'blank out the screen text
-FILES "qb64.exe"        'the current program's filename can also be used
+FILES "qb64pe.exe"        'the current program's filename can also be used
 FOR i = 1 TO 80
   a$ = a$ + CHR$(SCREEN(1, i)) 'scan the black text on the screen
 NEXT

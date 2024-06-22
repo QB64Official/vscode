@@ -1,4 +1,4 @@
-The community has made tons of QB 4.5 libraries and we can't cover them all. However, some of the more frequently used libraries can be ported to QB64. This has partly been done with the DirectQB library and I hope that others join in and make QB64 ports of the popular libraries.
+The community has made tons of QB 4.5 libraries and we can't cover them all. However, some of the more frequently used libraries can be ported to qb64pe. This has partly been done with the DirectQB library and I hope that others join in and make QB64PE ports of the popular libraries.
 
 .bi files should be placed at the beginning of the code (or is already present in QB 4.5 source).
 

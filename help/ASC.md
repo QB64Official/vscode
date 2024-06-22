@@ -93,13 +93,13 @@ The [ASC](ASC) function returns the [ASCII](ASCII) code number of a certain [STR
 
 ## Example(s)
 
-How ASC can be used to find any ASCII code in a string of characters using QB64.
+How ASC can be used to find any ASCII code in a string of characters using qb64pe.
 
 ```vb
 
 PRINT ASC("A")
 PRINT ASC("Be a rockstar")
-PRINT ASC("QB64 is not only COMPATIBLE, it can find any part of the string!", 18) 
+PRINT ASC("QB64PE is not only COMPATIBLE, it can find any part of the string!", 18) 
 
 ```
 

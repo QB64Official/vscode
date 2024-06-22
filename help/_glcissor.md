@@ -2,7 +2,7 @@ This will define the scissor box.
 
 ## Syntax
 
-* QB64: SUB [_glScissor](_glScissor) (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL width AS LONG, BYVAL height) AS LONG)
+* QB64PE: SUB [_glScissor](_glScissor) (BYVAL x AS LONG, BYVAL y AS LONG, BYVAL width AS LONG, BYVAL height) AS LONG)
 * C/C++: void [_glScissor](_glScissor)(GLint x, GLint y, GLsizei width, GLsizei height);
 
 ## Parameters

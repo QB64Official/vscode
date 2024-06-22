@@ -8,7 +8,7 @@ The [[ERL]] function returns the closest previous line number before the last er
 {{PageDescription}}
 * Used in an error handler to report the last line number used before the error.
 * If the program does not use line numbers, then ERL returns 0.
-* Use [[_ERRORLINE]] to return the actual code line position of an error in a QB64 program.
+* Use [[_ERRORLINE]] to return the actual code line position of an error in a QB64PE program.
 
 
 {{PageExamples}}

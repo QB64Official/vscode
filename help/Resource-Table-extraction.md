@@ -348,7 +348,7 @@ END SUB
 
 ```
 
-> That could obviously be optimized by combining the 1 + 20 + 28. By leaving it uncombined, though, it documents itself better in terms of helping the human reader match it up with the specification. 1 because QBASIC's GET/PUT/SEEK idiotically starts at 1 instead of 0. Coff because we want an offset from the start of the coff header, 20 to skip the 20 byte coff main header, 28 because that's the offset of ImageBase in the optional header, and (-4 AND pe32plus) because the offset is 24 if the Magic is PE32+. Either QB64 or GCC will probably optimize it anyway, I would think.
+> That could obviously be optimized by combining the 1 + 20 + 28. By leaving it uncombined, though, it documents itself better in terms of helping the human reader match it up with the specification. 1 because QBASIC's GET/PUT/SEEK idiotically starts at 1 instead of 0. Coff because we want an offset from the start of the coff header, 20 to skip the 20 byte coff main header, 28 because that's the offset of ImageBase in the optional header, and (-4 AND pe32plus) because the offset is 24 if the Magic is PE32+. Either QB64PE or GCC will probably optimize it anyway, I would think.
 
 > In the Section table, the name of the field is VirtualAddress, but the description seems to say that it is an RVA. My program assumes that it is an RVA. The rva2fp function finds which section a given RVA is in, and then uses the difference between the RVA and the file pointer for that section to turn the given RVA into a file pointer.
 
@@ -1489,7 +1489,7 @@ END FUNCTION
 
 ```
 
-> *Note:* Change the file name to .BMP and mode to 1 to extract the icon as a bitmap for QB64 to use. QB64 cannot load icons!
+> *Note:* Change the file name to .BMP and mode to 1 to extract the icon as a bitmap for QB64PE to use. QB64PE cannot load icons!
 
 > Have fun, and don't forget to double check it before relying on it. I appreciate bug reports, but I'm not responsible for errors.
 

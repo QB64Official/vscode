@@ -20,9 +20,9 @@ A **SUB** procedure is a procedure within a program that can calculate and retur
 * SUB procedures can return multiple values through the parameters unlike functions.
 * SUB procedures return to the next code statement after the call in the main or other procedures.
 * [EXIT](EXIT) SUB can be used to exit early or to exit before [GOSUB](GOSUB) procedures using [RETURN](RETURN).
-* [TYPE](TYPE) and [DECLARE LIBRARY](DECLARE-LIBRARY) declarations can be made inside of SUB procedures in QB64 only.
+* [TYPE](TYPE) and [DECLARE LIBRARY](DECLARE-LIBRARY) declarations can be made inside of SUB procedures in QB64PE only.
 * SUB procedures can save program memory as all memory used in a SUB is released on procedure exit except for [STATIC](STATIC) values.
-* [_DEFINE](_DEFINE) can be used to define all new or old QB64 variable [TYPE](TYPE) definitions instead of DEF***.
+* [_DEFINE](_DEFINE) can be used to define all new or old QB64PE variable [TYPE](TYPE) definitions instead of DEF***.
 * [$INCLUDE]($INCLUDE) text library files with needed SUB and [FUNCTION](FUNCTION) procedures can be included in programs after all sub-procedures.
 * **QB64 ignores all procedural DECLARE statements.** Define all *parameter* [TYPE](TYPE)s in the SUB procedure.
 *  **Images are not deallocated when the [SUB](SUB) or [FUNCTION](FUNCTION) they are created in ends. Free them with [_FREEIMAGE](_FREEIMAGE).**

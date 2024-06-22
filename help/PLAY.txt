@@ -1,4 +1,4 @@
-'''PLAY''' is a statement that plays notes of sound through the sound card in QB64 using a command [[STRING]].
+'''PLAY''' is a statement that plays notes of sound through the sound card in QB64PE using a command [[STRING]].
 
 
 {{PageSyntax}}
@@ -53,7 +53,7 @@
 {{small|Code by Galleon}}
 
 
-''Example 2:'' Plays "Frosty the snowman". The lyric printing is not delayed by PLAY in QB64.
+''Example 2:'' Plays "Frosty the snowman". The lyric printing is not delayed by PLAY in qb64pe.
 {{CodeStart}} '' ''
 CLS : PRINT "Frosty the Snow Man" 
 {{Cl|FOR...NEXT|FOR}} X = 1 {{Cl|TO}} 2

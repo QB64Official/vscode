@@ -3,7 +3,7 @@ import { exec } from "child_process";
 import * as vscode from "vscode";
 import * as logFunctions from "./logFunctions";
 
-export function openCurrentFileInQB64() {
+export function openCurrentFileInQB64PE() {
 	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.openInQB64);
 	try {
 		if (!vscode.window.activeTextEditor) {
@@ -11,12 +11,12 @@ export function openCurrentFileInQB64() {
 			return;
 		}
 
-		logFunctions.writeLine("Starting Open In QB64", outputChannnel);
-		const config = vscode.workspace.getConfiguration("qb64")
+		logFunctions.writeLine("Starting Open In QB64PE", outputChannnel);
+		const config = vscode.workspace.getConfiguration("qb64pe")
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			logFunctions.writeLine("The QB64 compiler path is not set.", outputChannnel);
+			logFunctions.writeLine("The QB64PE compiler path is not set.", outputChannnel);
 			return;
 		}
 
@@ -33,10 +33,10 @@ export function openCurrentFileInQB64() {
 			}
 
 			if (stdout) {
-				logFunctions.writeLine("QB64 stdout:\n", outputChannnel);
+				logFunctions.writeLine("QB64PE stdout:\n", outputChannnel);
 				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
 			} else {
-				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
+				logFunctions.writeLine("No stdout from qb64pe found", outputChannnel);
 			}
 		});
 	} catch (error) {

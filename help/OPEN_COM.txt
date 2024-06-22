@@ -30,7 +30,7 @@ The [[OPEN COM]] statement is used to access a computer's serial port COM.
 * Four commas are required after the Speed, Parity, Bits, and Stopbit, even if none of the Options are used.
 * Other [[OPEN]] ''options'' are optional and in any order separated by commas within the OPEN command [[STRING|string]].(See list below)
 * The optional FOR access ''mode'' can be [[OUTPUT]], [[INPUT (file mode)|INPUT]] or [[RANDOM]] (default mode when no FOR statement is used). 
-* '''Currently, QB64 only supports [[OPEN]] FOR [[RANDOM]] access using the [[GET]]/[[PUT]] commands in [[BINARY|BIN]] mode.'''
+* '''Currently, QB64PE only supports [[OPEN]] FOR [[RANDOM]] access using the [[GET]]/[[PUT]] commands in [[BINARY|BIN]] mode.'''
 * '''Use the BIN option listed below for [[BINARY]] byte mode port access.'''
 * The [[LEN]] statement is also optional. The default record size is 512 bytes when not used.
 * Use the [[LOC]](portnumber) function to determine that there is data in the receive buffer when the value is greater than 0.
@@ -56,7 +56,7 @@ errnum = {{Cl|ERR}}
 {{Cl|PRINT}} "Error:"; errnum
 {{Cl|RESUME}} {{Cl|NEXT}} 
 {{CodeEnd}}
-: ''Explanation:'' QB64 may create error 68 if COM is not found. Use a zero CD, CS, DS or OP timeout value to avoid COM timeouts.
+: ''Explanation:'' QB64PE may create error 68 if COM is not found. Use a zero CD, CS, DS or OP timeout value to avoid COM timeouts.
 
 
 ''Example 2:'' Opening a COM port with the BIN, CS0 and DS0 options in '''QB64'''.

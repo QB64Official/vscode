@@ -12,7 +12,7 @@ The [_OFFSET](_OFFSET) function returns the memory offset of/within a given vari
 * Returns the memory offset of variables, user-defined-types & elements, arrays & indices and the base offset of [STRING](STRING)s.
 * Offset values are currently only useful when used in conjunction with [_MEM](_MEM) or [DECLARE LIBRARY](DECLARE-LIBRARY) procedures. 
 * OFFSET values are used as a part of the [_MEM](_MEM) variable [Variable Types](Variable-Types) in QB64; variable.OFFSET returns or sets the current position in memory.
-* **Warning:** QB64 variable length strings can move about in memory at any time. If you get the _OFFSET of a variable length sting on one line and use it on the next it may not be there anymore.** To be safe, move variable length strings into fixed length strings first.**
+* **Warning:** QB64PE variable length strings can move about in memory at any time. If you get the _OFFSET of a variable length sting on one line and use it on the next it may not be there anymore.** To be safe, move variable length strings into fixed length strings first.**
 
 ## Example(s)
 

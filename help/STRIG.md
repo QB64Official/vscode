@@ -4,7 +4,7 @@ The **STRIG** function returns button press True or False status of game port (&
 
 > IF STRIG(button_function%) THEN ...
 
-## QB64 Syntax
+## QB64PE Syntax
 
 > IF STRIG(*button_function%*[, *device_number%*]) THEN ...
 

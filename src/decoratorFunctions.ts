@@ -64,7 +64,7 @@ function getSubDecoration(): vscode.TextEditorDecorationType {
 			return decorationTypeSub;
 		}
 
-		const config: any = vscode.workspace.getConfiguration("qb64");
+		const config: any = vscode.workspace.getConfiguration("qb64pe");
 		let userFunctionColorRule: any = textMateRules.find(rule => rule.scope == 'userfunctions.QB64');
 		let userFunctionColor: string = userFunctionColorRule ? userFunctionColorRule.settings.foreground : undefined;
 		let fontWeight: string = config.get("isBoldingSubsAndFunctionsEnabled") ? "bolder" : "normal";
@@ -90,14 +90,14 @@ function getSubDecoration(): vscode.TextEditorDecorationType {
  */
 export function scanFile(editor: any, scanAllLines: boolean) {
 
-	if (!editor || editor.document.uri.scheme.toLowerCase() === 'output' || editor.document.languageId.toLowerCase() === "log" || editor.document.languageId.toLowerCase() === "jsonc" || editor.document.fileName.toLowerCase().indexOf("qb64: ") > 0) {
+	if (!editor || editor.document.uri.scheme.toLowerCase() === 'output' || editor.document.languageId.toLowerCase() === "log" || editor.document.languageId.toLowerCase() === "jsonc" || editor.document.fileName.toLowerCase().indexOf("QB64PE: ") > 0) {
 		return;
 	}
 
-	const extension = vscode.extensions.getExtension('qb64-official.qb64');
+	const extension = vscode.extensions.getExtension('qb64pe.qb64');
 	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
 
-	if (extension) { // Skip non QB64 files.
+	if (extension) { // Skip non QB64PE files.
 		const languageConfigurations: any[] = extension.packageJSON.contributes.languages;
 		const fileName = editor.document.fileName;
 		const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
@@ -120,7 +120,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 
 		const decorationTypeIncludeLeading: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
 		const decorationTypeIncludeTrailing: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(0,255,0)' })
-		const config = vscode.workspace.getConfiguration("qb64");
+		const config = vscode.workspace.getConfiguration("qb64pe");
 		const isRgbColorEnabled: boolean = config.get("isRgbColorEnabled");
 		const isTodoHighlightEnabled: boolean = config.get("isTodoHighlightEnabled");
 		let includeLeading: vscode.Range[] = [];
@@ -159,7 +159,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 		}
 
 		if (currrentLine) {
-			const config = vscode.workspace.getConfiguration("qb64");
+			const config = vscode.workspace.getConfiguration("qb64pe");
 			if (config.get("isCurrentRowHighlightEnabled")) {
 				let current: vscode.Range[] = [new vscode.Range(
 					new vscode.Position(currrentLine.line, 0),
@@ -198,7 +198,7 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		return;
 	}
 
-	if (editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64-official.qb64-#3-QB64: Decorate") {
+	if (editor.document.languageId == "Log" || editor.document.fileName == "extension-output-qb64pe-#3-QB64PE: Decorate") {
 		return;
 	}
 
@@ -207,7 +207,7 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 	const blue = 2;
 	try {
 
-		//const config = vscode.workspace.getConfiguration("qb64")
+		//const config = vscode.workspace.getConfiguration("qb64pe")
 
 		if (lineOfCode.trim().toLocaleLowerCase().startsWith("rem") || ((lineOfCode.trim().startsWith("'") && lineOfCode.trim().toLowerCase().indexOf("include") < 0))) {
 			// Look for todo

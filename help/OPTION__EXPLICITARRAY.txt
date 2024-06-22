@@ -14,7 +14,7 @@
 
 
 {{PageExamples}}
-''Example:'' Avoiding simple typos with [[OPTION _EXPLICITARRAY]] results shown in the QB64 IDE Status area.
+''Example:'' Avoiding simple typos with [[OPTION _EXPLICITARRAY]] results shown in the QB64PE IDE Status area.
 {{CodeStart}}{{Cl|OPTION _EXPLICITARRAY}}
 x = 1 'This is fine, it's not an array so not affected
 

@@ -1,4 +1,4 @@
-Any [Expression](Expression), including [CONST](CONST) and [Variable](Variable) all have an associated type to describe their value. QB64 has various built-in data types used to represent number and text values. [#Numeric types](#Numeric types) represent number values, while [#String types](#String types) represent text values.
+Any [Expression](Expression), including [CONST](CONST) and [Variable](Variable) all have an associated type to describe their value. QB64PE has various built-in data types used to represent number and text values. [#Numeric types](#Numeric types) represent number values, while [#String types](#String types) represent text values.
 
 ## Numeric types
 
@@ -86,7 +86,7 @@ PRINT f! ; "degrees Fahrenheit is" ; c! ; "degrees Celcius."
 
 QB64 has built-in support for strings, which are contiguous sequences of characters represented as [_UNSIGNED](_UNSIGNED) [_BYTE](_BYTE) values. Strings are usually used to store and manipulate text, but can also be used as a general storage area for arbitrary data (like a binary file).
 
-Strings have a property called *length*, which is the number of characters currently stored in the string, and QB64 supports two kinds of string types based on this property: *variable-length strings* and *fixed-length strings*.
+Strings have a property called *length*, which is the number of characters currently stored in the string, and QB64PE supports two kinds of string types based on this property: *variable-length strings* and *fixed-length strings*.
 
 ### Variable-length strings
 
@@ -151,7 +151,7 @@ The following table lists the numerical and string data types, their type suffix
 | _UNSIGNED _OFFSET | ~%& | 0 | 18,446,744,073,709,551,615 | Use LEN |
 | _MEM | none | combined memory variable type | N/A | Use LEN |
 
-*Note: For the floating-point numeric types [SINGLE](SINGLE) (default when not assigned), [DOUBLE](DOUBLE) and [_FLOAT](_FLOAT), the minimum values represent the smallest values closest to zero, while the maximum values represent the largest values closest to ±infinity. OFFSET dot values are used as a part of the [_MEM](_MEM) variable type in QB64 to return or set the position in memory.*
+*Note: For the floating-point numeric types [SINGLE](SINGLE) (default when not assigned), [DOUBLE](DOUBLE) and [_FLOAT](_FLOAT), the minimum values represent the smallest values closest to zero, while the maximum values represent the largest values closest to ±infinity. OFFSET dot values are used as a part of the [_MEM](_MEM) variable type in QB64PE to return or set the position in memory.*
 
 ### String Text Type
 

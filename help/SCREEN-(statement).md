@@ -22,7 +22,7 @@ The [SCREEN](SCREEN) statement sets the video display mode and size of the progr
                        **LEGACY SCREEN MODES AT A GLANCE**
 
  **Screen      Text           Graphics          Colors      Video    Text      Default** 
-  **Mode   Rows   Columns   Width   Height  Attrib.   BPP   Pages    Block    QB64 Font**
+  **Mode   Rows   Columns   Width   Height  Attrib.   BPP   Pages    Block    QB64PE Font**
 
    0   25/43/50  80/40    No graphics     16/16 DAC  4     0-7     -----    _FONT 16
    1      25      40      320     200     16/4 BG    4     none    8 X 8    _FONT 8 
@@ -42,7 +42,7 @@ The [SCREEN](SCREEN) statement sets the video display mode and size of the progr
 
 > **QB64 Custom Screen Modes**
 
-## QB64 Syntax
+## QB64PE Syntax
   
 > [SCREEN](SCREEN) *imagehandle&* [, , *active_page*, *visual_page*]
 
@@ -55,7 +55,7 @@ The [SCREEN](SCREEN) statement sets the video display mode and size of the progr
 * [_NEWIMAGE](_NEWIMAGE) screens can be any set size. A screen mode can be emulated or 256 or 32 bit colors can be designated.
 * The [_LOADIMAGE](_LOADIMAGE) screen size will be the size of the image loaded. Can designate a *mode* or 256 or 32 bit colors.
 * **QB64** allows page flipping or a [PCOPY](PCOPY) in ANY SCREEN mode. [_DISPLAY](_DISPLAY) can also be used to reduce flickering in animations.
-* All SCREEN modes are Windows in QB64. Use [_FULLSCREEN](_FULLSCREEN) to set the window area to full screen.
+* All SCREEN modes are Windows in qb64pe. Use [_FULLSCREEN](_FULLSCREEN) to set the window area to full screen.
 * [_SCREENMOVE](_SCREENMOVE) can position a window or the _MIDDLE option can center it on the desktop.
 
 ## Legacy Screen Modes
@@ -120,7 +120,7 @@ The [SCREEN](SCREEN) statement sets the video display mode and size of the progr
 * For file image screens that adopt the image dimensions and image color settings use: [_LOADIMAGE](_LOADIMAGE)
 * To create custom sized screen modes or pages and 256 or 32 bit colors use: [_NEWIMAGE](_NEWIMAGE)
 * [_PUTIMAGE](_PUTIMAGE) can stretch or reduce the size of images to fit the SCREEN size.
-* [PUT (graphics statement)](PUT-(graphics-statement)) can use [_CLIP](_CLIP) to set objects partially off screen. [GET (graphics statement)](GET-(graphics-statement)) can read objects off screen as a color in QB64 ONLY.
+* [PUT (graphics statement)](PUT-(graphics-statement)) can use [_CLIP](_CLIP) to set objects partially off screen. [GET (graphics statement)](GET-(graphics-statement)) can read objects off screen as a color in QB64PE ONLY.
 * A [_DISPLAY](_DISPLAY) statement can be used to only display an image after changes instead of using page flipping or [PCOPY](PCOPY).
 * The current desktop screen resolution can be found using the [_SCREENIMAGE](_SCREENIMAGE) handle value with [_WIDTH (function)](_WIDTH-(function)) and [_HEIGHT](_HEIGHT).
 * **NOTE: Default 32 bit backgrounds are clear black or [_RGBA](_RGBA)(0, 0, 0, 0)! Use [CLS](CLS) to make the black opaque!**
@@ -128,7 +128,7 @@ The [SCREEN](SCREEN) statement sets the video display mode and size of the progr
 
 ## Example(s)
 
-> Shows an example of each legacy screen mode available to QBasic and QB64.
+> Shows an example of each legacy screen mode available to QBasic and qb64pe.
 
 ```vb
 

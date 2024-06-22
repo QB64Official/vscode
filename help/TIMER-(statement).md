@@ -12,7 +12,7 @@ QB64
 
 ## Parameter(s)
 
-* *number* denotes a specific numbered timer event in **QB64 only**. QB64 can run many timer events at once including the base timer.
+* *number* denotes a specific numbered timer event in **QB64 only**. QB64PE can run many timer events at once including the base timer.
 * TIMER ON enables event trapping of an [ON TIMER (n)](ON-TIMER-(n)) statement. While enabled, a check is made after every code statement to see if the specified time has elapsed and the ON TIMER [GOSUB](GOSUB) (or [SUB](SUB) in QB64) procedure is executed.
 * TIMER STOP disables timer event trapping. When an event occurs while stopped, it is remembered. If timer events are turned back on later, any remembered events are immediately executed. 
 * TIMER OFF turns timer event trapping completely off and no subsequent events are remembered.

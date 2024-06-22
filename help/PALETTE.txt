@@ -13,7 +13,7 @@ The [[PALETTE]] statement can swap color settings, set colors to default or set 
 * A swap is often used with [[DAC]] color attributes that cannot change RGB settings. Only the RGB color settings are swapped from original {{Parameter|existingAttribute%}} to {{Parameter|newAttribute%}}. Screens 0 thru 9 support swaps. Screen 10 supports up to attribute 8 only.
 * PALETTE without any value sets any changed RGB settings back to the default color settings, including [[DAC]] colors.
 * [[PALETTE USING]] can be used when color intensity values are stored in an [[Arrays|array]].
-* QB64 implements the [[_PALETTECOLOR]] statement to provide extended palette functionality.
+* QB64PE implements the [[_PALETTECOLOR]] statement to provide extended palette functionality.
 
 
 {{PageQBasic}}

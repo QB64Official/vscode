@@ -55,7 +55,7 @@
 * [_RGBA32](_RGBA32) (function) returns the [LONG](LONG) 32 bit [_ALPHA](_ALPHA) color value only.
 * [_SETALPHA](_SETALPHA) (statement) sets the alpha channel transparency level of some or all of the pixel colors of an image.
 
-* [CLS](CLS) (statement) clears the screen and can set the background color in QB64.
+* [CLS](CLS) (statement) clears the screen and can set the background color in qb64pe.
 * [COLOR](COLOR) (statement) sets the current text color attribute or [_RGB](_RGB) value to be used or background colors in some screen modes.
 * [INP](INP) (function) returns the RGB color intensity values from color port register &H3C9 for a specific attributes.
 * [OUT](OUT) (statement) sets the color port access mode and sets the RGB color intensity values using &H3C9.
@@ -92,11 +92,11 @@ See also: [#Logical Bitwise Operations](#Logical_Bitwise_Operations) and [Relati
 * [_BIT](_BIT) {` numerical [TYPE](TYPE)) values of 0 (bit off) or -1 (bit on). [_UNSIGNED](_UNSIGNED) of 0 or 1.
 * [_BYTE](_BYTE) {%% numerical [TYPE](TYPE)) values from -128 to 127 (one byte or 8 [_BIT](_BIT)s). [_UNSIGNED](_UNSIGNED) from 0 to 255.
 * [_DEFINE](_DEFINE) (statement)  defines a range of untyped variable names according to their first character as a datatype.
-* [_FLOAT](_FLOAT) {## numerical [TYPE](TYPE)) values offer the maximum floating-point decimal precision available using QB64.
+* [_FLOAT](_FLOAT) {## numerical [TYPE](TYPE)) values offer the maximum floating-point decimal precision available using qb64pe.
 * [_INTEGER64](_INTEGER64) (&& numerical [TYPE](TYPE)) values -9223372036854775808 to 9223372036854775807. [_UNSIGNED](_UNSIGNED) to 18446744073709551615.
 * [_MEM](_MEM) (variable type) contains read only dot elements for the OFFSET, SIZE, TYPE and ELEMENTSIZE of a block of memory.
 * [_OFFSET](_OFFSET)(%& variable type) can store any memory offset integer value when using [DECLARE LIBRARY](DECLARE-LIBRARY) or [_MEM](_MEM)ory only.
-* [_UNSIGNED](_UNSIGNED) {~ numerical [TYPE](TYPE)) defines an integer numerical value as being positive only in QB64.
+* [_UNSIGNED](_UNSIGNED) {~ numerical [TYPE](TYPE)) defines an integer numerical value as being positive only in qb64pe.
 * [COMMON](COMMON) (statement) shares common variable values with other Linked or [CHAIN](CHAIN)ed programs.
 * [COMMON SHARED](COMMON SHARED) (statement) shares common variable values with all sub-procedures and other Linked or CHAINed programs.
 * [CONST](CONST) (statement) defines one or more named numeric or string shared values which can  not change in a program.
@@ -128,15 +128,15 @@ See also: [Variable Types](Variable_Types) and  [Libraries#C.2B.2B_Variable_Type
 * [_DROPPEDFILE](_DROPPEDFILE) (function)  returns the list of items (files or folders) dropped in a program's window after [_ACCEPTFILEDROP](_ACCEPTFILEDROP) is enabled.
 * [_CLIPBOARD$ (statement)](_CLIPBOARD$-(statement)) sends [STRING](STRING) data to the Clipboard.
 * [_CLIPBOARD$](_CLIPBOARD$) (function) returns the current contents of the Clipboard as a [STRING](STRING).
-* [_CLIPBOARDIMAGE (function)](_CLIPBOARDIMAGE-(function)) pastes an image from the clipboard into a new QB64 image in memory.
-* [_CLIPBOARDIMAGE](_CLIPBOARDIMAGE) (statement) copies a valid QB64 image to the clipboard.
+* [_CLIPBOARDIMAGE (function)](_CLIPBOARDIMAGE-(function)) pastes an image from the clipboard into a new QB64PE image in memory.
+* [_CLIPBOARDIMAGE](_CLIPBOARDIMAGE) (statement) copies a valid QB64PE image to the clipboard.
 * [_CWD$](_CWD$) (function) returns the current working directory path as a [STRING](STRING).
 * [_DONTWAIT](_DONTWAIT) (SHELL action) allows the program to continue without waiting for the other program to close.
 * [_FILEEXISTS](_FILEEXISTS) (function) returns -1 if the file name [STRING](STRING) parameter exists. Zero if it does not.
 * [_FINISHDROP](_FINISHDROP) (statement)  resets [_TOTALDROPPEDFILES](_TOTALDROPPEDFILES) and clears the [_DROPPEDFILE](_DROPPEDFILE) list of items (files/folders).
 * [_HIDE](_HIDE) (SHELL action) hides the DOS screen output during a shell.
 * [_LASTBUTTON](_LASTBUTTON) (function) returns the number of buttons available on a specified number device listed by [_DEVICE$](_DEVICE$). 
-* [_OS$](_OS$) (function)  returns the QB64 compiler version in which the program was compiled as [WINDOWS], [LINUX] or [MACOSX] and [32BIT] or [64BIT].
+* [_OS$](_OS$) (function)  returns the QB64PE compiler version in which the program was compiled as [WINDOWS], [LINUX] or [MACOSX] and [32BIT] or [64BIT].
 * [_SCREENCLICK](_SCREENCLICK)  simulates clicking the mouse at a position on the screen to get focus.
 * [_SCREENIMAGE](_SCREENIMAGE)  captures the current desktop screen image.
 * [_SCREENPRINT](_SCREENPRINT)  simulates keyboard entries on the desktop. 
@@ -161,7 +161,7 @@ The following table describes the error codes that are reported by the **QB64** 
 
 **TODO**
 
-**N/A means Not Available or Not Applicable to QB64.**
+**N/A means Not Available or Not Applicable to qb64pe.**
 
 ##  Error Trapping 
 
@@ -190,12 +190,12 @@ See the [ERROR Codes](ERROR_Codes) reference.
 * [ON](ON) turns event checking on.
 * [ON ERROR](ON-ERROR) [GOTO](GOTO) (event statement) executes when a program error occurs
 * [ON KEY(n)](ON-KEY(n)) (event statement) executes when a keypress or keypress combination occurs.
-* [ON TIMER(n)](ON-TIMER(n)) (event statement) executes when a timed event occurs. QB64 can use multiple numbered timers.
+* [ON TIMER(n)](ON-TIMER(n)) (event statement) executes when a timed event occurs. QB64PE can use multiple numbered timers.
 * [ON...GOSUB](ON...GOSUB) (event statement) branches to a line number or label according to a numerical ordered list of labels.
 * [ON...GOTO](ON...GOTO) (event statement) branches to a line number or label according to a numerical ordered list of labels.
 * [STOP](STOP) suspends event checking and remembers subsequent events that are executed when events are turned back on.
-* [TIMER](TIMER) (function) returns the number of seconds past the previous midnite down to a QB64 accuracy of one millisecond.
-* [TIMER (statement)](TIMER (statement)) enables, turns off or stops timer event trapping. In QB64 TIMER(n) FREE can free multiple timers. 
+* [TIMER](TIMER) (function) returns the number of seconds past the previous midnite down to a QB64PE accuracy of one millisecond.
+* [TIMER (statement)](TIMER (statement)) enables, turns off or stops timer event trapping. In QB64PE TIMER(n) FREE can free multiple timers. 
 * [WAIT](WAIT) (statement) normally used to delay program display execution during or after vertical retrace periods.
 
 ##  File Input and Output 
@@ -281,7 +281,7 @@ See the [ERROR Codes](ERROR_Codes) reference.
 ## Graphic Commands 
 
 * [_COPYIMAGE](_COPYIMAGE) (function) can copy a software surface to a hardware accelerated surface handle using mode 33.
-* [_DISPLAY](_DISPLAY) (statement) renders surfaces visible in the [_DISPLAYORDER](_DISPLAYORDER) previously set in the QB64 program.
+* [_DISPLAY](_DISPLAY) (statement) renders surfaces visible in the [_DISPLAYORDER](_DISPLAYORDER) previously set in the QB64PE program.
 * [_DISPLAYORDER](_DISPLAYORDER) sets the rendering order of _SOFTWARE, _HARDWARE and _GLRENDER with [_DISPLAY](_DISPLAY).
 * [_LOADIMAGE](_LOADIMAGE) (function) can load images as hardware accelerated using mode 33.
 * [_MOUSESHOW](_MOUSESHOW) (statement) a special string parameter after command in GL allows some special cursor shapes.
@@ -314,7 +314,7 @@ See the [ERROR Codes](ERROR_Codes) reference.
 * [_WIDTH (function)](_WIDTH-(function)) returns the width of an image handle or current write page.
 
 * [CIRCLE](CIRCLE) (statement) is used in graphics SCREEN modes to create circles, arcs or ellipses.
-* [CLS](CLS) (statement) clears a screen page or the program [SCREEN](SCREEN). QB64 can clear with a color.
+* [CLS](CLS) (statement) clears a screen page or the program [SCREEN](SCREEN). QB64PE can clear with a color.
 * [COLOR](COLOR) (statement) sets the current text color attribute or [_RGB](_RGB) value to be used or background colors in some screen modes.
 * [DRAW](DRAW) (statement) uses a special type of [STRING](STRING) expression to draw lines on the screen.
 * [GET (graphics statement)](GET-(graphics-statement)) used to store a box area image of the screen into an [INTEGER](INTEGER) array.
@@ -366,9 +366,9 @@ See also: [Keyboard scancodes](Keyboard_scancodes), [ASCII](ASCII) references or
 * [BYVAL](BYVAL) (statement) used to pass a parameter's value with sub-procedures from a Library.
 * [DECLARE LIBRARY](DECLARE-LIBRARY) allows the use of OS specific, SDL or C++ external library [SUB](SUB) and [FUNCTION](FUNCTION) procedures
 * [DECLARE DYNAMIC LIBRARY](DECLARE-DYNAMIC-LIBRARY) declares DYNAMIC, CUSTOMTYPE or STATIC  library(DLL) [SUB](SUB)s or [FUNCTION](FUNCTION)s.
-* [DECLARE LIBRARY](DECLARE-LIBRARY) required at the END of the block of Library declarations in QB64.
+* [DECLARE LIBRARY](DECLARE-LIBRARY) required at the END of the block of Library declarations in qb64pe.
 
-**QB64 also supports [$INCLUDE]($INCLUDE) text code file Libraries. QB64 does not support QLB Libraries or OBJ files.**
+**QB64 also supports [$INCLUDE]($INCLUDE) text code file Libraries. QB64PE does not support QLB Libraries or OBJ files.**
 
 See also: [Libraries](Libraries)
 
@@ -491,7 +491,7 @@ See also: [Screen Memory](Screen_Memory) or [Using _OFFSET](Using_OFFSET)
 * [_CV](_CV) (function)  used to convert [_MK$](_MK$) [ASCII](ASCII) [STRING](STRING) values to specified numerical value types.
 * [_MK$](_MK$) (function)  converts a specified numerical type into an [ASCII](ASCII) [STRING](STRING)  value that must be converted back using [_CV](_CV).
 * [_PRESERVE](_PRESERVE) ([REDIM](REDIM) action) preserves the current contents of an [arrays](arrays), when re-dimensioning it.
-* [_UNSIGNED](_UNSIGNED) {numerical [TYPE](TYPE)) defines a numerical value as being positive only using QB64.
+* [_UNSIGNED](_UNSIGNED) {numerical [TYPE](TYPE)) defines a numerical value as being positive only using qb64pe.
 
 * [ABS](ABS) (function) returns the the positive value of a variable or literal numerical value.
 * [ASC](ASC) (function) returns the [ASCII](ASCII) code number of a certain [STRING](STRING) text character or a keyboard press.
@@ -630,7 +630,7 @@ See also: [Screen Memory](Screen_Memory) or [Using _OFFSET](Using_OFFSET)
 * [_CV](_CV) (function)  used to convert [_MK$](_MK$) [ASCII](ASCII) [STRING](STRING) values to numerical values.
 * [_MK$](_MK$) (function)  converts any numerical type into an [ASCII](ASCII) [STRING](STRING)  value that must be converted back using [_CV](_CV).
 
-* [ASC (statement)](ASC-(statement)) allows a QB64 program to change a character at any position of a predefined STRING.
+* [ASC (statement)](ASC-(statement)) allows a QB64PE program to change a character at any position of a predefined STRING.
 * [HEX$](HEX$) (function) returns the base 16 hexadecimal representation of an [INTEGER](INTEGER) value as a [STRING](STRING). 
 * [INSTR](INSTR) (function) searches for the first occurance of a search STRING within a string and returns the position.
 * [LCASE$](LCASE$) (function) changes the uppercase letters of a STRING to lowercase.
@@ -680,7 +680,7 @@ See also: [Screen Memory](Screen_Memory) or [Using _OFFSET](Using_OFFSET)
 
 ##  TCP/IP Networking and Email 
 
-**All Statements and Functions Compile in QB64 Only!**
+**All Statements and Functions Compile in QB64PE Only!**
 
 * [_CONNECTED](_CONNECTED) (function) returns the connection status of a TCP/IP connection handle.
 * [_CONNECTIONADDRESS$](_CONNECTIONADDRESS$) (function)  function returns a connected user's [STRING](STRING) IP address value.
@@ -707,7 +707,7 @@ See also: [Downloading Files](Downloading_Files)
 * [_SCREENPRINT](_SCREENPRINT) (statement) simulates typing text into a Windows program using the keyboard.
 
 * [CHR$](CHR$) (function) returns the text character associated with a certain [ASCII](ASCII) character code as a one byte [STRING](STRING).
-* [CLS](CLS) (statement) clears a screen page or the program [SCREEN](SCREEN). QB64 can clear with a color.
+* [CLS](CLS) (statement) clears a screen page or the program [SCREEN](SCREEN). QB64PE can clear with a color.
 * [COLOR](COLOR) (statement) used to change the color of the text and background in some legacy screen modes.
 * [CSRLIN](CSRLIN) (function) returns the current print cursor row position on the screen.
 * [INPUT](INPUT) (statement) requests a [STRING](STRING) or numerical keyboard entry from a program user.
@@ -746,19 +746,19 @@ See also: [Downloading Files](Downloading_Files)
 * [INPUT](INPUT) (statement) can be used to wait for an [Enter] key press or a text or numerical menu entry.
 * [INPUT$](INPUT$) (function) can be used to wait for a key press or a fixed length text entry.
 * [ON KEY(n)](ON-KEY(n)) (event statement) executes when a keypress or keypress combination occurs.
-* [ON TIMER(n)](ON-TIMER(n)) (event statement) executes when a timed event occurs. QB64 can use multiple numbered timer events.
+* [ON TIMER(n)](ON-TIMER(n)) (event statement) executes when a timed event occurs. QB64PE can use multiple numbered timer events.
 
 * [SLEEP](SLEEP) (statement) pauses the program for a specified number of seconds or a until a key press is made.
 * [TIME$](TIME$) (function) returns the present computer time in a hh:mm:ss 24 hour [STRING](STRING) format
 
-* [TIMER](TIMER) (function) returns the number of seconds past the previous midnite down to a QB64 accuracy of one millisecond.
-* [TIMER (statement)](TIMER (statement)) enables, turns off or stops timer event trapping. In QB64 TIMER(n) FREE can free multiple timers. 
+* [TIMER](TIMER) (function) returns the number of seconds past the previous midnite down to a QB64PE accuracy of one millisecond.
+* [TIMER (statement)](TIMER (statement)) enables, turns off or stops timer event trapping. In QB64PE TIMER(n) FREE can free multiple timers. 
 
 * [WAIT](WAIT) (statement) normally used to delay program display execution during or after vertical retrace periods.
 
 ##  Window and Desktop 
 
-**All Statements and Functions except [SCREEN](SCREEN) Compile in QB64 Only!**
+**All Statements and Functions except [SCREEN](SCREEN) Compile in QB64PE Only!**
 
 * [_FULLSCREEN (function)](_FULLSCREEN-(function)) returns the present full screen mode setting number of the screen window.
 * [_FULLSCREEN](_FULLSCREEN) (statement) sets the full screen mode of the screen window. Alt + Enter can do it manually.
@@ -788,7 +788,7 @@ See also: [Downloading Files](Downloading_Files)
 ## See Also
  [C_Libraries#Console_Window](C_Libraries#Console_Window),  [Windows Libraries](Windows-Libraries) or [Windows Libraries](Windows-Libraries).
 
-##  QB64 Programming Symbols 
+##  QB64PE Programming Symbols 
 
 **QB64 and QB Symbols**
 
@@ -852,10 +852,10 @@ See also: [Downloading Files](Downloading_Files)
 * [Greater_Than_Or_Equal](Greater_Than_Or_Equal) (Greater than or equal to condition)
 * [Less_Than_Or_Equal](Less_Than_Or_Equal) (Less than or equal to condition)
 
-##  QB64 Programming References 
+##  QB64PE Programming References 
 
 **Got a question about something?** 
 
-[QB64 FAQ](QB64-FAQ)
+[QB64 FAQ](QB64PE-FAQ)
 
-[Visit the QB64 Main Site](http://qb64.com)
+[Visit the QB64PE Main Site](http://qb64pe.com)

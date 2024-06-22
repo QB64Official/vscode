@@ -9,7 +9,7 @@ This is a list of the current Code Pages supported by the **QB64 IDE**. The data
 Unicode characters can be inserted in Windows by holding down the **Alt key** and entering a **zero** followed by the character's **three-digit decimal code on the number pad**. By omitting the zero, characters from older code pages can be entered like code page 437 in the US and England or code page 850 in Western Europe. In some versions of Windows it is necessary to change the regional settings to another language before entering that region's page codes.
 
 
-**Setting up a typing language in the QB64 IDE:**
+**Setting up a typing language in the QB64PE IDE:**
 > ::Step 1: In the OPTIONS menu select **DISPLAY**, then check the CUSTOM FONT check-box.
 > ::Step 2: In the OPTIONS menu select **LANGUAGE**, then select a Code Page (CP850 for example) and click OK.
 

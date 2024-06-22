@@ -183,7 +183,7 @@ END
 
 ```
 
-Using INKEY$ with the arrow or WASD keys to move the QB64 bee image sprite with [_PUTIMAGE](_PUTIMAGE):
+Using INKEY$ with the arrow or WASD keys to move the QB64PE bee image sprite with [_PUTIMAGE](_PUTIMAGE):
 
 ```vb
 
@@ -196,7 +196,7 @@ SCREEN _NEWIMAGE(800, 600, 32)
 
 x = 0
 y = 0
-image = _LOADIMAGE("QB64bee.png") 'Here I actually used the QB64 icon
+image = _LOADIMAGE("QB64bee.png") 'Here I actually used the QB64PE icon
 
 DO
   _PUTIMAGE (x, y), image

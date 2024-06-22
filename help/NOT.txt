@@ -58,7 +58,7 @@ ReadBits -6
 {{OutputEnd}}
 :''Explanation:'' The bit values of an [[INTEGER]] are 2 [[_BYTE]]s and each bit is an exponent of 2 from 15 to 0 (16 bits). Thus comparing the numerical value with those exponents using [[AND]] reveals the bit values as "1" for bits on or "0" for bits off as text. 
 
-: QB64 can use [[&amp;B]] to convert the above [[_BIT]] values back to [[INTEGER]] or [[_BYTE]] values as shown below:
+: QB64PE can use [[&amp;B]] to convert the above [[_BIT]] values back to [[INTEGER]] or [[_BYTE]] values as shown below:
 {{CodeStart}}'16 bit INTEGER values from -32768 to 32767
 a% = {{Cl|&amp;B}}0000000000000101
 {{Cl|PRINT}} a%

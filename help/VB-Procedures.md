@@ -4,7 +4,7 @@ QB64 is created to be compatible with Quick Basic 4.5 only as it was the most po
 
 ### MKC$
 
-> VB could use the CURRENCY variable type and had the MKC$ function to convert those values to [ASCII](ASCII) string values. QB64 can convert [_FLOAT](_FLOAT) currency values to **8 byte** strings using [_MK$](_MK$) with [_INTEGER64](_INTEGER64) values:
+> VB could use the CURRENCY variable type and had the MKC$ function to convert those values to [ASCII](ASCII) string values. QB64PE can convert [_FLOAT](_FLOAT) currency values to **8 byte** strings using [_MK$](_MK$) with [_INTEGER64](_INTEGER64) values:
 
 ```vb
 
@@ -26,7 +26,7 @@ END FUNCTION
 
 ### CVC
 
-> VB also had the CVC function to convert MKC$ currency **8 byte** string values back to currency amounts. QB64 can use [_CV](_CV) with [_INTEGER64](_INTEGER64) to convert those values back to [_FLOAT](_FLOAT) currency values:
+> VB also had the CVC function to convert MKC$ currency **8 byte** string values back to currency amounts. QB64PE can use [_CV](_CV) with [_INTEGER64](_INTEGER64) to convert those values back to [_FLOAT](_FLOAT) currency values:
 
 ```vb
 

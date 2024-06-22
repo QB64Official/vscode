@@ -21,18 +21,18 @@ LOCATE 12, 36: PRINT "ProgramA"
 
 LOCATE 23, 25: PRINT "Press any key to run ProgramB"
 K$ = INPUT$(1)
-RUN "ProgramB FS"  'pass FS parameter to ProgramB in QB64 or QB4.5
+RUN "ProgramB FS"  'pass FS parameter to ProgramB in QB64PE or QB4.5
 
 SYSTEM
 
 ```
 
-> *ProgramB* checks for fullscreen parameter pass in QB64 and goes full screen. 
+> *ProgramB* checks for fullscreen parameter pass in QB64PE and goes full screen. 
 
 ```vb
 
 LOCATE 17, 36: PRINT "ProgramB"
-parameter$ = UCASE$(COMMAND$) 'UCASE$ is needed in QB64 only, as QB4.5 will always return upper case
+parameter$ = UCASE$(COMMAND$) 'UCASE$ is needed in QB64PE only, as QB4.5 will always return upper case
 LOCATE 20, 33: PRINT "Parameter = " + parameter$
 IF LEFT$(parameter$, 2) = "FS" THEN _FULLSCREEN 'parameter changes to full screen
 

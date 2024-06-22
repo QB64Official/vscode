@@ -78,7 +78,7 @@
 * [[_SETALPHA]] (statement) {{text|sets the alpha channel transparency level of some or all of the pixel colors of an image.}}
 
 
-* [[CLS]] (statement) {{text|clears the screen and can set the background color in QB64.}}
+* [[CLS]] (statement) {{text|clears the screen and can set the background color in qb64pe.}}
 * [[COLOR]] (statement) {{text|sets the current text color attribute or [[_RGB]] value to be used or background colors in some screen modes.}}
 * [[INP]] (function) {{text|returns the RGB color intensity values from color port register &amp;H3C9 for a specific attributes.}}
 * [[OUT]] (statement) {{text|sets the color port access mode and sets the RGB color intensity values using &amp;H3C9.}}
@@ -127,11 +127,11 @@
 * [[_BIT]] {` numerical [[TYPE|type]]) {{text|values of 0 (bit off) or -1 (bit on). [[_UNSIGNED|Unsigned]] of 0 or 1.}}
 * [[_BYTE]] {%% numerical [[TYPE|type]]) {{text|values from -128 to 127 (one byte or 8 [[_BIT]]s). [[_UNSIGNED|Unsigned]] from 0 to 255.}}
 * [[_DEFINE]] (statement)  {{text|defines a range of untyped variable names according to their first character as a datatype.}}
-* [[_FLOAT]] {## numerical [[TYPE|type]]) {{text|values offer the maximum floating-point decimal precision available using QB64.}}
+* [[_FLOAT]] {## numerical [[TYPE|type]]) {{text|values offer the maximum floating-point decimal precision available using qb64pe.}}
 * [[_INTEGER64]] (&amp;&amp; numerical [[TYPE|type]]) {{text|values -9223372036854775808 to 9223372036854775807. [[_UNSIGNED|Unsigned]] to 18446744073709551615.}}
 * [[_MEM]] (variable type) {{text|contains read only dot elements for the OFFSET, SIZE, TYPE and ELEMENTSIZE of a block of memory.}}
 * [[_OFFSET]](%&amp; variable type) {{text|can store any memory offset integer value when using [[DECLARE LIBRARY]] or [[_MEM]]ory only.}}
-* [[_UNSIGNED]] {~ numerical [[TYPE|type]]) {{text|defines an integer numerical value as being positive only in QB64.}}
+* [[_UNSIGNED]] {~ numerical [[TYPE|type]]) {{text|defines an integer numerical value as being positive only in qb64pe.}}
 * [[COMMON]] (statement) {{text|shares common variable values with other Linked or [[CHAIN]]ed programs.}}
 * [[COMMON SHARED]] (statement) {{text|shares common variable values with all sub-procedures and other Linked or CHAINed programs.}}
 * [[CONST]] (statement) {{text|defines one or more named numeric or string shared values which can  not change in a program.}}
@@ -167,15 +167,15 @@
 * [[_DROPPEDFILE]] (function) {{text| returns the list of items (files or folders) dropped in a program's window after [[_ACCEPTFILEDROP]] is enabled.}}
 * [[_CLIPBOARD$ (statement)]] {{text|sends [[STRING]] data to the Clipboard.}}
 * [[_CLIPBOARD$]] (function) {{text|returns the current contents of the Clipboard as a [[STRING|string]].}}
-* [[_CLIPBOARDIMAGE (function)]] {{text|pastes an image from the clipboard into a new QB64 image in memory.}}
-* [[_CLIPBOARDIMAGE]] (statement) {{text|copies a valid QB64 image to the clipboard.}}
+* [[_CLIPBOARDIMAGE (function)]] {{text|pastes an image from the clipboard into a new QB64PE image in memory.}}
+* [[_CLIPBOARDIMAGE]] (statement) {{text|copies a valid QB64PE image to the clipboard.}}
 * [[_CWD$]] (function) {{text|returns the current working directory path as a [[STRING]].}}
 * [[_DONTWAIT]] (SHELL action) {{text|allows the program to continue without waiting for the other program to close.}}
 * [[_FILEEXISTS]] (function) {{text|returns -1 if the file name [[STRING|string]] parameter exists. Zero if it does not.}}
 * [[_FINISHDROP]] (statement) {{text| resets [[_TOTALDROPPEDFILES]] and clears the [[_DROPPEDFILE]] list of items (files/folders).}}
 * [[_HIDE]] (SHELL action) {{text|hides the DOS screen output during a shell.}}
 * [[_LASTBUTTON]] (function) {{text|returns the number of buttons available on a specified number device listed by [[DEVICE$]].}} 
-* [[_OS$]] (function) {{text| returns the QB64 compiler version in which the program was compiled as [WINDOWS], [LINUX] or [MACOSX] and [32BIT] or [64BIT].}}
+* [[_OS$]] (function) {{text| returns the QB64PE compiler version in which the program was compiled as [WINDOWS], [LINUX] or [MACOSX] and [32BIT] or [64BIT].}}
 * [[_SCREENCLICK]]  {{text|simulates clicking the mouse at a position on the screen to get focus.}}
 * [[_SCREENIMAGE]]  {{text|captures the current desktop screen image.}}
 * [[_SCREENPRINT]]  {{text|simulates keyboard entries on the desktop.}} 
@@ -207,7 +207,7 @@ The following table describes the error codes that are reported by the '''QB64''
 |-
 ! colspan="6"|QB/64 Error Codes
 |-
-! Code || Description || Common cause/Resolution || QB64 Differences
+! Code || Description || Common cause/Resolution || QB64PE Differences
 |-
 |  1 || [[NEXT]] without [[FOR]] || Missing loop end or look for a missing [[END IF]] or [[END SELECT]] statement. || none
 |-
@@ -271,7 +271,7 @@ The following table describes the error codes that are reported by the '''QB64''
 |-
 | 50 || [[FIELD]] overflow. || A [[FIELD]] statement tried to allocate more bytes than were specified for the record length of a random access file. || none
 |-
-| 51 || Internal error. || An internal malfunction occured in QuickBASIC or QB64. || none
+| 51 || Internal error. || An internal malfunction occured in QuickBASIC or qb64pe. || none
 |-
 | 52 || Bad file name or number. || The filename must follow the rules for filenames in the OS and use filenumbers from 1 and 255. Use [[FREEFILE]] to avoid duplicate [[OPEN]] file numbers. || none
 |-
@@ -320,7 +320,7 @@ The following table describes the error codes that are reported by the '''QB64''
 | 97 || (no error message) || Can be used to trigger an error trap event with [[ERROR]] 97, nothing else will cause this error, so create your own errors for [[ON ERROR]]. || none
 |-
 |}
-&lt;center>'''N/A means Not Available or Not Applicable to QB64.'''&lt;/center>
+&lt;center>'''N/A means Not Available or Not Applicable to qb64pe.'''&lt;/center>
 
 
 {| border="1" cellpadding="2"
@@ -328,7 +328,7 @@ The following table describes the error codes that are reported by the '''QB64''
 |-
 ! Code || Description || Common cause/resolution || QB Differences
 |-
-| 258 || Invalid handle || Zero or bad handle values cannot be used by the QB64 procedure creating the error. || N/A
+| 258 || Invalid handle || Zero or bad handle values cannot be used by the QB64PE procedure creating the error. || N/A
 |}
 
 
@@ -372,12 +372,12 @@ The following table describes the error codes that are reported by the '''QB64''
 * [[ON]] {{text|turns event checking on.}}
 * [[ON ERROR]] [[GOTO]] (event statement) {{text|executes when a program error occurs}}
 * [[ON KEY(n)]] (event statement) {{text|executes when a keypress or keypress combination occurs.}}
-* [[ON TIMER(n)]] (event statement) {{text|executes when a timed event occurs. QB64 can use multiple numbered timers.}}
+* [[ON TIMER(n)]] (event statement) {{text|executes when a timed event occurs. QB64PE can use multiple numbered timers.}}
 * [[ON...GOSUB]] (event statement) {{text|branches to a line number or label according to a numerical ordered list of labels.}}
 * [[ON...GOTO]] (event statement) {{text|branches to a line number or label according to a numerical ordered list of labels.}}
 * [[STOP]] {{text|suspends event checking and remembers subsequent events that are executed when events are turned back on.}}
-* [[TIMER]] (function) {{text|returns the number of seconds past the previous midnite down to a QB64 accuracy of one millisecond.}}
-* [[TIMER (statement)]] {{text|enables, turns off or stops timer event trapping. In QB64 TIMER(n) FREE can free multiple timers. }}
+* [[TIMER]] (function) {{text|returns the number of seconds past the previous midnite down to a QB64PE accuracy of one millisecond.}}
+* [[TIMER (statement)]] {{text|enables, turns off or stops timer event trapping. In QB64PE TIMER(n) FREE can free multiple timers. }}
 * [[WAIT]] (statement) {{text|normally used to delay program display execution during or after vertical retrace periods.}}
 
 &lt;p style="text-align: center">([[#toc|Return to Table of Contents]])&lt;/p>
@@ -471,7 +471,7 @@ The following table describes the error codes that are reported by the '''QB64''
 == Graphic Commands ==
 
 * [[_COPYIMAGE]] (function) {{text|can copy a software surface to a hardware accelerated surface handle using mode 33.}}
-* [[_DISPLAY]] (statement) {{text|renders surfaces visible in the [[_DISPLAYORDER]] previously set in the QB64 program.}}
+* [[_DISPLAY]] (statement) {{text|renders surfaces visible in the [[_DISPLAYORDER]] previously set in the QB64PE program.}}
 * [[_DISPLAYORDER]] {{text|sets the rendering order of _SOFTWARE, _HARDWARE and _GLRENDER with [[_DISPLAY]].}}
 * [[_LOADIMAGE]] (function) {{text|can load images as hardware accelerated using mode 33.}}
 * [[_MOUSESHOW]] (statement) {{text|a special string parameter after command in GL allows some special cursor shapes.}}
@@ -507,7 +507,7 @@ The following table describes the error codes that are reported by the '''QB64''
 
 
 * [[CIRCLE]] (statement) {{text|is used in graphics SCREEN modes to create circles, arcs or ellipses.}}
-* [[CLS]] (statement) {{text|clears a screen page or the program [[SCREEN]]. QB64 can clear with a color.}}
+* [[CLS]] (statement) {{text|clears a screen page or the program [[SCREEN]]. QB64PE can clear with a color.}}
 * [[COLOR]] (statement) {{text|sets the current text color attribute or [[_RGB]] value to be used or background colors in some screen modes.}}
 * [[DRAW]] (statement) {{text|uses a special type of [[STRING|string]] expression to draw lines on the screen.}}
 * [[GET (graphics statement)]] {{text|used to store a box area image of the screen into an [[INTEGER]] array.}}
@@ -567,10 +567,10 @@ The following table describes the error codes that are reported by the '''QB64''
 * [[BYVAL]] (statement) {{text|used to pass a parameter's value with sub-procedures from a Library.}}
 * [[DECLARE LIBRARY]] {{text|allows the use of OS specific or C++ external library [[SUB]] and [[FUNCTION]] procedures}}
 * [[DECLARE DYNAMIC LIBRARY]] {{text|declares DYNAMIC, CUSTOMTYPE or STATIC  library(DLL) [[SUB]]s or [[FUNCTION]]s.}}
-* [[DECLARE LIBRARY| END DECLARE]] {{text|required at the END of the block of Library declarations in QB64.}}
+* [[DECLARE LIBRARY| END DECLARE]] {{text|required at the END of the block of Library declarations in qb64pe.}}
 
 
-&lt;center>'''QB64 also supports [[$INCLUDE]] text code file Libraries. QB64 does not support QLB Libraries or OBJ files.'''&lt;/center>
+&lt;center>'''QB64 also supports [[$INCLUDE]] text code file Libraries. QB64PE does not support QLB Libraries or OBJ files.'''&lt;/center>
 
 
 &lt;center>See also: [[Libraries#C++_Variable_Types|C++ Variable Types]]&lt;/center>
@@ -674,7 +674,7 @@ The following table describes the error codes that are reported by the '''QB64''
 * [[$EXEICON]] {{text|embeds a designated icon file into the compiled EXE file. (Windows ONLY)}}
 * [[$IF]]...[[$ELSEIF]]...[[$ELSE]]...[[$END IF]] {{text|used to set an IF condition for the precompiler.}}
 * [[$LET]] {{text|used to set a flag variable for the precompiler.}}
-* [[$NOPREFIX]] {{text|allows all QB64 functions and statements to be used without the leading underscore (_).}}
+* [[$NOPREFIX]] {{text|allows all QB64PE functions and statements to be used without the leading underscore (_).}}
 * [[$RESIZE]] {{text|determines if a program window can be resized by the user.}}
 * [[$SCREENHIDE]] {{text|hides the main program window throughout the program until [[$SCREENSHOW]] is used.}}
 * [[$SCREENSHOW]] {{text|displays the main program window throughout the program only after [[$SCREENHIDE]] or [[_SCREENHIDE]] has been used.}}
@@ -723,11 +723,11 @@ The following table describes the error codes that are reported by the '''QB64''
 
 == Numerical Manipulation and Conversion ==
 
-* [[&amp;B]] [[Binary]] {{text|base number prefix used in QB64 to represent [[_BIT]]s on as 1 or off as 0.}}
+* [[&amp;B]] [[Binary]] {{text|base number prefix used in QB64PE to represent [[_BIT]]s on as 1 or off as 0.}}
 * [[_CV]] (function)  {{text|used to convert [[_MK$]] [[ASCII]] [[STRING|string]] values to specified numerical value types.}}
 * [[_MK$]] (function)  {{text|converts a specified numerical type into an [[ASCII]] [[STRING|string]]  value that must be converted back using [[_CV]].}}
 * [[_PRESERVE]] ([[REDIM]] action) {{text|preserves the current contents of an [[arrays|array]], when re-dimensioning it.}}
-* [[_UNSIGNED]] {numerical [[TYPE|type]]) {{text|defines a numerical value as being positive only using QB64.}}
+* [[_UNSIGNED]] {numerical [[TYPE|type]]) {{text|defines a numerical value as being positive only using qb64pe.}}
 
 
 * [[ABS]] (function) {{text|returns the the positive value of a variable or literal numerical value.}}
@@ -891,7 +891,7 @@ The following table describes the error codes that are reported by the '''QB64''
 * [[_MK$]] (function)  {{text|converts any numerical type into an [[ASCII]] [[STRING|string]]  value that must be converted back using [[_CV]].}}
 
 
-* [[ASC (statement)]] {{text|allows a QB64 program to change a character at any position of a predefined STRING.}}
+* [[ASC (statement)]] {{text|allows a QB64PE program to change a character at any position of a predefined STRING.}}
 * [[HEX$]] (function) {{text|returns the base 16 hexadecimal representation of an [[INTEGER]] value as a [[STRING]].}} 
 * [[INSTR]] (function) {{text|searches for the first occurance of a search STRING within a string and returns the position.}}
 * [[LCASE$]] (function) {{text|changes the uppercase letters of a STRING to lowercase.}}
@@ -945,7 +945,7 @@ The following table describes the error codes that are reported by the '''QB64''
 
 == TCP/IP Networking and Email ==
 
-&lt;center>'''All Statements and Functions Compile in QB64 Only!'''&lt;/center>
+&lt;center>'''All Statements and Functions Compile in QB64PE Only!'''&lt;/center>
 
 
 * [[_CONNECTED]] (function) {{text|returns the connection status of a TCP/IP connection handle.}}
@@ -980,7 +980,7 @@ The following table describes the error codes that are reported by the '''QB64''
 
 
 * [[CHR$]] (function) {{text|returns the text character associated with a certain [[ASCII]] character code as a one byte [[STRING]].}}
-* [[CLS]] (statement) {{text|clears a screen page or the program [[SCREEN]]. QB64 can clear with a color.}}
+* [[CLS]] (statement) {{text|clears a screen page or the program [[SCREEN]]. QB64PE can clear with a color.}}
 * [[COLOR]] (statement) {{text|used to change the color of the text and background in some legacy screen modes.}}
 * [[CSRLIN]] (function) {{text|returns the current print cursor row position on the screen.}}
 * [[INPUT]] (statement) {{text|requests a [[STRING]] or numerical keyboard entry from a program user.}}
@@ -1023,13 +1023,13 @@ The following table describes the error codes that are reported by the '''QB64''
 * [[INPUT]] (statement) {{text|can be used to wait for an [Enter] key press or a text or numerical menu entry.}}
 * [[INPUT$]] (function) {{text|can be used to wait for a key press or a fixed length text entry.}}
 * [[ON KEY(n)]] (event statement) {{text|executes when a keypress or keypress combination occurs.}}
-* [[ON TIMER(n)]] (event statement) {{text|executes when a timed event occurs. QB64 can use multiple numbered timer events.}}
+* [[ON TIMER(n)]] (event statement) {{text|executes when a timed event occurs. QB64PE can use multiple numbered timer events.}}
 
 * [[SLEEP]] (statement) {{text|pauses the program for a specified number of seconds or a until a key press is made.}}
 * [[TIME$]] (function) {{text|returns the present computer time in a hh:mm:ss 24 hour [[STRING|string]] format}}
 
-* [[TIMER]] (function) {{text|returns the number of seconds past the previous midnite down to a QB64 accuracy of one millisecond.}}
-* [[TIMER (statement)]] {{text|enables, turns off or stops timer event trapping. In QB64 TIMER(n) FREE can free multiple timers. }}
+* [[TIMER]] (function) {{text|returns the number of seconds past the previous midnite down to a QB64PE accuracy of one millisecond.}}
+* [[TIMER (statement)]] {{text|enables, turns off or stops timer event trapping. In QB64PE TIMER(n) FREE can free multiple timers. }}
 
 * [[WAIT]] (statement) {{text|normally used to delay program display execution during or after vertical retrace periods.}}
 
@@ -1037,7 +1037,7 @@ The following table describes the error codes that are reported by the '''QB64''
 
 == Window and Desktop ==
 
-&lt;center>'''All Statements and Functions except [[SCREEN]] Compile in QB64 Only!'''&lt;/center>
+&lt;center>'''All Statements and Functions except [[SCREEN]] Compile in QB64PE Only!'''&lt;/center>
 
 * [[_FULLSCREEN (function)]] {{text|returns the present full screen mode setting number of the screen window.}}
 * [[_FULLSCREEN]] (statement) {{text|sets the full screen mode of the screen window. Alt + Enter can do it manually.}}
@@ -1070,7 +1070,7 @@ The following table describes the error codes that are reported by the '''QB64''
 
 &lt;p style="text-align: center">([[#toc|Return to Table of Contents]])&lt;/p>
 
-== QB64 Programming Symbols ==
+== QB64PE Programming Symbols ==
 
 &lt;center>'''QB64 and QB Symbols'''&lt;/center>
 
@@ -1137,7 +1137,7 @@ The following table describes the error codes that are reported by the '''QB64''
 
 &lt;p style="text-align: center">([[#toc|Return to Table of Contents]])&lt;/p>
 
-== QB64 Programming References ==
+== QB64PE Programming References ==
 
 &lt;center>'''WIKI Pages'''
 
@@ -1152,11 +1152,11 @@ The following table describes the error codes that are reported by the '''QB64''
 
 '''Got a question about something?''' 
 
-[[QB64 FAQ|Visit the QB64 FAQ]]
+[[QB64 FAQ|Visit the QB64PE FAQ]]
 
-[http://www.qb64.org Visit the QB64 Main Site]
+[http://www.qb64pe.org Visit the QB64PE Main Site]
 
-[http://www.qb64.org/forum Visit QB64 Community Forum]
+[http://www.qb64pe.org/forum Visit QB64PE Community Forum]
 
 
 &lt;p style="text-align: center">([[#toc|Return to Table of Contents]])&lt;/p>

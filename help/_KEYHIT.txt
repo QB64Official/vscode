@@ -10,7 +10,7 @@ The [[_KEYHIT]] function returns [[ASCII]] one and two byte, OpenGL Virtual Key 
 * Return values range up to &amp;H40000000 so use a [[LONG]] or [[_INTEGER64]] variable type. See the [[_KEYDOWN]] code list:
 :* 0-255: [[ASCII]] values (Refer to [http://en.wikipedia.org/wiki/Code_page_437 CP437]).
 :* 256-65535: [[ASCII#Two_Byte_Codes|2-byte]] character codes : code = [[CVI]]([[CHR$]](0) + [[CHR$]](scancode)) (unaffected by SHIFT/ALT/CTRL modifiers).
-:* 65536-&amp;H40000000: [[_KEYDOWN|QB64-specific Virtual Key codes]] (designated with + for 100000 on keyboard below)
+:* 65536-&amp;H40000000: [[_KEYDOWN|QB64PE-specific Virtual Key codes]] (designated with + for 100000 on keyboard below)
 :* '''Negative''' [[LONG]] values returned indicate that a key was released or a lock function key has been turned off.
 * '''Note: _KEYHIT can only return one value at a time so use the [[_KEYDOWN]] keyhit value to find key combinations.'''
 * To receive input from a [[$CONSOLE]] window, use [[_CINP]].
@@ -37,7 +37,7 @@ The [[_KEYHIT]] function returns [[ASCII]] one and two byte, OpenGL Virtual Key 
 '
 '     '''    Lower value = LCase/NumLock On __________________ + = add 100000 '''
 {{WhiteEnd}}
-{{small|NOTE: The above commented table can be copied and pasted directly into the QB64 IDE}}
+{{small|NOTE: The above commented table can be copied and pasted directly into the QB64PE IDE}}
  
  
 :* >= &amp;H40000000: [[Unicode]].
@@ -81,7 +81,7 @@ unifont = {{Cl|_LOADFONT}}("cyberbit.ttf", 24, "UNICODE")
       {{Cl|PRINT}} "SDL VK"; x - 100000
       {{Cl|END IF}}
       {{Cl|IF}} x >= 200000 {{Cl|AND (boolean)|AND}} x &lt; {{Cl|&amp;H}}40000000 {{Cl|THEN}}
-            {{Cl|PRINT}} "QB64 VK"; x - 200000
+            {{Cl|PRINT}} "QB64PE VK"; x - 200000
     {{Cl|END IF}}
     {{Cl|IF}} x >= {{Cl|&amp;H}}40000000 {{Cl|THEN}}              'Unicode values (IME Input mode)
       {{Cl|PRINT}} "UNICODE "; x - {{Cl|&amp;H}}40000000; "0x" + {{Cl|HEX$}}(x - {{Cl|&amp;H}}40000000) + " ...";

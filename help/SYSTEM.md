@@ -6,7 +6,7 @@ The [SYSTEM](SYSTEM) statement immediately closes a program and returns control 
 
 ## Parameter(s)
 
-* QB64 allows a *code* number to be used after SYSTEM to be read in another program module by the [SHELL](SHELL) or [_SHELLHIDE](_SHELLHIDE) functions.
+* QB64PE allows a *code* number to be used after SYSTEM to be read in another program module by the [SHELL](SHELL) or [_SHELLHIDE](_SHELLHIDE) functions.
 
 ## Description
 

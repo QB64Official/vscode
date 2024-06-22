@@ -41,7 +41,7 @@
 ** {{Parameter|sy2}} = the row coordinate of the bottom-most pixel to include of the source. Can be omitted to get rest of image.
 * ''_SMOOTH'' applies linear filtering.
 
-&lt;center>'''Note: The [[PUT (graphics statement)|PUT]] options PSET, PRESET, AND, OR and XOR are not available with _PUTIMAGE. QB64 can use [[_ALPHA|transparency]] of colors to achieve the same results.'''&lt;/center>
+&lt;center>'''Note: The [[PUT (graphics statement)|PUT]] options PSET, PRESET, AND, OR and XOR are not available with _PUTIMAGE. QB64PE can use [[_ALPHA|transparency]] of colors to achieve the same results.'''&lt;/center>
 
 
 {{PageDescription}}
@@ -82,7 +82,7 @@
 {{CodeStart}} '' ''
 {{Cl|SCREEN}} {{Cl|_NEWIMAGE}}(640, 480, 32)
 {{Cl|CLS}} , {{Cl|_RGB}}(0, 255, 0)
-i = {{Cl|_LOADIMAGE}}('''"QB64.PNG"''')
+i = {{Cl|_LOADIMAGE}}('''"qb64pe.PNG"''')
 {{Cl|_PUTIMAGE}} (0, 0), i ' places image at upper left corner of window w/o stretching it 
 '' ''
 {{CodeEnd}} '' ''
@@ -93,7 +93,7 @@ i = {{Cl|_LOADIMAGE}}('''"QB64.PNG"''')
 {{Cl|DEFLNG}} A-Z
 dest_handle = {{Cl|_NEWIMAGE}}(640, 480, 32)
 {{Cl|SCREEN (statement)|SCREEN}} dest_handle  '32 bit Screen 12 dimensions
-source_handle = {{Cl|_LOADIMAGE}}('''"QB64.PNG"''', 32)
+source_handle = {{Cl|_LOADIMAGE}}('''"qb64pe.PNG"''', 32)
 dx1 = 0: dy1 = 0
 dx2 = {{Cl|_WIDTH (function)|_WIDTH}}(source_handle) - 1: dy2 = {{Cl|_HEIGHT}}(source_handle) - 1 'image dimensions - 1
 {{Cl|LOCATE}} 29, 33: {{Cl|PRINT}} "Press any Key!";
@@ -127,7 +127,7 @@ K$ = {{Cl|INPUT$}}(1)
 {{small|Adapted from code by Darth Who}}
 
 
-''Example 4:'' Using _PUTIMAGE to scroll a larger image created on a separate [[_NEWIMAGE]] screen page with QB64.
+''Example 4:'' Using _PUTIMAGE to scroll a larger image created on a separate [[_NEWIMAGE]] screen page with qb64pe.
 {{CodeStart}} '' ''
 {{Cl|RANDOMIZE}} {{Cl|TIMER}}
 ws&amp; = {{Cl|_NEWIMAGE}}(2560, 1440, 32) 'large image page

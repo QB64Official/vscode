@@ -6,7 +6,7 @@ The [COLOR](COLOR) statement is used to change the foreground and background col
 
 ## Description
 
-* background& colors are available in all QB64 color SCREEN modes. 
+* background& colors are available in all QB64PE color SCREEN modes. 
 * [SCREEN](SCREEN) mode 10 has only 3 white foreground attributes including flashing. 
 * To change the background& color only, use a comma and the desired color. Ex: [COLOR](COLOR) , background&
 * Graphic drawing statements like [PSET](PSET), [PRESET](PRESET), [LINE](LINE), etc, also use the colors set by the [COLOR](COLOR) statement if no color is passed when they are called.
@@ -25,7 +25,7 @@ The [COLOR](COLOR) statement is used to change the foreground and background col
 * **SCREEN 9** can use up to 64 [DAC](DAC) color hues in 16 color attributes with background colors assigned to attribute 0 with a [_PALETTECOLOR](_PALETTECOLOR) swap. RGB settings can be changed in colors 0 to 5 and 7 using [_PALETTECOLOR](_PALETTECOLOR).
 * **SCREEN 10** has **only 4 color attributes** with black background. COLOR 0 = black, 1 = grey, 2 = flash white and 3 = bright white.
 * **SCREEN 11** is **monochrome** with white forecolor and a black background.
-* **SCREEN 12** can use 16 color attributes with a black background. 256K possible RGB color hues. Background colors can be used with QB64.
+* **SCREEN 12** can use 16 color attributes with a black background. 256K possible RGB color hues. Background colors can be used with qb64pe.
 * **SCREEN 13** can use 256 color attributes with a black background. 256K possible RGB hues.
 * [PALETTE](PALETTE) swaps can be made in SCREEN 7 and 9 only. Those screens were [DAC](DAC) screen modes in QBasic.
 * [_DEST](_DEST) can be used to set the destination page or image to color using **QB64**.
@@ -250,7 +250,7 @@ Black on bright white!
 
 ----
 
-> *Explanation:* Since QB64 does not have [DAC](DAC) [SCREEN](SCREEN) 0 limitations, changing color intensities for custom background colors is possible.
+> *Explanation:* Since QB64PE does not have [DAC](DAC) [SCREEN](SCREEN) 0 limitations, changing color intensities for custom background colors is possible.
 
 Changing light gray text in [SCREEN](SCREEN) 0 to a 32 bit custom color using a [LONG](LONG) HTML hexadecimal value:
 

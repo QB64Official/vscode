@@ -1,4 +1,4 @@
-The keywords listed here are not supported in QB64. QB64 is meant to be compatible with **QB 4.5 or lower** versions. **PDS (7.1) is not supported**. Older code that uses these keywords won't generate errors, as these are ignored by the compiler.
+The keywords listed here are not supported in qb64pe. QB64PE is meant to be compatible with **QB 4.5 or lower** versions. **PDS (7.1) is not supported**. Older code that uses these keywords won't generate errors, as these are ignored by the compiler.
 
 * [ALIAS](ALIAS) (supported in [DECLARE LIBRARY](DECLARE-LIBRARY) only)
 * [ANY](ANY)
@@ -39,7 +39,7 @@ Some OS Specific window/desktop calls:
 * [_WINDOWHANDLE](_WINDOWHANDLE)
 * [_CAPSLOCK](_CAPSLOCK), [_NUMLOCK](_NUMLOCK), [_SCROLLLOCK](_SCROLLLOCK) (statements and functions)
 
-Modular: QB64 has no limit on file size so BAS file modules can be combined.
+Modular: QB64PE has no limit on file size so BAS file modules can be combined.
 
 * [CHAIN](CHAIN)
 * [RUN](RUN)
@@ -64,7 +64,7 @@ File locking:
 
 ## Reference
 
-* [QB64 FAQ](QB64-FAQ)
+* [QB64 FAQ](QB64PE-FAQ)
 
 
 

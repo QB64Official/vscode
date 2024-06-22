@@ -13,7 +13,7 @@ The [_MOUSEY](_MOUSEY) function returns the current vertical (row) mouse cursor 
 
 ## QBasic
 
-* In [SCREEN](SCREEN) 0, QBasic's [ABSOLUTE](ABSOLUTE) returned graphic coordinates. QB64 mouse functions return the text coordinates.
+* In [SCREEN](SCREEN) 0, QBasic's [ABSOLUTE](ABSOLUTE) returned graphic coordinates. QB64PE mouse functions return the text coordinates.
 
 ## Example(s)
 

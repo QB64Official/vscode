@@ -112,7 +112,7 @@ Key$ = {{Cl|INPUT$}}(1)
 
 
 &lt;center>'''QBasic decimal point value comparison errors'''&lt;/center>
-* Floating decimal point numerical values may not be compared as exactly the same value. QB64 will compare them the same.
+* Floating decimal point numerical values may not be compared as exactly the same value. QB64PE will compare them the same.
 :''Example:'' QBasic would print ''unequal'' in the IF comparison code below even though it is exactly the same value printed.
 {{CodeStart}} '' ''
 x# = 5 / 10
@@ -121,7 +121,7 @@ z# = x# + y#
 {{Cl|PRINT}} x#, y#, z#
 {{Cl|IF...THEN|IF}} x# + y# = z# {{Cl|THEN}} {{Cl|PRINT}} "equal" {{Cl|ELSE}} {{Cl|PRINT}} "unequal" '' ''
 {{CodeEnd}}
-: Note: QB64 will make the calculation correctly and print ''equal''. Change older program code that relies on the error accordingly.
+: Note: QB64PE will make the calculation correctly and print ''equal''. Change older program code that relies on the error accordingly.
 
 
 {{PageSeeAlso}}

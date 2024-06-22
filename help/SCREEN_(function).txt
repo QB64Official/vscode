@@ -65,7 +65,7 @@ attrib% = {{Cl|SCREEN (function)|SCREEN}}(row, column, 1)   ' character color re
 {{Cl|PRINT}} "This is a directory test..."
 {{Cl|SCREEN}} 0, 0, 1, 0
 {{Cl|COLOR}} 0 'blank out the screen text
-{{Cl|FILES}} "qb64.exe"        'the current program's filename can also be used
+{{Cl|FILES}} "qb64pe.exe"        'the current program's filename can also be used
 {{Cl|FOR...NEXT|FOR}} i = 1 {{Cl|TO}} 80
   a$ = a$ + {{Cl|CHR$}}({{Cl|SCREEN (function)|SCREEN}}(1, i)) 'scan the black text on the screen
 {{Cl|NEXT}}

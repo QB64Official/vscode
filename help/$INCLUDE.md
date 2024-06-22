@@ -11,7 +11,7 @@
 * $INCLUDE is often used to add functions and subs from an external text QBasic code library.
 * The $INCLUDE metacommand should be the only statement on a line.
 
-### How to $INCLUDE a BAS or Text file with a QB64 Program
+### How to $INCLUDE a BAS or Text file with a QB64PE Program
 
 * Assemble the code to be reused into a file.
 * Common extensions are **.BI** (for declarations, usually included in the beginning of a program) or **.BM** (with SUBs and FUNCTIONs, usually included at the end of a program).

@@ -41,7 +41,7 @@ SCREEN 12 'set full screen in QBasic only for flashing colors
 SCREEN 0
 OUT &H3C8, 0: OUT &H3C9, 0: OUT &H3C9, 0: OUT &H3C9, 20
 
-_FONT _LOADFONT("C:\Windows\Fonts\Cour.ttf", 20, "MONOSPACE") 'select monospace font. QB64 only!
+_FONT _LOADFONT("C:\Windows\Fonts\Cour.ttf", 20, "MONOSPACE") 'select monospace font. QB64PE only!
 
 DEF SEG = &HB800                        'SCREEN 0 text ONLY!
 FOR code = 0 TO 255

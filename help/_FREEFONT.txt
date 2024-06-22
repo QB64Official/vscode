@@ -9,14 +9,14 @@ The [[_FREEFONT]] statement frees a font handle that was created by [[_LOADFONT]
 
 {{PageDescription}}
 * Unloads fonts that are no longer in use or needed in order to free program memory and resources.
-* You cannot free a font which is in use. Change the font to a QB64 default font size before freeing the handle (see example below).
+* You cannot free a font which is in use. Change the font to a QB64PE default font size before freeing the handle (see example below).
 * Predefined '''QB64''' font handle numbers can be used before freeing a font:
 **'''_FONT 8 ''' - default font for [[SCREEN (statement)|SCREEN]] 1, 2, 7, 8 or 13
 **'''_FONT 14''' - default font for [[SCREEN (statement)|SCREEN]] 9 or 10
 **'''_FONT 16''' - default font for [[SCREEN (statement)|SCREEN]] 0 ({{KW|WIDTH}} 80, 25 text only), 11 or 12
 **'''_FONT 9, 15''' and '''17''' are the double width versions of 8, 14 and 16 respectively in text '''SCREEN 0'''.
 * If the font handle is invalid (equals -1 or 0), an [[ERROR Codes|error]] will occur. '''Check handle values before using or freeing them.'''
-* You cannot free inbuilt/default QB64 fonts nor do they ever need freed. 
+* You cannot free inbuilt/default QB64PE fonts nor do they ever need freed. 
 
 
 {{PageExamples}}
@@ -40,7 +40,7 @@ style$ = "monospace"                         'set style to MONOSPACE
     {{Cl|PRINT}}: {{Cl|PRINT}}: {{Cl|PRINT}} font$; f&amp; 
     {{Cl|PRINT}} "Press any key."   
     K$ = {{Cl|INPUT$}}(1)
-    {{Cl|_FONT}} 16                      'use QB64 default font to free tested font
+    {{Cl|_FONT}} 16                      'use QB64PE default font to free tested font
     {{Cl|_FREEFONT}} f&amp;                  'returns an error if handle &lt;= 0! 
     {{Cl|CLS}}  
   {{Cl|END IF}}     
@@ -65,7 +65,7 @@ fontsize% = 20
 
 {{Cl|_FONT|_FONT }}16
 {{Cl|PRINT}}
-{{Cl|PRINT}} "This is the QB64 default {{Cl|_FONT|_FONT }}16! To change, press any key!"
+{{Cl|PRINT}} "This is the QB64PE default {{Cl|_FONT|_FONT }}16! To change, press any key!"
 {{Cl|DO}}: {{Cl|SLEEP}}: {{Cl|LOOP}} {{Cl|UNTIL}} {{Cl|INKEY$}} &lt;> ""
 
 {{Cl|GOSUB}} ClearFont  'call will not free anything if font&amp; = 0
@@ -82,7 +82,7 @@ font&amp; = {{Cl|_LOADFONT}}(fontpath$, fontsize%, style$)
 
 ClearFont: 
 {{Cl|IF}} font&amp; > 0 {{Cl|THEN}}
-    {{Cl|_FONT|_FONT }}16   'change used font to the QB64 8x16 default font
+    {{Cl|_FONT|_FONT }}16   'change used font to the QB64PE 8x16 default font
     {{Cl|_FREEFONT}} font&amp;
     {{Cl|PRINT}}: {{Cl|PRINT}} "The previous font was freed with _FREEFONT!"
 {{Cl|ELSE}} : {{Cl|PRINT}}: {{Cl|PRINT}} "_FREEFONT was not used!"

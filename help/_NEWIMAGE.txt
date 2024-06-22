@@ -40,7 +40,7 @@ handle&amp; = {{Cl|_NEWIMAGE}}(800, 600, 256)
 {{CodeEnd}}
 
 
-''Example 3:'' Setting up a 32 bit SCREEN with _NEWIMAGE for page flipping in QB64.
+''Example 3:'' Setting up a 32 bit SCREEN with _NEWIMAGE for page flipping in qb64pe.
 {{CodeStart}} '' ''
 SCREEN _NEWIMAGE(640, 480, 32), , 1, 0 '' ''
 {{CodeEnd}}

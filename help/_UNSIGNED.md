@@ -62,7 +62,7 @@ PRINT i~%
 
 ```
 
-> *Explanation:* In QB64 an unsigned integer value of 65536 would be 0 with values increasing by the value minus 65536. 
+> *Explanation:* In QB64PE an unsigned integer value of 65536 would be 0 with values increasing by the value minus 65536. 
 
 Demonstrating how _UNSIGNED variables expand the [INTEGER](INTEGER) range.
 

@@ -59,7 +59,7 @@ _DEST Page&
 _FONT FontHandle
 COLOR _RGB(255, 0, 0), _RGBA(0, 0, 0, 0)        'RED text on clear black background
 _PRINTSTRING (0, CursorPosY), text$
-_FONT 16                               'change to the QB64 default font to free it
+_FONT 16                               'change to the QB64PE default font to free it
 _FREEFONT FontHandle
 _DEST 0
 CursorPosY = CursorPosY + FontHeight            'adjust print position down 

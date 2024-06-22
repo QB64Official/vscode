@@ -37,5 +37,5 @@
 
 ## Getting Help
 
-* On QB64 Help - Shift + F1
+* On QB64PE Help - Shift + F1
 * On keywords or topics - F1

@@ -21,7 +21,7 @@ The [EXIT](EXIT) statement is used to exit certain QBasic procedures.
 ## Availability
 
 * **EXIT SELECT/CASE** available with version 1.5.
-* All other variants available in all versions of QB64.
+* All other variants available in all versions of qb64pe.
 
 ## See Also
 

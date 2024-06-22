@@ -4,7 +4,8 @@ import * as fs from "fs";
 import * as logFunctions from "./logFunctions";
 
 export function createFiles() {
-
+	return true;
+	
 	const tasksJson =
 		`{
 		"version": "2.0.0",
@@ -12,7 +13,7 @@ export function createFiles() {
 			{
 				"label": "build",
 				"type": "shell",
-				"command": ` + "\"${config:qb64.compilerPath}\"" + `,
+				"command": ` + "\"${config:qb64pecompilerPath}\"" + `,
 				"args": [
 					"-c",
 					"` + "'${fileDirname}/${fileBasename}'\"" + `,
@@ -21,7 +22,7 @@ export function createFiles() {
 					"` + "'${fileDirname}/${fileBasenameNoExtension}.exe'\"" + `
 				],
 				"linux": {
-					"command": ` + "\"${config:qb64.compilerPath}\"" + `,
+					"command": ` + "\"${config:qb64pecompilerPath}\"" + `,
 					"args": [
 						"-c",
 						"` + "'${fileDirname}/${fileBasename}'\"" + `,
@@ -31,7 +32,7 @@ export function createFiles() {
 					]
 				},
 				"osx": {
-					"command": ` + "\"${config:qb64.compilerPath}\"" + `,
+					"command": ` + "\"${config:qb64pecompilerPath}\"" + `,
 					"args": [
 						"-c",
 						"` + "'{fileDirname}/${fileBasename}'\"" + `,
@@ -50,17 +51,17 @@ export function createFiles() {
 				}
 			},
 			{
-				"label": "Clean QB64",
+				"label": "Clean QB64PE",
 				"type": "shell",
 				"options": {
-					"cwd": "` + "${config:qb64.installPath}/internal" + `",
+					"cwd": "` + "${config:qb64peinstallPath}/internal" + `",
 				},
-				"command": "` + "${config:qb64.installPath}/internal/clean.bat" + `",
+				"command": "` + "${config:qb64peinstallPath}/internal/clean.bat" + `",
 				"linux": {
-					"command":"` + "${config:qb64.installPath}/internal/clean.sh" + `",
+					"command":"` + "${config:qb64peinstallPath}/internal/clean.sh" + `",
 				},
 				"osx": {
-					"command":"` + "${config:qb64.installPath}/internal/clean.sh" + `",
+					"command":"` + "${config:qb64peinstallPath}/internal/clean.sh" + `",
 				},
 				"group": {
 					"kind": "build",
@@ -120,12 +121,12 @@ export function createFiles() {
 		"workbench.editorAssociations": {
 			"*.md": "vscode.markdown.preview.editor"
 		},
-		"files.defaultLanguage": "QB64",
+		"files.defaultLanguage": "QB64PE",
 		"editor.tokenColorCustomizations": {
 			"textMateRules": [
 				{
 					"scope": [
-						"graphics.QB64"
+						"graphics.QB64PE"
 					],
 					"settings": {
 						"foreground": "#00ff2a"
@@ -133,7 +134,7 @@ export function createFiles() {
 				},
 				{
 					"scope": [
-						"sound.QB64"
+						"sound.QB64PE"
 					],
 					"settings": {
 						"foreground": "#f0b411"
@@ -141,7 +142,7 @@ export function createFiles() {
 				},
 				{
 					"scope": [
-						"keyword.control.QB64"
+						"keyword.control.QB64PE"
 					],
 					"settings": {
 						"foreground": "#d611f0"
@@ -149,7 +150,7 @@ export function createFiles() {
 				},
 				{
 					"scope": [
-						"debug.QB64"
+						"debug.QB64PE"
 					],
 					"settings": {
 						"foreground": "#f59324"
@@ -157,7 +158,7 @@ export function createFiles() {
 				},
 				{
 					"scope": [
-						"userfunctions.QB64"
+						"userfunctions.QB64PE"
 					],
 					"settings": {
 						"foreground": "#9eaa67"
@@ -165,7 +166,7 @@ export function createFiles() {
 				},
 				{
 					"scope": [
-						"metacommand.QB64"
+						"metacommand.QB64PE"
 					],
 					"settings": {
 						"foreground": "#6d6b6b"
@@ -173,7 +174,7 @@ export function createFiles() {
 				},
 				{
 					"scope": [
-						"todo.QB64"
+						"todo.QB64PE"
 					],
 					"settings": {
 						"foreground": "#84e9a6",
@@ -189,24 +190,24 @@ export function createFiles() {
 		"version": "0.2.0",
 		"configurations": [
 			{
-				"name": "QB64 Build and Run",
-				"type": "QB64",
+				"name": "QB64PE Build and Run",
+				"type": "QB64PE",
 				"request": "launch",
-				"command": "` + "${config:qb64.compilerPath} -x " + String.raw`\"` + "${fileDirname}\\\\${fileBasename}" + String.raw`\"` + ' -o ' + String.raw`\"` + '${fileDirname}\\\\${fileBasenameNoExtension}.exe\\"  -x; if ($?) { cd \\"${fileDirname}\\"; start \\"${fileDirname}\\\\${fileBasenameNoExtension}.exe' + String.raw`\"` + '}"' + `,	
-				"terminalName": "QB64",
+				"command": "` + "${config:qb64pecompilerPath} -x " + String.raw`\"` + "${fileDirname}\\\\${fileBasename}" + String.raw`\"` + ' -o ' + String.raw`\"` + '${fileDirname}\\\\${fileBasenameNoExtension}.exe\\"  -x; if ($?) { cd \\"${fileDirname}\\"; start \\"${fileDirname}\\\\${fileBasenameNoExtension}.exe' + String.raw`\"` + '}"' + `,	
+				"terminalName": "QB64PE",
 				"terminalIndex": -1, 
 				"showTerminal": true,
 				"linux": {
-					"name": "QB64 Build and Run",
-					"type": "QB64",
+					"name": "QB64PE Build and Run",
+					"type": "QB64PE",
 					"request": "launch",					
-					"command": "` + "${config:qb64.compilerPath} '${fileDirname}/${fileBasename}' -x -o '${fileDirname}/${fileBasenameNoExtension}' && '${fileDirname}/${fileBasenameNoExtension}'\"" + `,
+					"command": "` + "${config:qb64pecompilerPath} '${fileDirname}/${fileBasename}' -x -o '${fileDirname}/${fileBasenameNoExtension}' && '${fileDirname}/${fileBasenameNoExtension}'\"" + `,
 				},
 				"osx": {
-					"name": "QB64 Build and Run",
-					"type": "QB64",
+					"name": "QB64PE Build and Run",
+					"type": "QB64PE",
 					"request": "launch",
-					"command": "` + "${config:qb64.compilerPath} '${fileDirname}/${fileBasename}' -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + `,
+					"command": "` + "${config:qb64pecompilerPath} '${fileDirname}/${fileBasename}' -x -o '${fileDirname}/${fileBasenameNoExtension}'; mv '${fileDirname}/${fileBasenameNoExtension}' '${fileDirname}/${fileBasenameNoExtension}.run'; '${fileDirname}/${fileBasenameNoExtension}.run'\"" + `,
 				}
 			} 
 		]

@@ -147,7 +147,7 @@ PLANECOL(3) = 6
 PLANECOL(4) = 7
 PLANECOL(5) = 8
 '
-{{Cl|_TITLE}} "QB64 _MAPTRIANGLE CUBE DEMO"
+{{Cl|_TITLE}} "QB64PE _MAPTRIANGLE CUBE DEMO"
 {{Cl|SCREEN}} {{Cl|_NEWIMAGE}}(800, 600, 32)
 TextureImage&amp; = {{Cl|_LOADIMAGE}}("qb64_trans.png") ''''&lt;&lt;&lt;&lt; '''replace with your own image
 '{{Cl|_PUTIMAGE}} , Image&amp;
@@ -434,7 +434,7 @@ PLANECOL(3) = 6
 PLANECOL(4) = 7
 PLANECOL(5) = 8
 '
-{{Cl|_TITLE}} "QB64 {{Cl|_MAPTRIANGLE}} CUBE DEMO"
+{{Cl|_TITLE}} "QB64PE {{Cl|_MAPTRIANGLE}} CUBE DEMO"
 {{Cl|SCREEN}} {{Cl|_NEWIMAGE}}(800, 600, 32)
 
 TextureImage&amp; = {{Cl|_LOADIMAGE}}("qb64_trans.png", 32)'replace with your own image
@@ -667,7 +667,7 @@ DO
     {{Cl|CLS}} , {{Cl|_RGB}}(0, 128, 255) 'use our software screen as a blue backdrop
 
     'rotate our destination points
-    'the QB64 3D co-ordinate system is the same as  OpenGL's:
+    'the QB64PE 3D co-ordinate system is the same as  OpenGL's:
     '    negative z is in front of you, if it doesn't have a negative z value you won't see it!
     '    x goes from left to right, 0 is the middle of the screen
     '    y goes from bottom to top, 0 is the middle of the screen

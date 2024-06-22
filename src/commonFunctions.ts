@@ -4,7 +4,7 @@ import * as vscode from "vscode";
  * Gets a new vscode.DocumentSelector
  */
 export function getDocumentSelector(): vscode.DocumentSelector {
-	return { scheme: "file", language: "QB64" };
+	return { scheme: "file", language: "QB64PE" };
 }
 
 /**
@@ -65,7 +65,7 @@ export function createRange(match: RegExpMatchArray, lineNumber: number, matchIn
 }
 
 /**
- * Gets the QB64 word at the current curson postion in the current from the passed editor.
+ * Gets the QB64PE word at the current curson postion in the current from the passed editor.
  * @param editor 
  * @returns The selected word/word under the cursor
  */
@@ -83,7 +83,7 @@ export function getQB64Word(editor: vscode.TextEditor): string {
 }
 
 /**
- * * Gets the QB64 word at the current postion in the passed document
+ * * Gets the QB64PE word at the current postion in the passed document
  * @param document 
  * @param position 
  * @returns 

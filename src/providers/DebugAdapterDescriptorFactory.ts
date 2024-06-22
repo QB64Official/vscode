@@ -5,7 +5,7 @@ var ownTerminal: vscode.Terminal;
 export class DebugAdapterDescriptorFactory implements vscode.DebugAdapterDescriptorFactory {
 	createDebugAdapterDescriptor(session: vscode.DebugSession): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
 		if (!session.configuration.hasOwnProperty("command")) {
-			vscode.window.showErrorMessage(`No command found for QB64 launch configuration "${session.configuration.name}". Add one like "command": "echo Hello" to your launch.json.`);
+			vscode.window.showErrorMessage(`No command found for QB64PE launch configuration "${session.configuration.name}". Add one like "command": "echo Hello" to your launch.json.`);
 		} else {
 			const terminal = this.getTerminal(session.configuration);
 			if (!session.configuration.hasOwnProperty("showTerminal") || session.configuration.showTerminal) {
@@ -25,7 +25,7 @@ export class DebugAdapterDescriptorFactory implements vscode.DebugAdapterDescrip
 		}
 
 		if (!ownTerminal || ownTerminal.exitStatus) {
-			let name = "QB64";
+			let name = "QB64PE";
 			if (configuration.hasOwnProperty("terminalName")) {
 				name = String(configuration.terminalName);
 			}

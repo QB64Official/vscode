@@ -45,7 +45,7 @@ SCREEN handle&
 
 ```
 
-Setting up a 32 bit SCREEN with _NEWIMAGE for page flipping in QB64.
+Setting up a 32 bit SCREEN with _NEWIMAGE for page flipping in qb64pe.
 
 ```vb
 

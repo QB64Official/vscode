@@ -2,10 +2,10 @@
 
 **Bitmaps** are image files with the .BMP file name extension.
 
-* Bitmaps can be 1, 4, 8 or 24/32 bits per pixel(BPP) color palettes. QB64 is capable of working with high color bitmaps.
+* Bitmaps can be 1, 4, 8 or 24/32 bits per pixel(BPP) color palettes. QB64PE is capable of working with high color bitmaps.
 * Screen or Image width and height calculations are automatically made using the image handle value.
 * Use an image handle value of 0(zero) to get a screen shot of the entire active program screen. 
-* **Note: SCREEN 0 text mode cannot be screen saved in QBasic or QB64.**
+* **Note: SCREEN 0 text mode cannot be screen saved in QBasic or qb64pe.**
 
 ## Example(s)
 
@@ -72,7 +72,7 @@ After the header, the [RGB](RGB) color settings are created using [ASCII](ASCII)
 
 The actual image is read as pixel attributes from the image bottom to the top for proper formatting with zero padding when necessary.
 
-*** Note:** 32-bit images will be saved as 24-bit BMP files. All palette indexed images/modes will be saved as 256 color BMP files. Text modes cannot be saved. As QB64 has no official _SAVEIMAGE command yet and QBasic programs to save screen-shots don't work in QB64 yet this is a very useful alternative.
+*** Note:** 32-bit images will be saved as 24-bit BMP files. All palette indexed images/modes will be saved as 256 color BMP files. Text modes cannot be saved. As QB64PE has no official _SAVEIMAGE command yet and QBasic programs to save screen-shots don't work in QB64PE yet this is a very useful alternative.
 
 ## See Also
 

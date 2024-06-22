@@ -16,7 +16,7 @@ The [_FONT](_FONT) statement sets the current [_LOADFONT](_LOADFONT) function fo
   * **_FONT 14** - default font for [SCREEN (statement)](SCREEN-(statement)) 9 or 10
   * **_FONT 16** - default font for [SCREEN (statement)](SCREEN-(statement)) 0 ([WIDTH](WIDTH) 80, 25 text only), 11 or 12
   * **_FONT 9, 15** and **17** are the double width versions of 8, 14 and 16 respectively in text **SCREEN 0 only**.
-* [Unicode](Unicode) characters can be assigned to a monospace font that contains those unicode characters using the [_MAPUNICODE](_MAPUNICODE) TO [ASCII](ASCII) mapping statement. The optional **IME cyberbit.ttf** font included with QB64 can also be used.
+* [Unicode](Unicode) characters can be assigned to a monospace font that contains those unicode characters using the [_MAPUNICODE](_MAPUNICODE) TO [ASCII](ASCII) mapping statement. The optional **IME cyberbit.ttf** font included with QB64PE can also be used.
 * Can alpha blend a font with a background screen created by [_NEWIMAGE](_NEWIMAGE) in 32 bit color.
 * **Check for valid handle values greater than 0 before using or freeing font handles.**
 * Free **unused** font handles with [_FREEFONT](_FREEFONT). Freeing invalid handles will create an [ERROR Codes](ERROR-Codes) error.
@@ -55,7 +55,7 @@ DO: CLS
 LOOP UNTIL K$ = "N"
 GOSUB ClearFont
 
-PRINT "This is the QB64 default _FONT 16!"
+PRINT "This is the QB64PE default _FONT 16!"
 END
 
 ClearFont: 

@@ -7,7 +7,7 @@ import * as logFunctions from "./logFunctions";
 import os from 'os';
 import fs from 'fs';
 
-var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('QB64-lint')
+var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('QB64PE-lint')
 
 /**
  * Runs the compiler/linter then calls lintCurrentFile with the output.
@@ -21,19 +21,19 @@ export function runLint() {
 			return;
 		}
 
-		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
+		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64pe");
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			logFunctions.writeLine("The QB64 compiler path is not set.", outputChannnel);
+			logFunctions.writeLine("The QB64PE compiler path is not set.", outputChannnel);
 			return;
 		}
 
 		/*
 		if (os.platform() == "win32") {
-			compilerPath = path.join(compilerPath, "qb64.exe");
+			compilerPath = path.join(compilerPath, "qb64pe.exe");
 		} else {
-			compilerPath = path.join(compilerPath, "qb64");
+			compilerPath = path.join(compilerPath, "qb64pe");
 		}
 		*/
 
@@ -77,7 +77,7 @@ export function runLint() {
 					deleteFile(binaryName, outputChannnel);
 				}
 			} else {
-				logFunctions.writeLine("No stdout from QB64.exe found", outputChannnel);
+				logFunctions.writeLine("No stdout from qb64pe.exe found", outputChannnel);
 			}
 		});
 
@@ -112,7 +112,7 @@ function deleteFile(fileName: string, outputChannnel: any) {
  */
 function lintCurrentFile(compilerOutput: string) {
 	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
-	const lintSource = "QB64-lint"
+	const lintSource = "QB64PE-lint"
 
 	try {
 		let document: vscode.TextDocument = vscode.window.activeTextEditor.document;

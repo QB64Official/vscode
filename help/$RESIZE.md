@@ -60,7 +60,7 @@ SYSTEM
 ' *                                                                                               *
 ' *               Developer Note: You must use $RESIZE:ON, $RESIZE:SMOOTH, or $RESIZE:SMOOTH at   *
 ' *                               the beginning of your project for this to work.                 *
-' *                               This FUNCTION only works in QB64 version 1.000 and up.          *
+' *                               This FUNCTION only works in QB64PE version 1.000 and up.          *
 ' *                                                                                               *
 ' *************************************************************************************************
 FUNCTION CheckResize (CurrentScreen AS _UNSIGNED LONG)

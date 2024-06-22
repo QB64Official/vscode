@@ -76,7 +76,7 @@ The Entry header information for all icon images contained in the icon file foll
 * The reserved [_BYTE](_BYTE) value is always zero.
 * The 2 Hotspot [INTEGER](INTEGER) values are always 0 unless the file is a CUR cursor file. Cursor files position the click spot.
 * The [LONG](LONG) Data Size value should indicate the size of the image data including bitmap header, palette and pixel data.
-* The [LONG](LONG) Data Offset value will indicate the byte position of the image bitmap header. Add one byte in QB and QB64.
+* The [LONG](LONG) Data Offset value will indicate the byte position of the image bitmap header. Add one byte in QB and qb64pe.
 
 **Bitmap Header Information**
 

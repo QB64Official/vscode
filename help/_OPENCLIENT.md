@@ -27,12 +27,12 @@ END IF
 
 > **NOTE:** Try a valid TCP/IP port setting to test this routine!
 
-Using a "raw" Download function to download the QB64 bee image and displays it.
+Using a "raw" Download function to download the QB64PE bee image and displays it.
 
 ```vb
 
 'replace the fake image address below with a real image address you want to download
-IF Download("www.qb64.org/qb64.png", "qb64logo.png", 10) THEN ' timelimit = 10 seconds
+IF Download("www.qb64pe.org/qb64pe.png", "qb64logo.png", 10) THEN ' timelimit = 10 seconds
  SCREEN _LOADIMAGE("qb64logo.png",32)
 ELSE: PRINT "Couldn't download image."
 END IF

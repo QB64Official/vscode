@@ -22,7 +22,7 @@
 | _UNSIGNED _OFFSET | ~%& | 0 | 18,446,744,073,709,551,615 | Use LEN |
 | _MEM | none | combined memory variable type | N/A | Use LEN |
 
-*Note: For the floating-point numeric types [SINGLE](SINGLE) (default when not assigned), [DOUBLE](DOUBLE) and [_FLOAT](_FLOAT), the minimum values represent the smallest values closest to zero, while the maximum values represent the largest values closest to ±infinity. OFFSET dot values are used as a part of the [_MEM](_MEM) variable type in QB64 to return or set the position in memory.*
+*Note: For the floating-point numeric types [SINGLE](SINGLE) (default when not assigned), [DOUBLE](DOUBLE) and [_FLOAT](_FLOAT), the minimum values represent the smallest values closest to zero, while the maximum values represent the largest values closest to ±infinity. OFFSET dot values are used as a part of the [_MEM](_MEM) variable type in QB64PE to return or set the position in memory.*
 
 ### String Text Type
 
@@ -46,7 +46,7 @@ All types dealing with number values are signed as a default. The symbol to defi
 > [DEFSNG](DEFSNG) *range1-range2*
 > [DEFDBL](DEFDBL) *range1-range2*
 
-Where *range1* and *range2* are the range of first letters to be defined as the default *type* when the variable is having no suffix and are not otherwise defined, the starting letter of the variable then defines the *type* as specified by the DEFxxx and _DEFINE statements. The QB64 types can only be defaulted using [_DEFINE](_DEFINE).
+Where *range1* and *range2* are the range of first letters to be defined as the default *type* when the variable is having no suffix and are not otherwise defined, the starting letter of the variable then defines the *type* as specified by the DEFxxx and _DEFINE statements. The QB64PE types can only be defaulted using [_DEFINE](_DEFINE).
 
 *type* can be any of the types listed at the top and can also be preceeded with [_UNSIGNED](_UNSIGNED) for the unsigned version of the type.
 

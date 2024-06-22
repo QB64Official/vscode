@@ -26,13 +26,13 @@
 > * 2) Which fonts support the characters I want to use: [Unicode Fonts](http://en.wikipedia.org/wiki/Unicode_typefaces#Comparison_of_fonts)
 > * 3) What was the format again?: [Unicode Formats](http://www.birds-eye.net/definition/u/unicode.shtml)
 > * A UTF32 value is usually(but by no means always!) the same as a UTF16 value just with the top 2 bytes set to 0.
-* Setting up a typing language in the QB64 IDE:
+* Setting up a typing language in the QB64PE IDE:
 > Step 1: In the OPTIONS menu select DISPLAY, then check the CUSTOM FONT check-box.
 > Step 2: In the OPTIONS menu select LANGUAGE, then select a Code Page (CP850 for example) and click OK.
-* Font **cyberbit.ttf**, included with QB64 as of **V0.92**(October 2010), is required to facilitate the **IME**(in Chinese settings) only. The 12.7 MB font is free for **non-commercial** use and is not loaded unless the user switches to the **Input Mode Editor**.
+* Font **cyberbit.ttf**, included with QB64PE as of **V0.92**(October 2010), is required to facilitate the **IME**(in Chinese settings) only. The 12.7 MB font is free for **non-commercial** use and is not loaded unless the user switches to the **Input Mode Editor**.
 [Setting up the Unicode Input Method Editor in Windows](http://www.fileformat.info/tip/microsoft/enter_unicode.htm)
 If you need help with IME support in **Vista** see the following article: [Setting up IME in Vista](http://blogs.msdn.com/b/michkap/archive/2006/07/20/671835.aspx)
-> QB64 can use several Windows fonts when 'cyberbit' is not present so it is not necessary to include with program packages. 
+> QB64PE can use several Windows fonts when 'cyberbit' is not present so it is not necessary to include with program packages. 
 
 ## Example(s)
 

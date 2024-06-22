@@ -82,7 +82,7 @@ END
 
 ```
 
-So, you would look at the function prototype in the MSDN article, and match the data types of all of the parameters and the return value to QB64 data types. _OFFSET is the type to use for any kind of pointer. MSDN has a list of data types:
+So, you would look at the function prototype in the MSDN article, and match the data types of all of the parameters and the return value to QB64PE data types. _OFFSET is the type to use for any kind of pointer. MSDN has a list of data types:
 
 [MSDN list of Data types](http://msdn.microsoft.com/en-us/library/aa383751(v=vs.85).aspx)
 
@@ -118,7 +118,7 @@ typedef unsigned long DWORD;
 
 ```
 
-> Obviously, the QB64 type that corresponds to this is [_UNSIGNED](_UNSIGNED) [LONG](LONG).
+> Obviously, the QB64PE type that corresponds to this is [_UNSIGNED](_UNSIGNED) [LONG](LONG).
 
 ```text
 
@@ -170,7 +170,7 @@ This type is declared in WinNT.h as follows:
 
 ```
 
-> This tells us that it is a pointer to a string. Since it is a pointer, the QB64 type it corresponds to is [_OFFSET](_OFFSET).
+> This tells us that it is a pointer to a string. Since it is a pointer, the QB64PE type it corresponds to is [_OFFSET](_OFFSET).
 
 By the way, all parameters, including pointers, will be passed [BYVAL](BYVAL). So, we have:
 
@@ -356,13 +356,13 @@ IF QueryDosDeviceA~&(_OFFSET(comports(i * 2)), _OFFSET(buffer), sizeofbuffer) = 
 
 After a successful call, buffer, the buffer pointed to by lpTargetPath, will contain one or more null terminated strings, with an extra null after the last. I am only interested in the first of these, which is the current mapping.
 
-I hope that this answers the question, and adequately demonstrates how to use the Windows API from QB64. If not, inquire further, and I or someone else will try to answer it. Please point out any mistakes.
+I hope that this answers the question, and adequately demonstrates how to use the Windows API from qb64pe. If not, inquire further, and I or someone else will try to answer it. Please point out any mistakes.
 
 Regards,
 
 Michael
 
-* **Warning: QB64 variable length strings can move about in memory AT ANY TIME. If you get the _OFFSET of a variable length sting on one line and use it on the next it may not be there anymore. To be safe, move variable length strings into fixed length strings first.**
+* **Warning: QB64PE variable length strings can move about in memory AT ANY TIME. If you get the _OFFSET of a variable length sting on one line and use it on the next it may not be there anymore. To be safe, move variable length strings into fixed length strings first.**
 
 ## See Also
 

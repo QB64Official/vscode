@@ -1,4 +1,4 @@
-**SOUND** sets frequency and duration of sounds from the internal PC speaker if the computer has one or the sound card in QB64.
+**SOUND** sets frequency and duration of sounds from the internal PC speaker if the computer has one or the sound card in qb64pe.
 
 ## Syntax
 

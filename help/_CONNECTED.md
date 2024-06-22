@@ -6,7 +6,7 @@ The [_CONNECTED](_CONNECTED) function returns the status of a TCP/IP connection 
 
 ## Description
 
-* The handle can come from the [_OPENHOST](_OPENHOST), [OPENCLIENT](OPENCLIENT) or [_OPENCONNECTION](_OPENCONNECTION) QB64 TCP/IP functions.
+* The handle can come from the [_OPENHOST](_OPENHOST), [OPENCLIENT](OPENCLIENT) or [_OPENCONNECTION](_OPENCONNECTION) QB64PE TCP/IP functions.
 * Returns -1 if still connected or 0 if connection has ended/failed. 
 * Do not rely solely on this function to check for ending communication.
 * Use "time-out" checking as well and [CLOSE](CLOSE) any suspect connections.

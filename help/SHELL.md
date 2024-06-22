@@ -53,7 +53,7 @@ Opening a Windows program (Notepad) to read or print a Basic created text file.
 INPUT "Enter a file name to read in Notepad: ", filename$
 SHELL "CMD /C start /max notepad " + filename$  ' display in Notepad full screen in XP or NT   
 
-'SHELL "start /min notepad /p " + filename$ ' taskbar print using QB64 CMD /C not necessary
+'SHELL "start /min notepad /p " + filename$ ' taskbar print using QB64PE CMD /C not necessary
 
 ```
 

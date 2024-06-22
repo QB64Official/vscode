@@ -5,7 +5,7 @@ The [[COLOR]] statement is used to change the foreground and background colors f
 
 
 {{PageDescription}}
-* {{Parameter|background&amp;}} colors are available in all QB64 color SCREEN modes. 
+* {{Parameter|background&amp;}} colors are available in all QB64PE color SCREEN modes. 
 * [[SCREEN]] mode 10 has only 3 white foreground attributes including flashing. 
 * To change the {{Parameter|background&amp;}} color only, use a comma and the desired color. Ex: [[COLOR]] , {{Parameter|background&amp;}}
 * Graphic drawing statements like [[PSET]], [[PRESET]], [[LINE]], etc, also use the colors set by the [[COLOR]] statement if no color is passed when they are called.
@@ -24,7 +24,7 @@ The [[COLOR]] statement is used to change the foreground and background colors f
 * '''SCREEN 9''' can use up to 64 [[DAC]] color hues in 16 color attributes with background colors assigned to attribute 0 with a [[_PALETTECOLOR]] swap. RGB settings can be changed in colors 0 to 5 and 7 using [[_PALETTECOLOR]].
 * '''SCREEN 10''' has '''only 4 color attributes''' with black background. COLOR 0 = black, 1 = grey, 2 = flash white and 3 = bright white.
 * '''SCREEN 11''' is '''monochrome''' with white forecolor and a black background.
-* '''SCREEN 12''' can use 16 color attributes with a black background. 256K possible RGB color hues. Background colors can be used with QB64.
+* '''SCREEN 12''' can use 16 color attributes with a black background. 256K possible RGB color hues. Background colors can be used with qb64pe.
 * '''SCREEN 13''' can use 256 color attributes with a black background. 256K possible RGB hues.
 * [[PALETTE]] swaps can be made in SCREEN 7 and 9 only. Those screens were [[DAC]] screen modes in QBasic.
 * [[_DEST]] can be used to set the destination page or image to color using '''QB64'''.
@@ -201,7 +201,7 @@ text$ = "HelloWorld"
 {{WhiteStart}}'''{{text|Black on bright white!|#000000}}'''
 {{WhiteEnd}}
 ----
-: ''Explanation:'' Since QB64 does not have [[DAC]] [[SCREEN]] 0 limitations, changing color intensities for custom background colors is possible.
+: ''Explanation:'' Since QB64PE does not have [[DAC]] [[SCREEN]] 0 limitations, changing color intensities for custom background colors is possible.
 
 
 ''Example 8:'' Changing light gray text in [[SCREEN]] 0 to a 32 bit custom color using a [[LONG]] HTML hexadecimal value:

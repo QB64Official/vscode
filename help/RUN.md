@@ -1,6 +1,6 @@
 **RUN** is a control flow statement that clears and restarts the program currently in memory or executes another specified program.
 
-The multi-modular technique goes back to when QBasic and QuickBASIC had module size constraints. In QB64 it has been implemented so that that older code can still be compiled, though **it is advisable to use single modules for a single project (not counting [$INCLUDE]($INCLUDE) libraries), for ease of sharing and also because the module size constraints no longer exist.**
+The multi-modular technique goes back to when QBasic and QuickBASIC had module size constraints. In QB64PE it has been implemented so that that older code can still be compiled, though **it is advisable to use single modules for a single project (not counting [$INCLUDE]($INCLUDE) libraries), for ease of sharing and also because the module size constraints no longer exist.**
 
 ## Syntax
 
@@ -22,7 +22,7 @@ The multi-modular technique goes back to when QBasic and QuickBASIC had module s
   * Recommended practice to run external programs is to use [SHELL](SHELL).
 * RUN closes all open files and closes the invoking program module before the called program starts.
 * RUN resets the [RANDOMIZE](RANDOMIZE) sequence to the starting [RND](RND) function value.
-* **Note: Calling RUN repeatedly may cause a stack leak in QB64 if it is called from within a [SUB](SUB) or [FUNCTION](FUNCTION). Avoid when possible.**
+* **Note: Calling RUN repeatedly may cause a stack leak in QB64PE if it is called from within a [SUB](SUB) or [FUNCTION](FUNCTION). Avoid when possible.**
 
 ## Example(s)
 

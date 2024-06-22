@@ -12,7 +12,7 @@
 
 * Used to find **[Ctrl], [Alt], [Shift], [Caps Lock], [Scroll Lock], [Num Lock] and [F]unction key controls.**
 * The keyboard input is stored at decimal register 96 or &H60 hexadecimal.
-* Returns values from 0 to 127 for keypresses. 129 to 255 for key releases. **Codes 91 to 93 are available in QB64 only**.
+* Returns values from 0 to 127 for keypresses. 129 to 255 for key releases. **Codes 91 to 93 are available in QB64PE only**.
 * Every key (except Prt Scr/Sys Rq) has an identifying code that will not change with Caps Lock or Shift. 
 * Release codes are the original key press code `+ 128`. Example: [Esc] key press = 1 and  release = 129.
 * Extended (added) keys on modern keyboards may alternate codes with Left Shift codes 42 and 170 because of Num Lock mode.
@@ -37,10 +37,10 @@
 '  **Ctrl Win Alt    Spacebar    Alt Win Menu Ctrl     ◄-  ▼   -►      0/Insert    ./Del r**
 '   29  91  56        57       56  92   93  29       75  80  77       82          83   28 
 '
-'   QB64 codes only! **Release codes = Press code + 128. Pause/Break may lock code returns.**
+'   QB64PE codes only! **Release codes = Press code + 128. Pause/Break may lock code returns.**
 
 ```
-<sub>NOTE: The above commented table can be copied and pasted directly into the QB64 IDE</sub>
+<sub>NOTE: The above commented table can be copied and pasted directly into the QB64PE IDE</sub>
 
 ## QBasic
 

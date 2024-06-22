@@ -7,14 +7,14 @@ The [_FREEFONT](_FREEFONT) statement frees a font handle that was created by [_L
 ## Description
 
 * Unloads fonts that are no longer in use or needed in order to free program memory and resources.
-* You cannot free a font which is in use. Change the font to a QB64 default font size before freeing the handle (see example below).
+* You cannot free a font which is in use. Change the font to a QB64PE default font size before freeing the handle (see example below).
 * Predefined **QB64** font handle numbers can be used before freeing a font:
   * **_FONT 8** - default font for [SCREEN (statement)](SCREEN-(statement)) 1, 2, 7, 8 or 13
   * **_FONT 14** - default font for [SCREEN (statement)](SCREEN-(statement)) 9 or 10
   * **_FONT 16** - default font for [SCREEN (statement)](SCREEN-(statement)) 0 ([WIDTH](WIDTH) 80, 25 text only), 11 or 12
   * **_FONT 9, 15** and **17** are the double width versions of 8, 14 and 16 respectively in text **SCREEN 0**.
 * If the font handle is invalid (equals -1 or 0), an [ERROR Codes](ERROR-Codes) will occur. **Check handle values before using or freeing them.**
-* You cannot free inbuilt/default QB64 fonts nor do they ever need freed. 
+* You cannot free inbuilt/default QB64PE fonts nor do they ever need freed. 
 
 ## Example(s)
 
@@ -40,7 +40,7 @@ DO UNTIL EOF(1): found = found + 1
     PRINT: PRINT: PRINT font$; f& 
     PRINT "Press any key."   
     K$ = INPUT$(1)
-    _FONT 16                      'use QB64 default font to free tested font
+    _FONT 16                      'use QB64PE default font to free tested font
     _FREEFONT f&                  'returns an error if handle <= 0! 
     CLS  
   END IF     
@@ -69,7 +69,7 @@ fontsize% = 20
 
 _FONT 16
 PRINT
-PRINT "This is the QB64 default _FONT 16! To change, press any key!"
+PRINT "This is the QB64PE default _FONT 16! To change, press any key!"
 DO: SLEEP: LOOP UNTIL INKEY$ <> ""
 
 GOSUB ClearFont  'call will not free anything if font& = 0
@@ -86,7 +86,7 @@ END
 
 ClearFont: 
 IF font& > 0 THEN
-    _FONT 16   'change used font to the QB64 8x16 default font
+    _FONT 16   'change used font to the QB64PE 8x16 default font
     _FREEFONT font&
     PRINT: PRINT "The previous font was freed with _FREEFONT!"
 ELSE : PRINT: PRINT "_FREEFONT was not used!"

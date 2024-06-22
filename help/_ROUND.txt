@@ -12,7 +12,7 @@ The [[_ROUND]] function rounds to the closest even [[INTEGER]], [[LONG]] or [[_I
 * Rounding is done to the closest even [[INTEGER|integer]] value. The same as QBasic does with [[\|integer division]].
 
 
-''Example:'' Displays how QB64 rounds to the closest even integer value.
+''Example:'' Displays how QB64PE rounds to the closest even integer value.
 {{CodeStart}}
 {{Cl|PRINT}} {{Cl|_ROUND}}(0.5)
 {{Cl|PRINT}} {{Cl|_ROUND}}(1.5)

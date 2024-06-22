@@ -9,7 +9,7 @@ import * as logFunctions from "../logFunctions";
 
 export class ReferenceProvider implements vscode.ReferenceProvider {
 	outputChannnel = logFunctions.getChannel(logFunctions.channelType.referenceProvider);
-	config = vscode.workspace.getConfiguration("qb64");
+	config = vscode.workspace.getConfiguration("qb64pe");
 
 	provideReferences(document: vscode.TextDocument, position: vscode.Position, context: vscode.ReferenceContext, token: vscode.CancellationToken): vscode.ProviderResult<vscode.Location[]> {
 		/*

@@ -14,7 +14,7 @@ The [[_MOUSEX]] function returns the current horizontal (column) mouse cursor po
 
 
 {{PageQBasic}}
-* In [[SCREEN]] 0, QBasic's [[ABSOLUTE]] returned graphic coordinates. QB64 mouse functions return the text coordinates. 
+* In [[SCREEN]] 0, QBasic's [[ABSOLUTE]] returned graphic coordinates. QB64PE mouse functions return the text coordinates. 
 
 
 {{PageExamples}}

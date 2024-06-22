@@ -1,4 +1,4 @@
-The [_CLIP](_CLIP) option is used in a QB64 graphics [PUT (graphics statement)](PUT-(graphics-statement)) to allow placement of an image partially off of the screen.
+The [_CLIP](_CLIP) option is used in a QB64PE graphics [PUT (graphics statement)](PUT-(graphics-statement)) to allow placement of an image partially off of the screen.
 
 ## Syntax
 

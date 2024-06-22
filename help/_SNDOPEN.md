@@ -10,7 +10,7 @@ The [_SNDOPEN](_SNDOPEN) function loads a sound file into memory and returns a [
 * The literal or variable [STRING](STRING) sound fileName$ can be **WAV, OGG or MP3** file types.
 * **Always check the handle value returned is greater than zero before attempting to play the sound.**
   * Make sure the variable is set to 0 before using _SNDOPEN.
-* The handle can be used by most of the _SND sound playing functions and statements in QB64 except [_SNDPLAYFILE](_SNDPLAYFILE) which plays a sound file directly from the disk and does not use a handle value.
+* The handle can be used by most of the _SND sound playing functions and statements in QB64PE except [_SNDPLAYFILE](_SNDPLAYFILE) which plays a sound file directly from the disk and does not use a handle value.
 * Handles can be closed with [_SNDCLOSE](_SNDCLOSE) when the sound is no longer necessary. 
 * If a WAV sound file won't play, try it using the Windows [Windows Libraries](Windows-Libraries) to check it or convert the sound file to OGG.
 * The raw audio data can be accessed with [_MEMSOUND](_MEMSOUND).

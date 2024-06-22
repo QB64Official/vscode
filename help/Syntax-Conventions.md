@@ -4,7 +4,7 @@ Items in capital letters are BASIC keywords. Keywords are a required part of the
 
 `placeholders`
 
-Items in lowercase are placeholders for information you must supply in the statement (such as a filename$). The QB64 syntax uses data-type suffixes for placeholders that must be a specific data type. Placeholders that can be more than one data type do not have data-type suffixes.
+Items in lowercase are placeholders for information you must supply in the statement (such as a filename$). The QB64PE syntax uses data-type suffixes for placeholders that must be a specific data type. Placeholders that can be more than one data type do not have data-type suffixes.
 
 `[optional item]`
 

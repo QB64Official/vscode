@@ -8,7 +8,7 @@ The [_MEM](_MEM) variable type can be used when working with memory blocks. It h
 
 *Variable TYPE:*
 
-* Memory DOT values are actually part of the built in memory variable [Variable Types](Variable-Types) in QB64. The following [TYPE](TYPE) is built in:
+* Memory DOT values are actually part of the built in memory variable [Variable Types](Variable-Types) in qb64pe. The following [TYPE](TYPE) is built in:
 
 ```text
 
@@ -123,7 +123,7 @@ HELLO
 
 ```
 
-> *Explanation:* When a numerical [_BYTE](_BYTE) value is converted to a [STRING](STRING), each byte is converted to an [ASCII](ASCII) character. The QB64 IDE will capitalize _MEM dot values.
+> *Explanation:* When a numerical [_BYTE](_BYTE) value is converted to a [STRING](STRING), each byte is converted to an [ASCII](ASCII) character. The QB64PE IDE will capitalize _MEM dot values.
 
 ```text
 

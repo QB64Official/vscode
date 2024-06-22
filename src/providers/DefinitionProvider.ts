@@ -14,7 +14,7 @@ export class DefinitionProvider implements vscode.DefinitionProvider {
 		if (config) {
 			this.config = config;
 		} else {
-			this.config = vscode.workspace.getConfiguration("qb64");
+			this.config = vscode.workspace.getConfiguration("qb64pe");
 		}
 	}
 

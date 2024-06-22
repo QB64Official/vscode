@@ -70,7 +70,7 @@ The [KEY n](KEY-n) statement is used to assign a "soft key" string or a flag and
 '  **Ctrl Win Alt    Spacebar    Alt Win Menu Ctrl     ◄-  ▼   -►      0/Insert    ./Del r**
 '  4/29  91 8/56      57       56  92   93  29       75  80  77       82          83   28 
 '
-'   **Keyflag:** Function(0, 1, 2, 4, 8, 32, 64), Extended(128) **Scan Code: **1-88, QB64 only(91-93)
+'   **Keyflag:** Function(0, 1, 2, 4, 8, 32, 64), Extended(128) **Scan Code: **1-88, QB64PE only(91-93)
 '
 '        Reserved and function key combinations can be made using the scan code instead.
 '             Add function flag values to 128 for Extended key combinations.

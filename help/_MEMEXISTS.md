@@ -7,7 +7,7 @@ The [_MEMEXISTS](_MEMEXISTS) function returns true (-1) if the memory block vari
 ## Description
 
 * The memBlock variable name must have been created using [DIM](DIM) memBlock [AS](AS) [_MEM](_MEM) type ([DIM](DIM)).
-* The function verifies that the memory variable exists in memory before using a passed block, to avoid generating QB64 errors.
+* The function verifies that the memory variable exists in memory before using a passed block, to avoid generating QB64PE errors.
 * Typically, this function is used by a [DECLARE LIBRARY](DECLARE-LIBRARY) [SUB](SUB) or [FUNCTION](FUNCTION) which accepts a [_MEM](_MEM) structure as input, to avoid an error.
 
 ## See Also

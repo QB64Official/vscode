@@ -10,7 +10,7 @@ The [[PRINT USING]] statement is used to [[PRINT]] formatted data to the Screen 
 * A [[semicolon]] or [[comma]] may follow the ''text'' to stop or tab the print cursor before the ''template'' [[PRINT]].
 * The literal or variable [[STRING]] ''template'' should use the template symbols to display each variable [[Variable Types|type]] in the list following it.
 * The list of data ''variables'' used in the ''template'' are separated by semicolons after the template string value. 
-* In QB64 one [[semicolon]] or [[comma]] may follow the variable list to stop the print cursor for pending prints. QB only allowed a semicolon.
+* In QB64PE one [[semicolon]] or [[comma]] may follow the variable list to stop the print cursor for pending prints. QB only allowed a semicolon.
 
 
 {{PageDescription}}
@@ -25,7 +25,7 @@ The [[PRINT USING]] statement is used to [[PRINT]] formatted data to the Screen 
 
 
 {{PageQBasic}}
-* QBasic limited the number of specified digit positions to 24; QB64 has no such restriction.
+* QBasic limited the number of specified digit positions to 24; QB64PE has no such restriction.
 
 
 {{PageExamples}}

@@ -4,9 +4,9 @@
 
  'CIRCLE.BI
 '**
-'** QB64 replacement CIRCLE command.
+'** QB64PE replacement CIRCLE command.
 '**
-'** The CIRCLE command in QB64 has a few issues:
+'** The CIRCLE command in QB64PE has a few issues:
 '**
 '** - radian end points are not calculate properly when creating arcs
 '** - center line to radian end points do not close properly due to previous bug listed

@@ -8,7 +8,7 @@ The [$ERROR]($ERROR) metacommand triggers a compilation error.
 
 * The Metacommand does **not** require a comment or REM before it.
 * MESSAGE is any text. Quotation marks are not required.
-* When QB64 tries to compile an $ERROR metacommand a compilation error is triggered and MESSAGE is shown to the user. This is useful in [$IF]($IF) blocks.
+* When QB64PE tries to compile an $ERROR metacommand a compilation error is triggered and MESSAGE is shown to the user. This is useful in [$IF]($IF) blocks.
 
 ### Details
 
@@ -20,12 +20,12 @@ The [$ERROR]($ERROR) metacommand triggers a compilation error.
 ```vb
 
 $IF VERSION < 2.1 OR WINDOWS = 0 THEN
-    $ERROR Requires Windows QB64 version 2.1 or above
+    $ERROR Requires Windows QB64PE version 2.1 or above
 $END IF
 
 ```
 
-*Output*: Compilation check failed: REQUIRES WINDOWS QB64 VERSION 2.1 OR ABOVE on line 2 (assuming your version of QB64 doesn't meet those requirements).
+*Output*: Compilation check failed: REQUIRES WINDOWS QB64PE VERSION 2.1 OR ABOVE on line 2 (assuming your version of QB64PE doesn't meet those requirements).
 
 ## See Also
 

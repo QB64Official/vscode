@@ -11,7 +11,7 @@
 
 **QB64 Custom Screens**
 
-* See the [ThirtyTwoBit SUB](ThirtyTwoBit-SUB) routine to create QB64 screenshots of [_NEWIMAGE](_NEWIMAGE) screen pages or copy images loaded using  [_LOADIMAGE](_LOADIMAGE). Creates 256 or 24/32 bit color bitmaps using the QB64 image and page handles.
+* See the [ThirtyTwoBit SUB](ThirtyTwoBit-SUB) routine to create QB64PE screenshots of [_NEWIMAGE](_NEWIMAGE) screen pages or copy images loaded using  [_LOADIMAGE](_LOADIMAGE). Creates 256 or 24/32 bit color bitmaps using the QB64PE image and page handles.
 
 ```vb
 
@@ -235,7 +235,7 @@ NEXT n
 PUT #f%, 51, SigCOLORS&     
 
 CLOSE #f%
-'BEEP         'optional sound not needed in QB64 as speed is fast
+'BEEP         'optional sound not needed in QB64PE as speed is fast
 END SUB   
 
 ```

@@ -11,9 +11,9 @@
 
 ## Description
 
-* The dynamic library file can be located in the QB64 folder (alongside your programs '.EXE'), in Windows' system32 folder, or in a relative/absolute path specified along with the library name.
+* The dynamic library file can be located in the QB64PE folder (alongside your programs '.EXE'), in Windows' system32 folder, or in a relative/absolute path specified along with the library name.
 * **Declarations must be made at the program start and only one *.DLL* file can be specified in each declaration block.**
-* *Library_file* is the *DLL* file's name with a specified path when not in the QB64 or the WINDOWS\SYSTEM32 folder. Don't add a file extension.
+* *Library_file* is the *DLL* file's name with a specified path when not in the QB64PE or the WINDOWS\SYSTEM32 folder. Don't add a file extension.
 * *Library filename*s can be listed to combine more than one DLL or Header file name or path into one DECLARE LIBRARY block.
 * *Procedure_name* is any procedure name you want to designate by using [ALIAS](ALIAS) with the *Library_procedure* name following. 
 * *Parameters* used by the Library procedure must be passed by value ([BYVAL](BYVAL)) except for [STRING](STRING) values.
@@ -23,7 +23,7 @@
 * The [_OFFSET](_OFFSET) in memory can be used in **CUSTOMTYPE**, **STATIC** and **DYNAMIC LIBRARY** declarations.
 * [SUB](SUB) procedures using DECLARE CUSTOMTYPE LIBRARY API procedures **may error**. Try DYNAMIC with the DLL name.
 * Declarations can be made inside of [SUB](SUB) or [FUNCTION](FUNCTION) procedures. Declarations do not need to be at program start.
-* **NOTE: It is up to the user to document and determine the suitability of all Libraries and procedures they choose to use. QB64 cannot guarantee that any procedure will work and cannot quarantee any troubleshooting help.**
+* **NOTE: It is up to the user to document and determine the suitability of all Libraries and procedures they choose to use. QB64PE cannot guarantee that any procedure will work and cannot quarantee any troubleshooting help.**
 
 ## Availability
 
@@ -32,7 +32,7 @@
 
 ## Example(s)
 
-This example plays Midi files using the *playmidi32.dll* documented here: [http://libertybasicuniversity.com/lbnews/nl110/midi3.htm Liberty Basic University]. Download the following DLL file to your main QB64 folder: [https://www.qb64.org/resources/Playmidi32.dll PlayMidi32.dll]
+This example plays Midi files using the *playmidi32.dll* documented here: [http://libertybasicuniversity.com/lbnews/nl110/midi3.htm Liberty Basic University]. Download the following DLL file to your main QB64PE folder: [https://www.qb64pe.org/resources/Playmidi32.dll PlayMidi32.dll]
 
 ```vb
 
@@ -44,7 +44,7 @@ PRINT result
 
 ```
 
-> **Note:** Filename needs to be [CHR$](CHR$)(0) terminated. QB64 [STRING](STRING)s are passed to external libraries as pointers to first character.
+> **Note:** Filename needs to be [CHR$](CHR$)(0) terminated. QB64PE [STRING](STRING)s are passed to external libraries as pointers to first character.
 
 Using a CUSTOMTYPE LIBRARY to return the [Unicode](Unicode) version of the current running program's name.
 
@@ -93,7 +93,7 @@ END FUNCTION
 > **Note:** SUB procedures using CUSTOMTYPE LIBRARY API procedures inside may error. Try DYNAMIC with "KERNEL32".
 
 **QB64 version 1.000 and up produce standalone executables. External DLL files must be distributed with your program.**
-**Note: QB64 versions prior to 1.000 require all default DLL files to either be with the program or in the C:\WINDOWS\SYSTEM32 folder.**
+**Note: QB64PE versions prior to 1.000 require all default DLL files to either be with the program or in the C:\WINDOWS\SYSTEM32 folder.**
 
 ## See Also
 

@@ -44,7 +44,7 @@ SCREEN i&
 ```vb
 
 SCREEN _NEWIMAGE(800, 600, 32)
-img& = _LOADIMAGE("QB64.PNG")                           'load the image file to be drawn
+img& = _LOADIMAGE("qb64pe.PNG")                           'load the image file to be drawn
 
 wide% = _WIDTH(img&): deep% = _HEIGHT(img&)
 TLC$ = "BL" + STR$(wide% \ 2) + "BU" + STR$(deep% \ 2)  'start draw at top left corner

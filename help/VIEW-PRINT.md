@@ -16,7 +16,7 @@ The [VIEW PRINT](VIEW-PRINT) statement defines the boundaries of a text viewport
 * A [SCREEN](SCREEN) mode change or [RUN](RUN) statement can also clear and disable viewports.
 * After active viewport is disabled, normal screen printing and clearing can begin.
 * Row coordinates may vary when a [WIDTH](WIDTH) statement has been used.
-* **Note: QB64 [RUN](RUN) statements will not close [VIEW PRINT](VIEW-PRINT), [VIEW](VIEW) or [WINDOW](WINDOW) view ports presently!**
+* **Note: QB64PE [RUN](RUN) statements will not close [VIEW PRINT](VIEW-PRINT), [VIEW](VIEW) or [WINDOW](WINDOW) view ports presently!**
 
 ## Example(s)
 

@@ -9,7 +9,7 @@ The [CHDIR](CHDIR) statement changes the program's location from one working dir
 * path$ is the new directory path the program will work in.
 * path$ can be an absolute path (starting from the root folder) or relative path (starting from the current program location).
 * If path$ specifies a non-existing path, a [ERROR Codes](ERROR-Codes) error will occur.
-* **A QB64 [SHELL](SHELL) statement cannot use "CD " or "CHDIR " + path$ to change directories.**
+* **A QB64PE [SHELL](SHELL) statement cannot use "CD " or "CHDIR " + path$ to change directories.**
 
 ## Example(s)
 

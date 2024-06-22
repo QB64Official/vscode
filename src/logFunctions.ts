@@ -3,19 +3,19 @@ import * as vscode from "vscode";
 // Channels
 // They have to be cached or vsc creates a new channel every time 😒
 // Add them all and in alphabetical order that way they show in grouped and in alphabetical order in the output view.
-const vscodeChannel: any = vscode.window.createOutputChannel("QB64: .vscode", "QB64");
-const createBackupChannel: any = vscode.window.createOutputChannel("QB64: Create Backup", "QB64");
-const decorateChannel: any = vscode.window.createOutputChannel("QB64: Decorate", "QB64");
-const definitionProviderChannel: any = vscode.window.createOutputChannel("QB64: Definition Provider", "QB64");
-const formatterhannel = vscode.window.createOutputChannel("QB64: Formatter", "QB64");
-const gitChannel: any = vscode.window.createOutputChannel("QB64: Git", "QB64");
-const helpChannel: any = vscode.window.createOutputChannel("QB64: Help", "QB64");
-const hoverProviderChannel: any = vscode.window.createOutputChannel("QB64: Hover Provider", "QB64");
-const lintChannel: any = vscode.window.createOutputChannel("QB64: Lint", "QB64");
-const referenceProviderChannel: any = vscode.window.createOutputChannel("QB64: Reference Provider", "QB64");
-const openIncludeFileChannel: any = vscode.window.createOutputChannel("QB64: Open Include File", "QB64");;
-const openInQB64Channel: any = vscode.window.createOutputChannel("QB64: Open In QB64", "QB64");
-const scriptChannel: any = vscode.window.createOutputChannel("QB64: Script", "QB64");
+const vscodeChannel: any = vscode.window.createOutputChannel("QB64PE: .vscode", "QB64PE");
+const createBackupChannel: any = vscode.window.createOutputChannel("QB64PE: Create Backup", "QB64PE");
+const decorateChannel: any = vscode.window.createOutputChannel("QB64PE: Decorate", "QB64PE");
+const definitionProviderChannel: any = vscode.window.createOutputChannel("QB64PE: Definition Provider", "QB64PE");
+const formatterhannel = vscode.window.createOutputChannel("QB64PE: Formatter", "QB64PE");
+const gitChannel: any = vscode.window.createOutputChannel("QB64PE: Git", "QB64PE");
+const helpChannel: any = vscode.window.createOutputChannel("QB64PE: Help", "QB64PE");
+const hoverProviderChannel: any = vscode.window.createOutputChannel("QB64PE: Hover Provider", "QB64PE");
+const lintChannel: any = vscode.window.createOutputChannel("QB64PE: Lint", "QB64PE");
+const referenceProviderChannel: any = vscode.window.createOutputChannel("QB64PE: Reference Provider", "QB64PE");
+const openIncludeFileChannel: any = vscode.window.createOutputChannel("QB64PE: Open Include File", "QB64PE");;
+const openInQB64Channel: any = vscode.window.createOutputChannel("QB64PE: Open In QB64PE", "QB64PE");
+const scriptChannel: any = vscode.window.createOutputChannel("QB64PE: Script", "QB64PE");
 
 export enum channelType {
 	help = 1,

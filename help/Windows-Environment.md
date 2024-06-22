@@ -60,7 +60,7 @@ DECLARE DYNAMIC LIBRARY "advapi32"
 END DECLARE
 
 DECLARE DYNAMIC LIBRARY "user32"
-'lParem is actually a LONG_PTR, but qb64 complains if I make it a LONG.
+'lParem is actually a LONG_PTR, but QB64PE complains if I make it a LONG.
  FUNCTION SendMessageTimeoutA& (BYVAL hWnd AS _OFFSET, BYVAL Msg AS _UNSIGNED LONG, BYVAL wParam AS _UNSIGNED LONG, BYVAL lParam AS _OFFSET, BYVAL fuFlags AS _UNSIGNED LONG, BYVAL uTimeout AS _UNSIGNED LONG, BYVAL lpdwResult AS _OFFSET)
 END DECLARE
 

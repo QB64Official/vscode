@@ -15,7 +15,7 @@ The **POINT** function returns the pixel [COLOR](COLOR) attribute at a specified
 Graphic Color syntax:
 
 * The [INTEGER](INTEGER) *column* and *row* coordinates designate the pixel position color on the screen to read.
-* The return value is an [INTEGER](INTEGER) palette attribute value or an [_UNSIGNED](_UNSIGNED) [LONG](LONG) [_RGBA](_RGBA) 32 bit value in QB64.
+* The return value is an [INTEGER](INTEGER) palette attribute value or an [_UNSIGNED](_UNSIGNED) [LONG](LONG) [_RGBA](_RGBA) 32 bit value in qb64pe.
 
 Graphic cursor position syntax: 
 
@@ -30,7 +30,7 @@ Graphic cursor position syntax:
 
 ## Usage
 
-* Use **[_SOURCE](_SOURCE)** first to set the image handle that POINT should read or QB64 will assume the current source image.
+* Use **[_SOURCE](_SOURCE)** first to set the image handle that POINT should read or QB64PE will assume the current source image.
 > **_SOURCE 0** 'sets POINT to read the current SCREEN image after reading a previous source image
 * **POINT cannot be used in SCREEN 0!** Use the [SCREEN (function)](SCREEN-(function)) function to point text character codes and colors in SCREEN 0.
 
@@ -41,7 +41,7 @@ Graphic cursor position syntax:
 * In **QB64** the offscreen or off image value returned is -1. Use IF POINT(x, y) <> -1 THEN...
 * In QBasic the coordinates MUST be on the screen or an [ERROR Codes](ERROR-Codes) will occur. 
 
-**POINT in QB64 32 Bit Graphic [_NEWIMAGE](_NEWIMAGE) or [_LOADIMAGE](_LOADIMAGE) Modes:**
+**POINT in QB64PE 32 Bit Graphic [_NEWIMAGE](_NEWIMAGE) or [_LOADIMAGE](_LOADIMAGE) Modes:**
 
 * Returns [_UNSIGNED](_UNSIGNED) [LONG](LONG) 32 bit color values. Use [_UNSIGNED](_UNSIGNED) values when you don't want negative values.
 * **[_UNSIGNED](_UNSIGNED) [LONG](LONG) variables should be used when comparing POINT returns with [_RGB](_RGB) or [_RGB32](_RGB32) [_ALPHA](_ALPHA) bit values**
@@ -51,11 +51,11 @@ Graphic cursor position syntax:
 
 ## Example(s)
 
-How [_RGB](_RGB) 32 bit values return [DOUBLE](DOUBLE) or [_UNSIGNED](_UNSIGNED) [LONG](LONG) values in QB64.
+How [_RGB](_RGB) 32 bit values return [DOUBLE](DOUBLE) or [_UNSIGNED](_UNSIGNED) [LONG](LONG) values in qb64pe.
 
 ```vb
 
-DIM clr AS LONG 'DO NOT use LONG in older versions of QB64 (V .936 down)
+DIM clr AS LONG 'DO NOT use LONG in older versions of QB64PE (V .936 down)
 SCREEN _NEWIMAGE(640, 480, 32)
 CLS , _RGB(255, 255, 255)  'makes the background opaque white
 

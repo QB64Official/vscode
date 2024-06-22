@@ -15,7 +15,7 @@ The **READ** statement reads values from a [DATA](DATA) field and assigns them t
 * If variable reads exceed the number of elements in the DATA field(s), an [ERROR Codes](ERROR-Codes) will occur!
 * Use the [RESTORE](RESTORE) statement to reread DATA statements from the start, with or without a line label as required.
 * [ACCESS](ACCESS) READ can be used in an [OPEN](OPEN) statement to limit file access to read only, preserving file data.
-* **WARNING! Do not place DATA fields after [SUB](SUB) or [FUNCTION](FUNCTION) procedures! QB64 will FAIL to compile properly!**
+* **WARNING! Do not place DATA fields after [SUB](SUB) or [FUNCTION](FUNCTION) procedures! QB64PE will FAIL to compile properly!**
 > QBasic allowed programmers to add DATA fields anywhere because the IDE separated the main code from other procedures.
 
 ## Example(s)

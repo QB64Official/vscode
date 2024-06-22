@@ -13,7 +13,7 @@ The '''POINT''' function returns the pixel [[COLOR]] attribute at a specified gr
 
 Graphic Color syntax:
 * The [[INTEGER]] ''column'' and ''row'' coordinates designate the pixel position color on the screen to read.
-* The return value is an [[INTEGER]] palette attribute value or an [[_UNSIGNED]] [[LONG]] [[_RGBA]] 32 bit value in QB64.
+* The return value is an [[INTEGER]] palette attribute value or an [[_UNSIGNED]] [[LONG]] [[_RGBA]] 32 bit value in qb64pe.
 
 
 
@@ -30,7 +30,7 @@ Graphic cursor position syntax:
 
 
 ''Usage:''
-* Use '''[[_SOURCE]]''' first to set the image handle that POINT should read or QB64 will assume the current source image.
+* Use '''[[_SOURCE]]''' first to set the image handle that POINT should read or QB64PE will assume the current source image.
 :: '''{{text|_SOURCE 0|green}}''' 'sets POINT to read the current SCREEN image after reading a previous source image
 * '''POINT cannot be used in SCREEN 0!''' Use the [[SCREEN (function)|SCREEN]] function to point text character codes and colors in SCREEN 0.
 
@@ -42,7 +42,7 @@ Graphic cursor position syntax:
 * In QBasic the coordinates MUST be on the screen or an [[ERROR Codes|Illegal Function Call error]] will occur. 
 
 
-&lt;center>'''POINT in QB64 32 Bit Graphic [[_NEWIMAGE]] or [[_LOADIMAGE]] Modes:'''&lt;/center>
+&lt;center>'''POINT in QB64PE 32 Bit Graphic [[_NEWIMAGE]] or [[_LOADIMAGE]] Modes:'''&lt;/center>
 * Returns [[_UNSIGNED]] [[LONG]] 32 bit color values. Use [[_UNSIGNED]] values when you don't want negative values.
 *  '''[[_UNSIGNED]] [[LONG]] variables should be used when comparing POINT returns with [[_RGB]] or [[_RGB32]] [[_ALPHA]] bit values'''
 * Convert 32 bit color values to RGB intensities(0 to 255) using the [[_RED32]], [[_GREEN32]] and [[_BLUE32]] functions.
@@ -50,9 +50,9 @@ Graphic cursor position syntax:
 * Use the [[_PALETTECOLOR (function)]] to convert color port palette intensities in 32 bit modes.
 
 
-''Example 1:'' How [[_RGB]] 32 bit values return [[DOUBLE]] or [[_UNSIGNED]] [[LONG]] values in QB64.
+''Example 1:'' How [[_RGB]] 32 bit values return [[DOUBLE]] or [[_UNSIGNED]] [[LONG]] values in qb64pe.
 {{CodeStart}} '' ''
-{{Cl|DIM}} clr {{Cl|AS}} {{Cl|LONG}} 'DO NOT use LONG in older versions of QB64 (V .936 down)
+{{Cl|DIM}} clr {{Cl|AS}} {{Cl|LONG}} 'DO NOT use LONG in older versions of QB64PE (V .936 down)
 {{Cl|SCREEN}} {{Cl|_NEWIMAGE}}(640, 480, 32)
 {{Cl|CLS}} , {{Cl|_RGB}}(255, 255, 255)  'makes the background opaque white
 

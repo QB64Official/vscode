@@ -8,7 +8,7 @@ export function createGitignore() {
 	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.git);
 	try {
 
-		const config = vscode.workspace.getConfiguration("qb64")
+		const config = vscode.workspace.getConfiguration("qb64pe")
 		const isCreateGitIgnoreEnabled: boolean = config.get("isCreateGitIgnoreEnabled");
 
 		if (!isCreateGitIgnoreEnabled) {
@@ -450,8 +450,8 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-# QB64 | QB64 VS Code Extension
-db/qb64.sqbpro
+# QB64PE | QB64PE VS Code Extension
+db/qb64pe.sqbpro
 /out
 out/extension.js
 out/extension.js.map

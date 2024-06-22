@@ -13,8 +13,8 @@
 * '''ON ERROR GOTO 0''' can be used to disable custom [[ON ERROR]] trapping and give default error messages. 
 * A subsequent ON ERROR statement will override the previous one.
 * [[GOTO]] is required in the statement. Cannot use [[GOSUB]].
-* Comment out [[ON ERROR]] to find specific error locations. QB64 can return the file line position with [[_ERRORLINE]]
-* Note: QB64 does not support the PDS (QuickBASIC 7) '''ON ERROR RESUME NEXT''' statement.
+* Comment out [[ON ERROR]] to find specific error locations. QB64PE can return the file line position with [[_ERRORLINE]]
+* Note: QB64PE does not support the PDS (QuickBASIC 7) '''ON ERROR RESUME NEXT''' statement.
 
 
 {{PageExamples}}

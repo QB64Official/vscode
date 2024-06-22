@@ -33,7 +33,7 @@ DO
 
     CLS
 
-    'Center the QB64 bee image:
+    'Center the QB64PE bee image:
     x = _WIDTH / 2 - _WIDTH(bee&) / 2
     y = _HEIGHT / 2 - _HEIGHT(bee&) / 2
     _PUTIMAGE (x, y), bee&

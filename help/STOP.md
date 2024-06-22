@@ -5,7 +5,7 @@ The **STOP** statement is used to stop program execution.
 > STOP
 
 * STOP ends the program.
-* Since QB64 programs are compiled and not interpreted, use [END](END) or [SYSTEM](SYSTEM) instead.
+* Since QB64PE programs are compiled and not interpreted, use [END](END) or [SYSTEM](SYSTEM) instead.
 
 ## See Also
  

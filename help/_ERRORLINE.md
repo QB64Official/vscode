@@ -8,7 +8,7 @@ The [_ERRORLINE](_ERRORLINE) function returns the source code line number that c
 
 * Used in program error troubleshooting.
 * Does not require that the program use line numbers as it counts the actual lines of code.
-* The code line can be found using the QB64 IDE (Use the shortcut **Ctrl+G** to go to a specific line) or any other text editor such as Notepad.
+* The code line can be found using the QB64PE IDE (Use the shortcut **Ctrl+G** to go to a specific line) or any other text editor such as Notepad.
 
 ## Example(s)
 

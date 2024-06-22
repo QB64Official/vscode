@@ -1,4 +1,4 @@
-QB64 has console window support using the following QB64 [Metacommand](Metacommand) or keyword:
+QB64 has console window support using the following QB64PE [Metacommand](Metacommand) or keyword:
 
 ## Syntax
 
@@ -8,11 +8,11 @@ QB64 has console window support using the following QB64 [Metacommand](Metacomma
 
 * _CONSOLE OFF turns the console window off once a console has been established using the [$CONSOLE]($CONSOLE) [Metacommand](Metacommand).
 * _CONSOLE ON should only be used AFTER the console window has been turned OFF previously.
-* [_DEST](_DEST) CONSOLE can be used to send screen output to the console window using QB64 commands such as [PRINT](PRINT).
+* [_DEST](_DEST) CONSOLE can be used to send screen output to the console window using QB64PE commands such as [PRINT](PRINT).
 * [_SCREENHIDE](_SCREENHIDE) or [_SCREENSHOW](_SCREENSHOW)(after window is hidden) can be used to hide or display the main program window.
 * The [$SCREENHIDE]($SCREENHIDE) [Metacommand](Metacommand) can hide the main program window throughout a program when only the console is used.
 * The [$SCREENSHOW]($SCREENSHOW) [Metacommand](Metacommand) can be used to display the main program window in a section of code after being hidden.
-* When the program ends in the console window, a "Press Enter to continue" message will appear using QB64.
+* When the program ends in the console window, a "Press Enter to continue" message will appear using qb64pe.
 
 **Copying console screen text**
 

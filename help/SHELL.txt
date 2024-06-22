@@ -44,7 +44,7 @@ Free Cell.ico
 {{Cl|INPUT}} "Enter a file name to read in Notepad: ", filename$
 {{Cl|SHELL}} "CMD /C start /max notepad " + filename$  ' display in Notepad full screen in XP or NT   
 
-'{{Cl|SHELL}} "start /min notepad /p " + filename$ ' taskbar print using QB64 CMD /C not necessary
+'{{Cl|SHELL}} "start /min notepad /p " + filename$ ' taskbar print using QB64PE CMD /C not necessary
 {{CodeEnd}}
 
 :''Explanation:'' Notepad is an easy program to open in Windows as no path is needed. Windows NT computers, including XP, use CMD /C where older versions of DOS don't require any command reference. The top command opens Notepad in a normal window for a user to view the file. They can use Notepad to print it. The second command places Notepad file in the taskbar and prints it automatically. The filename variable is added by the program using proper spacing. 

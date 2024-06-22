@@ -25,7 +25,7 @@ The [[CLS]] statement clears the [[_DEST|current write page]].
 
 
 {{PageExamples}}
-''Example 1:'' Printing black text on a white background in QB64.
+''Example 1:'' Printing black text on a white background in qb64pe.
 {{CodeStart}} '' ''
 {{Cl|SCREEN}} 12
 {{Cl|CLS}} , 15
@@ -45,7 +45,7 @@ i = {{Cl|_LOADIMAGE}}('''"qb64_trans.png"''') 'see note below examples to get th
 '' ''
 {{CodeEnd}} '' ''
 
-: ''Explanation:'' When QB64 loads a .PNG file containing a transparent color, that color will be properly treated as transparent when _PUTIMAGE is used to put it onto another image. You can use a .PNG file containing transparency information in a 256-color screen mode in QB64. [[CLS]] sets the [[_CLEARCOLOR]] setting using [[_RGB]].
+: ''Explanation:'' When QB64PE loads a .PNG file containing a transparent color, that color will be properly treated as transparent when _PUTIMAGE is used to put it onto another image. You can use a .PNG file containing transparency information in a 256-color screen mode in qb64pe. [[CLS]] sets the [[_CLEARCOLOR]] setting using [[_RGB]].
 
 
 {{PageSeeAlso}}

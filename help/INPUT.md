@@ -45,7 +45,7 @@ PRINT name$ + " how much do you weigh"; : INPUT weight%   'no text adds ?
 
 > *Explanation:* Use an empty string with a comma to eliminate the question mark that would appear without the string.
 
-How QB64 avoids a *Redo from start* multiple entry error. Use commas between values.
+How QB64PE avoids a *Redo from start* multiple entry error. Use commas between values.
 
 ```vb
 

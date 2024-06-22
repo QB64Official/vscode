@@ -59,7 +59,7 @@ FontHandle = {{Cl|_LOADFONT}}("c:\windows\fonts\times.ttf", FontHeight)
 {{Cl|_FONT}} FontHandle
 {{Cl|COLOR}} {{Cl|_RGB}}(255, 0, 0), {{Cl|_RGBA}}(0, 0, 0, 0)        'RED text on clear black background
 {{Cl|_PRINTSTRING}} (0, CursorPosY), text$
-{{Cl|_FONT}} 16                               'change to the QB64 default font to free it
+{{Cl|_FONT}} 16                               'change to the QB64PE default font to free it
 {{Cl|_FREEFONT}} FontHandle
 {{Cl|_DEST}} 0
 CursorPosY = CursorPosY + FontHeight            'adjust print position down 

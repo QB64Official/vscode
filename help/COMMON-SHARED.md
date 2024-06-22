@@ -1,6 +1,6 @@
 **COMMON SHARED** is used to pass variable values between 2 or more program modules and sub procedures within that module.
 
-The multi-modular technique goes back to when QBasic and QuickBASIC had module size constraints. In QB64 it has been implemented so that that older code can still be compiled, though **it is advisable to use single modules for a single project (not counting [$INCLUDE]($INCLUDE) libraries), for ease of sharing and also because the module size constraints no longer exist.**
+The multi-modular technique goes back to when QBasic and QuickBASIC had module size constraints. In QB64PE it has been implemented so that that older code can still be compiled, though **it is advisable to use single modules for a single project (not counting [$INCLUDE]($INCLUDE) libraries), for ease of sharing and also because the module size constraints no longer exist.**
 
 ## Syntax
 

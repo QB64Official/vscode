@@ -20,7 +20,7 @@ The [LOCATE](LOCATE) statement locates the screen text row and column positions 
 * If only the *row* parameter is given, then the column position remains the same. **Neither *row* or *column* parameter can be 0.**
 * When [PRINT](PRINT)ing on the bottom 2 *rows*, use a [semicolon](semicolon) after the PRINT expression to avoid a screen roll.
 * If the cursorStart% line is given, the cursorStop% line must also be given. A wider range between them produces a taller cursor.
-* If you use LOCATE beyond the current number of rows in text mode, QB64 will try to adapt the screen instead of tossing an error.
+* If you use LOCATE beyond the current number of rows in text mode, QB64PE will try to adapt the screen instead of tossing an error.
 * When writing to the console, only the *row* and *column* arguments are used, all others are ignored. Furthermore, on non-Windows systems LOCATE statements that do not give both a *row* and *column* will be ignored entirely.
 
 ## Example(s)

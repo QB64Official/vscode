@@ -96,7 +96,7 @@ PRINT x
 
 > *Explanation:* The [SINGLE](SINGLE) variable can be differentiated from the [LONG](LONG) x variable by using suffixes like x! or x& in later code.
 
-The following code will create a "Name already in use" **status error** in QB64 when the variable types are the same.
+The following code will create a "Name already in use" **status error** in QB64PE when the variable types are the same.
 
 ```vb
 
@@ -107,7 +107,7 @@ PRINT x
 
 ```
 
-> *Explanation:* QB64 gives an error because the creation of the new variable would make referring to the existing one impossible.
+> *Explanation:* QB64PE gives an error because the creation of the new variable would make referring to the existing one impossible.
 
 Using QB64's alternative syntax to declare multiple variables/arrays of the same type.
 

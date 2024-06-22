@@ -19,7 +19,7 @@ SaveBMP32 x1%, x2%, y1%, y2%, picture&, "ScreenShot.bmp"
   
 SUB SaveBMP32 (x1%, x2%, y1%, y2%, image&, Filename$)
 
-TYPE BMPFormat ' Description                          Bytes    QB64 Function
+TYPE BMPFormat ' Description                          Bytes    QB64PE Function
     ID AS STRING * 2 'File ID("BM" or 19778 AS Integer) 2  CVI("BM")
     Size AS LONG ' Total Size of the file               4  LOF
     Blank AS LONG ' Reserved                            4

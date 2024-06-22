@@ -110,7 +110,7 @@ END SUB
 
 ```
 
-> *Note:* Use empty brackets in QB64 when using [GET](GET) to create an array or [PUT](PUT) to create a [BINARY](BINARY) data file.
+> *Note:* Use empty brackets in QB64PE when using [GET](GET) to create an array or [PUT](PUT) to create a [BINARY](BINARY) data file.
 
 ## See Also
 

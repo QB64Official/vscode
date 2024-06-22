@@ -15,7 +15,7 @@
 * Floating decimal point numerical values cannot be [_UNSIGNED](_UNSIGNED).
 * Values can be converted to 32 byte [ASCII](ASCII) strings using [_MK$](_MK$) and back with [_CV](_CV).
 * **When a variable has not been assigned or has no type suffix, the value defaults to [SINGLE](SINGLE).**
-* Note: OpenGL's [_GL_FLOAT](_GL-FLOAT) constant is a [SINGLE](SINGLE) (4 byte) floating point number, while a native QB64 _FLOAT is a 10-byte floating point number.
+* Note: OpenGL's [_GL_FLOAT](_GL-FLOAT) constant is a [SINGLE](SINGLE) (4 byte) floating point number, while a native QB64PE _FLOAT is a 10-byte floating point number.
 
 ## See Also
 

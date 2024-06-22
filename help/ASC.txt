@@ -40,7 +40,7 @@ The [[ASC]] function returns the [[ASCII]] code number of a certain [[STRING]] t
 '                                                                   ''     48        46''
 '
 ' '''    ''Italics'' = LCase/NumLock On  ____________  + = 2 Byte: CHR$(0) + CHR$(code)'''
-'{{small|NOTE: The above commented table can be copied and pasted directly into the QB64 IDE}}
+'{{small|NOTE: The above commented table can be copied and pasted directly into the QB64PE IDE}}
 {{WhiteEnd}} 
 
 
@@ -89,11 +89,11 @@ The [[ASC]] function returns the [[ASCII]] code number of a certain [[STRING]] t
 
 
 {{PageExamples}}
-''Example 1:'' How ASC can be used to find any ASCII code in a string of characters using QB64.
+''Example 1:'' How ASC can be used to find any ASCII code in a string of characters using qb64pe.
 {{CodeStart}} '' ''
  {{Cl|PRINT}} {{Cl|ASC}}("A")
  {{Cl|PRINT}} {{Cl|ASC}}("Be a rockstar")
- {{Cl|PRINT}} {{Cl|ASC}}("QB64 is not only COMPATIBLE, it can find any part of the string!", 18) '' ''
+ {{Cl|PRINT}} {{Cl|ASC}}("QB64PE is not only COMPATIBLE, it can find any part of the string!", 18) '' ''
 {{CodeEnd}}
 
 ''Returns:''

@@ -65,7 +65,7 @@ The [[KEY n]] statement is used to assign a "soft key" string or a flag and scan
 '
 '        Reserved and function key combinations can be made using the scan code instead.
 '             Add function flag values to 128 for Extended key combinations.
-{{WhiteEnd}}{{small|NOTE: The above commented table can be copied and pasted directly into the QB64 IDE}}
+{{WhiteEnd}}{{small|NOTE: The above commented table can be copied and pasted directly into the QB64PE IDE}}
 
 
 &lt;center>'''Trapping Ctrl, Alt and Shift key combinations'''&lt;/center>

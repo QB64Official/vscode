@@ -12,7 +12,7 @@ The [RESTORE](RESTORE) statement is used to reset the DATA pointer to the beginn
 * If RESTORE is used with unlabeled data fields or no datafield is designated then the first data field is read.
 * Use RESTORE to avoid an [ERROR Codes](ERROR-Codes) when reading a data field!
 * See the [DATA](DATA) statement for [STRING](STRING) data value specifications.
-* **Do not place [DATA](DATA) fields after [SUB](SUB) or [FUNCTION](FUNCTION) procedures! QB64 will FAIL to [RESTORE](RESTORE) properly!**
+* **Do not place [DATA](DATA) fields after [SUB](SUB) or [FUNCTION](FUNCTION) procedures! QB64PE will FAIL to [RESTORE](RESTORE) properly!**
 >  QBasic allowed programmers to add DATA fields anywhere because the IDE separated the main code from other procedures.
 
 ## Example(s)

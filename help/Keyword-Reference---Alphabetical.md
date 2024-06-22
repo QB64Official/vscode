@@ -1,6 +1,6 @@
 ## Original QBasic keywords:
 
-**These QBasic keywords (with a few noted exceptions) will work in all versions of QB64.**
+**These QBasic keywords (with a few noted exceptions) will work in all versions of qb64pe.**
 
 ### A
 
@@ -60,7 +60,7 @@
 * [DATA](DATA) (statement) creates a line of fixed program information separated by commas.
 * [DATE$](DATE$) (function) returns the present Operating System date [STRING](STRING) formatted as mm-dd-yyyy.
 * [DATE$ (statement)](DATE$-(statement)) sets the date of the Operating System using a mm-dd-yyyy [STRING](STRING) format.
-* DECLARE (BASIC statement) declares a [SUB](SUB) or [FUNCTION](FUNCTION) procedure at the start of a program. Not required in QB64.
+* DECLARE (BASIC statement) declares a [SUB](SUB) or [FUNCTION](FUNCTION) procedure at the start of a program. Not required in qb64pe.
 * [DECLARE LIBRARY](DECLARE-LIBRARY) declares a C++, SDL or Operating System [SUB](SUB) or [FUNCTION](FUNCTION) to be used.
 * [DECLARE DYNAMIC LIBRARY](DECLARE-DYNAMIC-LIBRARY) declares DYNAMIC, CUSTOMTYPE or STATIC  library(DLL) [SUB](SUB) or [FUNCTION](FUNCTION).
 * [DEF SEG](DEF-SEG) (statement) defines a segment in memory to be accessed by a memory procedure.
@@ -104,7 +104,7 @@
 * [FOR...NEXT](FOR...NEXT) (statement) creates a recursive loop procedure that loop a specified number of times.
 * [FOR (file statement)](FOR-(file-statement)) used in an [OPEN](OPEN) file or device statement to indicate the access mode.
 * [FRE](FRE) (function) returns the number of bytes of Memory available to running programs.
-* [FREE (QB64 TIMER statement)](TIMER) frees a numbered TIMER event in QB64.
+* [FREE (QB64 TIMER statement)](TIMER) frees a numbered TIMER event in qb64pe.
 * [FREEFILE](FREEFILE) (file function) returns a file number that is currently not in use by the Operating System.
 * [FUNCTION](FUNCTION) (procedure block) sub-procedure that can calculate and return one value to a program in its name.
 
@@ -200,7 +200,7 @@
 * [ON PLAY(n)](ON-PLAY(n)) (statement) sets up a [PLAY](PLAY) event procedure call.
 * [ON STRIG(n)](ON-STRIG(n)) (statement) sets up a joystick button event procedure call.
 * [ON TIMER(n)](ON-TIMER(n)) (statement) sets up a timed event procedure call.
-* [ON UEVENT](ON-UEVENT) (statement) **Not implemented in QB64.**
+* [ON UEVENT](ON-UEVENT) (statement) **Not implemented in qb64pe.**
 * [ON...GOSUB](ON...GOSUB) (statement) sets up a numerical event procedure call.
 * [ON...GOTO](ON...GOTO) (statement) sets up a numerical event procedure call.
 * [OPEN](OPEN) (file statement) opens a file name for an access mode with a specific file number.
@@ -305,7 +305,7 @@
 
 * [UBOUND](UBOUND) (function) returns the upper-most index number of a designated [arrays](arrays).
 * [UCASE$](UCASE$) (function) returns an uppercase representation of a specified [STRING](STRING).
-* [UEVENT](UEVENT) (statement) **Not implemented in QB64.**
+* [UEVENT](UEVENT) (statement) **Not implemented in qb64pe.**
 * [UNLOCK](UNLOCK) (statement) unlocks a designated file or portions of it.
 * [UNTIL](UNTIL) (condition) evaluates a [DO...LOOP](DO...LOOP) condition until it is True.
 
@@ -333,9 +333,9 @@
 
 * [XOR](XOR) (logic operator) is used to compare two numerical values bitwise.
 
-## QB64 specific keywords:
+## QB64PE specific keywords:
 
-Keywords beginning with underscores are QB64 specific. **To use them without the prefix, use [$NOPREFIX]($NOPREFIX).** Also note that the underscore prefix is reserved for QB64 KEYWORDS only.
+Keywords beginning with underscores are QB64PE specific. **To use them without the prefix, use [$NOPREFIX]($NOPREFIX).** Also note that the underscore prefix is reserved for QB64PE KEYWORDS only.
 
 ### _A
 
@@ -381,8 +381,8 @@ Keywords beginning with underscores are QB64 specific. **To use them without the
 * [_CLIP](_CLIP) ([PUT (graphics statement)](PUT-(graphics-statement)) graphics option) allows placement of an image partially off of the screen.
 * [_CLIPBOARD$](_CLIPBOARD$) (function) returns the operating system's clipboard contents as a [STRING](STRING).
 * [_CLIPBOARD$ (statement)](_CLIPBOARD$-(statement)) sets and overwrites the [STRING](STRING) value in the operating system's clipboard. 
-* [_CLIPBOARDIMAGE (function)](_CLIPBOARDIMAGE-(function)) pastes an image from the clipboard into a new QB64 image in memory.
-* [_CLIPBOARDIMAGE](_CLIPBOARDIMAGE) (statement) copies a valid QB64 image to the clipboard.
+* [_CLIPBOARDIMAGE (function)](_CLIPBOARDIMAGE-(function)) pastes an image from the clipboard into a new QB64PE image in memory.
+* [_CLIPBOARDIMAGE](_CLIPBOARDIMAGE) (statement) copies a valid QB64PE image to the clipboard.
 * [$COLOR]($COLOR) (metacommand) includes named color constants in a program
 * [_COMMANDCOUNT](_COMMANDCOUNT) (function) returns the number of arguments passed to the compiled program from the command line.
 * [_CONNECTED](_CONNECTED) (function) returns the status of a TCP/IP connection handle.
@@ -436,14 +436,14 @@ Keywords beginning with underscores are QB64 specific. **To use them without the
 * [$ERROR]($ERROR)  (precompiler [metacommand](metacommand)) used to trigger compiler errors.
 * [_ERRORLINE](_ERRORLINE) (function) returns the source code line number that caused the most recent runtime error.
 * [_ERRORMESSAGE$](_ERRORMESSAGE$) (function) returns a human-readable message describing the most recent runtime error.
-* [$EXEICON]($EXEICON) (Pre-Compiler [Metacommand](Metacommand)) used with a .ICO icon file name to embed the image into the QB64 executable.
+* [$EXEICON]($EXEICON) (Pre-Compiler [Metacommand](Metacommand)) used with a .ICO icon file name to embed the image into the QB64PE executable.
 * [_EXIT (function)](_EXIT-(function)) prevents a user exit and indicates if a user has clicked the close X window button or CTRL + BREAK.
 
 ### _F
 
 * [_FILEEXISTS](_FILEEXISTS) (function) returns -1 if the file name [STRING](STRING) parameter exists. Zero if it does not.
 * [_FINISHDROP](_FINISHDROP) (statement)  resets [_TOTALDROPPEDFILES](_TOTALDROPPEDFILES) and clears the [_DROPPEDFILE](_DROPPEDFILE) list of items (files/folders).
-* [_FLOAT](_FLOAT) (numerical type ##) offers the maximum floating-point decimal precision available using QB64.
+* [_FLOAT](_FLOAT) (numerical type ##) offers the maximum floating-point decimal precision available using qb64pe.
 * [_FONT](_FONT) (statement) sets the current font handle to be used by PRINT or [_PRINTSTRING](_PRINTSTRING).
 * [_FONT (function)](_FONT-(function)) creates a new font handle from a designated image handle.
 * [_FONTHEIGHT](_FONTHEIGHT) (function) returns the current text or font height.
@@ -528,7 +528,7 @@ Keywords beginning with underscores are QB64 specific. **To use them without the
 ### _N
 
 * [_NEWIMAGE](_NEWIMAGE) (function) creates a designated size program [SCREEN](SCREEN) or page image and returns a handle value.
-* [$NOPREFIX]($NOPREFIX) (metacommand) allows QB64-specific keywords to be used without the underscore prefix.
+* [$NOPREFIX]($NOPREFIX) (metacommand) allows QB64PE-specific keywords to be used without the underscore prefix.
 * [_NUMLOCK (function)](_NUMLOCK-(function)) returns -1 when Num Lock is on
 * [_NUMLOCK](_NUMLOCK) (statement) sets Num Lock key state
 
@@ -541,7 +541,7 @@ Keywords beginning with underscores are QB64 specific. **To use them without the
 * [_OPENHOST](_OPENHOST) (TCP/IP function) opens a Host and returns a Host status handle.
 * [OPTION _EXPLICIT](OPTION--EXPLICIT) (Pre-compiler directive) instructs the compiler to require variable declaration with [DIM](DIM) or an equivalent statement.
 * [OPTION _EXPLICITARRAY](OPTION--EXPLICITARRAY) (Pre-compiler directive) instructs the compiler to require array declaration with [DIM](DIM) or an equivalent statement. 
-* [_OS$](_OS$) (function) returns the QB64 compiler version in which the program was compiled as [WINDOWS], [LINUX] or [MACOSX] and [32BIT] or [64BIT].
+* [_OS$](_OS$) (function) returns the QB64PE compiler version in which the program was compiled as [WINDOWS], [LINUX] or [MACOSX] and [32BIT] or [64BIT].
 
 ### _P
 
@@ -654,7 +654,7 @@ Keywords beginning with underscores are QB64 specific. **To use them without the
 
 ## OpenGL specific keywords:
 
-**All QB64 OpenGL keywords must use the underscore _gl prefix with the alphabetically listed function names.**
+**All QB64PE OpenGL keywords must use the underscore _gl prefix with the alphabetically listed function names.**
 
 Use [$NOPREFIX]($NOPREFIX) to enable these to be used without the leading underscore.
 
@@ -1117,8 +1117,8 @@ Use [$NOPREFIX]($NOPREFIX) to enable these to be used without the leading unders
 
 **Got a question about something?** 
 
-* [QB64 FAQ](QB64-FAQ)
-* [Visit the QB64 Main Site](http://qb64.com)
+* [QB64 FAQ](QB64PE-FAQ)
+* [Visit the QB64PE Main Site](http://qb64pe.com)
 
 **Links to other QBasic Sites:**
 

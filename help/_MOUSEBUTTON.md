@@ -22,7 +22,7 @@ The [_MOUSEBUTTON](_MOUSEBUTTON) function returns the button status of a specifi
 
 ## Example(s)
 
-Finding the number of mouse buttons available in QB64. This could also be used for other controller devices.
+Finding the number of mouse buttons available in qb64pe. This could also be used for other controller devices.
 
 ```vb
 

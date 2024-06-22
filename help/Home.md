@@ -2,15 +2,15 @@ QB64 is a modern extended BASIC programming language that retains QBasic / Quick
 
 ## Getting started
 
-* Grab the latest version of QB64 from our active [GitHub repo](https://github.com/QB64Official/qb64/releases/latest).
+* Grab the latest version of QB64PE from our active [GitHub repo](https://github.com/QB64Official/qb64/releases/latest).
 
 ### FAQ
 
-* [QB64 FAQ](QB64-FAQ)
+* [QB64 FAQ](QB64PE-FAQ)
 
 ### Get in touch
 
-* [Official QB64 Discord Server Invitation](https://discord.gg/A3HmUe2mv8)
+* [Official QB64PE Discord Server Invitation](https://discord.gg/A3HmUe2mv8)
 
 ## Keywords
 
@@ -23,8 +23,8 @@ QB64 is a modern extended BASIC programming language that retains QBasic / Quick
 
 ## Articles and Tutorials
 
-* [Terry Ritchie's QB64 Game Programming](http://www.qb64sourcecode.com)
-* [School Freeware series on QB64 (YouTube)](https://www.youtube.com/watch?v=hE-Voij5k5Q&list=PLF6199808BD4901E1)
+* [Terry Ritchie's QB64PE Game Programming](http://www.qb64sourcecode.com)
+* [School Freeware series on QB64PE (YouTube)](https://www.youtube.com/watch?v=hE-Voij5k5Q&list=PLF6199808BD4901E1)
 * [Arrays](Arrays)
 * [ASCII](ASCII)
 * [Binary](Binary)

@@ -24,7 +24,7 @@
 
 The results of the bitwise logical operations, where *A* and *B* are operands, and *T* and *F* indicate that a bit is set or not set:
 
-| A | B |   | [NOT](NOT) B | A [AND](AND) B | A [OR](OR) B | A [XOR](XOR) B | A [EQV](EQV) B | A [IMP](IMP) B |
+| A | B |   | [NOT](NOT)ï¿½B | Aï¿½[AND](AND)ï¿½B | Aï¿½[OR](OR)ï¿½B | Aï¿½[XOR](XOR)ï¿½B | Aï¿½[EQV](EQV)ï¿½B | Aï¿½[IMP](IMP)ï¿½B |
 | - | - | - | - | - | - | - | - | - |
 | T | T |   | F | T | T | F | T | T |
 | T | F |   | T | F | T | T | F | F |
@@ -91,7 +91,7 @@ END SUB
 
 > *Explanation:* The bit values of an [INTEGER](INTEGER) are 2 [_BYTE](_BYTE)s and each bit is an exponent of 2 from 15 to 0 (16 bits). Thus comparing the numerical value with those exponents using [AND](AND) reveals the bit values as "1" for bits on or "0" for bits off as text. 
 
->  QB64 can use [&B](&B) to convert the above [_BIT](_BIT) values back to [INTEGER](INTEGER) or [_BYTE](_BYTE) values as shown below:
+>  QB64PE can use [&B](&B) to convert the above [_BIT](_BIT) values back to [INTEGER](INTEGER) or [_BYTE](_BYTE) values as shown below:
 
 ```vb
 

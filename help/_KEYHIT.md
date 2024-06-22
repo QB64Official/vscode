@@ -42,10 +42,10 @@ The [_KEYHIT](_KEYHIT) function returns [ASCII](ASCII) one and two byte, OpenGL 
  
 > >= &H40000000: [Unicode](Unicode).
 
-* Font **cyberbit.ttf**, included with QB64 (**version 0.92 and up**), is required to facilitate the **IME**(in Chinese settings) only. The 12.7 MB font is free for **non-commercial** use and is not loaded unless the user switches to the **Input Mode Editor**. Set to "UNICODE".
+* Font **cyberbit.ttf**, included with QB64PE (**version 0.92 and up**), is required to facilitate the **IME**(in Chinese settings) only. The 12.7 MB font is free for **non-commercial** use and is not loaded unless the user switches to the **Input Mode Editor**. Set to "UNICODE".
 **[Setting up the Unicode Input Method Editor in Windows](http://www.fileformat.info/tip/microsoft/enter_unicode.htm)**
 If you need help with IME support in **Vista** see the following article: [Setting up IME in Vista](http://blogs.msdn.com/b/michkap/archive/2006/07/20/671835.aspx)
-* QB64 can use several Windows fonts when **cyberbit** is not present so it is not necessary to include with program packages. 
+* QB64PE can use several Windows fonts when **cyberbit** is not present so it is not necessary to include with program packages. 
 * An **important difference** between [INKEY$](INKEY$) and _KEYHIT is how they work when **CTRL, ALT** or **SHIFT** are used. INKEY$ returns a different code if you hold down CTRL, ALT or SHIFT before pressing  F1 (for example). _KEYHIT will return the same code regardless of which modifiers were used but you can check [_KEYDOWN](_KEYDOWN) to see which modifying keys are being used.
 * **Keyboards with an Alt Gr key note:** _KEYHIT may return both Alt (100307) and Ctrl (100306) codes when AltGr key is pressed or released.
 
@@ -86,7 +86,7 @@ DO
       PRINT "SDL VK"; x - 100000
       END IF
       IF x >= 200000 AND x < &H40000000 THEN
-            PRINT "QB64 VK"; x - 200000
+            PRINT "QB64PE VK"; x - 200000
     END IF
     IF x >= &H40000000 THEN              'Unicode values (IME Input mode)
       PRINT "UNICODE "; x - &H40000000; "0x" + HEX$(x - &H40000000) + " ...";

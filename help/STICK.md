@@ -4,7 +4,7 @@ The **STICK** function returns the directional axis coordinate move of game port
 
 > coordinate_move% = STICK(direction%)
 
-## QB64 Syntax
+## QB64PE Syntax
 
 > coordinate_move% = STICK(*direction%*[, *axis_number%*])
 
@@ -23,7 +23,7 @@ The **STICK** function returns the directional axis coordinate move of game port
 **STICK(1) returns row coordinate of device 1.**
 STICK(2) returns column coordinate of device 2. (second joystick if used)
 STICK(3) returns row coordinate of device 2 if used. (QBasic maximum was 2 controllers)
-**STICK(4) returns column coordinate of device 3. (other joysticks if used in QB64 only!)**
+**STICK(4) returns column coordinate of device 3. (other joysticks if used in QB64PE only!)**
 **STICK(5) returns row coordinate of device 3 if used.**
 
 ```

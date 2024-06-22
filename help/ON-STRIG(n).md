@@ -62,7 +62,7 @@ END SUB
 
 ```
 
-> *Explanation:* Up to 256 controllers can be used in QB64 with many buttons to read.
+> *Explanation:* Up to 256 controllers can be used in QB64PE with many buttons to read.
 
 ## See Also
 

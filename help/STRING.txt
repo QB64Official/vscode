@@ -40,7 +40,7 @@
 * Semicolons or commas outside of quotes cannot be used to make a string variable's literal string value!
 
 
-''Example 1:'' Using a string type suffix with a fixed length byte size in QB64 only. The number designates the fixed string length.
+''Example 1:'' Using a string type suffix with a fixed length byte size in QB64PE only. The number designates the fixed string length.
 {{CodeStart}} '' ''
 var$5 = "1234567"
 
@@ -64,7 +64,7 @@ I am "10" years old. How old are you? '' ''
 :''Note:'' Since quotation marks are used to denote the ends of literal strings, [[CHR$]](34) must be used to place quotes inside them.
 
 
-''Example 3:'' How QB64 string type suffixes can fix the length by adding a number of bytes after it.
+''Example 3:'' How QB64PE string type suffixes can fix the length by adding a number of bytes after it.
 {{CodeStart}} '' ''
 strings$5 = "Hello world"
 

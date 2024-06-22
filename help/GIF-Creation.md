@@ -1,10 +1,10 @@
 **GIF File Creator**
 
-The following routine can be used with QBasic or QB64 to create a Graphic Information File image of a program screen.  
+The following routine can be used with QBasic or QB64PE to create a Graphic Information File image of a program screen.  
 
 * Accommodates [_NEWIMAGE](_NEWIMAGE) screen pages with up to 256 colors and image files loaded with [_LOADIMAGE](_LOADIMAGE). 
 * The maximum screen coordinates are always one pixel LESS than the screen mode's resolution! (SCREEN 13's are 319 and 199)
-* The [$INCLUDE]($INCLUDE) text file can be created using Notepad and is REQUIRED when the program is compiled with QB64 ONLY!
+* The [$INCLUDE]($INCLUDE) text file can be created using Notepad and is REQUIRED when the program is compiled with QB64PE ONLY!
 
 ```vb
 
@@ -23,7 +23,7 @@ FOR A = 1 TO 40
 NEXT
 
 MakeGIF "GIFtemp.gif", 0, 0, _WIDTH - 1, _HEIGHT - 1, 256  'use 319 and 199 in QBasic
-'Use the include file in QB64 only! Hard code the SUB in QBasic.
+'Use the include file in QB64PE only! Hard code the SUB in QBasic.
 '$INCLUDE: 'GIFcreate.BM' 
 
 '************************************ END DEMO *********************************

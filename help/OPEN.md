@@ -96,7 +96,7 @@ END FUNCTION
 
 ```
 
-*Note: The QBasic character error list is commented out and the function will return invalid filenames under QB64.
+*Note: The QBasic character error list is commented out and the function will return invalid filenames under qb64pe.
 
 ```text
 

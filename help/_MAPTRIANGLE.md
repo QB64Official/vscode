@@ -152,7 +152,7 @@ PLANECOL(3) = 6
 PLANECOL(4) = 7
 PLANECOL(5) = 8
 '
-_TITLE "QB64 _MAPTRIANGLE CUBE DEMO"
+_TITLE "QB64PE _MAPTRIANGLE CUBE DEMO"
 SCREEN _NEWIMAGE(800, 600, 32)
 TextureImage& = _LOADIMAGE("qb64_trans.png") **'<<<< **replace with your own image
 '_PUTIMAGE , Image&
@@ -440,7 +440,7 @@ PLANECOL(3) = 6
 PLANECOL(4) = 7
 PLANECOL(5) = 8
 '
-_TITLE "QB64 _MAPTRIANGLE CUBE DEMO"
+_TITLE "QB64PE _MAPTRIANGLE CUBE DEMO"
 SCREEN _NEWIMAGE(800, 600, 32)
 
 TextureImage& = _LOADIMAGE("qb64_trans.png", 32)'replace with your own image
@@ -675,7 +675,7 @@ DO
     CLS , _RGB(0, 128, 255) 'use our software screen as a blue backdrop
 
     'rotate our destination points
-    'the QB64 3D co-ordinate system is the same as  OpenGL's:
+    'the QB64PE 3D co-ordinate system is the same as  OpenGL's:
     '    negative z is in front of you, if it doesn't have a negative z value you won't see it!
     '    x goes from left to right, 0 is the middle of the screen
     '    y goes from bottom to top, 0 is the middle of the screen

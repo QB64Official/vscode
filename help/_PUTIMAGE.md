@@ -39,7 +39,7 @@
   * sy2 = the row coordinate of the bottom-most pixel to include of the source. Can be omitted to get rest of image.
 * *_SMOOTH* applies linear filtering.
 
-**Note: The [PUT (graphics statement)](PUT-(graphics-statement)) options PSET, PRESET, AND, OR and XOR are not available with _PUTIMAGE. QB64 can use [_ALPHA](_ALPHA) of colors to achieve the same results.**
+**Note: The [PUT (graphics statement)](PUT-(graphics-statement)) options PSET, PRESET, AND, OR and XOR are not available with _PUTIMAGE. QB64PE can use [_ALPHA](_ALPHA) of colors to achieve the same results.**
 
 ## Description
 
@@ -82,7 +82,7 @@
 
 SCREEN _NEWIMAGE(640, 480, 32)
 CLS , _RGB(0, 255, 0)
-i = _LOADIMAGE(**"QB64.PNG"**)
+i = _LOADIMAGE(**"qb64pe.PNG"**)
 _PUTIMAGE (0, 0), i ' places image at upper left corner of window w/o stretching it 
 
 ```
@@ -94,7 +94,7 @@ Flipping and enlarging an image with _PUTIMAGE by swapping or increasing the des
 DEFLNG A-Z
 dest_handle = _NEWIMAGE(640, 480, 32)
 SCREEN dest_handle  '32 bit Screen 12 dimensions
-source_handle = _LOADIMAGE(**"QB64.PNG"**, 32)
+source_handle = _LOADIMAGE(**"qb64pe.PNG"**, 32)
 dx1 = 0: dy1 = 0
 dx2 = _WIDTH(source_handle) - 1: dy2 = _HEIGHT(source_handle) - 1 'image dimensions - 1
 LOCATE 29, 33: PRINT "Press any Key!";
@@ -127,7 +127,7 @@ END
 
 ```
 
-Using _PUTIMAGE to scroll a larger image created on a separate [_NEWIMAGE](_NEWIMAGE) screen page with QB64.
+Using _PUTIMAGE to scroll a larger image created on a separate [_NEWIMAGE](_NEWIMAGE) screen page with qb64pe.
 
 ```vb
 

@@ -19,14 +19,14 @@ The '''COMMAND$''' function returns the command line argument(s) passed when a p
 
 {{Cl|LOCATE}} 23, 25: {{Cl|PRINT}} "Press any key to run ProgramB"
 K$ = {{Cl|INPUT$}}(1)
-{{Cl|RUN}} "ProgramB FS"  'pass FS parameter to ProgramB in QB64 or QB4.5
+{{Cl|RUN}} "ProgramB FS"  'pass FS parameter to ProgramB in QB64PE or QB4.5
 
 {{Cl|SYSTEM}}
 {{CodeEnd}}
-: ''ProgramB'' checks for fullscreen parameter pass in QB64 and goes full screen. 
+: ''ProgramB'' checks for fullscreen parameter pass in QB64PE and goes full screen. 
 {{CodeStart}} '' ''
 {{Cl|LOCATE}} 17, 36: {{Cl|PRINT}} "ProgramB"
-parameter$ = {{Cl|UCASE$}}({{Cl|COMMAND$}}) 'UCASE$ is needed in QB64 only, as QB4.5 will always return upper case
+parameter$ = {{Cl|UCASE$}}({{Cl|COMMAND$}}) 'UCASE$ is needed in QB64PE only, as QB4.5 will always return upper case
 {{Cl|LOCATE}} 20, 33: {{Cl|PRINT}} "Parameter = " + parameter$
 {{Cl|IF...THEN|IF}} {{Cl|LEFT$}}(parameter$, 2) = "FS" {{Cl|THEN}} {{Cl|_FULLSCREEN}} 'parameter changes to full screen
 

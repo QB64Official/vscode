@@ -1,4 +1,4 @@
-**PLAY** is a statement that plays notes of sound through the sound card in QB64 using a command [STRING](STRING).
+**PLAY** is a statement that plays notes of sound through the sound card in QB64PE using a command [STRING](STRING).
 
 ## Syntax
 
@@ -55,7 +55,7 @@ PLAY "v10l1c,l4egl2o5c,o4l4eg"
 
 ```
 
-Plays "Frosty the snowman". The lyric printing is not delayed by PLAY in QB64.
+Plays "Frosty the snowman". The lyric printing is not delayed by PLAY in qb64pe.
 
 ```vb
 

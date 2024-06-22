@@ -17,11 +17,11 @@ The '''_KEYDOWN''' function returns whether modifying keys like CTRL, ALT, SHIFT
 * '''Linux with foreign keyboards:''' [[SHELL]] [[_HIDE]] "setxkbmap us" will setup a keyboard to read US [[Scancodes]].
 
 
-{{WhiteStart}}                       '''The QB64 Virtual Key constant values used: '''
+{{WhiteStart}}                       '''The QB64PE Virtual Key constant values used: '''
 
          '''0-255''': [[ASCII|ASCII and Extended code]] values (Refer to [http://en.wikipedia.org/wiki/Code_page_437 CP437])
 
-         '''256-65535''': [http://www.qb64.org/wiki/ASCII#Two_Byte_Codes] character codes (unaffected by SHIFT/ALT/CTRL modifiers)
+         '''256-65535''': [http://www.qb64pe.org/wiki/ASCII#Two_Byte_Codes] character codes (unaffected by SHIFT/ALT/CTRL modifiers)
                   Use [[CVI]] to convert ASCII 2-byte codes to _KEYDOWN values.
 
 '                                '''_KEYDOWN Keyboard Values'''
@@ -46,10 +46,10 @@ The '''_KEYDOWN''' function returns whether modifying keys like CTRL, ALT, SHIFT
 '
 '     '''    Lower value = LCase/NumLock On __________________ + = add 100000 '''
 {{WhiteEnd}}
-{{small|NOTE: The above commented table can be copied and pasted directly into the QB64 IDE}}
+{{small|NOTE: The above commented table can be copied and pasted directly into the QB64PE IDE}}
 
 
-{{WhiteStart}}         '''65536-&amp;H40000000: QB64-specific Virtual Key codes:'''
+{{WhiteStart}}         '''65536-&amp;H40000000: QB64PE-specific Virtual Key codes:'''
 
                         CONST KEY_PAUSE&amp; = 100019
                         CONST KEY_NUMLOCK&amp; = 100300

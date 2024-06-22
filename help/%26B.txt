@@ -108,7 +108,7 @@ The '''&amp;B''' prefix denotes that an integer value is expressed in a binary b
 ''Note:'' The The MSB% flag allows zeroes to be added. Uncomment the MSB% = 1 statement for returns with leading zeroes.
 
 
-''Example 2:'' QB64 converts the binary values from the example above to [[INTEGER]] decimal values automatically.
+''Example 2:'' QB64PE converts the binary values from the example above to [[INTEGER]] decimal values automatically.
 {{CodeStart}} '' ''
 {{Cl|DEFLNG}} A-Z
 a = &amp;B11111111

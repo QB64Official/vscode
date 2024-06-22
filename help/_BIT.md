@@ -63,7 +63,7 @@ Use a [_BYTE](_BYTE) and assign up to 8 bit values as shown below.
 
 ## Example(s)
 
-Shifting bits in a value in QB64 versions prior to 1.3 (you can use [_SHL](_SHL) and [_SHR](_SHR) starting with version 1.3).
+Shifting bits in a value in QB64PE versions prior to 1.3 (you can use [_SHL](_SHL) and [_SHR](_SHR) starting with version 1.3).
 
 ```vb
 

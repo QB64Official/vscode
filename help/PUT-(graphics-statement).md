@@ -9,9 +9,9 @@ The **PUT** graphics statement is used to place [GET (graphics statement)](GET-(
 * The [STEP](STEP) keyword can be used to for coordinates relative to the last graphic coordinates used.
 * *column* and *row* [INTEGER](INTEGER) coordinate values designate the top left corner where the image is to be placed and cannot be off screen.
 * The [INTEGER](INTEGER) *array* holds data of an image box area created by [GET (graphics statement)](GET-(graphics-statement)). The brackets can be empty or designate a starting *index*.
-* [_CLIP](_CLIP) can be used in QB64 when part of an image must be off screen.
+* [_CLIP](_CLIP) can be used in QB64PE when part of an image must be off screen.
 * [XOR](XOR), [PSET](PSET), [PRESET](PRESET), [OR](OR) or [AND](AND) actions will affect the coloring of the image on certain background colors. See below.
-* *omitcolor* is the pixel color attribute to ignore in QB64 only. This may be used instead of using an [AND](AND) mask.
+* *omitcolor* is the pixel color attribute to ignore in QB64PE only. This may be used instead of using an [AND](AND) mask.
 
 ## Usage
 
@@ -23,7 +23,7 @@ The **PUT** graphics statement is used to place [GET (graphics statement)](GET-(
   - PUT (-10, 10), mypic(0), _CLIP PSET, 4 ' doesn't place the red pixels of the image
 * In **QB64** a background color attribute can be removed from the PUT image using the *omit color* option instead of creating a mask.
 * The [arrays](arrays) must have image data at the array index given. [GET (graphics statement)](GET-(graphics-statement)) or [BLOAD](BLOAD) should be used to place image data into the array.
-* The [INTEGER](INTEGER) array size can be calculated as slightly larger than the box area width times the height. A closer estimate can be done by reading the array indices from [UBOUND](UBOUND) to [LBOUND](LBOUND) after a [GET (graphics statement)](GET-(graphics-statement)) of a white box area. In QB64 a [LONG](LONG) array can be used for large or full screen images.
+* The [INTEGER](INTEGER) array size can be calculated as slightly larger than the box area width times the height. A closer estimate can be done by reading the array indices from [UBOUND](UBOUND) to [LBOUND](LBOUND) after a [GET (graphics statement)](GET-(graphics-statement)) of a white box area. In QB64PE a [LONG](LONG) array can be used for large or full screen images.
 * If no [arrays](arrays) index (brackets optional in QB) is designated, the image will be assumed to be at the array's starting index.
 * The first two indices of the [arrays](arrays) or array offset will hold the width and height of the stored image area. In [SCREEN](SCREEN) 13 divide the width by 8.
 * More than one image can be stored in the [INTEGER](INTEGER) array by indexing the [GET (graphics statement)](GET-(graphics-statement)) array offset. Be sure the index is not already used!
@@ -34,7 +34,7 @@ The **PUT** graphics statement is used to place [GET (graphics statement)](GET-(
   * [PRESET](PRESET) creates a inverted coloring of the original image completely overwriting the background.
   * [AND](AND) merges background colors with the black areas of the image where a white image mask is used.
   * [OR](OR) blends the background and foreground colors together.
-* In QB64 [_PUTIMAGE](_PUTIMAGE) is recommended over PUT as it can also do the [GET (graphics statement)](GET-(graphics-statement)) directly from the image source without requiring an array.
+* In QB64PE [_PUTIMAGE](_PUTIMAGE) is recommended over PUT as it can also do the [GET (graphics statement)](GET-(graphics-statement)) directly from the image source without requiring an array.
 * [PUT](PUT) and [GET](GET) file statements can also write and read image array data using [BINARY](BINARY) files instead of using [BSAVE](BSAVE) or [BLOAD](BLOAD).
 
 ## Example(s)
@@ -45,7 +45,7 @@ How [GET](GET) and PUT can be used with images loaded with [_LOADIMAGE](_LOADIMA
 
 SCREEN _NEWIMAGE(640, 480, 256)
 _SCREENMOVE _MIDDLE
-image& = _LOADIMAGE("QB64.png")  'replace with your own image
+image& = _LOADIMAGE("qb64pe.png")  'replace with your own image
 
 wide& = _WIDTH(image&): deep& = _HEIGHT(image&)
 DIM Array(wide& * deep&) AS INTEGER

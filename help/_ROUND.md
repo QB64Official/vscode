@@ -12,7 +12,7 @@ The [_ROUND](_ROUND) function rounds to the closest even [INTEGER](INTEGER), [LO
 
 ## Example(s)
 
-Displays how QB64 rounds to the closest even integer value.
+Displays how QB64PE rounds to the closest even integer value.
 
 ```vb
 

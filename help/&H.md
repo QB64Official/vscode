@@ -16,7 +16,7 @@ The **&H** prefix denotes that an integer value is expressed in a Hexadecimal ba
 * Convert hexadecimal to [[LONG]] values by appending the values with &. Example: &H8000 = -32768: &H8000& = 32768
 * [LONG](LONG) 32-bit [_RGB](_RGB) values can be made using hexadecimal values from **&HFF000000** to **&HFFFFFFFF** with full [_ALPHA](_ALPHA) only.
 * [LONG] 32-bit [_RGBA](_RGBA) values can be made using hexadecimal values from **&H00000000** to **&HFFFFFFFF** with any [_ALPHA](_ALPHA).
-* Hexadecimal **0x** is often used to prefix [HEX$](HEX$) port addresses in documentation. Replace 0x with [&H](&H) in QB64 or QBasic.
+* Hexadecimal **0x** is often used to prefix [HEX$](HEX$) port addresses in documentation. Replace 0x with [&H](&H) in QB64PE or QBasic.
 * To convert hex strings returned from [HEX$](HEX$) with [VAL](VAL) you need to prefix the string with &H (for example; if the string is "FF" you should do VAL("&HFF") or VAL("&H" + hexvalue$).
 
 ## Example(s)

@@ -1,6 +1,6 @@
 **Hardware Images**
 
-* QB64 can create hardware images using [_LOADIMAGE](_LOADIMAGE) files or [_COPYIMAGE](_COPYIMAGE) with mode 33 as the second [parameter](parameter).
+* QB64PE can create hardware images using [_LOADIMAGE](_LOADIMAGE) files or [_COPYIMAGE](_COPYIMAGE) with mode 33 as the second [parameter](parameter).
 * Hardware images can be displayed using [_PUTIMAGE](_PUTIMAGE) or [_MAPTRIANGLE](_MAPTRIANGLE) with special texture properties.
 * [_COPYIMAGE](_COPYIMAGE) mode 33 can convert images created by [_NEWIMAGE](_NEWIMAGE), [_LOADIMAGE](_LOADIMAGE) or [_SCREENIMAGE](_SCREENIMAGE) to hardware images.
 

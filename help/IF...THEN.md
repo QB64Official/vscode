@@ -142,7 +142,7 @@ IF Key$ >= CHR$(65) AND Key$ <= CHR$(90) THEN PRINT "A to Z"
 > *Explanation:* Long [STRING](STRING) expression values are compared by their cumulative [ASCII](ASCII) code values.
 
 **QBasic decimal point value comparison errors**
-* Floating decimal point numerical values may not be compared as exactly the same value. QB64 will compare them the same.
+* Floating decimal point numerical values may not be compared as exactly the same value. QB64PE will compare them the same.
 > QBasic would print *unequal* in the IF comparison code below even though it is exactly the same value printed.
 
 ```vb
@@ -155,7 +155,7 @@ IF x# + y# = z# THEN PRINT "equal" ELSE PRINT "unequal"
 
 ```
 
-> Note: QB64 will make the calculation correctly and print *equal*. Change older program code that relies on the error accordingly.
+> Note: QB64PE will make the calculation correctly and print *equal*. Change older program code that relies on the error accordingly.
 
 ## See Also
 

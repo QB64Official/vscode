@@ -4,7 +4,7 @@ The **TIMER** function returns the number of seconds past the previous midnite d
 
 > seconds! = TIMER
 
-##  QB64 Syntax 
+##  QB64PE Syntax 
 
 > seconds# = TIMER[(*accuracy!*)]
 

@@ -11,7 +11,7 @@ The [BEEP](BEEP) statement produces a beep sound through the sound card.
 
 ## QBasic
 
-* Older programs may attempt to produce a BEEP by printing [CHR$](CHR$)(7) to the screen. This is no longer supported in QB64 after **version 1.000**.
+* Older programs may attempt to produce a BEEP by printing [CHR$](CHR$)(7) to the screen. This is no longer supported in QB64PE after **version 1.000**.
 * You may have to replace instances of PRINT CHR$(7) in older programs to the [BEEP](BEEP) statement to maintain the legacy functionality.
 
 ## See Also

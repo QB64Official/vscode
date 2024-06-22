@@ -27,7 +27,7 @@ The [[ON_TIMER(n)|ON TIMER]] statement sets up a timed event to be repeated at s
 ** The ''base TIMER'' cannot be freed.
 * '''QB64''' allows TIMER statements to also be inside of SUB and FUNCTION procedures.
 * '''ON TIMER''' events will interrupt a [[SLEEP]] call and [[RETURN]] to running program procedures.
-* [[$CHECKING]]:OFF can disable all QB64 event checking. '''Setting $CHECKING:OFF is only designed for 100% stable, error-less sections of code, where every CPU cycle saved counts.'''
+* [[$CHECKING]]:OFF can disable all QB64PE event checking. '''Setting $CHECKING:OFF is only designed for 100% stable, error-less sections of code, where every CPU cycle saved counts.'''
 
 
 ==QB64 Timing Alternatives==

@@ -6,7 +6,7 @@ The [[SYSTEM]] statement immediately closes a program and returns control to the
 
 
 {{PageParameters}}
-* QB64 allows a ''code'' number to be used after SYSTEM to be read in another program module by the [[SHELL]] or [[_SHELLHIDE]] functions.
+* QB64PE allows a ''code'' number to be used after SYSTEM to be read in another program module by the [[SHELL]] or [[_SHELLHIDE]] functions.
 
 
 {{PageDescription}}

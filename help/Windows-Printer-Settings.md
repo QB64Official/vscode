@@ -1,6 +1,6 @@
 There are some **Windows command line statements** that allow one to *(i)* identify the current Windows default printer (as well as other printers associated with a PC) and *(ii)* change the default to a different printer. 
 
-A program can use [SHELL](SHELL) statements in QB64 to execute those operating system commands. See the following examples provided by forum member **DonW**:
+A program can use [SHELL](SHELL) statements in QB64PE to execute those operating system commands. See the following examples provided by forum member **DonW**:
 
 ## Contents
 

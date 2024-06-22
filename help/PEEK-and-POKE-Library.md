@@ -1,6 +1,6 @@
-This header allows you to peek and poke bytes, words, and dwords in QB64. The functions seem to work okay when used with signed variables also. For example, I am able to assign the return of peekw~% to an [INTEGER](INTEGER) without problem. Regards, Michael Calkins
+This header allows you to peek and poke bytes, words, and dwords in qb64pe. The functions seem to work okay when used with signed variables also. For example, I am able to assign the return of peekw~% to an [INTEGER](INTEGER) without problem. Regards, Michael Calkins
 
-Create *PeekPoke.h* text file in the QB64 folder:
+Create *PeekPoke.h* text file in the QB64PE folder:
 
 ```text
 
@@ -68,7 +68,7 @@ PRINT buffer
 poked ptr + 4, &HDBB2B1B0
 PRINT buffer
 
-poked ptr, CVL("QB64")
+poked ptr, CVL("qb64pe")
 poked ptr + 4, &H2020011A
 PRINT buffer
 

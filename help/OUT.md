@@ -12,7 +12,7 @@
 ## Description
 
 * **QB64 has limited access to registers. VGA memory and registers are emulated.**
-* OUT can be used to change color port and a limited number of other port settings in QB64.
+* OUT can be used to change color port and a limited number of other port settings in qb64pe.
 * Some settings may be set in a specific order to gain access to settings and [INP](INP) reads.
 * [SCREEN](SCREEN) modes determine the number of available color palette attributes from 2 to 256 in SCREEN 13.
 * Windows NT may block access to Parallel printer and Serial ports. See [Port Access Libraries](Port-Access-Libraries) or other DLLs.

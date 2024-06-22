@@ -98,13 +98,13 @@
 
     <meta name="viewport" content="width=device-width">
     
-      <meta name="description" content="The official home for the QB64 source code and wiki. - Home · QB64Official/qb64 Wiki">
+      <meta name="description" content="The official home for the QB64PE source code and wiki. - Home · QB64Official/qb64 Wiki">
       <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
     <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
     <meta property="fb:app_id" content="1401488693436528">
     <meta name="apple-itunes-app" content="app-id=1477376905" />
-      <meta name="twitter:image:src" content="https://opengraph.githubassets.com/82a721eae10daf79a363bd29ee7e253cb057341f746eb107560e5826614937d5/QB64Official/qb64" /><meta name="twitter:site" content="@github" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="Home · QB64Official/qb64 Wiki" /><meta name="twitter:description" content="The official home for the QB64 source code and wiki. - Home · QB64Official/qb64 Wiki" />
-      <meta property="og:image" content="https://opengraph.githubassets.com/82a721eae10daf79a363bd29ee7e253cb057341f746eb107560e5826614937d5/QB64Official/qb64" /><meta property="og:image:alt" content="The official home for the QB64 source code and wiki. - Home · QB64Official/qb64 Wiki" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="600" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="Home · QB64Official/qb64 Wiki" /><meta property="og:url" content="https://github.com/QB64Official/qb64" /><meta property="og:description" content="The official home for the QB64 source code and wiki. - Home · QB64Official/qb64 Wiki" />
+      <meta name="twitter:image:src" content="https://opengraph.githubassets.com/82a721eae10daf79a363bd29ee7e253cb057341f746eb107560e5826614937d5/QB64Official/QB64PE" /><meta name="twitter:site" content="@github" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="Home · QB64Official/qb64 Wiki" /><meta name="twitter:description" content="The official home for the QB64PE source code and wiki. - Home · QB64Official/qb64 Wiki" />
+      <meta property="og:image" content="https://opengraph.githubassets.com/82a721eae10daf79a363bd29ee7e253cb057341f746eb107560e5826614937d5/QB64Official/QB64PE" /><meta property="og:image:alt" content="The official home for the QB64PE source code and wiki. - Home · QB64Official/qb64 Wiki" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="600" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="Home · QB64Official/qb64 Wiki" /><meta property="og:url" content="https://github.com/QB64Official/QB64PE" /><meta property="og:description" content="The official home for the QB64PE source code and wiki. - Home · QB64Official/qb64 Wiki" />
       
     <link rel="assets" href="https://github.githubassets.com/">
 
@@ -126,9 +126,9 @@
   <meta name="turbo-cache-control" content="no-preview" data-pjax-transient="">
 
     
-  <meta name="go-import" content="github.com/QB64Official/qb64 git https://github.com/QB64Official/qb64.git">
+  <meta name="go-import" content="github.com/QB64Official/qb64 git https://github.com/QB64Official/qb64pe.git">
 
-  <meta name="octolytics-dimension-user_id" content="104591493" /><meta name="octolytics-dimension-user_login" content="QB64Official" /><meta name="octolytics-dimension-repository_id" content="492646519" /><meta name="octolytics-dimension-repository_nwo" content="QB64Official/qb64" /><meta name="octolytics-dimension-repository_public" content="true" /><meta name="octolytics-dimension-repository_is_fork" content="true" /><meta name="octolytics-dimension-repository_parent_id" content="40746719" /><meta name="octolytics-dimension-repository_parent_nwo" content="Galleondragon/qb64" /><meta name="octolytics-dimension-repository_network_root_id" content="40746719" /><meta name="octolytics-dimension-repository_network_root_nwo" content="Galleondragon/qb64" />
+  <meta name="octolytics-dimension-user_id" content="104591493" /><meta name="octolytics-dimension-user_login" content="QB64Official" /><meta name="octolytics-dimension-repository_id" content="492646519" /><meta name="octolytics-dimension-repository_nwo" content="QB64Official/QB64PE" /><meta name="octolytics-dimension-repository_public" content="true" /><meta name="octolytics-dimension-repository_is_fork" content="true" /><meta name="octolytics-dimension-repository_parent_id" content="40746719" /><meta name="octolytics-dimension-repository_parent_nwo" content="Galleondragon/QB64PE" /><meta name="octolytics-dimension-repository_network_root_id" content="40746719" /><meta name="octolytics-dimension-repository_network_root_nwo" content="Galleondragon/QB64PE" />
 
 
 
@@ -630,7 +630,7 @@
           </a>
         </div>
 
-          <a href="/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fwiki%2Findex&amp;source=header-repo&amp;source_repo=QB64Official%2Fqb64"
+          <a href="/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fwiki%2Findex&amp;source=header-repo&amp;source_repo=QB64Official%2FQB64PE"
             class="HeaderMenu-link flex-shrink-0 d-inline-block no-underline border color-border-default rounded px-2 py-1"
             data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/QB64Official/qb64/wiki&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="be8c01eae7580ef2f323d9f5218a6ff3fa60eefc52c15c36455e60c236aecb66"
             data-analytics-event="{&quot;category&quot;:&quot;Sign up&quot;,&quot;action&quot;:&quot;click to sign up for account&quot;,&quot;label&quot;:&quot;ref_page:/&lt;user-name&gt;/&lt;repo-name&gt;/wiki/index;ref_cta:Sign up;ref_loc:header logged out&quot;}"
@@ -717,13 +717,13 @@
   </span>
   <span class="mx-1 flex-self-stretch color-fg-muted">/</span>
   <strong itemprop="name" class="mr-2 flex-self-stretch">
-    <a data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" href="/QB64Official/qb64">qb64</a>
+    <a data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" href="/QB64Official/QB64PE">qb64</a>
   </strong>
 
   <span></span><span class="Label Label--secondary v-align-middle mr-1">Public</span>
 </div>
   <span class="text-small lh-condensed-ultra no-wrap mt-1" data-repository-hovercards-enabled>
-    forked from <a data-hovercard-type="repository" data-hovercard-url="/Galleondragon/qb64/hovercard" href="/Galleondragon/qb64">Galleondragon/qb64</a>
+    forked from <a data-hovercard-type="repository" data-hovercard-url="/Galleondragon/qb64/hovercard" href="/Galleondragon/QB64PE">Galleondragon/qb64</a>
   </span>
 
         </div>
@@ -733,7 +733,7 @@
     
 
   <li>
-        <a href="/login?return_to=%2FQB64Official%2Fqb64" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/QB64Official/qb64/wiki&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="068b115fa3ed1c954df9ea1e9cf7f0de80c4550ffc8e86f8a914cfa8f38c1fdf" aria-label="You must be signed in to change notification settings" data-view-component="true" class="tooltipped tooltipped-s btn-sm btn">    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-bell mr-2">
+        <a href="/login?return_to=%2FQB64Official%2FQB64PE" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/QB64Official/qb64/wiki&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="068b115fa3ed1c954df9ea1e9cf7f0de80c4550ffc8e86f8a914cfa8f38c1fdf" aria-label="You must be signed in to change notification settings" data-view-component="true" class="tooltipped tooltipped-s btn-sm btn">    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-bell mr-2">
     <path d="M8 16a2 2 0 001.985-1.75c.017-.137-.097-.25-.235-.25h-3.5c-.138 0-.252.113-.235.25A2 2 0 008 16z"></path><path fill-rule="evenodd" d="M8 1.5A3.5 3.5 0 004.5 5v2.947c0 .346-.102.683-.294.97l-1.703 2.556a.018.018 0 00-.003.01l.001.006c0 .002.002.004.004.006a.017.017 0 00.006.004l.007.001h10.964l.007-.001a.016.016 0 00.006-.004.016.016 0 00.004-.006l.001-.007a.017.017 0 00-.003-.01l-1.703-2.554a1.75 1.75 0 01-.294-.97V5A3.5 3.5 0 008 1.5zM3 5a5 5 0 0110 0v2.947c0 .05.015.098.042.139l1.703 2.555A1.518 1.518 0 0113.482 13H2.518a1.518 1.518 0 01-1.263-2.36l1.703-2.554A.25.25 0 003 7.947V5z"></path>
 </svg>Notifications
 </a>
@@ -741,7 +741,7 @@
 
   <li>
       
-    <a href="/login?return_to=%2FQB64Official%2Fqb64" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:492646519,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/QB64Official/qb64/wiki&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="edfd09fa0595d3bb363edf081c5ba75b314174c2c11389b252b75941933239d4" aria-label="You must be signed in to fork a repository" data-view-component="true" class="tooltipped tooltipped-s btn-sm btn">    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-repo-forked mr-2">
+    <a href="/login?return_to=%2FQB64Official%2FQB64PE" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:492646519,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/QB64Official/qb64/wiki&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="edfd09fa0595d3bb363edf081c5ba75b314174c2c11389b252b75941933239d4" aria-label="You must be signed in to fork a repository" data-view-component="true" class="tooltipped tooltipped-s btn-sm btn">    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-repo-forked mr-2">
     <path fill-rule="evenodd" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"></path>
 </svg>Fork
     <span id="repo-network-counter" data-pjax-replace="true" data-turbo-replace="true" title="45" data-view-component="true" class="Counter">45</span>
@@ -750,7 +750,7 @@
 
   <li>
         <div data-view-component="true" class="BtnGroup d-flex">
-        <a href="/login?return_to=%2FQB64Official%2Fqb64" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;star button&quot;,&quot;repository_id&quot;:492646519,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/QB64Official/qb64/wiki&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="bc40f284a620118c914c33d98eb769295f23ba4e6c533bd4a329b54ba8cfef7c" aria-label="You must be signed in to star a repository" data-view-component="true" class="tooltipped tooltipped-s btn-sm btn BtnGroup-item">    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-star v-align-text-bottom d-inline-block mr-2">
+        <a href="/login?return_to=%2FQB64Official%2FQB64PE" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;star button&quot;,&quot;repository_id&quot;:492646519,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/QB64Official/qb64/wiki&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="bc40f284a620118c914c33d98eb769295f23ba4e6c533bd4a329b54ba8cfef7c" aria-label="You must be signed in to star a repository" data-view-component="true" class="tooltipped tooltipped-s btn-sm btn BtnGroup-item">    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-star v-align-text-bottom d-inline-block mr-2">
     <path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"></path>
 </svg><span data-view-component="true" class="d-inline">
           Star
@@ -778,7 +778,7 @@
 
   <ul data-view-component="true" class="UnderlineNav-body list-style-none">
       <li data-view-component="true" class="d-inline-flex">
-  <a id="code-tab" href="/QB64Official/qb64" data-tab-item="i0code-tab" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages repo_deployments /QB64Official/qb64" data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" data-hotkey="g c" data-view-component="true" class="UnderlineNav-item no-wrap js-responsive-underlinenav-item js-selected-navigation-item">
+  <a id="code-tab" href="/QB64Official/QB64PE" data-tab-item="i0code-tab" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages repo_deployments /QB64Official/QB64PE" data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" data-hotkey="g c" data-view-component="true" class="UnderlineNav-item no-wrap js-responsive-underlinenav-item js-selected-navigation-item">
     
               <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-code UnderlineNav-octicon d-none d-sm-inline">
     <path fill-rule="evenodd" d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z"></path>
@@ -897,7 +897,7 @@
   
             <ul>
                 <li data-menu-item="i0code-tab" hidden>
-                  <a role="menuitem" class="js-selected-navigation-item dropdown-item" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages repo_deployments /QB64Official/qb64" href="/QB64Official/qb64">
+                  <a role="menuitem" class="js-selected-navigation-item dropdown-item" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages repo_deployments /QB64Official/QB64PE" href="/QB64Official/QB64PE">
                     Code
 </a>                </li>
                 <li data-menu-item="i1issues-tab" hidden>
@@ -5489,7 +5489,7 @@
     <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"></path>
 </svg>
       </div>
-      <a class="flex-1 py-1 text-bold" href="/QB64Official/qb64/wiki/Keywords-currently-not-supported-by-QB64">Keywords currently not supported by QB64</a>
+      <a class="flex-1 py-1 text-bold" href="/QB64Official/qb64/wiki/Keywords-currently-not-supported-by-QB64PE">Keywords currently not supported by QB64</a>
     </div>
   </summary>
 
@@ -7858,7 +7858,7 @@
     <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"></path>
 </svg>
       </div>
-      <a class="flex-1 py-1 text-bold" href="/QB64Official/qb64/wiki/QB-4.5-Library-Ports-For-QB64">QB 4.5 Library Ports For QB64</a>
+      <a class="flex-1 py-1 text-bold" href="/QB64Official/qb64/wiki/QB-4.5-Library-Ports-For-QB64PE">QB 4.5 Library Ports For QB64</a>
     </div>
   </summary>
 
@@ -7904,11 +7904,11 @@
     <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"></path>
 </svg>
       </div>
-      <a class="flex-1 py-1 text-bold" href="/QB64Official/qb64/wiki/QB64-FAQ">QB64 FAQ</a>
+      <a class="flex-1 py-1 text-bold" href="/QB64Official/qb64/wiki/QB64PE-FAQ">QB64 FAQ</a>
     </div>
   </summary>
 
-    <include-fragment class="js-wiki-sidebar-toc-fragment" loading="lazy" src="https://github.com/QB64Official/qb64/wiki/QB64-FAQ/_toc">
+    <include-fragment class="js-wiki-sidebar-toc-fragment" loading="lazy" src="https://github.com/QB64Official/qb64/wiki/QB64PE-FAQ/_toc">
     </include-fragment>
 </details>
 
@@ -7927,11 +7927,11 @@
     <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"></path>
 </svg>
       </div>
-      <a class="flex-1 py-1 text-bold" href="/QB64Official/qb64/wiki/QB64-Help-Menu">QB64 Help Menu</a>
+      <a class="flex-1 py-1 text-bold" href="/QB64Official/qb64/wiki/QB64PE-Help-Menu">QB64 Help Menu</a>
     </div>
   </summary>
 
-    <include-fragment class="js-wiki-sidebar-toc-fragment" loading="lazy" src="https://github.com/QB64Official/qb64/wiki/QB64-Help-Menu/_toc">
+    <include-fragment class="js-wiki-sidebar-toc-fragment" loading="lazy" src="https://github.com/QB64Official/qb64/wiki/QB64PE-Help-Menu/_toc">
     </include-fragment>
 </details>
 
@@ -10643,10 +10643,10 @@
                     <p>Navigation</p>
 <ul>
 <li><a href="https://discord.gg/A3HmUe2mv8" rel="nofollow">Discord Invitation</a></li>
-<li><a href="QB64-FAQ">QB64 FAQ</a></li>
+<li><a href="QB64PE-FAQ">QB64 FAQ</a></li>
 <li><a href="Keyword-Reference-(Alphabetical)">Keywords (Alphabetical)</a></li>
 <li><a href="Keyword-Reference-(Usage)">Keywords (By Usage)</a></li>
-<li><a href="Keywords-currently-not-supported-by-QB64">Keywords (Unsupported)</a></li>
+<li><a href="Keywords-currently-not-supported-by-QB64PE">Keywords (Unsupported)</a></li>
 <li><a href="ERROR-Codes">List of ERROR Codes</a></li>
 <li><a href="Known-Issues">Known Issues</a></li>
 </ul>
@@ -10663,7 +10663,7 @@
                   data-autoselect
                   class="form-control input-sm text-small color-fg-muted input-monospace"
                   aria-label="Clone URL for this wiki"
-                  value="https://github.com/QB64Official/qb64.wiki.git"
+                  value="https://github.com/QB64Official/qb64pe.wiki.git"
                   readonly>
               <span class="input-group-button">
                 <clipboard-copy for="wiki-clone-url" aria-label="Copy to clipboard" data-view-component="true" class="btn btn-sm zeroclipboard-button">
@@ -10684,17 +10684,17 @@
 <h2>
 <a id="user-content-getting-started" class="anchor" href="#getting-started" aria-hidden="true"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Getting started</h2>
 <ul>
-<li>Grab the latest version of QB64 from our active <a href="https://github.com/QB64Official/qb64/releases/latest">GitHub repo</a>.</li>
+<li>Grab the latest version of QB64PE from our active <a href="https://github.com/QB64Official/qb64/releases/latest">GitHub repo</a>.</li>
 </ul>
 <h3>
 <a id="user-content-faq" class="anchor" href="#faq" aria-hidden="true"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>FAQ</h3>
 <ul>
-<li><a href="QB64-FAQ">QB64 FAQ</a></li>
+<li><a href="QB64PE-FAQ">QB64 FAQ</a></li>
 </ul>
 <h3>
 <a id="user-content-get-in-touch" class="anchor" href="#get-in-touch" aria-hidden="true"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Get in touch</h3>
 <ul>
-<li><a href="https://discord.gg/A3HmUe2mv8" rel="nofollow">Official QB64 Discord Server Invitation</a></li>
+<li><a href="https://discord.gg/A3HmUe2mv8" rel="nofollow">Official QB64PE Discord Server Invitation</a></li>
 </ul>
 <h2>
 <a id="user-content-keywords" class="anchor" href="#keywords" aria-hidden="true"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Keywords</h2>
@@ -10705,13 +10705,13 @@
 <h3>
 <a id="user-content-known-issues" class="anchor" href="#known-issues" aria-hidden="true"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Known issues</h3>
 <ul>
-<li><a href="Keywords-currently-not-supported-by-QB64">Keywords currently not supported by QB64</a></li>
+<li><a href="Keywords-currently-not-supported-by-QB64PE">Keywords currently not supported by QB64</a></li>
 </ul>
 <h2>
 <a id="user-content-articles-and-tutorials" class="anchor" href="#articles-and-tutorials" aria-hidden="true"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Articles and Tutorials</h2>
 <ul>
-<li><a href="http://www.qb64sourcecode.com" rel="nofollow">Terry Ritchie's QB64 Game Programming</a></li>
-<li><a href="https://www.youtube.com/watch?v=hE-Voij5k5Q&amp;list=PLF6199808BD4901E1" rel="nofollow">School Freeware series on QB64 (YouTube)</a></li>
+<li><a href="http://www.qb64sourcecode.com" rel="nofollow">Terry Ritchie's QB64PE Game Programming</a></li>
+<li><a href="https://www.youtube.com/watch?v=hE-Voij5k5Q&amp;list=PLF6199808BD4901E1" rel="nofollow">School Freeware series on QB64PE (YouTube)</a></li>
 <li><a href="Arrays">Arrays</a></li>
 <li><a href="ASCII">ASCII</a></li>
 <li><a href="Binary">Binary</a></li>
@@ -10732,7 +10732,7 @@
 <li><a href="Mathematical-Operations">Mathematical Operations</a></li>
 <li><a href="PDS-(7.1)-Procedures">PDS (7.1) Procedures</a></li>
 <li><a href="Port-Access-Libraries">Port Access Libraries</a></li>
-<li><a href="QB-4.5-Library-Ports-For-QB64">QB 4.5 Library Ports For QB64</a></li>
+<li><a href="QB-4.5-Library-Ports-For-QB64PE">QB 4.5 Library Ports For QB64</a></li>
 <li><a href="Relational-Operations">Relational Operations</a></li>
 <li><a href="Line-numbers">Line numbers</a></li>
 <li><a href="Line-number">Line number</a></li>

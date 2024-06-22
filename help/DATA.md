@@ -13,7 +13,7 @@ The [DATA](DATA) statement creates a line of fixed program information separated
   * **QB64** DATA can be placed inside a [SUB](SUB) or  [FUNCTION](FUNCTION) procedures.
 * [RESTORE](RESTORE) will only read the first data field if the DATA is not labeled or no label is specified in a RESTORE call.
 * When using multiple DATA fields, label each data field with a line label so that each data pointer can be reset for multiple reads with **[RESTORE](RESTORE) *linelabel***.
-* QBasic comma separations were flexible to allow column alignments when creating them. QB64 removes spacing between commas.
+* QBasic comma separations were flexible to allow column alignments when creating them. QB64PE removes spacing between commas.
 * [STRING](STRING) DATA values with end spaces, QBasic keywords and values that include the comma character must be enclosed in quotation marks.
 * DATA fields can only be created by the programmer and cannot be changed by a user or lost.
 * Comments after a data line require a colon before the comment.
@@ -54,7 +54,7 @@ Hello world! Goodbyework!
 
 ```
 
-How to [RESTORE](RESTORE) and [READ](READ) DATA in a [SUB](SUB) procedure in QB64. Line labels can be used for multiple DATA fields.
+How to [RESTORE](RESTORE) and [READ](READ) DATA in a [SUB](SUB) procedure in qb64pe. Line labels can be used for multiple DATA fields.
 
 ```vb
 

@@ -1,6 +1,6 @@
 **DAC** stands for the QBasic Digital to Analog Converter color attributes used in screens 0, 7 and 9.
 
-> ** IMPORTANT: QB64 screens do not use the DAC index!**
+> ** IMPORTANT: QB64PE screens do not use the DAC index!**
 
 * DAC colors are preset and cannot be changed in QBasic easily(see example).
 * DAC color attribute settings cannot be changed using [PALETTE](PALETTE) or [OUT](OUT) RGB statements.
@@ -65,7 +65,7 @@ OUT &H3C0, &H30
 OUT &H3C0, 12 
 
 ```
-> **NOTE: QB64** allows blinking mode in both fullscreen and windowed modes **without** using the code above. To reenable blinking in QB64 after using [_BLINK](_BLINK) OFF, use [_BLINK](_BLINK) ON.
+> **NOTE: QB64** allows blinking mode in both fullscreen and windowed modes **without** using the code above. To reenable blinking in QB64PE after using [_BLINK](_BLINK) OFF, use [_BLINK](_BLINK) ON.
 
 ## See Also
 

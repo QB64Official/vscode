@@ -4,7 +4,7 @@ The STRIG(n) statement controls event trapping for a particular joystick or game
 
 > STRIG(button%) {ON|OFF|STOP}
 
-## QB64 Syntax
+## QB64PE Syntax
 
 > STRIG[(*button_function%*[, *device_number%*])] {ON|OFF|STOP}
 

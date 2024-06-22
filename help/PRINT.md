@@ -41,7 +41,7 @@ The PRINT statement prints numeric or string expressions to the program screen. 
   - * Use the [_PRINTMODE (function)](_PRINTMODE-(function)) to find the current _PRINTMODE setting number.
 * [WRITE](WRITE) can be used to print a list of comma separated data values to the screen with [comma](comma)s between each value.
 * Use [_DEST](_DEST) [_CONSOLE](_CONSOLE) before PRINT statements to be used in a [$CONSOLE]($CONSOLE) window.
-* Use [_CONTROLCHR](_CONTROLCHR) **OFF** to PRINT the unprintable lower [ASCII](ASCII) control characters in QB64. 
+* Use [_CONTROLCHR](_CONTROLCHR) **OFF** to PRINT the unprintable lower [ASCII](ASCII) control characters in qb64pe. 
 
 ## Example(s)
 

@@ -49,7 +49,7 @@ Buttons: 9 Axis: 6 Wheels: 0
 
 > Note: The [STRIG](STRIG)/[STICK](STICK) commands won't read from the keyboard or mouse device the above example lists. They will only work on controllers.
 
-Finding the number of mouse buttons available in QB64. This could also be used for other devices.
+Finding the number of mouse buttons available in qb64pe. This could also be used for other devices.
 
 ```vb
 

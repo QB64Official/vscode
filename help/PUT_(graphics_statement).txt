@@ -10,9 +10,9 @@ The '''PUT''' graphics statement is used to place [[GET (graphics statement)|GET
 * The [[STEP]] keyword can be used to for coordinates relative to the last graphic coordinates used.
 * ''column'' and ''row'' [[INTEGER]] coordinate values designate the top left corner where the image is to be placed and cannot be off screen.
 * The [[INTEGER]] ''array'' holds data of an image box area created by [[GET (graphics statement)|GET]]. The brackets can be empty or designate a starting ''index''.
-* [[_CLIP]] can be used in QB64 when part of an image must be off screen.
+* [[_CLIP]] can be used in QB64PE when part of an image must be off screen.
 * [[XOR]], [[PSET]], [[PRESET]], [[OR]] or [[AND]] actions will affect the coloring of the image on certain background colors. See below.
-* ''omitcolor'' is the pixel color attribute to ignore in QB64 only. This may be used instead of using an [[AND]] mask.
+* ''omitcolor'' is the pixel color attribute to ignore in QB64PE only. This may be used instead of using an [[AND]] mask.
 
 
 ''Usage:''
@@ -24,7 +24,7 @@ The '''PUT''' graphics statement is used to place [[GET (graphics statement)|GET
 ::PUT (-10, 10), mypic(0), _CLIP PSET, 4 ' doesn't place the red pixels of the image
 * In '''QB64''' a background color attribute can be removed from the PUT image using the ''omit color'' option instead of creating a mask.
 * The [[arrays|array]] must have image data at the array index given. [[GET (graphics statement)|GET]] or [[BLOAD]] should be used to place image data into the array.
-* The [[INTEGER]] array size can be calculated as slightly larger than the box area width times the height. A closer estimate can be done by reading the array indices from [[UBOUND]] to [[LBOUND]] after a [[GET (graphics statement)|GET]] of a white box area. In QB64 a [[LONG]] array can be used for large or full screen images.
+* The [[INTEGER]] array size can be calculated as slightly larger than the box area width times the height. A closer estimate can be done by reading the array indices from [[UBOUND]] to [[LBOUND]] after a [[GET (graphics statement)|GET]] of a white box area. In QB64PE a [[LONG]] array can be used for large or full screen images.
 * If no [[arrays|array]] index (brackets optional in QB) is designated, the image will be assumed to be at the array's starting index.
 * The first two indices of the [[arrays|array]] or array offset will hold the width and height of the stored image area. In [[SCREEN]] 13 divide the width by 8.
 * More than one image can be stored in the [[INTEGER]] array by indexing the [[GET (graphics statement)|GET]] array offset. Be sure the index is not already used!
@@ -35,7 +35,7 @@ The '''PUT''' graphics statement is used to place [[GET (graphics statement)|GET
 ::* [[PRESET]] creates a inverted coloring of the original image completely overwriting the background.
 ::* [[AND]] merges background colors with the black areas of the image where a white image mask is used.
 ::* [[OR]] blends the background and foreground colors together.
-* In QB64 [[_PUTIMAGE]] is recommended over PUT as it can also do the [[GET (graphics statement)|GET]] directly from the image source without requiring an array.
+* In QB64PE [[_PUTIMAGE]] is recommended over PUT as it can also do the [[GET (graphics statement)|GET]] directly from the image source without requiring an array.
 * [[PUT]] and [[GET]] file statements can also write and read image array data using [[BINARY]] files instead of using [[BSAVE]] or [[BLOAD]].
 
 
@@ -43,7 +43,7 @@ The '''PUT''' graphics statement is used to place [[GET (graphics statement)|GET
 {{CodeStart}} '' ''
 {{Cl|SCREEN (statement)|SCREEN}} {{Cl|_NEWIMAGE}}(640, 480, 256)
 {{Cl|_SCREENMOVE}} {{Cl|_SCREENMOVE|_MIDDLE}}
-image&amp; = {{Cl|_LOADIMAGE}}("QB64.png")  'replace with your own image
+image&amp; = {{Cl|_LOADIMAGE}}("qb64pe.png")  'replace with your own image
 
 wide&amp; = {{Cl|_WIDTH (function)|_WIDTH}}(image&amp;): deep&amp; = {{Cl|_HEIGHT}}(image&amp;)
 {{Cl|DIM}} Array(wide&amp; * deep&amp;) {{Cl|AS}} {{Cl|INTEGER}}

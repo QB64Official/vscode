@@ -1,4 +1,4 @@
-[INP](INP) and [OUT](OUT) are often used to access port registers, but in QB64 this capability is limited so here are some DLL Libraries:
+[INP](INP) and [OUT](OUT) are often used to access port registers, but in QB64PE this capability is limited so here are some DLL Libraries:
 
 ## InpOut32 (x64)
 
@@ -10,9 +10,9 @@ If you intend to utilize InpOut32 You can find more information regarding InpOut
 
 There is also an attempt at continuing the InpOut32 (x64) project located at [InpOutNG (github.com)](https://github.com/Feo-d-oR/InpOutNG)
 
-Note: QB64 requires all DLL files to either be with the program or in the `C:\WINDOWS\SYSTEM32` or WOW folder!
+Note: QB64PE requires all DLL files to either be with the program or in the `C:\WINDOWS\SYSTEM32` or WOW folder!
 
-At one point there was a sample made available via *dropbox* demonstrating the InpOut32 (x64) libraries with QB64 - but that link has disappeared/expired and the sample is now lost to history.
+At one point there was a sample made available via *dropbox* demonstrating the InpOut32 (x64) libraries with QB64PE - but that link has disappeared/expired and the sample is now lost to history.
 
 ~~[Download InpOut32.DLL and example program](http://dl.dropbox.com/u/8440706/inpout32.zip)~~
 

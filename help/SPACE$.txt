@@ -17,7 +17,7 @@ The {{KW|SPACE$}} function returns a {{KW|STRING}} consisting of a number of spa
 * Spaces can also be made using [[SPC]], [[CHR$]](32) or [[STRING$]](n%, 32).
 
 
-''Differences between QB64 and QB 4.5:''
+''Differences between QB64PE and QB 4.5:''
 * '''QB64''' can use [[LONG]] values for count up to 2,147,483,647 while '''QB 4.5''' could only use [[INTEGER]] values up to 32,767.
 
 

@@ -49,7 +49,7 @@ The [[LINE]] statement is used in graphic [[SCREEN (statement)|SCREEN]] modes to
 
 ''Example 3:'' The ''style'' value sets each 16 pixel line section as the value's bits are set on or off:
 {{CodeStart}}{{Cl|SCREEN}} 13
-{{Cl|_FULLSCREEN}} 'required in QB64 only
+{{Cl|_FULLSCREEN}} 'required in QB64PE only
 {{Cl|_DELAY}} 5
 {{Cl|FOR...NEXT|FOR}} i% = 1 {{Cl|TO}} 2 ^ 15 'use exponential value instead of -32768
     {{Cl|COLOR}} 15:{{Cl|LOCATE}} 10, 5: {{Cl|PRINT}} i%;

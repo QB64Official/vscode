@@ -14,7 +14,7 @@ The [$CHECKING]($CHECKING) metacommand turns C++ event checking ON or OFF.
 
 ### Details
 
-* After every QB64 command is translated to C++, the compiler adds special code sections to check for [ON TIMER (n)](ON-TIMER-(n)) events and errors that may have occured in the last function call. Disabling error checking with the [$CHECKING]($CHECKING):OFF directive prevents the compiler from adding the extra code sections.
+* After every QB64PE command is translated to C++, the compiler adds special code sections to check for [ON TIMER (n)](ON-TIMER-(n)) events and errors that may have occured in the last function call. Disabling error checking with the [$CHECKING]($CHECKING):OFF directive prevents the compiler from adding the extra code sections.
 * Setting [$CHECKING]($CHECKING):OFF is only designed for 100% stable, errorless sections of code, where every CPU cycle saved counts, such as in a software 3D texture mapper, for example.
 
 ## See Also

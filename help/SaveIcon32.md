@@ -1,6 +1,6 @@
 The following Icon creation procedure was adapted from Galleon's [SAVEIMAGE](SAVEIMAGE) sup-procedure that creates 8 BPP or 32 bit bitmaps:
 
-**NOTE: QB64 can use .ico files natively for Windows executables with [$EXEICON]($EXEICON).**
+**NOTE: QB64PE can use .ico files natively for Windows executables with [$EXEICON]($EXEICON).**
 
 ```vb
 

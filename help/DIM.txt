@@ -69,7 +69,7 @@ The [[DIM]] statement is used to declare a variable or a list of variables as a 
 {{CodeEnd}}
 
 
-''Example 6:'' QB64 is more flexible than QBasic when it comes to "Duplicate Definition" errors. The following code does not error:
+''Example 6:'' QB64PE is more flexible than QBasic when it comes to "Duplicate Definition" errors. The following code does not error:
 {{CodeStart}} '' ''
 x = 1 'x is a {{Cl|SINGLE}} variable
 {{Cl|PRINT}} x
@@ -79,14 +79,14 @@ x = 1 'x is a {{Cl|SINGLE}} variable
 : ''Explanation:'' The [[SINGLE]] variable can be differentiated from the [[LONG]] x variable by using suffixes like x! or x&amp; in later code.
 
 
-''Example 7:'' The following code will create a "Name already in use" '''status error''' in QB64 when the variable types are the same.
+''Example 7:'' The following code will create a "Name already in use" '''status error''' in QB64PE when the variable types are the same.
 {{CodeStart}} '' ''
 x = 1 'x is a {{Cl|SINGLE}} variable
 {{Cl|PRINT}} x
 {{Cl|DIM}} x {{Cl|AS}} {{Cl|SINGLE}}
 {{Cl|PRINT}} x '' ''
 {{CodeEnd}}
-: ''Explanation:'' QB64 gives an error because the creation of the new variable would make referring to the existing one impossible.
+: ''Explanation:'' QB64PE gives an error because the creation of the new variable would make referring to the existing one impossible.
 
 
 ''Example 8:'' Using QB64's alternative syntax to declare multiple variables/arrays of the same type.

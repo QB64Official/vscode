@@ -107,7 +107,7 @@ CTRL + Y = CHR$(25) | ↓ | EndMedium   (EM)   | CTRL + Z = CHR$(26) | → | End
 **Highlighted items will format text and not [PRINT](PRINT) the symbol. [_PRINTSTRING](_PRINTSTRING) can print in QB64**
 
 * Control characters **1 to 26** can be used to simulate *Ctrl + letter* key shortcuts in Windows programs using [_SCREENPRINT](_SCREENPRINT).
-* [_CONTROLCHR](_CONTROLCHR) OFF can also be used in QB64 to allow control characters to be printed without formatting the text.
+* [_CONTROLCHR](_CONTROLCHR) OFF can also be used in QB64PE to allow control characters to be printed without formatting the text.
 
 **ASCII in Text and Printing**
 
@@ -134,7 +134,7 @@ CTRL + Y = CHR$(25) | ↓ | EndMedium   (EM)   | CTRL + Z = CHR$(26) | → | End
 * Character **26** can be used to designate the end of a file. See [EOF](EOF).
 * Character **27** **?** is returned when the **Escape** key is pressed.
 
-**Control character [PRINT](PRINT) actions can be controlled using [_CONTROLCHR](_CONTROLCHR) OFF or ON in QB64.**
+**Control character [PRINT](PRINT) actions can be controlled using [_CONTROLCHR](_CONTROLCHR) OFF or ON in qb64pe.**
 
 ```vb
 
@@ -191,11 +191,11 @@ END
 '                                                                   *     48        46*
 '
 ' **    *Italics* = LCase/NumLock On  ____________  + = 2 Byte: CHR$(0) + CHR$(code)**
-'<sub>NOTE: The above commented table can be copied and pasted directly into the QB64 IDE</sub>
+'<sub>NOTE: The above commented table can be copied and pasted directly into the QB64PE IDE</sub>
 
 ```
 
-Use **ASC(RIGHT$(key$, 1))** or **ASC(key$, 2)** in QB64 to read a two byte code when **ASC(key$) = 0**
+Use **ASC(RIGHT$(key$, 1))** or **ASC(key$, 2)** in QB64PE to read a two byte code when **ASC(key$) = 0**
 
 *** See the Two Byte Ctrl, Alt and Shift + Function key combinations below**
 
@@ -211,7 +211,7 @@ DO: K$ = INKEY$
 LOOP UNTIL K$ = CHR$(27) 'escape key press exits 
 
 ```
-> *Note:* In QB64 [ASC](ASC)(K$, 2) can read the second byte of the 2 byte code when [ASC](ASC)(K$) reads the first byte as 0.
+> *Note:* In QB64PE [ASC](ASC)(K$, 2) can read the second byte of the 2 byte code when [ASC](ASC)(K$) reads the first byte as 0.
 
 ## Two Byte Codes
 

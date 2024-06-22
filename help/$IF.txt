@@ -17,12 +17,12 @@
 * Variable names can contain numbers, letters and periods, in any order.
 * Expressions can contain one set of leading and/or trailing quotes; and any number of numbers, letters and periods, in any order.
 * The precompiler comes with some preset values which can be used to help determine which code blocks to include/exclude.  These are:
-** '''WIN''' or '''WINDOWS''' if the user is running QB64 in a Windows environment.
-** '''LINUX''' if the user is running QB64 in a Linux environment.
-** '''MAC''' or '''MACOSX''' if the user is running QB64 in a macOS environment.
-** '''32BIT''' if the user is running a 32-bit version of QB64.
-** '''64BIT''' if the user is running a 64-bit version of QB64.
-** '''VERSION''', which is set to the version of the QB64 compiler. This is a number and can be ordered, see example below.
+** '''WIN''' or '''WINDOWS''' if the user is running QB64PE in a Windows environment.
+** '''LINUX''' if the user is running QB64PE in a Linux environment.
+** '''MAC''' or '''MACOSX''' if the user is running QB64PE in a macOS environment.
+** '''32BIT''' if the user is running a 32-bit version of qb64pe.
+** '''64BIT''' if the user is running a 64-bit version of qb64pe.
+** '''VERSION''', which is set to the version of the QB64PE compiler. This is a number and can be ordered, see example below.
 * Special values '''DEFINED''' and '''UNDEFINED''' can be used to check whether a precompiler variable has already been assigned a value. Useful for code in libraries which may be repeated.
 * [[$END IF]] denotes the end of a valid precompiler $IF block.
 * [[$ELSEIF]] must follow a valid $IF or $ELSEIF statement.
@@ -68,11 +68,11 @@ The [[$LET]] and $IF statements let the programmer control the code that actuall
 ''Example 3:''
 {{CodeStart}} '' ''
 {{Cl|$IF}} VERSION &lt; 1.5 THEN
-    {{Cl|$ERROR}} Requires QB64 version 1.5 or greater
+    {{Cl|$ERROR}} Requires QB64PE version 1.5 or greater
 {{Cl|$END IF}}
 {{CodeEnd}}
 
-''Explanation:'' VERSION is a predefined variable that holds the QB64 compiler version. If we know our program needs features only available above a certain version, we can check for that and give the user a helpful error message instead of a confusing error elsewhere in the program.
+''Explanation:'' VERSION is a predefined variable that holds the QB64PE compiler version. If we know our program needs features only available above a certain version, we can check for that and give the user a helpful error message instead of a confusing error elsewhere in the program.
 
 
 {{PageSeeAlso}}

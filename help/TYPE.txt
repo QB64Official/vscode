@@ -108,7 +108,7 @@
 
 
 
-''Example 4:'' Defining a TYPE variable as another variable type from a previous TYPE definition in QB64.
+''Example 4:'' Defining a TYPE variable as another variable type from a previous TYPE definition in qb64pe.
 {{CodeStart}}
 {{Cl|TYPE}} bar
   b {{Cl|AS}} {{Cl|STRING}} * 10

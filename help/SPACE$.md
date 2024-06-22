@@ -16,7 +16,7 @@ The SPACE$ function returns a STRING consisting of a number of space characters.
 * The function result can also be used to [GET](GET) and [PUT](PUT) a number of bytes as zero characters: bytes$ = SPACE$(numbytes)
 * Spaces can also be made using [SPC](SPC), [CHR$](CHR$)(32) or [STRING$](STRING$)(n%, 32).
 
-*Differences between QB64 and QB 4.5:*
+*Differences between QB64PE and QB 4.5:*
 
 * **QB64** can use [LONG](LONG) values for count up to 2,147,483,647 while **QB 4.5** could only use [INTEGER](INTEGER) values up to 32,767.
 

@@ -73,7 +73,7 @@ showme  'display array after transfer from file
 {{Cl|PRINT}} "done"
 {{Cl|END SUB}} '' ''
 {{CodeEnd}}
-: ''Note:'' Use empty brackets in QB64 when using [[GET]] to create an array or [[PUT]] to create a [[BINARY]] data file.
+: ''Note:'' Use empty brackets in QB64PE when using [[GET]] to create an array or [[PUT]] to create a [[BINARY]] data file.
 
 
 ''See Example:'' [[Program ScreenShots]]

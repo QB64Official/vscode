@@ -1,0 +1,161 @@
+{
+	"PRINT": {
+		"prefix": "print",
+		"body": [
+			"PRINT $0"
+		],
+		"description": "PRINT"
+	},
+	"#IFELSE": {
+		"prefix": "ifelse",
+		"body": [
+			"#IF $0 THEN",
+			"",
+			"#ELSE",
+			"",
+			"#END IF"
+		],
+		"description": "#IF..."
+	},
+	"IF ELSE": {
+		"prefix": "ifelse",
+		"body": [
+			"IF $0 THEN",
+			"",
+			"ELSE",
+			"",
+			"END IF"
+		],
+		"description": "IF...ELSE"
+	},
+	"IF THEN": {
+		"prefix": "ifthen",
+		"body": [
+			"IF $0 THEN",
+			"",
+			"END IF"
+		],
+		"description": "IF...THEN"
+	},
+	"FOR NEXT LOOP": {
+		"prefix": "for",
+		"body": [
+			"DIM ${1:index} AS INTEGER",
+			"FOR ${1:index}% = ${2:lower} TO ${4:upper}",
+			"\t$0",
+			"NEXT ${1:index}%"
+		],
+		"description": "FOR...NEXT LOOP"
+	},
+	"FOR I...NEXT I": {
+		"prefix": "fori",
+		"body": [
+			"DIM i AS INTEGER",
+			"FOR i% = ${1:lower} TO ${2:upper}",
+			"\t$0",
+			"NEXT i%"
+		],
+		"description": "FOR I...NEXT I"
+	},
+	"FOR J...NEXT J": {
+		"prefix": "forj",
+		"body": [
+			"DIM j AS INTEGER",
+			"FOR j% = ${2:lower} TO ${3:upper}",
+			"\t$0",
+			"NEXT j%"
+		],
+		"description": "FOR J...NEXT J"
+	},
+	"FUNCTION...": {
+		"prefix": "func",
+		"body": [
+			"FUNCTION ${1:name}${2:returntype_sigil} (${2:params})",
+			"\t$0",
+			"END FUNCTION"
+		],
+		"description": "FUNCTION..."
+	},
+	"SUB...": {
+		"prefix": "sub",
+		"body": [
+			"SUB ${1:name} (${2:params})",
+			"\t$0",
+			"END SUB"
+		],
+		"description": "SUB..."
+	},
+	"WHILE...WEND": {
+		"prefix": "while",
+		"body": [
+			"WHILE ${1:boolean}",
+			"\t$0",
+			"WEND"
+		],
+		"description": "WHILE...WEND"
+	},
+	"TYPE...END TYPE": {
+		"prefix": "type",
+		"body": [
+			"TYPE ${1:typename}",
+			"\t$0",
+			"END TYPE"
+		],
+		"description": "TYPE...END TYPE"
+	},
+	"SELECT...END SELECT": {
+		"prefix": "select",
+		"body": [
+			"SELECT ${1:test_expression}",
+			"\tCASE ${2:case_expression}",
+			"\t\t$0",
+			"END SELECT"
+		],
+		"description": "SELECT...END SELECT"
+	},
+	"DO...LOOP": {
+		"prefix": "doloop",
+		"body": [
+			"DO:",
+			"\t$0",
+			"LOOP"
+		],
+		"description": "DO...LOOP"
+	},
+	"DO WHILE...LOOP": {
+		"prefix": "dowhile",
+		"body": [
+			"DO WHILE ${1:condition}:",
+			"\t$0",
+			"LOOP"
+		],
+		"description": "DO WHILE...LOOP"
+	},
+	"DO UNTIL...LOOP": {
+		"prefix": "dountil",
+		"body": [
+			"DO UNTIL ${1:condition}:",
+			"\t$0",
+			"LOOP"
+		],
+		"description": "DO UNTIL...LOOP"
+	},
+	"DO...LOOP WHILE": {
+		"prefix": "doloopwhile",
+		"body": [
+			"DO:",
+			"\t$0",
+			"LOOP WHILE ${1:condition}"
+		],
+		"description": "DO...LOOP WHILE"
+	},
+	"DO...LOOP UNTIL": {
+		"prefix": "doloopuntil",
+		"body": [
+			"DO:",
+			"\t$0",
+			"LOOP UNTIL ${1:condition}"
+		],
+		"description": "DO...LOOP UNTIL"
+	},
+}

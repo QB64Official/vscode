@@ -58,7 +58,7 @@
 | _UNSIGNED _OFFSET | ~%& | 0 | 18,446,744,073,709,551,615 |
 | _MEM | none | combined memory variable type | N/A |
 
-*Note: For the floating-point numeric types [SINGLE](SINGLE) (default when not assigned), [DOUBLE](DOUBLE) and [_FLOAT](_FLOAT), the minimum values represent the smallest values closest to zero, while the maximum values represent the largest values closest to ±infinity. OFFSET dot values are used as a part of the [_MEM](_MEM) variable type in QB64 to return or set the position in memory.*
+*Note: For the floating-point numeric types [SINGLE](SINGLE) (default when not assigned), [DOUBLE](DOUBLE) and [_FLOAT](_FLOAT), the minimum values represent the smallest values closest to zero, while the maximum values represent the largest values closest to ±infinity. OFFSET dot values are used as a part of the [_MEM](_MEM) variable type in QB64PE to return or set the position in memory.*
 
 ### String Text Type
 
@@ -143,7 +143,7 @@ PUT #1, 5, Contact  'place contact info into fifth record position
 
 > *Explanation:* Use the assigned type variable to find the RANDOM record length which is 118 bytes.
 
-Defining a TYPE variable as another variable type from a previous TYPE definition in QB64.
+Defining a TYPE variable as another variable type from a previous TYPE definition in qb64pe.
 
 ```vb
 

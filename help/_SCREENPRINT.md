@@ -10,7 +10,7 @@ The [_SCREENPRINT](_SCREENPRINT) statement simulates typing text into a Windows 
 * text$ is the text to be typed into a focused program's text entry area, one character at a time.
 * Set the focus to a desktop program by using the [_SCREENIMAGE](_SCREENIMAGE) handle as the [_SOURCE](_SOURCE). Use the image to map the desired area. 
 * [_SCREENCLICK](_SCREENCLICK) can also be used to set the focus to a program's text entry area on the desktop.
-* **Note: If the focus is not set correctly, the text may be printed to the QB64 IDE, if open, or not printed at all.**
+* **Note: If the focus is not set correctly, the text may be printed to the QB64PE IDE, if open, or not printed at all.**
 * Ctrl + letter key shortcuts can be simulated using the appropriate [ASCII](ASCII) Control character codes 1 to 26 shown below:
 
 ```text
@@ -72,7 +72,7 @@ SLEEP 2
 _SCREENPRINT CHR$(3) 'CTRL + C copy to clipboard
 SLEEP 2
 PRINT _CLIPBOARD$
-_CLIPBOARD$ = "QB64 ROCKS!"
+_CLIPBOARD$ = "QB64PE ROCKS!"
 SLEEP 2
 _SCREENPRINT CHR$(22) 'CTRL + V paste from clipboard
 END 

@@ -1,8 +1,8 @@
 QB64 can support the **specific Windows Operating System Libraries** on your PC. They should be located in the **System32** folder. Use [DECLARE LIBRARY](DECLARE-LIBRARY) with the appropriate [ALIAS](ALIAS). Loaded DLL files are NOT required to be named in the Declaration!
 
- **Note: C++ Header files should be placed in the QB64 folder and are not required after a program is compiled.**
+ **Note: C++ Header files should be placed in the QB64PE folder and are not required after a program is compiled.**
 
-**Note: QB64 requires all DLL files to either be with the program or in the C:\WINDOWS\SYSTEM32 folder!**
+**Note: QB64PE requires all DLL files to either be with the program or in the C:\WINDOWS\SYSTEM32 folder!**
 
 Maximum Windows path: MAX_PATH = drive letter + ":\" + 256 + CHR$(0) = 260 characters.
 
@@ -26,7 +26,7 @@ Maximum Windows path: MAX_PATH = drive letter + ":\" + 256 + CHR$(0) = 260 chara
 
 **                         Windows API Data Structures**
 
-**Name            Description             Bits             QB64 Type**
+**Name            Description             Bits             QB64PE Type**
 bit            8 bits in one byte         1                [_BIT](_BIT)
 nybble         2 nybbles in one byte      4                [_BIT](_BIT) * 4
 byte           1 byte (2 nybbles)         8                [_BYTE](_BYTE)
@@ -58,7 +58,7 @@ LP or hwnd     Short or Long Pointer     ANY [INTEGER](INTEGER)       [_OFFSET](
 
 'A DATE$ and TIME$ alternative.
 'Gets & Sets System DATE & TIME using Windows API.
-'Coded for QB64 by Dav FEB/2012
+'Coded for QB64PE by Dav FEB/2012
 
 '#### #### #### #### #### #### #### #### #### #### #### #### #### #### #### =
 'NOTE: THIS DEMO WILL ATTEMPT TO CHANGE YOUR SYSTEM DATE FOR 5 SECONDS.
@@ -414,7 +414,7 @@ END
 ```
 Windows APIs courtesy of Dav
 
->  Returns the DOS 8.3 path and file name. The DLL used is in the QB64 folder.
+>  Returns the DOS 8.3 path and file name. The DLL used is in the QB64PE folder.
 
 ```vb
 
@@ -769,7 +769,7 @@ DIM systime AS SYSTEMTIME
 DIM FileName AS STRING
 DIM FileHandle AS _OFFSET
 
-FileName = "readme.txt" + CHR$(0) '<<<<<< Existing file in QB64 folder. Use existing file path!
+FileName = "readme.txt" + CHR$(0) '<<<<<< Existing file in QB64PE folder. Use existing file path!
 
 FileHandle = CreateFileA%&(_OFFSET(FileName), GENERIC_READ, FILE_SHARE_READ OR FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0)
 IF FileHandle <> INVALID_HANDLE_VALUE THEN
@@ -1707,7 +1707,7 @@ LOOP
 ```
 Code courtesy of Dav
 
-> **Note:** Virtual Hot keys can be used when a QB64 program is **not in focus** too! See **[Windows Libraries](Windows-Libraries)** to bring a QB64 program into focus.
+> **Note:** Virtual Hot keys can be used when a QB64PE program is **not in focus** too! See **[Windows Libraries](Windows-Libraries)** to bring a QB64PE program into focus.
 
 ```text
 
@@ -1732,7 +1732,7 @@ Code courtesy of Dav
 
 ```
 
->NOTE: The above commented table can be copied and pasted directly into the QB64 IDE
+>NOTE: The above commented table can be copied and pasted directly into the QB64PE IDE
 
 >  **Invisible key and mouse logger that does not require program focus. Press ESCape key to view the logged activity. **
 
@@ -1749,7 +1749,7 @@ _DEST 0
 DO : LOOP UNTIL _SCREENEXISTS 'to prevent unexpected freezing
 _SCREENHIDE 'makes the program invisible to the user. Escape key displays log!
 
-DECLARE LIBRARY  'function is already used by QB64 so "User32" is not required
+DECLARE LIBRARY  'function is already used by QB64PE so "User32" is not required
   FUNCTION GetAsyncKeyState% (BYVAL vkey AS LONG)
 END DECLARE
 
@@ -1906,7 +1906,7 @@ END
 ```
 Code by Michael Calkins
 
-> *Note:* In QB64 the number pad lock does not affect the [INP](INP)(&H60) release code returns of the [extended keys](extended-keys) like it did in QBasic.
+> *Note:* In QB64PE the number pad lock does not affect the [INP](INP)(&H60) release code returns of the [extended keys](extended-keys) like it did in QBasic.
 
 ## Message Box
 
@@ -2034,7 +2034,7 @@ SYSTEM
 
 ```vb
 
-'Uses Kernel32 WinAPI to execute a program in a QB64 program.  Coded by Dav
+'Uses Kernel32 WinAPI to execute a program in a QB64PE program.  Coded by Dav
 
 DECLARE LIBRARY
   Function WinExec (lpCmdLine AS STRING, BYVAL nCmdShow AS LONG)
@@ -2049,7 +2049,7 @@ Winmode% = 1
 
 'NOTE: If you do 0 (hide), you'll have to Kill the process using your TaskManager!!!
 
-'###  Open notepad and load samples.txt in the QB64 directory
+'###  Open notepad and load samples.txt in the QB64PE directory
 
 Filename$ = "notepad.exe samples.txt" + CHR$(0)
 
@@ -2151,8 +2151,8 @@ Code courtesy of Michael Calkins
 'SENDKEYS.BAS
 '### 
 
-'A kind of SENDKEYS clone for QB64. Sends keystrokes to active application.
-'Coded for QB64 by Dav, JAN/2013
+'A kind of SENDKEYS clone for qb64pe. Sends keystrokes to active application.
+'Coded for QB64PE by Dav, JAN/2013
 
 DECLARE DYNAMIC LIBRARY "user32"
     SUB SENDKEYS ALIAS keybd_event (BYVAL bVk AS LONG, BYVAL bScan AS LONG, BYVAL dwFlags AS LONG, BYVAL dwExtraInfo AS LONG)
@@ -2251,7 +2251,7 @@ Code courtesy of Dav
 
 ```
 
-> NOTE: The above commented table can be copied and pasted directly into the QB64 IDE
+> NOTE: The above commented table can be copied and pasted directly into the QB64PE IDE
 
 ## System Metrics
 
@@ -2427,8 +2427,8 @@ END DECLARE
 handle& = _NEWIMAGE(800, 600, 256)
 SCREEN handle&
 
-_TITLE "QB64 Video"
-hwnd& = _WINDOWHANDLE 'FindWindow(0, "QB64 Video" + CHR$(0))
+_TITLE "QB64PE Video"
+hwnd& = _WINDOWHANDLE 'FindWindow(0, "QB64PE Video" + CHR$(0))
 
 ReturnString$ = SPACE$(255)
 ErrorString$ = SPACE$(255)
@@ -2731,7 +2731,7 @@ DIM t AS STRING
 DIM notifydata AS NOTIFYICONDATA
 notifydata.cbSize = LEN(notifydata)
 
-t = "qb64 notification test"
+t = "QB64PE notification test"
 _TITLE t
 t = t + CHR$(0)
 hWnd = _WINDOWHANDLE 'FindWindowA(0, _OFFSET(t)) 'find window ID
@@ -3131,7 +3131,7 @@ Code courtesy of Michael Calkins
 
 ## Windows Version
 
-**Note that QB64 will not run on Windows 95 to ME computers currently!**
+**Note that QB64PE will not run on Windows 95 to ME computers currently!**
 
 ```vb
 
@@ -3166,7 +3166,7 @@ Code courtesy of Dav
 
 ## Reference
 
- **Note: C++ Header files should be placed in the QB64 folder and are not required after a program is compiled.**
+ **Note: C++ Header files should be placed in the QB64PE folder and are not required after a program is compiled.**
 
 **Your code contribution using the Windows Libraries could end up here!**
 

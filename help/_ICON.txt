@@ -9,11 +9,11 @@ The [[_ICON]] statement uses an image handle from [[_LOADIMAGE]] for the program
 {{PageParameters}}
 * {{Parameter|mainImageHandle&amp;}}  is the [[LONG]] handle value of the OS icon and title bar image pre-loaded with [[_LOADIMAGE]] when used alone.
 * {{Parameter|smallImageHandle&amp;}} is the [[LONG]] handle value of a different title bar image pre-loaded with [[_LOADIMAGE]] when used.
-* No image handle designates use of the default QB64 icon or the embedded icon set by [[$EXEICON]].
+* No image handle designates use of the default QB64PE icon or the embedded icon set by [[$EXEICON]].
 
 
 {{PageDescription}}
-* If no image handle is passed, the default QB64 icon will be used (all versions). If the [[$EXEICON]] metacommand is used, [[_ICON]] without an image handle uses the embedded icon from the binary (Windows only).
+* If no image handle is passed, the default QB64PE icon will be used (all versions). If the [[$EXEICON]] metacommand is used, [[_ICON]] without an image handle uses the embedded icon from the binary (Windows only).
 * Beginning with '''version 1.000''', the following is considered: 
 :::{{Parameter|mainImageHandle&amp;}} creates the image as the icon in the OS and the image in the program header (title bar).
 :::{{Parameter|smallImageHandle&amp;}} can be used for a different image in the program header bar.
@@ -41,7 +41,7 @@ i&amp; ={{Cl|_LOADIMAGE}}("RDSWU16.BMP", 32) '&lt;&lt;&lt;&lt;&lt;&lt;&lt; use y
 :''Note:'' _ICON images can be freed if the [[SCREEN]] mode stays the same. Freed image handles can on longer be referenced. 
 
 
-''Example 2:'' Function that converts an icon into a temporary bitmap for use in QB64. Function returns the available image count.
+''Example 2:'' Function that converts an icon into a temporary bitmap for use in qb64pe. Function returns the available image count.
 {{CodeStart}} '' ''
 {{Cl|SCREEN}} {{Cl|_NEWIMAGE}}(640, 480, 256)
 {{Cl|_TITLE}} "Icon Converter"

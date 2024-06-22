@@ -15,7 +15,7 @@
 * [GOSUB](GOSUB) blocks require a [RETURN](RETURN) to return to the original call or to a line label or number to return to.
 * [ON ERROR](ON-ERROR) [GOTO](GOTO) line label or number calls use [RESUME](RESUME) [NEXT](NEXT) or a line label or number to resume to.
 * [GOTO](GOTO) or [RUN](RUN) can refer to a specific numerical line number or text line label.
-* Line numbers are no longer required in QB or QB64 except for [GOSUB](GOSUB), [RUN](RUN) or [GOTO](GOTO) situations.
+* Line numbers are no longer required in QB or QB64PE except for [GOSUB](GOSUB), [RUN](RUN) or [GOTO](GOTO) situations.
 * Line numbers and labels are not allowed after SUB/FUNCTION blocks. They are allowed inside SUB/FUNCTIONS though.
 
 ## See Also

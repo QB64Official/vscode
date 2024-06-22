@@ -36,7 +36,7 @@ The **FILELIST$** function can be used in place of the old QBasic [FILES](FILES)
 
 **[Screenshot](http://i301.photobucket.com/albums/nn53/burger2227/FILE-ss2.jpg)**
 
-**The function is NOT a QB64 authorized function!** This program code is free to use in your programs! No claims are made as to the suitability of the code and the user is responsible for any damages. You are free to alter the code as you see fit.
+**The function is NOT a QB64PE authorized function!** This program code is free to use in your programs! No claims are made as to the suitability of the code and the user is responsible for any damages. You are free to alter the code as you see fit.
 
 **NOTE: IF [$STATIC]($STATIC) Metacommand is required, change function Arrays to [STATIC](STATIC) and [ERASE](ERASE) them at start and every loop!**
 

@@ -1,4 +1,4 @@
-** ThirtyTwoBit Screen Shot SUB for QB64 Screen and Image Handles**
+** ThirtyTwoBit Screen Shot SUB for QB64PE Screen and Image Handles**
 
 ## Syntax
 
@@ -43,7 +43,7 @@ ThirtyTwoBit 0, 0, x2%, y2%, bmp&, "BobSave.bmp"  ' save actual image as BMP
 ```text
 
 '****************************** Freeware by Bob Seguin *******************************
-'                     Adapted for QB64 by Ted Weissgerber in 2010
+'                     Adapted for QB64PE by Ted Weissgerber in 2010
 
 '*************************************************************************************
                      
@@ -56,7 +56,7 @@ pixelbytes& = _PIXELSIZE(image&)
 IF pixelbytes& = 0 THEN BEEP: EXIT SUB 'no text screens
 
 FileType$ = "BM"
-QB64$ = "QB64" 'free advertiising in reserved bytes
+QB64$ = "QB64PE" 'free advertiising in reserved bytes
 IF pixelbytes& = 1 THEN OffsetBITS& = 1078 ELSE OffsetBITS& = 54 'no palette in 24/32 bit
 InfoHEADER& = 40
 PictureWidth& = (x2% - x1%) + 1

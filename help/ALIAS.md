@@ -8,15 +8,15 @@ The [ALIAS](ALIAS) clause in a [DECLARE LIBRARY](DECLARE-LIBRARY) statement bloc
 
 ## Parameter(s)
 
-* The *pseudo name* is the name of the [SUB](SUB) or [FUNCTION](FUNCTION) the QB64 program will use.
+* The *pseudo name* is the name of the [SUB](SUB) or [FUNCTION](FUNCTION) the QB64PE program will use.
 * The *actual name* is the same procedure name as it is inside of the DLL library.
-* QB64 must use all parameters of imported procedures including optional ones.
+* QB64PE must use all parameters of imported procedures including optional ones.
 
 ## Description
 
 * The ALIAS name clause is optional as the original library procedure name can be used.
 * The procedure name does not have to be inside of quotes when using [DECLARE LIBRARY](DECLARE-LIBRARY).
-* QB64 does not support optional parameters.
+* QB64PE does not support optional parameters.
 
 ## Example(s)
 

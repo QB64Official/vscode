@@ -1,4 +1,4 @@
-The [[$CONSOLE]] [[metacommand]] creates a console window that can be used throughout a QB64 program module.
+The [[$CONSOLE]] [[metacommand]] creates a console window that can be used throughout a QB64PE program module.
 
 
 {{PageSyntax}}
@@ -15,7 +15,7 @@ The [[$CONSOLE]] [[metacommand]] creates a console window that can be used throu
 * [[_CONSOLETITLE]] can be used to change the title of the console window.
 * '''Note:''' Text can be copied partially or totally from console screens in Windows by highlighting and using the title bar menu. 
 :: To copy console text output, right click the title bar and select ''Edit'' for ''Mark'' to highlight and repeat to ''Copy''
-* QB64 [[Metacommand]]s are not commented out with ' or REM, differently from QBasic metacommands. 
+* QB64PE [[Metacommand]]s are not commented out with ' or REM, differently from QBasic metacommands. 
 
 
 {{PageExamples}}

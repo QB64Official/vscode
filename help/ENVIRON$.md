@@ -70,13 +70,13 @@ USERPROFILE=C:\Users\Ted
 
 > *Note:* Windows environmental settings are listed alphabetically, 20 at a time. **QB64 may not read all of them or may return an empty string.** The settings above were returned with SET in DOS. PROMPT returned nothing where SET returned $P$G. 
 
-Creating a shortcut on a user's desktop for QB64.EXE using the program's icon. Must be run in program's folder to work!
+Creating a shortcut on a user's desktop for qb64pe.EXE using the program's icon. Must be run in program's folder to work!
 
 ```vb
 
 '=== Enter the EXE file and ICON or BMP image for the shortcut.
 
-Program$ = "QB64.EXE"  '<<<<<<<<<< Enter the **exact** program name for shortcut
+Program$ = "qb64pe.EXE"  '<<<<<<<<<< Enter the **exact** program name for shortcut
 ICON$ = "QB64ICON.BMP" '<<<<<<<<<< Enter icon or bitmap to use from program's folder
 
 DeskTopShortcut Program$, ICON$

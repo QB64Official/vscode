@@ -1,7 +1,7 @@
 **DLL, C++ and the Windows API Libraries**
 
-* Working with QB64 Declarations: [C Libraries](C-Libraries), [DLL Libraries](DLL-Libraries), [Windows Libraries](Windows-Libraries)
-* QB64 Library Keywords: [DECLARE LIBRARY](DECLARE-LIBRARY), [DECLARE DYNAMIC LIBRARY](DECLARE-DYNAMIC-LIBRARY), [ALIAS](ALIAS), [BYVAL](BYVAL)
+* Working with QB64PE Declarations: [C Libraries](C-Libraries), [DLL Libraries](DLL-Libraries), [Windows Libraries](Windows-Libraries)
+* QB64PE Library Keywords: [DECLARE LIBRARY](DECLARE-LIBRARY), [DECLARE DYNAMIC LIBRARY](DECLARE-DYNAMIC-LIBRARY), [ALIAS](ALIAS), [BYVAL](BYVAL)
 * [PEEK](PEEK) and [POKE](POKE) Library: [PEEK and POKE Library](PEEK-and-POKE-Library)
 * COM and LPT *Inpout32.dll* [OUT](OUT): [Port Access Libraries](Port-Access-Libraries)
 * Setting Windows environment values and changing them in the Registry: [Windows Environment](Windows-Environment)
@@ -12,19 +12,19 @@
 
 **Creating your own $INCLUDE Text Libraries**
 
-To create your own libraries of your favorite Basic subs and functions, just copy the QB64 code to a text file and save it as a BI or BM file. Then all you need to do is [$INCLUDE]($INCLUDE) the text file name after all of the [SUB](SUB) and [FUNCTION](FUNCTION) code in the program. Once it is compiled, the text file is no longer needed. Save it for other programs you create! No more Object or QLB files to mess with either!
+To create your own libraries of your favorite Basic subs and functions, just copy the QB64PE code to a text file and save it as a BI or BM file. Then all you need to do is [$INCLUDE]($INCLUDE) the text file name after all of the [SUB](SUB) and [FUNCTION](FUNCTION) code in the program. Once it is compiled, the text file is no longer needed. Save it for other programs you create! No more Object or QLB files to mess with either!
 
 * Variable DEF, [DIM](DIM), [SHARED](SHARED), [TYPE](TYPE) and [DATA](DATA) statements should be [$INCLUDE]($INCLUDE)d in a **BI** text file at the start of the program.
 
-* [SUB](SUB) and [FUNCTION](FUNCTION) code should be [$INCLUDE]($INCLUDE)d at the very bottom of the QB64 BAS code module in a **BM** text file.
+* [SUB](SUB) and [FUNCTION](FUNCTION) code should be [$INCLUDE]($INCLUDE)d at the very bottom of the QB64PE BAS code module in a **BM** text file.
 
-* QB64 also allows [TYPE](TYPE) declarations to be placed inside of [SUB](SUB) or [FUNCTION](FUNCTION) procedures!
+* QB64PE also allows [TYPE](TYPE) declarations to be placed inside of [SUB](SUB) or [FUNCTION](FUNCTION) procedures!
 
-**Note: QB64 requires all DLL files to either be with the program or in the C:\WINDOWS\SYSTEM32 folder!**
+**Note: QB64PE requires all DLL files to either be with the program or in the C:\WINDOWS\SYSTEM32 folder!**
 
 ## C++ Variable Types
 
-The following C++ variable types should be used when converting sub-procedure parameters from Libraries to QB64 variable types.
+The following C++ variable types should be used when converting sub-procedure parameters from Libraries to QB64PE variable types.
 
 
 
@@ -52,7 +52,7 @@ The values of the columns Size and Range depend on the system the program is com
 
 **Windows API Data Structures**
 
-| Name |              Description   |            Bits            |        QB64 Type |
+| Name |              Description   |            Bits            |        QB64PE Type |
 | ---- | -------------------------- | -------------------------- | ---------------- | 
 | bit  |         8 bits in one byte |            1               |        [_BIT](_BIT) |
 | nybble          |      2 nybbles in one byte  |        4        |                [_BIT](_BIT) * 4| 

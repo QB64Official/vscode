@@ -25,7 +25,7 @@ The [CLS](CLS) statement clears the [_DEST](_DEST).
 
 ## Example(s)
 
-Printing black text on a white background in QB64.
+Printing black text on a white background in qb64pe.
 
 ```vb
 
@@ -51,7 +51,7 @@ _PUTIMAGE (0, 0), i 'places image at upper left corner of window w/o stretching 
 
 ```
 
-> *Explanation:* When QB64 loads a .PNG file containing a transparent color, that color will be properly treated as transparent when _PUTIMAGE is used to put it onto another image. You can use a .PNG file containing transparency information in a 256-color screen mode in QB64. [CLS](CLS) sets the [_CLEARCOLOR](_CLEARCOLOR) setting using [_RGB](_RGB).
+> *Explanation:* When QB64PE loads a .PNG file containing a transparent color, that color will be properly treated as transparent when _PUTIMAGE is used to put it onto another image. You can use a .PNG file containing transparency information in a 256-color screen mode in qb64pe. [CLS](CLS) sets the [_CLEARCOLOR](_CLEARCOLOR) setting using [_RGB](_RGB).
 
 ## See Also
 

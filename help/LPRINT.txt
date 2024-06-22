@@ -9,7 +9,7 @@ The [[LPRINT]] statement sends string text or numerical values to a parallel por
 * {{Parameter|expression}} is one or more text or numerical expressions separated by a semi-colon (;) or comma (,).
 * Syntax is the same as [[PRINT]], but cannot use a port number.
 * Program does not have to [[OPEN]] the LPT1: parallel port.
-* Assumes a 80 character wide page. '''[[Keywords currently not supported by QB64|WIDTH LPRINT is not supported in QB64.]]'''
+* Assumes a 80 character wide page. '''[[Keywords currently not supported by QB64|WIDTH LPRINT is not supported in qb64pe.]]'''
 * [[LPRINT USING]] can print formatted text data to a page identically to how [[PRINT USING]] formats a program screen.
 * [[COLOR]]ed text and images can be printed using [[_PRINTIMAGE]] which stretches them to fit the default printer's paper size.
 * LPRINT will only print to the default USB or LPT printer set up in Windows.  '''[[Keywords_currently_not_supported_by_QB64#Keywords_Not_Supported_in_Linux_or_MAC_OSX_versions|Keyword Not Supported in Linux or MAC versions]]'''

@@ -1,4 +1,4 @@
-| Cursor-Movement Keys | QB64 | WordStar |
+| Cursor-Movement Keys | QB64PE | WordStar |
 | - | - | - |
 | Character left | Left Arrow | Ctrl + S |
 | Character right | Right Arrow | Ctrl + D |
@@ -16,7 +16,7 @@
 | Increase size of active window | Alt + Plus | |
 | Decrease size of active window | Alt + Minus | |
 
-| Text-Scrolling Keys | QB64 | WordStar |
+| Text-Scrolling Keys | QB64PE | WordStar |
 | - | - | - |
 | Line up | Ctrl + Up Arrow | Ctrl + W |
 | Line down | Ctrl + Down Arrow | Ctrl + Z |
@@ -27,7 +27,7 @@
 | Set bookmarks (maximum of 4) | Ctrl + K, 0-3 | |
 | Go to set bookmarks | Ctrl + Q, 0-3 | |
 
-| Text-Selection Keys | QB64 |
+| Text-Selection Keys | QB64PE |
 | - | - |
 | Character left | Shift + Left Arrow |
 | Character right | Shift + Right Arrow |
@@ -40,7 +40,7 @@
 | To beginning of file | Shift + Ctrl + Home |
 | To end of file | Shift + Ctrl + End |
 
-| Insert and Copy Keys | QB64 | WordStar |
+| Insert and Copy Keys | QB64PE | WordStar |
 | - | - | - |
 | Switch between insert and overstrike modes | Ins | Ctrl + V |
 | Copy selected text to Clipboard | Ctrl + Ins | |
@@ -52,7 +52,7 @@
 | Insert a blank line above the cursor position | | Home, Ctrl + N |
 | Insert special characters | Ctrl + P, Ctrl + key | |
 
-| Delete Keys | QB64 | Wordstar |
+| Delete Keys | QB64PE | Wordstar |
 | - | - | - |
 | Delete one character to the left of the cursor | Backspace | Ctrl + H |
 | Delete one character at the cursor | Del | Ctrl + G |

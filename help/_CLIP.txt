@@ -1,5 +1,5 @@
 {{DISPLAYTITLE:_CLIP}}
-The [[_CLIP]] option is used in a QB64 graphics [[PUT (graphics statement)|PUT]] to allow placement of an image partially off of the screen.
+The [[_CLIP]] option is used in a QB64PE graphics [[PUT (graphics statement)|PUT]] to allow placement of an image partially off of the screen.
 
 
 {{PageSyntax}}

@@ -9,7 +9,7 @@ The [_OFFSET](_OFFSET) variable type stores the location of a value in memory. T
 * [_OFFSET](_OFFSET) types can be created as signed or [_UNSIGNED](_UNSIGNED) at the programmer's discretion.
 * The type suffix for [_OFFSET](_OFFSET) is **%&** which designates the integer value's flexible size.
 * Offset values are only useful when used in conjunction with [_MEM](_MEM) or [DECLARE LIBRARY](DECLARE-LIBRARY) procedures.
-* OFFSET values are used as a part of the [_MEM](_MEM) variable [Variable Types](Variable-Types) in QB64. Variable.OFFSET returns or sets the current position in memory.
+* OFFSET values are used as a part of the [_MEM](_MEM) variable [Variable Types](Variable-Types) in qb64pe. Variable.OFFSET returns or sets the current position in memory.
 * API [DECLARE LIBRARY](DECLARE-LIBRARY) parameter or [TYPE](TYPE) names may include **lp, ptr** or **p** which designates them as a pointer type.
 * **Warning: [_OFFSET](_OFFSET) values cannot be cast to other variable type values reliably.**
 * **Warning: Variable length [STRING](STRING) values can move about in memory at any time.** If you get the [_OFFSET](_OFFSET) of a variable length sting on one code line and use it on the next it may not be there anymore.** To be safe, move variable length strings into fixed length strings first.**

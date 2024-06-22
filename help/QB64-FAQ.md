@@ -1,12 +1,12 @@
-As with everything else, this list will be updated to correspond to new progress of QB64 so make sure that you are using the latest version of **QB64**. Please note that it may take a short time to update this list.
+As with everything else, this list will be updated to correspond to new progress of QB64PE so make sure that you are using the latest version of **QB64**. Please note that it may take a short time to update this list.
 
-**It's recommended to exclude (whitelist) "qb64.exe" (also the *internal* folder) from any real-time anti-virus scanning to prevent IDE Module Errors.**
+**It's recommended to exclude (whitelist) "qb64pe.exe" (also the *internal* folder) from any real-time anti-virus scanning to prevent IDE Module Errors.**
 
 ## Q: What is QB64?
 
 A: **QB64** is a BASIC compatible Editor and C++ emitter that creates working Executable files from QBasic BAS files that can be run on 32 or 64 bit PC's using **Windows** (XP to 10), **Linux** or **macOS**. The goal is to be 100% compatible with QuickBASIC 4.5 plus add hundreds of new abilities such as program icons and custom sized windows and a great retro Editor with builtin help. 
 
-The **new keywords** add some **new features** such as playing **music or sound** files and instant access to **32 bit graphics** file images. Also **TCP/IP** internet communication is available to **download** files, **email** messages over the web or play **internet games**. **DLL Libraries** can add more programming options and QB64 can access all of the new USB gaming **controllers** and **printers**.
+The **new keywords** add some **new features** such as playing **music or sound** files and instant access to **32 bit graphics** file images. Also **TCP/IP** internet communication is available to **download** files, **email** messages over the web or play **internet games**. **DLL Libraries** can add more programming options and QB64PE can access all of the new USB gaming **controllers** and **printers**.
 
 QB is an abbreviation for **QBasic** or **QuickBASIC** which is an easy to learn language that grew very popular in the 90's. It uses simple syntax but holds great potential as there are methods to achieve nearly anything. **QBasic is more alive than ever with QB64!**
 
@@ -14,9 +14,9 @@ QB is an abbreviation for **QBasic** or **QuickBASIC** which is an easy to learn
 
 ## Q: Does it have modern features? Do they HAVE to be used?
 
-A: QB64 has plenty of modern features, but they do not have to be used. You may just want to run some of your old favorites.
+A: QB64PE has plenty of modern features, but they do not have to be used. You may just want to run some of your old favorites.
 **QB64 was created to run your old QBasic 4.5 (or less) programs on newer Operating Systems without any changes.**
-You could code using the original QuickBASIC syntax all the way through and it should work as you expect it to or even better. QB64 is often faster and has none of the memory limitations that plagued QBasic in the past.
+You could code using the original QuickBASIC syntax all the way through and it should work as you expect it to or even better. QB64PE is often faster and has none of the memory limitations that plagued QBasic in the past.
 
 QB64 is not meant to run PDS (7.1) QBX code. Most GW Basic code will run with minor changes.
 
@@ -46,14 +46,14 @@ The modern statements are designed to go along with the BASIC philosophy and exp
 
 ```
 
-## Q: How do I install QB64 on Windows, Linux, macOS?
+## Q: How do I install QB64PE on Windows, Linux, macOS?
 
-A: QB64 supports the following Operating Systems:
+A: QB64PE supports the following Operating Systems:
 
 **Windows NT (XP), Windows Vista, Windows 7, 8 or 10:**
 
 > **1)** Download the appropriate package according to your system from [GitHub](http://github.com/QB64Official/qb64/releases)
-> **2)** Unpack the contents to any location on your computer. Avoid unpacking to Program Files or other system folders that may require administrative privileges. QB64 needs to have full write permissions to its own folder.
+> **2)** Unpack the contents to any location on your computer. Avoid unpacking to Program Files or other system folders that may require administrative privileges. QB64PE needs to have full write permissions to its own folder.
 
 > *Executable programs are portable between like systems by copying the stand-alone executable file.
 
@@ -62,45 +62,45 @@ A: QB64 supports the following Operating Systems:
 **Most distributions of Linux, both 32 and 64 bit**
 
 > **1)** Download the appropriate package according to your system from [GitHub](http://github.com/QB64Official/qb64/releases)
-> **2)** After extracting the downloaded package, run the installation batch/script called *./setup_lnx.sh* in the main *qb64* folder to setup QB64.
+> **2)** After extracting the downloaded package, run the installation batch/script called *./setup_lnx.sh* in the main *qb64* folder to setup qb64pe.
 > **3)**  Most dependencies should be automatically downloaded by the setup script, but these are the ones you should look for if compilation fails: OpenGL developement libraries, ALSA development libraries, GNU C++ Compiler (g++)
 
 Executable programs are portable between like systems by copying the executable file.
-**Note: Some QB64 keywords and procedures are not available for Linux.**               
+**Note: Some QB64PE keywords and procedures are not available for Linux.**               
 
 ----
 **macOS**
 
 > **1)** You must install Apple's **Xcode command line tools** for C++ compilation from their website. The simplest way to do so is opening a terminal window and typing the following command: **xcode-select --install** (more info here: [http://developer.apple.com/technologies/tools/xcode.html Xcode download])
->     (you won't be using the Xcode interface, QB64 just needs to have access to the C++ compiler and libraries it installs)
+>     (you won't be using the Xcode interface, QB64PE just needs to have access to the C++ compiler and libraries it installs)
 > **3)** Download the appropriate package according to your system from [GitHub](http://github.com/QB64Official/qb64/releases)
->     Extract the downloaded package and run *./setup_osx.command*, found within the QB64 folder to install the QB64 compiler.
+>     Extract the downloaded package and run *./setup_osx.command*, found within the QB64PE folder to install the QB64PE compiler.
 
-**After installation you should run **./qb64** or **./qb64_start_osx.command** to run qb64.**
+**After installation you should run **./qb64** or **./qb64_start_osx.command** to run qb64pe.**
 
 > *Executable programs are portable between macOS systems by copying the executable file.
 > *To help launch executables without a console, a file called *programname_start.command* is created along with the program.
-**Note: Some QB64 keywords and procedures are not available for macOS.**
+**Note: Some QB64PE keywords and procedures are not available for macOS.**
 
 [Keywords currently not supported](Keywords-currently-not-supported-by-QB64)
 
 ----
 
-## Q: Why won't QB64 work on my computer?
+## Q: Why won't QB64PE work on my computer?
 
 QB64 currently supports Windows versions from XP to the latest version. Most Linux and macOS versions are also supported.
 
-> **Don't move QB64 executable out of the QB64 folder. The various sub-folders hold the C++ compiler files and libraries.**
+> **Don't move QB64PE executable out of the QB64PE folder. The various sub-folders hold the C++ compiler files and libraries.**
 
-> **QB64 does not change any settings on your machine. All required files are in the QB64 folder.**
+> **QB64 does not change any settings on your machine. All required files are in the QB64PE folder.**
 
 ## Q: Are there any known incompatibilities?
 
-A: There are some things that QB64 cannot do, like direct hardware access, which makes older more advanced programs that make use of [CALL ABSOLUTE](CALL-ABSOLUTE), [INTERRUPT](INTERRUPT), [PEEK](PEEK), [POKE](POKE) and [OUT](OUT) not work properly. Although some older functionality is emulated, if your program doesn't use such statements you probably won't notice any difference between QB 4.5 and QB64 (and if you do, report it as a bug in the forums). You can expect the most common addresses for interrupts, etc. to be functioning. 
+A: There are some things that QB64PE cannot do, like direct hardware access, which makes older more advanced programs that make use of [CALL ABSOLUTE](CALL-ABSOLUTE), [INTERRUPT](INTERRUPT), [PEEK](PEEK), [POKE](POKE) and [OUT](OUT) not work properly. Although some older functionality is emulated, if your program doesn't use such statements you probably won't notice any difference between QB 4.5 and QB64PE (and if you do, report it as a bug in the forums). You can expect the most common addresses for interrupts, etc. to be functioning. 
 
 See: [Keywords currently not supported](Keywords-currently-not-supported-by-QB64)
 
-You should be careful with **CPU usage**. QB64 is a lot faster than QBasic was and it does not have many of the size limitations that confined QBasic programming abilities. Having said that, **care must be taken to assure that programs do not hog resources.** To do that, use speed limits when possible to keep the resources used to a minimum. Also, **Monitor Task Manager** when your programs are running, as it can tell you how much or system resources are being used in different parts of a program. The following keywords can lower the impact of your programs on those resources by releasing them to other programs:
+You should be careful with **CPU usage**. QB64PE is a lot faster than QBasic was and it does not have many of the size limitations that confined QBasic programming abilities. Having said that, **care must be taken to assure that programs do not hog resources.** To do that, use speed limits when possible to keep the resources used to a minimum. Also, **Monitor Task Manager** when your programs are running, as it can tell you how much or system resources are being used in different parts of a program. The following keywords can lower the impact of your programs on those resources by releasing them to other programs:
 
 > [_LIMIT](_LIMIT): Limits the loops per second in any loop and thus lowers the overall CPU usage.
 
@@ -114,9 +114,9 @@ QB64 can be fast when you need it to be, but take the time to consider the impac
 
 ## Q: How do I update the information in QB64's help system?
 
-A: The help provided in the QB64 IDE Help System fetches the pages from this wiki. Use the **Update current page** in the IDE Help menu selection to update a page. Use the **Update all pages** choice to update them all, but this may take longer. 
+A: The help provided in the QB64PE IDE Help System fetches the pages from this wiki. Use the **Update current page** in the IDE Help menu selection to update a page. Use the **Update all pages** choice to update them all, but this may take longer. 
 
-## Q: Can I use the same libraries with QB64 that I used with QB 4.5?
+## Q: Can I use the same libraries with QB64PE that I used with QB 4.5?
 
 A: If the libraries are pure QB 4.5 code then yes, otherwise no. QLB files are not supported but you can easily copy your favorite SUBs or FUNCTIONs to a text BI file and [$INCLUDE]($INCLUDE) them at the end of any program. Include them after all SUB and FUNCTION code in the BAS file.
 
@@ -126,17 +126,17 @@ A: If the libraries are pure QB 4.5 code then yes, otherwise no. QLB files are n
 
 ## Q: I can't get my QB 4.5 source code to work in QB64! Why?
 
-A: QB64 is 99% compatible with QB4.5 programs. The commands that haven't been implemented are either obsolete or are too obscure and have been replaced by modern functionality. 
+A: QB64PE is 99% compatible with QB4.5 programs. The commands that haven't been implemented are either obsolete or are too obscure and have been replaced by modern functionality. 
 
 See: [Keywords currently not supported](Keywords-currently-not-supported-by-QB64)
 
-## Q: What files are required to run my QB64 compiled program in my Operating System?
+## Q: What files are required to run my QB64PE compiled program in my Operating System?
 
-A: Programs compiled by QB64 (version 1.000 and up) are stand-alone so no external files are required to be with your program's EXE file. 
+A: Programs compiled by QB64PE (version 1.000 and up) are stand-alone so no external files are required to be with your program's EXE file. 
 
-## Q: Is there a way to use QB64 from the command line?
+## Q: Is there a way to use QB64PE from the command line?
 
-A: Yes! Just type QB64 -? at the command prompt to see a list of available options.
+A: Yes! Just type QB64PE -? at the command prompt to see a list of available options.
 
 * **QB64 -c yourfile.BAS**
 * **QB64 -x yourfile.BAS** *(compiles using the console only)*
@@ -146,7 +146,7 @@ A: Yes! Just type QB64 -? at the command prompt to see a list of available optio
 
 ```text
 
-Usage: qb64 [switches] <file>
+Usage: QB64PE [switches] <file>
 
 Options:
   <file>                  Source file to load
@@ -169,7 +169,7 @@ Options:
 
 ## Q: How do I link modules or include SUB procedures in QB64?
 
-A: QB64 allows you to [$INCLUDE]($INCLUDE) code or BAS modules into one module when it is compiled. Text .BI files containing SUB or FUNCTION code or entire BAS modules can be included in one module that will be compiled. 
+A: QB64PE allows you to [$INCLUDE]($INCLUDE) code or BAS modules into one module when it is compiled. Text .BI files containing SUB or FUNCTION code or entire BAS modules can be included in one module that will be compiled. 
 
 After the EXE is compiled, you do not have to even use the added code anymore. The EXE will contain ALL of the program code as ONE stand-alone program. This also allows you to add SUB code to any program that you desire. 
 
@@ -207,7 +207,7 @@ Capabilities include:
 
 > [_SNDRAW](_SNDRAW) (statement), [_SNDSTOP](_SNDSTOP) (statement), [_SNDVOL](_SNDVOL) (statement)
 
-## Q: If QB64 creates Basic programs why is there no Immediate Window?
+## Q: If QB64PE creates Basic programs why is there no Immediate Window?
 
 A: Because there is no **QB64** interpreter. All C code has to be compiled before it can be run.
 
@@ -215,9 +215,9 @@ A: Because there is no **QB64** interpreter. All C code has to be compiled befor
 
 ## Q: Does it work on Windows 98 or any OS older than Windows 2000?
 
-A: No, it doesn't. QB64 is made to run on new systems (Windows XP and up, Linux and macOS).
+A: No, it doesn't. QB64PE is made to run on new systems (Windows XP and up, Linux and macOS).
 
-## Q: Does QB64 support CURRENCY values from PDS or VB programs?
+## Q: Does QB64PE support CURRENCY values from PDS or VB programs?
 
 A: Not directly, but [_FLOAT](_FLOAT) currency values up to 4 decimal places can be multiplied by 10000(10 ^ 4) and converted to MKC$ string values using [_MK$](_MK$) with an [_INTEGER64](_INTEGER64) value. [_CV](_CV) with an [_INTEGER64](_INTEGER64) value divided by 10000 converts it back to [_FLOAT](_FLOAT) values.
 
@@ -227,10 +227,10 @@ A: Not directly, but [_FLOAT](_FLOAT) currency values up to 4 decimal places can
 
 ## Q: Do you provide changelogs?
 
-A: We do.  For all recent changelogs, check [QB64.com](https://qb64.com)
+A: We do.  For all recent changelogs, check [qb64pe.com](https://qb64pe.com)
 
 *For all recent changelogs, check at [http://github.com/QB64Official/qb64/blob/development/CHANGELOG.md GitHub]
 
 ## Q: Where I can view the C++ code before it gets compiled?
 
-Look in the QB64 **internal\temp** folder for **main.txt** to get the C code used to compile the latest program.
+Look in the QB64PE **internal\temp** folder for **main.txt** to get the C code used to compile the latest program.

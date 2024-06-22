@@ -12,7 +12,7 @@
 * The $INCLUDE metacommand should be the only statement on a line.
 
 
-===How to $INCLUDE a BAS or Text file with a QB64 Program===
+===How to $INCLUDE a BAS or Text file with a QB64PE Program===
 * Assemble the code to be reused into a file.
 * Common extensions are '''.BI''' (for declarations, usually included in the beginning of a program) or '''.BM''' (with SUBs and FUNCTIONs, usually included at the end of a program).
 ** Any extension can be used, as long as the file contains code in plain text (binary files are not accepted).

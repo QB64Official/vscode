@@ -8,11 +8,11 @@ The [_ICON](_ICON) statement uses an image handle from [_LOADIMAGE](_LOADIMAGE) 
 
 * mainImageHandle&  is the [LONG](LONG) handle value of the OS icon and title bar image pre-loaded with [_LOADIMAGE](_LOADIMAGE) when used alone.
 * smallImageHandle& is the [LONG](LONG) handle value of a different title bar image pre-loaded with [_LOADIMAGE](_LOADIMAGE) when used.
-* No image handle designates use of the default QB64 icon or the embedded icon set by [$EXEICON]($EXEICON).
+* No image handle designates use of the default QB64PE icon or the embedded icon set by [$EXEICON]($EXEICON).
 
 ## Description
 
-* If no image handle is passed, the default QB64 icon will be used (all versions). If the [$EXEICON]($EXEICON) metacommand is used, [_ICON](_ICON) without an image handle uses the embedded icon from the binary (Windows only).
+* If no image handle is passed, the default QB64PE icon will be used (all versions). If the [$EXEICON]($EXEICON) metacommand is used, [_ICON](_ICON) without an image handle uses the embedded icon from the binary (Windows only).
 * Beginning with **version 1.000**, the following is considered: 
   * mainImageHandle& creates the image as the icon in the OS and the image in the program header (title bar).
   * smallImageHandle& can be used for a different image in the program header bar.
@@ -43,7 +43,7 @@ END IF
 
 > *Note:* _ICON images can be freed if the [SCREEN](SCREEN) mode stays the same. Freed image handles can on longer be referenced. 
 
-Function that converts an icon into a temporary bitmap for use in QB64. Function returns the available image count.
+Function that converts an icon into a temporary bitmap for use in qb64pe. Function returns the available image count.
 
 ```vb
 

@@ -10,7 +10,7 @@ The [_CONTROLCHR](_CONTROLCHR) statement can be used to turn OFF control charact
   * For example: **PRINT CHR$(13)** 'will not move the cursor to the next line and **PRINT CHR$(9)** 'will not tab. 
 * The default [ON](ON) statement allows [ASCII](ASCII) to be used as control commands where some will not print or will format prints.
 * **Note:** File prints may be affected also when using Carriage Return or Line Feed/Form Feed formatting.
-* The QB64 IDE may allow Alt + number pad character entries, but they must be inside of [STRING](STRING) values. Otherwise the IDE may not recognize them.
+* The QB64PE IDE may allow Alt + number pad character entries, but they must be inside of [STRING](STRING) values. Otherwise the IDE may not recognize them.
 
 ## Example(s)
 

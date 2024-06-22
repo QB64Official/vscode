@@ -196,7 +196,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 		}
 
 		// const operators = ",(+-=<>[{}]`);:.";
-		const qb64Config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64");
+		const qb64Config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64pe");
 		const vscodeConig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
 		const indent = vscodeConig.get("insertSpaces") ? " ".repeat(vscodeConig.get("tabSize")) : "\t"
 

@@ -27,7 +27,7 @@ The [FOR](FOR) statement creates a counter loop using specified start and stop n
 * Use [_CONTINUE](_CONTINUE) to skip the remaining lines in the current iteration of a FOR/NEXT block without leaving the loop.
 * The [NEXT](NEXT) counter variable name is not required. NEXT loop increments can be separated by colons in nested FOR loops. 
 * **NOTE: When the FOR loop is exited after the stopValue is reached, the counterVariable's value will be stopValue + 1 (or stopValue + increment)
-* **Beware of FOR loop counts that exceed the counterVariable type limits and may repeat without error in QB64.**
+* **Beware of FOR loop counts that exceed the counterVariable type limits and may repeat without error in qb64pe.**
   * For example, if counterVariable is of type [INTEGER](INTEGER) and the stop limit exceeds 32767, the counterVariable will reset back to -32768 and loop endlessly.
 
 ## Example(s)

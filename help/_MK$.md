@@ -6,7 +6,7 @@ The [_MK$](_MK$) function can convert any numerical type into an [ASCII](ASCII) 
 
 ## Parameter(s)
 
-* numericalType is any QB64 numerical type: [INTEGER](INTEGER), [LONG](LONG), [SINGLE](SINGLE), [DOUBLE](DOUBLE), [_INTEGER64](_INTEGER64), [_BYTE](_BYTE) and [_OFFSET](_OFFSET).
+* numericalType is any QB64PE numerical type: [INTEGER](INTEGER), [LONG](LONG), [SINGLE](SINGLE), [DOUBLE](DOUBLE), [_INTEGER64](_INTEGER64), [_BYTE](_BYTE) and [_OFFSET](_OFFSET).
 * Whole integer values can be signed or [_UNSIGNED](_UNSIGNED).
 * numericalValue must match the numericalType used.
 

@@ -14,7 +14,7 @@ The STRING$ function returns a STRING consisting of a single character repeated 
 * A [STRING](STRING) statement can be added to a string value with the + [concatenation](concatenation) operator. 
 * The function result can also be used to [GET](GET) and [PUT](PUT) a number of bytes as zero characters: bytes$ = STRING(numbytes, 0)
 
-*Differences between QB64 and QB 4.5:*
+*Differences between QB64PE and QB 4.5:*
 
 * **QB64** can use [LONG](LONG) values for a count up to 2,147,483,647 while **QB 4.5** could only use [INTEGER](INTEGER) values up to 32,767.
 

@@ -24,7 +24,7 @@ The [_PRINTSTRING](_PRINTSTRING) statement prints text [STRING](STRING) using gr
 
 ## Availability
 
-* In versions of QB64 prior to 1.000 _PRINTSTRING can only be used in graphic, 256 color or 32 bit screen modes, not SCREEN 0.*
+* In versions of QB64PE prior to 1.000 _PRINTSTRING can only be used in graphic, 256 color or 32 bit screen modes, not SCREEN 0.*
 
 ## Example(s)
 

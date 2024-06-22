@@ -43,7 +43,7 @@ export class TokenInfo {
 
 		this.token = token;
 		this.keyword = token;
-		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
+		const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64pe")
 		const path = require('path');
 
 		let helpPath: string = config.get("helpPath");
@@ -147,7 +147,7 @@ export class TokenInfo {
 	 */
 	private setHelpToFile(helpfile: string, config: vscode.WorkspaceConfiguration) {
 		this.offlinehelp = helpfile;
-		this.onlineHelp = `https://github.com/QB64Official/qb64/wiki/${encodeURIComponent(this.keyword)}`
+		this.onlineHelp = `https://qb64phoenix.com/qb64wiki/index.php?search=${encodeURIComponent(this.keyword)}`
 		this.keywordNoPrfix = this.keyword.startsWith("_") ? this.keyword.slice(1) : this.keyword;
 		this.WordFormatted = this.getWordFormatted(config);
 	}
@@ -160,7 +160,7 @@ export class TokenInfo {
 		let retvalue = ""
 		if (this.isKeyword) {
 			if (this.offlinehelp.length > 0) {
-				const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64")
+				const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64pe")
 				let helpPath: string = config.get("helpPath");
 				retvalue = fs.readFileSync(this.offlinehelp).toString();
 				retvalue = retvalue.replaceAll(/\[([\w|\$]*)\]\(([\w|\$]*)\)/igm, '[$1](file:' + helpPath.replaceAll('\\', '/') + '/$1.md)');
@@ -176,7 +176,7 @@ export class TokenInfo {
 	 */
 	public showHelp() {
 		try {
-			const config = vscode.workspace.getConfiguration("qb64");
+			const config = vscode.workspace.getConfiguration("qb64pe");
 			if (this.offlinehelp.length > 0) {
 				if (config.get("isOpenHelpInEditModeEnabled")) {
 					logFunctions.writeLine(`Open ${this.offlinehelp} in edit mode`, this.outputChannnel);

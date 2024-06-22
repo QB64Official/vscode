@@ -6,7 +6,7 @@ The [_CONNECTIONADDRESS](_CONNECTIONADDRESS) function returns a connected user's
 
 ## Description
 
-* The handle can come from the [_OPENHOST](_OPENHOST), [OPENCLIENT](OPENCLIENT) or [_OPENCONNECTION](_OPENCONNECTION) QB64 TCP/IP functions.
+* The handle can come from the [_OPENHOST](_OPENHOST), [OPENCLIENT](OPENCLIENT) or [_OPENCONNECTION](_OPENCONNECTION) QB64PE TCP/IP functions.
 * For **[_OPENHOST](_OPENHOST)s**: It may return "TCP/IP:8080:213.23.32.5" where 8080 is the port it is listening on and 213.23.32.5 is the global IP address which any computer connected to the internet could use to locate your computer. If a connection to the internet is unavailable or your firewall blocks it, it returns your 'local IP' address (127.0.0.1). You might like to store this address somewhere where other computers can find it and connect to your host. Dynamic IPs which can change will need to be updated.
 * For **[_OPENCLIENT](_OPENCLIENT)s**: It may return "TCP/IP:8080:213.23.32.5" where 8080 is the port it used to connect to the listening host and 213.23.32.5 is the IP address of the host name it resolved.
 * For **[_OPENCONNECTION](_OPENCONNECTION)s** (from clients): It may return "TCP/IP:8080:34.232.321.25" where 8080 was the host listening port it connected to and 34.232.321.25 is the IP address of the client that connected. This is very useful because the host can log the IP address of clients for future reference (or banning, for example).

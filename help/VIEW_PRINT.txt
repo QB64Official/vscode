@@ -16,7 +16,7 @@ The [[VIEW PRINT]] statement defines the boundaries of a text viewport {{KW|PRIN
 * A {{KW|SCREEN}} mode change or {{KW|RUN}} statement can also clear and disable viewports.
 * After active viewport is disabled, normal screen printing and clearing can begin.
 * Row coordinates may vary when a [[WIDTH]] statement has been used.
-* '''Note: QB64 [[RUN]] statements will not close [[VIEW PRINT]], [[VIEW]] or [[WINDOW]] view ports presently!'''
+* '''Note: QB64PE [[RUN]] statements will not close [[VIEW PRINT]], [[VIEW]] or [[WINDOW]] view ports presently!'''
 
 
 ''Example:'' Demonstrates how text scrolls within the text viewport.

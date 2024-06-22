@@ -1,8 +1,8 @@
-Images are areas of graphics stored in memory, the most common image is the program screen itself, where graphics are displayed. This image is designated as image handle 0 or [_DEST](_DEST) 0. QB64 refers to the image memory by using negative [LONG](LONG) handle values. Those values can then be referred to using other functions such as [_WIDTH](_WIDTH) and [_HEIGHT](_HEIGHT) to find the image properties. Statements like [SCREEN](SCREEN) or [_PUTIMAGE](_PUTIMAGE) can use the image handle to display the image when necessary. QBasic functions like [POINT](POINT) can read the colors, even 32 bit [_ALPHA](_ALPHA) colors.
+Images are areas of graphics stored in memory, the most common image is the program screen itself, where graphics are displayed. This image is designated as image handle 0 or [_DEST](_DEST) 0. QB64PE refers to the image memory by using negative [LONG](LONG) handle values. Those values can then be referred to using other functions such as [_WIDTH](_WIDTH) and [_HEIGHT](_HEIGHT) to find the image properties. Statements like [SCREEN](SCREEN) or [_PUTIMAGE](_PUTIMAGE) can use the image handle to display the image when necessary. QBasic functions like [POINT](POINT) can read the colors, even 32 bit [_ALPHA](_ALPHA) colors.
 
 Images are called by other names in other programming languages or in different situations, examples of other names can be "surfaces", "pages" or "layers".
 
-## QB64 Images
+## QB64PE Images
 
 You can create a program screen image by using the [_NEWIMAGE](_NEWIMAGE) function. _NEWIMAGE returns a handle for you to use as a reference to that image. The handle is a negative number below -1 where -1 indicates a failure to load an image.
 
@@ -60,7 +60,7 @@ The [_ALPHA](_ALPHA) function returns the alpha channel level of a color value.
 * [Text Using Graphics](Text-Using-Graphics)
 * [$EXEICON]($EXEICON)
 
-## QB64 statements and functions
+## QB64PE statements and functions
 
 * [_ALPHA](_ALPHA) (function)
 * [_ALPHA32](_ALPHA32) (function)

@@ -15,7 +15,7 @@
 
 ## Example(s)
 
-Avoiding simple typos with [OPTION _EXPLICITARRAY](OPTION--EXPLICITARRAY) results shown in the QB64 IDE Status area.
+Avoiding simple typos with [OPTION _EXPLICITARRAY](OPTION--EXPLICITARRAY) results shown in the QB64PE IDE Status area.
 
 ```vb
 

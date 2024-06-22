@@ -10,12 +10,12 @@ The [_SHELLHIDE](_SHELLHIDE) function hides the console window and returns any [
 
 ## Description
 
-* A QB64 program can return codes specified after [END](END) or [SYSTEM](SYSTEM) calls.
+* A QB64PE program can return codes specified after [END](END) or [SYSTEM](SYSTEM) calls.
 * The returnCode% is usually 0 when the external program ends with no errors.
 
 ## Example(s)
 
-Shelling to another QB64 program will return the exit code when one is set in the  program that is run.
+Shelling to another QB64PE program will return the exit code when one is set in the  program that is run.
 
 ```vb
 

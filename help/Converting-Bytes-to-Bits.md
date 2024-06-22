@@ -1,4 +1,4 @@
-Although QB64 has [_BYTE](_BYTE) and [_BIT](_BIT) variable types, there may be times that you just want to know which bits are on of off in the byte value or convert the value to a [Binary](Binary) number.
+Although QB64PE has [_BYTE](_BYTE) and [_BIT](_BIT) variable types, there may be times that you just want to know which bits are on of off in the byte value or convert the value to a [Binary](Binary) number.
 
 Bits are numbered from 0 to 7 and normally are read from the most significant bit(MSB = 7) to the least significant bit(LSB = 0).
 

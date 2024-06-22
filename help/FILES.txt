@@ -90,7 +90,7 @@ DIR$ = DirList$(Index%)
 {{Cl|END FUNCTION}} '' ''
 {{CodeEnd}}
 {{small|Code by Ted Weissgerber}}
-:''Explanation:'' The function will verify that a file exists (even if it is empty) by returning its name, or it returns an empty string if no file exists. It can return a list of file names by using an empty string parameter("") after sending a wildcard spec to get the first file name. The number of file names found is returned by using the SHARED variable, '''DIRCount%'''. Unlike the PDS DIR$ function, '''it must use an empty string parameter as QB64 doesn't support optional parameters.''' The function does not delete empty files.
+:''Explanation:'' The function will verify that a file exists (even if it is empty) by returning its name, or it returns an empty string if no file exists. It can return a list of file names by using an empty string parameter("") after sending a wildcard spec to get the first file name. The number of file names found is returned by using the SHARED variable, '''DIRCount%'''. Unlike the PDS DIR$ function, '''it must use an empty string parameter as QB64PE doesn't support optional parameters.''' The function does not delete empty files.
 
 
 ''Alternative 2:''

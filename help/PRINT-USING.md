@@ -10,7 +10,7 @@ The [PRINT USING](PRINT-USING) statement is used to [PRINT](PRINT) formatted dat
 * A [semicolon](semicolon) or [comma](comma) may follow the *text* to stop or tab the print cursor before the *template* [PRINT](PRINT).
 * The literal or variable [STRING](STRING) *template* should use the template symbols to display each variable [Variable Types](Variable-Types) in the list following it.
 * The list of data *variables* used in the *template* are separated by semicolons after the template string value.
-* In QB64 one [semicolon](semicolon) or [comma](comma) may follow the variable list to stop the print cursor for pending prints. QB only allowed a semicolon.
+* In QB64PE one [semicolon](semicolon) or [comma](comma) may follow the variable list to stop the print cursor for pending prints. QB only allowed a semicolon.
 
 ## Description
 
@@ -22,27 +22,27 @@ The [PRINT USING](PRINT-USING) statement is used to [PRINT](PRINT) formatted dat
 
 Template is a literal or variable [string](STRING) using the following formatting characters:
 
-| & | Prints an entire string value. STRING length should be limited as template width will vary. |
+| & | Prints an entire string value.ï¿½STRINGï¿½length should be limited as template width will vary. |
 | -- | -- |
-| \  \ | Denotes the start and end point of a fixed string area with spaces between(LEN = spaces + 2). |
+| \ ï¿½\ | Denotes the start and end point of a fixed string area with spaces between(LENï¿½= spaces + 2). |
 | ! | Prints only the leading character of a string value. Exclamation points require underscore prefix. |
 | # | Denotes a numerical digit. An appropriate number of digits should be used for values received. |
-| ^^^^ | After # digits prints numerical value in exponential E+xx format. Use ^^^^^ for E+xxx values.* |
-| . | Period sets a number's decimal point position. Digits following determine rounded value accuracy. |
-| ,. | Comma to left of decimal point, prints a comma every 3 used # digit places left of the decimal point. |
+| ^^^^ | After # digits prints numerical value in exponential E+xx format. Useï¿½^^^^^ï¿½for E+xxx values.* |
+| . | Period sets a number's decimal point position. Digits following determineï¿½roundedï¿½value accuracy. |
+| ,. | Commaï¿½to left of decimal point, prints a comma every 3 used # digit places left of the decimal point. |
 | + | Plus sign denotes the position of the number's sign. + or - will be displayed. |
 | - | Minus sign (dash) placed after the number, displays only a negative value's sign. |
 | $ | Prints a dollar sign immediately before the highest non-zero # digit position of the numerical value. |
 | ** | Prints an asterisk in any leading empty spaces of a numerical value. Adds 2 extra digit positions. |
 | **$ | Combines ** and $. Negative values will display minus sign to left of $. |
-| _ | Underscore preceding a format symbol prints those symbols as literal string characters. |
+| _ | Underscoreï¿½preceding a format symbol prints those symbols as literal string characters. |
 
 **Note: Any string character not listed above will be printed as a literal text character.**
 
 * Any # decimal point position may be specified. The exponent is adjusted with significant digits left-justified.
 ## QBasic
 
-* QBasic limited the number of specified digit positions to 24; QB64 has no such restriction.
+* QBasic limited the number of specified digit positions to 24; QB64PE has no such restriction.
 
 ## Example(s)
 

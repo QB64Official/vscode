@@ -2,7 +2,7 @@
 
 ## Legacy Support
 
-* QB64 can save larger arrays directly to binary files using [PUT](PUT) # and [GET](GET) # without [BSAVE](BSAVE). For that reason, use of [BSAVE](BSAVE) is no longer recommended practice but is supported to maintain compatibility with legacy code.
+* QB64PE can save larger arrays directly to binary files using [PUT](PUT) # and [GET](GET) # without [BSAVE](BSAVE). For that reason, use of [BSAVE](BSAVE) is no longer recommended practice but is supported to maintain compatibility with legacy code.
 
 ## Syntax
 
@@ -75,7 +75,7 @@ FOR i% = 1000 TO 0 STEP -1 'reverse read array for size needed
     IF Graphic%(i%) <> 0 THEN EXIT FOR 'find image color not black
 NEXT
 size% = i% + 4 'size plus 2 integers(4  bytes) for dimensions 
-REDIM _PRESERVE Graphic%(size%) 'resize existing array in QB64 only!
+REDIM _PRESERVE Graphic%(size%) 'resize existing array in QB64PE only!
 
 OPEN "example2.BIN" FOR BINARY AS #1 ' PUT to a file
 PUT #1, , Graphic%()

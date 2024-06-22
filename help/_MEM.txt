@@ -8,7 +8,7 @@ The [[_MEM]] variable type can be used when working with memory blocks. It has n
 
 {{PageDescription}}
 ''Variable TYPE:''
-* Memory DOT values are actually part of the built in memory variable [[Variable Types|type]] in QB64. The following [[TYPE]] is built in:
+* Memory DOT values are actually part of the built in memory variable [[Variable Types|type]] in qb64pe. The following [[TYPE]] is built in:
 {{WhiteStart}}TYPE memory_type
   OFFSET AS _OFFSET       'start location of block(changes with byte position)
   SIZE AS _OFFSET         'size of block remaining at offset(changes with position)
@@ -97,7 +97,7 @@ x1$ = {{Cl|_MEMGET (function)|_MEMGET}}(m, m.OFFSET, {{Cl|STRING}} * 5) 'get at 
 HELLO
  5448320  6400  1
 {{OutputEnd}}
-: ''Explanation:'' When a numerical [[_BYTE]] value is converted to a [[STRING]], each byte is converted to an [[ASCII]] character. The QB64 IDE will capitalize _MEM dot values.
+: ''Explanation:'' When a numerical [[_BYTE]] value is converted to a [[STRING]], each byte is converted to an [[ASCII]] character. The QB64PE IDE will capitalize _MEM dot values.
 {{WhiteStart}}                                        m.SIZE = 320 * 200 = 6400 bytes
                                         m.ELEMENTSIZE = 1 byte
 {{WhiteEnd}}

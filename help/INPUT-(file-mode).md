@@ -12,11 +12,11 @@ The **INPUT** file mode in an [OPEN](OPEN) statement opens an existing file for 
 * Use the [EOF](EOF) function to avoid reading data past the end of a file and creating an [ERROR Codes](ERROR-Codes).
 * Input file statements will use the same file number as the OPEN statement.
 * The INPUT mode allows the same file to be opened in another mode with a different number.
-* **NOTE: [LINE INPUT (file statement)](LINE-INPUT-(file-statement)) will work faster in [BINARY](BINARY) than INPUT mode in QB64 to stay compatible with QBasic.**
+* **NOTE: [LINE INPUT (file statement)](LINE-INPUT-(file-statement)) will work faster in [BINARY](BINARY) than INPUT mode in QB64PE to stay compatible with QBasic.**
 
 ## Example(s)
 
-Avoiding an INPUT mode or [INPUT (file statement)](INPUT-(file-statement)) read error using a FileExist function. QB64 can use the [_FILEEXISTS](_FILEEXISTS) function.
+Avoiding an INPUT mode or [INPUT (file statement)](INPUT-(file-statement)) read error using a FileExist function. QB64PE can use the [_FILEEXISTS](_FILEEXISTS) function.
 
 ```vb
 

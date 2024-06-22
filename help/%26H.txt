@@ -17,7 +17,7 @@ The '''&amp;H''' prefix denotes that an integer value is expressed in a Hexadeci
 * Convert hexadecimal to [[LONG]] values by appending the values with &amp;. Example: &amp;H8000 = -32768: &amp;H8000&amp; = 32768
 * [[LONG]] 32 bit [[_RGB]] values can be made using hexadecimal values from '''&amp;HFF{{text|00|red}}{{text|00|green}}{{text|00|blue}}''' to '''&amp;HFF{{text|FF|red}}{{text|FF|green}}{{text|FF|blue}}''' with full [[_ALPHA]] only.
 * [[LONG]] 32 bit [[_RGBA]] values can be made using hexadecimal values from '''&amp;H00{{text|00|red}}{{text|00|green}}{{text|00|blue}}''' to '''&amp;HFF{{text|FF|red}}{{text|FF|green}}{{text|FF|blue}}''' with any [[_ALPHA]].
-* Hexadecimal '''0x''' is often used to prefix [[HEX$]] port addresses in documentation. Replace 0x with [[&amp;H]] in QB64 or QBasic.
+* Hexadecimal '''0x''' is often used to prefix [[HEX$]] port addresses in documentation. Replace 0x with [[&amp;H]] in QB64PE or QBasic.
 * To convert hex strings returned from [[HEX$]] with [[VAL]] you need to prefix the string with &amp;H (for example; if the string is "FF" you should do VAL("&amp;HFF") or VAL("&amp;H" + hexvalue$).
 
 

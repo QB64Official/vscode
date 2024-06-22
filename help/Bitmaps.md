@@ -1,8 +1,8 @@
 **Bitmaps** are image files with the .BMP file name extension.
 
 * Bitmaps can use 1, 4, 8 or 24/32 bits per pixel(BPP) color palettes.
-* Unlike QBasic, QB64 is capable of working with 24 bit per pixel color(16 million) bitmaps and can create 32 bit screens to use them with the [_NEWIMAGE](_NEWIMAGE) function.
-* Text SCREEN mode 0 cannot be screen saved in QBasic or QB64.
+* Unlike QBasic, QB64PE is capable of working with 24 bit per pixel color(16 million) bitmaps and can create 32 bit screens to use them with the [_NEWIMAGE](_NEWIMAGE) function.
+* Text SCREEN mode 0 cannot be screen saved in QBasic or qb64pe.
 * The structure of the Bitmap header can be placed in a [TYPE](TYPE) definition as below. This information can be used to find out the bitmap's **Width** and **Height** dimensions, **Bits Per Pixel** used and the **offset** of the actual image pixel data.  
 * It should be noted that **QB64's** [_LOADIMAGE](_LOADIMAGE) function can load bitmaps and other type of images directly into a program and be placed simply by using [_PUTIMAGE](_PUTIMAGE). [_NEWIMAGE](_NEWIMAGE) can create 256 or 32 bit [SCREEN (statement)](SCREEN-(statement)) modes to display those images.
 
@@ -12,7 +12,7 @@
 
 'Bitmap.BI can be included at start of program
 
-TYPE BMPEntry              **' Description                          Bytes    QB64 Function** 
+TYPE BMPEntry              **' Description                          Bytes    QB64PE Function** 
    ID AS STRING * 2        ' File ID("BM" text or 19778 AS Integer) 2      CVI("BM")
    Size AS LONG            ' Total Size of the file                 4      LOF
    Res1 AS INTEGER         ' Reserved 1 always 0                    2 
@@ -45,7 +45,7 @@ DIM SHARED BMP AS BMPHeader
 LINE INPUT "Enter a bitmap file name: ", file$ '<<<< enter a bitmap file name
 
 OPEN file$ FOR BINARY AS #1
-GET #1, 1, ENT   'get entry header(1 is first file byte in QB64 and Qbasic)
+GET #1, 1, ENT   'get entry header(1 is first file byte in QB64PE and Qbasic)
 GET #1, , BMP    'get bitmap header information 
 
 PRINT "Size:"; ENT.Size; "bytes, Offset:"; ENT.Offset
@@ -115,7 +115,7 @@ The bitmap image is now stored in an [Arrays](Arrays) to [BSAVE](BSAVE) to a fil
  
 **Bits Per Pixel (BPP)**
 
-BPP returns **1 bit**(Black and white), **4 bit**(16 colors), **8 bit**(256 colors) or **24 bit**(16 million colors) for each pixel. In QBasic 24 bit can only be in greyscale, but QB64 can display them as True Color. 24 bit is also often referred to as 32 bit, but each pixel uses three bytes of information for the Red, Green and Blue color intensity settings. Intensity settings are read as [ASCII](ASCII) characters using [ASC](ASC).
+BPP returns **1 bit**(Black and white), **4 bit**(16 colors), **8 bit**(256 colors) or **24 bit**(16 million colors) for each pixel. In QBasic 24 bit can only be in greyscale, but QB64PE can display them as True Color. 24 bit is also often referred to as 32 bit, but each pixel uses three bytes of information for the Red, Green and Blue color intensity settings. Intensity settings are read as [ASCII](ASCII) characters using [ASC](ASC).
 
 
 **Palette Data (4 and 8 Bit Only)**

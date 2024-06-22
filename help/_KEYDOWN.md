@@ -17,7 +17,7 @@ The **_KEYDOWN** function returns whether modifying keys like CTRL, ALT, SHIFT, 
 
 ```text
 
-                       **The QB64 Virtual Key constant values used: **
+                       **The QB64PE Virtual Key constant values used: **
 
          **0-255**: [ASCII](ASCII) values (Refer to [http://en.wikipedia.org/wiki/Code_page_437 CP437])
 
@@ -50,7 +50,7 @@ The **_KEYDOWN** function returns whether modifying keys like CTRL, ALT, SHIFT, 
 
 ```text
 
-         **65536-&H40000000: QB64-specific Virtual Key codes:**
+         **65536-&H40000000: QB64PE-specific Virtual Key codes:**
 
                         CONST KEY_PAUSE& = 100019
                         CONST KEY_NUMLOCK& = 100300

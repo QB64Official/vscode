@@ -6,7 +6,7 @@ It's a two-part library that can be plugged into any program (using [$INCLUDE]($
 
 ## Example(s)
 
-*Example BAS Code:* SelectResolution.BAS Demo example should be compiled by QB64 only.
+*Example BAS Code:* SelectResolution.BAS Demo example should be compiled by QB64PE only.
 
 ```vb
 

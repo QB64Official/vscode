@@ -13,7 +13,7 @@ The [_MOUSEX](_MOUSEX) function returns the current horizontal (column) mouse cu
 
 ## QBasic
 
-* In [SCREEN](SCREEN) 0, QBasic's [ABSOLUTE](ABSOLUTE) returned graphic coordinates. QB64 mouse functions return the text coordinates.
+* In [SCREEN](SCREEN) 0, QBasic's [ABSOLUTE](ABSOLUTE) returned graphic coordinates. QB64PE mouse functions return the text coordinates.
 
 ## Example(s)
 
