@@ -64,5 +64,6 @@
             "\""
         ],
     ],
-    "wordPattern": "(?i)_*?[a-z_][a-z0-9_]\\$*?"
+    "wordPattern": "(?i:[_a-z][_a-z0-9]*~{0,2}))",
+    "folding": { "offSide": true }
 }

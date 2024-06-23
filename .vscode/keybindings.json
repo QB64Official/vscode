@@ -1,0 +1,61 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "shift+alt+ctrl+right",
+        "command": "workbench.action.toggleAuxiliaryBar"
+    },
+    {
+        "key": "shift+alt+ctrl+down",
+        "command": "workbench.action.togglePanel"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "-workbench.action.togglePanel"
+    },
+    {
+        "key": "shift+alt+ctrl+up",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
+    {
+        "key": "shift+alt+ctrl+left",
+        "command": "workbench.action.toggleSidebarVisibility"
+    },
+    {
+        "key": "ctrl+b",
+        "command": "-workbench.action.toggleSidebarVisibility"
+    },
+    {
+        "key": "f5",
+        "command": "workbench.action.tasks.build",
+        "when": "taskCommandsRegistered"
+    },
+    {
+        "key": "ctrl+shift+b",
+        "command": "-workbench.action.tasks.build",
+        "when": "taskCommandsRegistered"
+    },
+    {
+        "key": "alt+j",
+        "command": "debug.startFromConfig",
+        "args": {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${fileDirname}/${fileBasename}",
+            "console": "integratedTerminal"
+        }
+    },
+    {
+        "key": "ctrl+f5",
+        "command": "debug.startFromConfig",
+        "args": {
+			"type": "extensionHost",
+            "request": "launch",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}"
+			],
+			"preLaunchTask": "npm: esbuild",            
+            "name": "Run Extension"
+        }
+    }
+]

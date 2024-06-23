@@ -1,250 +1,42 @@
 {	
-	"information_for_contributors": [
-		"This file was copied from https://github.com/microsoft/vscode/blob/main/extensions/vb/syntaxes/asp-vb-net.tmLanguage.json"
-	],
 	"name": "QB64PE",
 	"scopeName": "source.QB64PE",
-	"comment": "Modified from the original ASP bundle. Originally modified by Thomas Aylott subtleGradient.com",
 	"patterns": [
-		{
-			"match": "\\n",
-			"name": "meta.ending-space"
-		},
-		{
-			"include": "#round-brackets"
-		},
-		{
-			"begin": "^(?=\\t)",
-			"end": "(?=[^\\t])",
-			"name": "meta.leading-space",
-			"patterns": [
-				{
-					"captures": {
-						"1": {
-							"name": "meta.odd-tab.tabs"
-						},
-						"2": {
-							"name": "meta.even-tab.tabs"
-						}
-					},
-					"match": "(\\t)(\\t)?"
-				}
-			]
-		},
-		{
-			"begin": "^(?= )",
-			"end": "(?=[^ ])",
-			"name": "meta.leading-space",
-			"patterns": [
-				{
-					"captures": {
-						"1": {
-							"name": "meta.odd-tab.spaces"
-						},
-						"2": {
-							"name": "meta.even-tab.spaces"
-						}
-					},
-					"match": "(  )(  )?"
-				}
-			]
-		},
-		{
-			"captures": {
-				"1": {
-					"name": "storage.type.function.QB64PE"
-				},
-				"2": {
-					"name": "entity.name.function.QB64PE"
-				},
-				"3": {
-					"name": "punctuation.definition.parameters.QB64PE"
-				},
-				"4": {
-					"name": "variable.parameter.function.QB64PE"
-				},
-				"5": {
-					"name": "punctuation.definition.parameters.QB64PE"
-				}
-			},
-			"match": "^\\s*((?im:function|sub))\\s*?([a-zA-Z_]\\w*)(`|~`|%%|~%%|%|~%|&|~&|&&|~&&|!|#|##|%&|~%&)*?\\s*(\\()?([^)]*)(\\))?\\n?",
-			"name": "meta.function.QB64PE"
-		},
-		{
-			"match": "(?i:\\s*\\b(assert)\\b\\s*)",
-			"name": "debug.QB64PE"
-		},
-		{
-			"begin": "(^[ \\t]+)?(?='|rem|REM|Rem|rEm|reM|rEM|ReM)",
-			"beginCaptures": {
-				"1": {
-					"name": "punctuation.whitespace.comment.leading.QB64PE"
-				}
-			},
-			"end": "(?!\\G)",
-			"patterns": [
-				{
-					"begin": "'",
-					"beginCaptures": {
-						"0": {
-							"name": "punctuation.definition.comment.QB64PE"
-						}
-					},
-					"end": "\\n",
-					"name": "comment.line.apostrophe.QB64PE"
-				}
-			]
-		},
-		{
-			"captures": {
-				"1": {
-					"name": "keyword.control.QB64PE"
-				}
-			},
-			"match": "(?im:\\s*(?!open\\s)(If|Then|Else|ElseIf|Else If|End If|Not|Or|And|Xor|Mod|While|Wend|For|Step|To|Each|Case|Select|End Select|Return|Continue|_Continue|Do|Until|Loop|Next|With|Exit Do|Exit For|Exit Function|Exit Property|Exit Sub|IIf|Limit|_Limit|Delay|_Delay|sleep|Key|Off|_NEGATE|_ANDALSO|_ORELSE)\\s*)",
-			"name": "keyword.control.QB64PE"
-		},
-		{
-			"captures": {
-				"1": {
-					"name": "storage.type.QB64PE"
-				},
-				"2": {
-					"name": "variable.other.dim.QB64PE"
-				},
-				"3": {
-					"name": "meta.separator.comma.QB64PE"
-				},
-				"4": {
-					"name": "graphics.QB64PE"
-				},
-				"5": {
-					"name": "sound.QB64PE"
-				}
-			},
-			"match": "(?i:(dim shared?|dim|redim))\\s*(?:(\\b[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b)\\s*(,?))",
-			"name": "variable.other.dim.QB64PE"
-		},
-		{
-			"captures": {
-				"1": {
-					"name": "keyword.QB64PE"
-				}
-			},		
-			"match": "(?im:\\s*(Shell|_Hide|Hide|Command|_Startdir|_CONSOLE OFF|CONSOLE OFF|_CONSOLE ON|CONSOLE On|echo|_echo|_DEST _CONSOLE|DEST CONSOLE|cv|_cv|startdir|Date|Time|on timer|_FREETIMER|_commandcount|commandcountCall|Screenhide|_Screenhide|_screenshow|_screenmove|screenmove|screen|screenshow|_screenmove|screenmove|os|_os|title|_title|_CONSOLETITLE|CONSOLETITLE|_newimage|newimage|DECLARE|DEF|SEG|resume|Rest|Timer|gosub|call|DEFINT|Cls|Const|As|_PRESERVE|PRESERVE|Function|End Function|Sub|End Sub|Title|Type|End Type|Randomize|option base|Print|Color|On Error Resume Next|On Error GoTo|Error|_errormessage|errormessage|errorline|_errorline|_INCLERRORFILE|INCLERRORFILE|Goto|FileExists|_FileExists|String|Integer|Long|_INTEGER64|INTEGER64|_Bit|Bit|_BYTE|BYTE|SINGLE|DOUBLE|_FLOAT|FLOAT|_OFFSET|OFFSET|_UNSIGNED|UNSIGNED|_MEM|_MEMSOUND|MEM|LTrim|RTrim|Trim|Right|Left|LCase|UCase|Locate|Str|CVL|MKL|MKI|_mk|mk|CVI|Val|Mid|abs|_keyclear|keyclear|_ROR|_ROL)\\s*)",
-			"name": "keyword.QB64PE"
-		},
-		{
-			"captures": {
-				"1": {
-					"name": "storage.type.QB64PE"
-				}
-			},		
-			"match": "(?im:\\s*(ByVal|Dynamic|Library|Inkey|Name|Open|For|Eof|Poke|Data|Close|Get|Read|Input|Random|Kill|Put|Write|Append|Output|FreeFile|Files|_openhost|openhost|_OPENCLIENT|_openconnection|openconnection|OPENCLIENT|_CONNECTED|CONNECTED|_CONNECTIONADDRESS|CONNECTIONADDRESS|_direxists|direxists|_fileexists|fileexists|mkdir|rmdir|_cwd|cwd|_embedded\\$|_FILES\\$|_FULLPATH\\$|_DIR\\$|_READFILE\\$|_WRITEFILE)\\s*)",
-			"name": "storage.type.QB64PE"
-		},
-		{
-			"match": "(?i:\\b(End|Stop|System|Environ|_ENVIRONCOUNT|ENVIRONCOUNT)\\b)",
-			"name": "storage.type.QB64PE"
-		},
-		{
-			"match": "(?i:\\b(_assert)\\b)",
-			"name": "debug.QB64PE"
-		},
-		{
-			"match": "(\\b(?:TODO|FIXME|FIXIT):?\\b)",
-			"name": "todo.QB64PE"
-		},
-		{
-			"match": "(?im:(REM|'|\\$DYNAMIC|\\$STATIC|Option _Explicit|option _explicitarray|option explicitarray|\\$RESIZE:|\\$ASSERTS\\:CONSOLE|\\$ASSERTS|\\$Noprefix|\\$CHECKING|\\$COLOR|\\$CONSOLE|\\$DEBUG|\\$ERROR|\\$EXEICON|\\$LET|\\$IF|\\$ELSEIF|\\$END IF|\\$SCREENHIDE|\\$SCREENSHOW|\\$VIRTUALKEYBOARD|\\$VERSIONINFO:Comments|\\$VERSIONINFO:CompanyName|\\$VERSIONINFO:FileDescription|\\$VERSIONINFO:FileVersion|\\$VERSIONINFO:InternalName|\\$VERSIONINFO:LegalCopyright|\\$VERSIONINFO:LegalTrademarks|\\$VERSIONINFO:OriginalFilename|\\$VERSIONINFO:ProductName|\\$VERSIONINFO:ProductVersion|\\$VERSIONINFO:Web|\\$UNSTABLE|\\$UNSTABLE:MIDI|\\$UNSTABLE:HTTP|\\$MIDISOUNDFONT|\\$MINISOUNDFONT|\\$EMBED|\\$INCLUDEONCE))",
-			"name": "metacommand.QB64PE"
-		},
-		{
-			"match": "(?i:\\b(beep|play|sound|sndbal|sndclose|sndcopy|sndgetpos|sndlen|sndlimit|sndloop|sndopen|sndopenraw|sndpause|sndpaused|sndplay|sndplaycopy|sndplayfile|sndplaying|sndrate|sndraw|sndrawdone|sndrawlen|sndsetpos|sndstop|sndvol)\\b)",
-			"name": "sound.QB64PE"
-		},
-		{
-			"match": "(?i:\\b(_sndbal|_sndclose|_sndcopy|_sndgetpos|_sndlen|_sndlimit|_sndloop|_sndopen|_sndopenraw|_sndpause|_sndpaused|_sndplay|_sndplaycopy|_sndplayfile|_sndplaying|_sndrate|_sndraw|_sndrawdone|_sndrawlen|_sndsetpos|_sndstop|_sndvol|_sndnew)\\b)",
-			"name": "sound.QB64PE"
-		},
-		{
-			"match": "(?im:\\s*_*(line|circle|point|glrender|glaccum|glalphafunc|glaretexturesresident|glarrayelement|glbegin|glbindtexture|glbitmap|glblendfunc|glcalllist|glcalllists|glclear|glclearaccum|glclearcolor|glcleardepth|glclearindex|glclearstencil|glclipplane|glcolor3b|glcolor3bv|glcolor3d|glcolor3dv|glcolor3f|glcolor3fv|glcolor3i|glcolor3iv|glcolor3s|glcolor3sv|glcolor3ub|glcolor3ubv|glcolor3ui|glcolor3uiv|glcolor3us|glcolor3usv|glcolor4b|glcolor4bv|glcolor4d|glcolor4dv|glcolor4f|glcolor4fv|glcolor4i|glcolor4iv|glcolor4s|glcolor4sv|glcolor4ub|glcolor4ubv|glcolor4ui|glcolor4uiv|glcolor4us|glcolor4usv|glcolormask|glcolormaterial|glcolorpointer|glcopypixels|glcopyteximage1d|glcopyteximage2d|glcopytexsubimage1d|glcopytexsubimage2d|glcullface|gldeletelists|gldeletetextures|gldepthfunc|gldepthmask|gldepthrange|gldisable|gldisableclientstate|gldrawarrays|gldrawbuffer|gldrawelements|gldrawpixels|gledgeflag|gledgeflagpointer|gledgeflagv|glenable|glenableclientstate|glend|glendlist|glevalcoord1d|glevalcoord1dv|glevalcoord1f|glevalcoord1fv|glevalcoord2d|glevalcoord2dv|glevalcoord2f|glevalcoord2fv|glevalmesh1|glevalmesh2|glevalpoint1|glevalpoint2|glfeedbackbuffer|glfinish|glflush|glfogf|glfogfv|glfogi|glfogiv|glfrontface|glfrustum|glgenlists|glgentextures|glgetbooleanv|glgetclipplane|glgetdoublev|glgeterror|glgetfloatv|glgetintegerv|glgetlightfv|glgetlightiv|glgetmapdv|glgetmapfv|glgetmapiv|glgetmaterialfv|glgetmaterialiv|glgetpixelmapfv|glgetpixelmapuiv|glgetpixelmapusv|glgetpointerv|glgetpolygonstipple|glgetstring|glgettexenvfv|glgettexenviv|glgettexgendv|glgettexgenfv|glgettexgeniv|glgetteximage|glgettexlevelparameterfv|glgettexlevelparameteriv|glgettexparameterfv|glgettexparameteriv|glhint|glindexmask|glindexpointer|glindexd|glindexdv|glindexf|glindexfv|glindexi|glindexiv|glindexs|glindexsv|glindexub|glindexubv|glinitnames|glinterleavedarrays|glisenabled|glislist|glistexture|gllightmodelf|gllightmodelfv|gllightmodeli|gllightmodeliv|gllightf|gllightfv|gllighti|gllightiv|gllinestipple|gllinewidth|gllistbase|glloadidentity|glloadmatrixd|glloadmatrixf|glloadname|gllogicop|glmap1d|glmap1f|glmap2d|glmap2f|glmapgrid1d|glmapgrid1f|glmapgrid2d|glmapgrid2f|glmaterialf|glmaterialfv|glmateriali|glmaterialiv|glmatrixmode|glmultmatrixd|glmultmatrixf|glnewlist|glnormal3b|glnormal3bv|glnormal3d|glnormal3dv|glnormal3f|glnormal3fv|glnormal3i|glnormal3iv|glnormal3s|glnormal3sv|glnormalpointer|glortho|glpassthrough|glpixelmapfv|glpixelmapuiv|glpixelmapusv|glpixelstoref|glpixelstorei|glpixeltransferf|glpixeltransferi|glpixelzoom|glpointsize|glpolygonmode|glpolygonoffset|glpolygonstipple|glpopattrib|glpopclientattrib|glpopmatrix|glpopname|glprioritizetextures|glpushattrib|glpushclientattrib|glpushmatrix|glpushname|glrasterpos2d|glrasterpos2dv|glrasterpos2f|glrasterpos2fv|glrasterpos2i|glrasterpos2iv|glrasterpos2s|glrasterpos2sv|glrasterpos3d|glrasterpos3dv|glrasterpos3f|glrasterpos3fv|glrasterpos3i|glrasterpos3iv|glrasterpos3s|glrasterpos3sv|glrasterpos4d|glrasterpos4dv|glrasterpos4f|glrasterpos4fv|glrasterpos4i|glrasterpos4iv|glrasterpos4s|glrasterpos4sv|glreadbuffer|glreadpixels|glrectd|glrectdv|glrectf|glrectfv|glrecti|glrectiv|glrects|glrectsv|glrendermode|glrotated|glrotatef|glscaled|glscalef|glscissor|glselectbuffer|glshademodel|glstencilfunc|glstencilmask|glstencilop|gltexcoord1d|gltexcoord1dv|gltexcoord1f|gltexcoord1fv|gltexcoord1i|gltexcoord1iv|gltexcoord1s|gltexcoord1sv|gltexcoord2d|gltexcoord2dv|gltexcoord2f|gltexcoord2fv|gltexcoord2i|gltexcoord2iv|gltexcoord2s|gltexcoord2sv|gltexcoord3d|gltexcoord3dv|gltexcoord3f|gltexcoord3fv|gltexcoord3i|gltexcoord3iv|gltexcoord3s|gltexcoord3sv|gltexcoord4d|gltexcoord4dv|gltexcoord4f|gltexcoord4fv|gltexcoord4i|gltexcoord4iv|gltexcoord4s|gltexcoord4sv|gltexcoordpointer|gltexenvf|gltexenvfv|gltexenvi|gltexenviv|gltexgend|gltexgendv|gltexgenf|gltexgenfv|gltexgeni|gltexgeniv|glteximage1d|glteximage2d|gltexparameterf|gltexparameterfv|gltexparameteri|gltexparameteriv|gltexsubimage1d|gltexsubimage2d|gltranslated|gltranslatef|glvertex2d|glvertex2dv|glvertex2f|glvertex2fv|glvertex2i|glvertex2iv|glvertex2s|glvertex2sv|glvertex3d|glvertex3dv|glvertex3f|glvertex3fv|glvertex3i|glvertex3iv|glvertex3s|glvertex3sv|glvertex4d|glvertex4dv|glvertex4f|glvertex4fv|glvertex4i|glvertex4iv|glvertex4s|glvertex4sv|glvertexpointer|glviewport|width|height|_desktopwidth|_desktopheight|_pixelsize|_printwidth|_uprintstring|uprintwidth|_ufontheight|_ulinespacing|_ucharpos|_loadfont|_saveimage|_palettecolor||_NOTIFYPOPUP|_MESSAGEBOX|_INPUTBOX\\$|_SELECTFOLDERDIALOG\\$|_COLORCHOOSERDIALOG|_OPENFILEDIALOG\\$|_SAVEFILEDIALOG\\$)+\\s*)",
-			"name": "graphics.QB64PE"
-		},
-		{
-			"match": "(?i:\\b(Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetRef|Hex|Hour|InputBox|InStr|InStrRev|Int|Fix|IsDate|IsNull|IsNumeric|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|Maths|Mid|Minute|Month|MonthName|Oct|Rgb|_Rgb|_rgba|rgba|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Sqr|StrComp|String|StrReverse|Tan|Time|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year|_ADLER32|_CRC32|_MD5\\$)\\b)",
-			"name": "storage.type.QB64PE"
-		},
-		{
-			"begin": "\"",
-			"beginCaptures": {
-				"0": {
-					"name": "punctuation.definition.string.begin.QB64PE"
-				}
-			},
-			"end": "\"",
-			"endCaptures": {
-				"0": {
-					"name": "punctuation.definition.string.end.QB64PE"
-				}
-			},
-			"name": "string.quoted.double.QB64PE",
-			"patterns": [
-				{
-					"match": "\"\"",
-					"name": "constant.character.escape.apostrophe.QB64PE"
-				}
-			]
-		},
-		{
-			"captures": {
-				"1": {
-					"name": "punctuation.definition.variable.QB64PE"
-				},
-				"2": {
-					"name": "support.function.QB64PE"
-				}
-			},
-			"match": "(\\$)[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\\b\\s*",
-			"name": "variable.other.QB64PE"
-		},
-		{
-			"match": "(?i:\\b(Lock|Unlock|SetAbort|SetComplete|BinaryRead|AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|HTMLEncode|MapPath|URLEncode|Abandon|Convert|Regex)\\b)",
-			"name": "support.function.QB64PE"
-		},
-		{
-			"match": "\\b\\w+\\s+as\\s+\\w+\b(?!\\s*\\))",
-			"name": "support.type.QB64PE"
-		},
-		{
-			"match": "-?\\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))((e|E)(\\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f)?\\b",
-			"name": "constant.numeric.QB64PE"
-		},
-		{
-			"match": "(?i:((?<=(\\+|=|-|\\&|\\\\|/|<|>|\\(|,))\\s*\\b([a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?)\\b(?!(\\(|\\.))|\\b([a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?)\\b(?=\\s*(\\+|=|-|\\&|\\\\|/|<|>|\\(|\\)))))",
-			"name": "variable.other.QB64PE"
-		}
-	],
-	"repository": {
-		"round-brackets": {
-			"begin": "\\(",
-			"beginCaptures": {
-				"0": {
-					"name": "punctuation.section.round-brackets.begin.QB64PE"
-				}
-			},
-			"end": "\\)",
-			"endCaptures": {
-				"0": {
-					"name": "punctuation.section.round-brackets.end.QB64PE"
-				}
-			},
-			"name": "meta.round-brackets",
-			"patterns": [
-				{
-					"include": "source.QB64PE"
-				}
-			]
-		}
-	}
+        {
+            "name": "keyword.QB64PE",
+            "match": "(?i:\\s*\\b_*(ABS|ABSOLUTE|ACCEPTFILEDROP|ACCESS|ACOS|ACOSH|ADLER32|ALIAS|ALL|ALLOWFULLSCREEN|ALPHA|ALPHA32|AND|ANDALSO|ANTICLOCKWISE|ANY|APPEND|ARCCOT|ARCCSC|ARCSEC|AS|ASC|ASIN|ASINH|ASSERT|ATAN2|ATANH|ATN|AUTODISPLAY|AXIS|BACKGROUNDCOLOR|BASE|BEEP|BEHIND|BIN\\$|BINARY|BIT|BLEND|BLINK|BLOAD|BLUE|BLUE32|BSAVE|BUTTON|BUTTONCHANGE|BYTE|BYVAL|CALL|CALLS|CAPSLOCK|CASE|CDBL|CDECL|CEIL|CHAIN|CHDIR|CHR\\$|CINP|CINT|CIRCLE|CLEAR|CLEARCOLOR|CLIP|CLIPBOARD\\$|CLIPBOARDIMAGE|CLNG|CLOCKWISE|CLOSE|CLS|COLOR|COLORCHOOSERDIALOG|COM|COMMAND\\$|COMMANDCOUNT|COMMON|CONNECTED|CONNECTIONADDRESS|CONNECTIONADDRESS\\$|CONSOLE|CONSOLECURSOR|CONSOLEFONT|CONSOLEINPUT|CONSOLETITLE|CONST|CONTINUE|CONTROLCHR|COPYIMAGE|COPYPALETTE|COS|COSH|COT|COTH|CRC32|CSC|CSCH|CSNG|CSRLIN|CUSTOMTYPE|CV|CVD|CVDMBF|CVI|CVL|CVS|CVSMBF|CWD\\$|D2G|D2R|DATA|DATE\\$|DECLARE|DEF|DEFAULTCOLOR|DEFDBL|DEFINE|DEFINT|DEFLATE\\$|DEFLNG|DEFSNG|DEFSTR|DELAY|DEPTHBUFFER|DESKTOPHEIGHT|DESKTOPWIDTH|DEST|DEVICE\\$|DEVICEINPUT|DEVICES|DIM|DIR\\$|DIREXISTS|DISPLAY|DISPLAYORDER|DO|DONTBLEND|DONTWAIT|DOUBLE|DRAW|DROPPEDFILE|DROPPEDFILE\\$|DYNAMIC|ECHO|ELSE|ELSEIF|EMBEDDED\\$|END|ENVIRON|ENVIRON\\$|ENVIRONCOUNT|EOF|EQV|ERASE|ERDEV|ERDEV\\$|ERL|ERR|ERROR|ERRORLINE|ERRORMESSAGE\\$|EVERYCASE|EXIT|EXP|EXPLICIT|EXPLICITARRAY|FIELD|FILEATTR|FILEEXISTS|FILES|FILES\\$|FILLBACKGROUND|FINISHDROP|FIX|FLOAT|FN|FONT|FONTHEIGHT|FONTWIDTH|FOR|FPS|FRE|FREE|FREEFILE|FREEFONT|FREEIMAGE|FREETIMER|FULLPATH\\$|FULLSCREEN|FUNCTION|G2D|G2R|GET|glAccum|glAlphaFunc|glAreTexturesResident|glArrayElement|glBegin|glBindTexture|glBitmap|glBlendFunc|glCallList|glCallLists|glClear|glClearAccum|glClearColor|glClearDepth|glClearIndex|glClearStencil|glClipPlane|glColor3b|glColor3bv|glColor3d|glColor3dv|glColor3f|glColor3fv|glColor3i|glColor3iv|glColor3s|glColor3sv|glColor3ub|glColor3ubv|glColor3ui|glColor3uiv|glColor3us|glColor3usv|glColor4b|glColor4bv|glColor4d|glColor4dv|glColor4f|glColor4fv|glColor4i|glColor4iv|glColor4s|glColor4sv|glColor4ub|glColor4ubv|glColor4ui|glColor4uiv|glColor4us|glColor4usv|glColorMask|glColorMaterial|glColorPointer|glCopyPixels|glCopyTexImage1D|glCopyTexImage2D|glCopyTexSubImage1D|glCopyTexSubImage2D|glCullFace|glDeleteLists|glDeleteTextures|glDepthFunc|glDepthMask|glDepthRange|glDisable|glDisableClientState|glDrawArrays|glDrawBuffer|glDrawElements|glDrawPixels|glEdgeFlag|glEdgeFlagPointer|glEdgeFlagv|glEnable|glEnableClientState|glEnd|glEndList|glEvalCoord1d|glEvalCoord1dv|glEvalCoord1f|glEvalCoord1fv|glEvalCoord2d|glEvalCoord2dv|glEvalCoord2f|glEvalCoord2fv|glEvalMesh1|glEvalMesh2|glEvalPoint1|glEvalPoint2|glFeedbackBuffer|glFinish|glFlush|glFogf|glFogfv|glFogi|glFogiv|glFrontFace|glFrustum|glGenLists|glGenTextures|glGetBooleanv|glGetClipPlane|glGetDoublev|glGetError|glGetFloatv|glGetIntegerv|glGetLightfv|glGetLightiv|glGetMapdv|glGetMapfv|glGetMapiv|glGetMaterialfv|glGetMaterialiv|glGetPixelMapfv|glGetPixelMapuiv|glGetPixelMapusv|glGetPointerv|glGetPolygonStipple|glGetString|glGetTexEnvfv|glGetTexEnviv|glGetTexGendv|glGetTexGenfv|glGetTexGeniv|glGetTexImage|glGetTexLevelParameterfv|glGetTexLevelParameteriv|glGetTexParameterfv|glGetTexParameteriv|glHint|glIndexd|glIndexdv|glIndexf|glIndexfv|glIndexi|glIndexiv|glIndexMask|glIndexPointer|glIndexs|glIndexsv|glIndexub|glIndexubv|glInitNames|glInterleavedArrays|glIsEnabled|glIsList|glIsTexture|glLightf|glLightfv|glLighti|glLightiv|glLightModelf|glLightModelfv|glLightModeli|glLightModeliv|glLineStipple|glLineWidth|glListBase|glLoadIdentity|glLoadMatrixd|glLoadMatrixf|glLoadName|glLogicOp|glMap1d|glMap1f|glMap2d|glMap2f|glMapGrid1d|glMapGrid1f|glMapGrid2d|glMapGrid2f|glMaterialf|glMaterialfv|glMateriali|glMaterialiv|glMatrixMode|glMultMatrixd|glMultMatrixf|glNewList|glNormal3b|glNormal3bv|glNormal3d|glNormal3dv|glNormal3f|glNormal3fv|glNormal3i|glNormal3iv|glNormal3s|glNormal3sv|glNormalPointer|glOrtho|glPassThrough|glPixelMapfv|glPixelMapuiv|glPixelMapusv|glPixelStoref|glPixelStorei|glPixelTransferf|glPixelTransferi|glPixelZoom|glPointSize|glPolygonMode|glPolygonOffset|glPolygonStipple|glPopAttrib|glPopClientAttrib|glPopMatrix|glPopName|glPrioritizeTextures|glPushAttrib|glPushClientAttrib|glPushMatrix|glPushName|glRasterPos2d|glRasterPos2dv|glRasterPos2f|glRasterPos2fv|glRasterPos2i|glRasterPos2iv|glRasterPos2s|glRasterPos2sv|glRasterPos3d|glRasterPos3dv|glRasterPos3f|glRasterPos3fv|glRasterPos3i|glRasterPos3iv|glRasterPos3s|glRasterPos3sv|glRasterPos4d|glRasterPos4dv|glRasterPos4f|glRasterPos4fv|glRasterPos4i|glRasterPos4iv|glRasterPos4s|glRasterPos4sv|glReadBuffer|glReadPixels|glRectd|glRectdv|glRectf|glRectfv|glRecti|glRectiv|glRects|glRectsv|GLRENDER|glRenderMode|glRotated|glRotatef|glScaled|glScalef|glScissor|glSelectBuffer|glShadeModel|glStencilFunc|glStencilMask|glStencilOp|glTexCoord1d|glTexCoord1dv|glTexCoord1f|glTexCoord1fv|glTexCoord1i|glTexCoord1iv|glTexCoord1s|glTexCoord1sv|glTexCoord2d|glTexCoord2dv|glTexCoord2f|glTexCoord2fv|glTexCoord2i|glTexCoord2iv|glTexCoord2s|glTexCoord2sv|glTexCoord3d|glTexCoord3dv|glTexCoord3f|glTexCoord3fv|glTexCoord3i|glTexCoord3iv|glTexCoord3s|glTexCoord3sv|glTexCoord4d|glTexCoord4dv|glTexCoord4f|glTexCoord4fv|glTexCoord4i|glTexCoord4iv|glTexCoord4s|glTexCoord4sv|glTexCoordPointer|glTexEnvf|glTexEnvfv|glTexEnvi|glTexEnviv|glTexGend|glTexGendv|glTexGenf|glTexGenfv|glTexGeni|glTexGeniv|glTexImage1D|glTexImage2D|glTexParameterf|glTexParameterfv|glTexParameteri|glTexParameteriv|glTexSubImage1D|glTexSubImage2D|glTranslated|glTranslatef|gluPerspective|glVertex2d|glVertex2dv|glVertex2f|glVertex2fv|glVertex2i|glVertex2iv|glVertex2s|glVertex2sv|glVertex3d|glVertex3dv|glVertex3f|glVertex3fv|glVertex3i|glVertex3iv|glVertex3s|glVertex3sv|glVertex4d|glVertex4dv|glVertex4f|glVertex4fv|glVertex4i|glVertex4iv|glVertex4s|glVertex4sv|glVertexPointer|glViewport|GOSUB|GOTO|GREEN|GREEN32|HARDWARE|HARDWARE1|HEIGHT|HEX\\$|HIDE|HYPOT|ICON|IF|IMP|INCLERRORFILE\\$|INCLERRORLINE|INFLATE\\$|INKEY\\$|INP|INPUT|INPUT\\$|INPUTBOX\\$|INSTR|INSTRREV|INT|INTEGER|INTEGER64|INTERRUPT|INTERRUPTX|IOCTL|IOCTL\\$|IS|KEEPBACKGROUND|KEY|KEYCLEAR|KEYDOWN|KEYHIT|KILL|LASTAXIS|LASTBUTTON|LASTWHEEL|LBOUND|LCASE\\$|LEFT\\$|LEN|LET|LIBRARY|LIMIT|LINE|LIST|LOADFONT|LOADIMAGE|LOC|LOCATE|LOCK|LOF|LOG|LONG|LOOP|LPOS|LPRINT|LSET|LTRIM\\$|MAPTRIANGLE|MAPUNICODE|MD5\\$|MEM|MEMCOPY|MEMELEMENT|MEMEXISTS|MEMFILL|MEMFREE|MEMGET|MEMIMAGE|MEMNEW|MEMPUT|MEMSOUND|MESSAGEBOX|MID\\$|MIDDLE|MK\\$|MKD\\$|MKDIR|MKDMBF\\$|MKI\\$|MKL\\$|MKS\\$|MKSMBF\\$|MOD|MOUSEBUTTON|MOUSEHIDE|MOUSEINPUT|MOUSEMOVE|MOUSEMOVEMENTX|MOUSEMOVEMENTY|MOUSEPIPEOPEN|MOUSESHOW|MOUSEWHEEL|MOUSEX|MOUSEY|NAME|NEGATE|NEWIMAGE|NEXT|NONE|NOT|NOTIFYPOPUP|NUMLOCK|OCT\\$|OFF|OFFSET|ON|ONLY|ONLYBACKGROUND|ONTOP|OPEN|OPENCLIENT|OPENCONNECTION|OPENFILEDIALOG\\$|OPENHOST|OPTION|OR|ORELSE|OS\\$|OUT|OUTPUT|PAINT|PALETTE|PALETTECOLOR|PCOPY|PEEK|PEN|PI|PIXELSIZE|PLAY|PMAP|POINT|POKE|POS|PRESERVE|PRESET|PRINT|PRINTIMAGE|PRINTMODE|PRINTSTRING|PRINTWIDTH|PSET|PUT|PUTIMAGE|R2D|R2G|RANDOM|RANDOMIZE|READ|READBIT|READFILE\\$|RED|RED32|REDIM|RESET|RESETBIT|RESIZE|RESIZEHEIGHT|RESIZEWIDTH|RESTORE|RESUME|RETURN|RGB|RGB32|RGBA|RGBA32|RIGHT\\$|RMDIR|RND|ROL|ROR|ROUND|RSET|RTRIM\\$|RUN|SADD|SAVEFILEDIALOG\\$|SAVEIMAGE|SCALEDHEIGHT|SCALEDWIDTH|SCREEN|SCREENCLICK|SCREENEXISTS|SCREENHIDE|SCREENICON|SCREENIMAGE|SCREENMOVE|SCREENPRINT|SCREENSHOW|SCREENX|SCREENY|SCROLLLOCK|SEAMLESS|SEC|SECH|SEEK|SEG|SELECT|SELECTFOLDERDIALOG\\$|SETALPHA|SETBIT|SETMEM|SGN|SHARED|SHELL|SHELLHIDE|SHL|SHR|SIGNAL|SIN|SINGLE|SINH|SLEEP|SMOOTH|SMOOTHSHRUNK|SMOOTHSTRETCHED|SNDBAL|SNDCLOSE|SNDCOPY|SNDGETPOS|SNDLEN|SNDLIMIT|SNDLOOP|SNDNEW|SNDOPEN|SNDOPENRAW|SNDPAUSE|SNDPAUSED|SNDPLAY|SNDPLAYCOPY|SNDPLAYFILE|SNDPLAYING|SNDRATE|SNDRAW|SNDRAWDONE|SNDRAWLEN|SNDSETPOS|SNDSTOP|SNDVOL|SOFTWARE|SOUND|SOURCE|SPACE\\$|SPC|SQR|SQUAREPIXELS|STARTDIR\\$|STATIC|STATUSCODE|STEP|STICK|STOP|STR\\$|STRCMP|STRETCH|STRICMP|STRIG|STRING|STRING\\$|SUB|SWAP|SYSTEM|TAB|TAN|TANH|THEN|TIME\\$|TIMER|TITLE|TITLE\\$|TO|TOGGLE|TOGGLEBIT|TOTALDROPPEDFILES|TRIM\\$|TROFF|TRON|TYPE|UBOUND|UCASE\\$|UCHARPOS|UEVENT|UFONTHEIGHT|ULINESPACING|UNLOCK|UNSIGNED.*\\b|UNTIL|UPRINTSTRING|UPRINTWIDTH|USING|VAL|VARPTR|VARPTR\\$|VARSEG|VIEW|WAIT|WEND|WHEEL|WHILE|WIDTH|WINDOW|WINDOWHANDLE|WINDOWHASFOCUS|WRITE|WRITEFILE|XOR)\\b)"
+        },
+        {
+            "name": "comment.line.QB64PE",
+            "match": ".*(?im:('|REM)).*$"
+        },
+        {
+            "name": "keyword.control.QB64PE",
+            "match": "\\s*\\b(?i:(IF|THEN|ELSE|ELSE|END|DO).*)\\b\\s*"
+        },
+        {
+            "name": "meta.preprocessor.QB64PE",
+            "match": "\\s*\\b(?im:(\\$ASSERTS|\\$CHECKING|\\$COLOR|\\$CONSOLE|\\$DEBUG|\\$ELSE|\\$ELSEIF.*|\\$EMBED|\\$END.*|\\$ERROR|\\$EXEICON|\\$IF.*|\\$INCLUDEONCE|\\$LET|\\$MIDISOUNDFONT|\\$NOPREFIX|\\$RESIZE|\\$SCREENHIDE|\\$SCREENSHOW|\\$UNSTABLE|\\$VERSIONINFO|\\$VIRTUALKEYBOARD).*)\\s*\\b"
+        },
+        {
+            "name": "variable.QB64PE",
+            "match": "\\s*(?i:([_a-z]+[a-z0-9_]*~{0,2}[!#\\$%&]*))\\s*"
+        },
+        {
+            "name": "punctuation.separator.QB64PE",
+            "match": "[,:;]+"
+        },
+        {
+            "name": "operator.QB64PE",
+            "match": "\\s*(\\=|-|\\+|/|\\\\|MOD|>|<|<>|>=|<=|!)+\\s*"
+        },
+        {
+            "name": "string.quoted.double.QB64PE",
+            "match": "\\\".*\\\""
+        },
+        {
+            "name": "constant.numeric.QB64PE",
+            "match": "\\d"
+        }
+	]
 }
