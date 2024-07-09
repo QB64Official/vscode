@@ -1,12 +1,18 @@
 # Change Log
 All notable changes to the "QB64 PE" extension will be documented in this file.
 
-## 0.10.0 (plan)
+## 0.10.x (plan)
+- Enhancements
+  - Add new markdown hover help for QB64 PE keywords up to version `3.13.1`
+  - Modify`tasks.json` to support QB64 PE.
+
+## 0.10.1
 - Enhancements
   - Added new syntax highlighting QB64 PE keywords up to version `3.13.1`
-  - Added new markdown hover help for QB64 PE keywords up to version `3.13.1`
+
+## 0.10.0
+- Enhancements
   - Added new default setting to make sticky scroll use indentation levels.
-  - Modified `tasks.json` to support QB64 PE.
   - Changed every instance that used QB64 to QB64PE.
 
 ---------
