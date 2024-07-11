@@ -2,7 +2,7 @@
 
 A VSCode extension that adds support for [QB64 PE](https://www.qb64phoenix.com).
 
-> This fork was created with permission from LordDurus to enhance and extend the vscode extension to support QB64PE PE.
+> This fork was created with permission from LordDurus to enhance and extend the vscode extension to support QB64PE.
 
 ## Features
 
