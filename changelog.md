@@ -6,6 +6,10 @@ All notable changes to the "QB64 PE" extension will be documented in this file.
   - Add new markdown hover help for QB64 PE keywords up to version `3.13.1`
   - Modify`tasks.json` to support QB64 PE.
 
+## 0.10.2
+- Enhancements
+  - Improved syntax highlighting for variables, subs, and functions `3.13.1`
+
 ## 0.10.1
 - Enhancements
   - Added new syntax highlighting QB64 PE keywords up to version `3.13.1`

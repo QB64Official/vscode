@@ -2,7 +2,7 @@
     "name": "qb64pe",
     "displayName": "QB64PE",
     "description": "QB64PE PE (Phoenix Edition) language support for Visual Studio Code.",
-    "version": "0.10.1",
+    "version": "0.10.2",
     "engines": {
         "vscode": "^1.78.1"
     },
