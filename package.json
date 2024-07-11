@@ -1,7 +1,7 @@
 {
     "name": "qb64pe",
     "displayName": "QB64PE",
-    "description": "QB64PE PE (Phoenix Edition) language support for Visual Studio Code.",
+    "description": "QB64PE (Phoenix Edition) language support for Visual Studio Code.",
     "version": "0.10.2",
     "engines": {
         "vscode": "^1.78.1"
@@ -14,7 +14,7 @@
     "keywords": [
         "QB64PE",
         "QB64PE",
-        "QB64PE PE",
+        "QB64 PE",
         "QB64PE Phoenix Edition",
         "QBasic"
     ],
@@ -40,7 +40,7 @@
             "explorer": [
                 {
                     "id": "todo",
-                    "name": "QB64PE PE TODOs",
+                    "name": "QB64PE TODOs",
                     "icon": "images\\todo.svg",
                     "contextualTitle": "View TODOs"
                 }
@@ -48,8 +48,8 @@
         },
         "debuggers": [
             {
-                "type": "QB64PE PE",
-                "label": "QB64PE PE Debugger",
+                "type": "QB64PE",
+                "label": "QB64PE Debugger",
                 "runtime": "node",
                 "configurationAttributes": {
                     "launch": {

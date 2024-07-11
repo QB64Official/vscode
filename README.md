@@ -33,7 +33,7 @@ A VSCode extension that adds support for [QB64 PE](https://www.qb64phoenix.com).
 * [QB64 PE](https://www.qb64phoenix.com) installed.
 * Latest *vsix* installed from [here](https://github.com/grymmjack/qb64pe-vscode/tree/main/releases).
 
-## Get Started Writing QB64PE PE with VS Code
+## Get Started Writing QB64PE with VS Code
 
 * [Wiki](https://qb64phoenix.com/qb64wiki)
 
