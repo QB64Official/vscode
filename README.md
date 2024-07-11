@@ -1,4 +1,4 @@
-# QB64PE PE (Phoenix Edition) for Visual Studio Code
+# QB64PE (Phoenix Edition) for Visual Studio Code
 
 A VSCode extension that adds support for [QB64 PE](https://www.qb64phoenix.com).
 
@@ -6,14 +6,14 @@ A VSCode extension that adds support for [QB64 PE](https://www.qb64phoenix.com).
 
 ## Features
 
-* Utilize `F1` to *open help* via the QB64PE PE Wiki
+* Utilize `F1` to *open help* via the QB64PE Wiki
 * Ctrl+F1 to *open keyword list alphabetical*
 * Shift+F1 to *open keyword list by usage*
 * Go to Definition `F12`
 * `F12` to *follow* (open) an Include file
 * `F5` to Build & Run
 * `ctrl+shift+b` to build the current file
-* Syntax highlighting for QB64PE PE (up to the latest version)
+* Syntax highlighting for QB64PE (up to the latest version)
 * Code outline (`CTRL+F2`)
 * Code folding
 * Build Only
@@ -47,7 +47,7 @@ The VS Code for QB64PE extension is subject to these license terms. The source c
 
 ## Acknowledgments
 
-* This QB64PE PE (Phoenix Edition) version of the vscode extension is based on work completed by [Lord Durus](https://github.com/grymmjack/qb64pe-vscode/commits?author=LordDurus).
+* This QB64PE (Phoenix Edition) version of the vscode extension is based on work completed by [Lord Durus](https://github.com/grymmjack/qb64pe-vscode/commits?author=LordDurus).
 * Extensions Highlighting: based on: https://github.com/sorucoder/freebasic-vscode-extension
 * Syntax coloring is based on: https://github.com/microsoft/vscode/blob/main/extensions/vb/syntaxes/asp-vb-net.tmlanguage.json
 * OutLine based on: https://github.com/svaberg/SWMF-grammar
