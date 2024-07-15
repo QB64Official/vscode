@@ -1,93 +1,49 @@
-The [_OPENCLIENT](_OPENCLIENT) function connects to a Host on the Internet as a Client and returns the Client status handle.
+# _OPENCLIENT
+
+The **_OPENCLIENT** function connects to a Host on the Internet as a Client and returns the Client status handle.
+
+**HTTP functionality is current unstable, and requires [$UNSTABLE]($UNSTABLE.md):HTTP to be able to use.**
+
+  
 
 ## Syntax
 
-> clientHandle& = [_OPENCLIENT](_OPENCLIENT)(**"TCP/IP:8080:12:30:1:10"**)
+*clientHandle&* = _OPENCLIENT(**"TCP/IP:8080:12:30:1:10"**)
+*clientHandle&* = _OPENCLIENT(**"HTTP:url"**)
+  
 
 ## Description
 
-* An [ERROR Codes](ERROR-Codes) error will be triggered if the function is called with a string argument of the wrong syntax.
+* An [Illegal Function Call](Illegal Function Call.md) error will be triggered if the function is called with a string argument of the wrong syntax.
 * Connects to a host somewhere on the internet as a client.
-* Valid clientHandle& values are negative. 0 means that the connection failed. Always check that the handle returned is not 0.
-* [CLOSE](CLOSE) client_handle closes the client. A failed handle of value 0 does not need to be closed.
+* Valid *clientHandle&* values are negative. 0 means that the connection failed. Always check that the handle returned is not 0.
+* [CLOSE](CLOSE.md) *clientHandle&* closes the client. A failed handle of value 0 does not need to be closed.
 
-## Example(s)
+  
 
+## Examples
+
+Example 1
 Attempting to connect to a local host(your host) as a client. A zero return indicates failure.
 
-```vb
-
-client = _OPENCLIENT("TCP/IP:7319:localhost")
-IF client THEN 
-   PRINT "[Connected to " + _CONNECTIONADDRESS(client) + "]" 
-ELSE PRINT "[Connection Failed!]"
-END IF 
-
+``` client = _OPENCLIENT("TCP/IP:7319:localhost") [IF](IF.md) client [THEN](THEN.md)    [PRINT](PRINT.md) "[Connected to " + [_CONNECTIONADDRESS](Connected to " + [_CONNECTIONADDRESS.md)(client) + "]" [ELSE](ELSE.md) [PRINT](PRINT.md) "[Connection Failed!]" [END IF](END IF.md)  
 ```
 
-> **NOTE:** Try a valid TCP/IP port setting to test this routine!
+---
 
-Using a "raw" Download function to download the QB64PE bee image and displays it.
+Example 2
+Using HTTP to download from a URL.
 
-```vb
-
-'replace the fake image address below with a real image address you want to download
-IF Download("www.qb64pe.org/qb64pe.png", "qb64logo.png", 10) THEN ' timelimit = 10 seconds
- SCREEN _LOADIMAGE("qb64logo.png",32)
-ELSE: PRINT "Couldn't download image."
-END IF
-SLEEP
-SYSTEM
-' ---------- program end -----------
-
-FUNCTION Download (url$, file$, timelimit) ' returns -1 if successful, 0 if not
-url2$ = url$
-x = INSTR(url2$, "/")
-IF x THEN url2$ = LEFT$(url$, x - 1)
-client = _OPENCLIENT("TCP/IP:80:" + url2$)
-IF client = 0 THEN EXIT FUNCTION
-e$ = CHR$(13) + CHR$(10) ' end of line characters
-url3$ = RIGHT$(url$, LEN(url$) - x + 1)
-x$ = "GET " + url3$ + " HTTP/1.1" + e$
-x$ = x$ + "Host: " + url2$ + e$ + e$
-PUT #client, , x$
-t! = TIMER ' start time
-DO
-    _DELAY 0.05 ' 50ms delay (20 checks per second)
-    GET #client, , a2$
-    a$ = a$ + a2$
-    i = INSTR(a$, "Content-Length:")
-    IF i THEN
-      i2 = INSTR(i, a$, e$)
-      IF i2 THEN
-      l = VAL(MID$(a$, i + 15, i2 - i -14))
-      i3 = INSTR(i2, a$, e$ + e$)
-        IF i3 THEN
-          i3 = i3 + 4 'move i3 to start of data
-          IF (LEN(a$) - i3 + 1) = l THEN
-            CLOSE client ' CLOSE CLIENT
-            d$ = MID$(a$, i3, l)
-            fh = FREEFILE
-            OPEN file$ FOR OUTPUT AS #fh: CLOSE #fh ' erase existing file?
-
-            OPEN file$ FOR BINARY AS #fh
-            PUT #fh, , d$
-            CLOSE #fh
-            Download = -1 'indicates download was successfull
-            EXIT FUNCTION
-          END IF ' availabledata = l
-        END IF ' i3
-      END IF ' i2
-    END IF ' i
-LOOP UNTIL TIMER > t! + timelimit ' (in seconds)
-CLOSE client
-END FUNCTION 
-
+``` ' Content of the HTTP response is returned. The statusCode is also assigned. [FUNCTION](FUNCTION.md) Download$(url [AS](AS.md) [STRING](STRING.md), statusCode [AS](AS.md) [LONG](LONG.md))     h& = _OPENCLIENT("HTTP:" + url)      statusCode = [_STATUSCODE](_STATUSCODE.md)(h&)      [WHILE](WHILE.md) [NOT](NOT.md) [EOF](EOF.md)(h&)         [_LIMIT](_LIMIT.md) 60         [GET](GET.md) "GET (HTTP statement)") #h&, , s$         content$ = content$ + s$     [WEND](WEND.md)      [CLOSE](CLOSE.md) #h&      Download$ = content$ [END FUNCTION](END FUNCTION.md)  
 ```
 
-## See Also
+  
 
-* [_OPENHOST](_OPENHOST), [_OPENCONNECTION](_OPENCONNECTION)
-* [_CONNECTED](_CONNECTED), [_CONNECTIONADDRESS$](_CONNECTIONADDRESS$)
-* [Email Demo](Email-Demo), [Inter-Program Data Sharing Demo](Inter-Program-Data-Sharing-Demo)
-* [Downloading Files](Downloading-Files)
+## See also
+
+* [_OPENHOST](_OPENHOST.md), [_OPENCONNECTION](_OPENCONNECTION.md)
+* [_CONNECTED](_CONNECTED.md), [_CONNECTIONADDRESS$](_CONNECTIONADDRESS$.md)
+* [Email Demo](Email Demo.md), [Inter-Program Data Sharing Demo](Inter-Program Data Sharing Demo.md)
+* [Downloading Files](Downloading Files.md)
+
+  

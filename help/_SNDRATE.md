@@ -1,19 +1,31 @@
-The [_SNDRATE](_SNDRATE) function returns the sample rate frequency per second of the current computer's sound card.
+# _SNDRATE
+
+The _SNDRATE function returns the sample rate frequency per second of the current computer's sound card.
+
+  
 
 ## Syntax
 
-> sampleRate& = [_SNDRATE](_SNDRATE)
+*sampleRate&* = _SNDRATE
+  
 
 ## Description
 
-* The sample rate frequency per second value returned can be any [LONG](LONG) value. Common values are 22050 or 44100.
+* The sample rate frequency per second value returned can be any [LONG](LONG.md) value. Common values are 22050 or 44100.
 * **The sound card sample rate is determined by the sound card and it cannot be changed.**
+* **Do not assume this to be a certain value. Always write code that can adapt to whatever is returned.**
 
-## Example(s)
+  
 
-* See the example in [_SNDRAW](_SNDRAW).
+## Examples
 
-## See Also
+* See the example in [_SNDRAW](_SNDRAW.md).
 
-* [_SNDRAW](_SNDRAW)
-* [_SNDRAWLEN](_SNDRAWLEN)
+  
+
+## See also
+
+* [_SNDRAW](_SNDRAW.md)
+* [_SNDRAWLEN](_SNDRAWLEN.md)
+
+  

@@ -1,34 +1,37 @@
-The [_D2R](_D2R) function converts a **degree** value into a **radian** value. 
+# _D2R
+
+The _D2R function converts a **degree** value into a **radian** value.
+
+  
 
 ## Syntax
 
-> result = [_D2R](_D2R)(num)
+*result* = _D2R(*num*)
+  
 
 ## Availability
 
-* Version 1.000 and up.
+* **QB64 v1.0 and up**
+* **QB64-PE all versions**
 
-## Example(s)
+  
 
-Coverting Degrees into Radians.
+## Examples
 
-```vb
+*Example:* Coverting Degrees into Radians.
 
-INPUT "Give me an angle in Degrees ", D
-R = _D2R(D)
-PRINT "That angle in Radians is "; R
-
+``` [INPUT](INPUT.md) "Give me an angle in Degrees ", D R = _D2R(D) [PRINT](PRINT.md) "That angle in Radians is "; R  
 ```
 
-```text
-
-Give me an angle in Degrees 60
-That angle in Radians is 1.047198
-
+``` Give me an angle in Degrees 60 That angle in Radians is 1.047198  
 ```
 
-## See Also
+  
 
-* [_D2G](_D2G), [_D2R](_D2R)
-* [_G2D](_G2D), [_G2R](_G2R)
-* [_R2D](_R2D), [_R2G](_R2G)
+## See also
+
+* [_D2G](_D2G.md), _D2R
+* [_G2D](_G2D.md), [_G2R](_G2R.md)
+* [_R2D](_R2D.md), [_R2G](_R2G.md)
+
+  

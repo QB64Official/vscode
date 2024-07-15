@@ -1,15 +1,25 @@
-The [_SCROLLLOCK](_SCROLLLOCK) statement sets the state of the Scroll Lock key.
+# _SCROLLLOCK
+
+The _SCROLLLOCK statement sets the state of the Scroll Lock key.
+
+  
 
 ## Syntax
 
-> [_SCROLLLOCK](_SCROLLLOCK) {ON|OFF|_TOGGLE}
+_SCROLLLOCK {ON|OFF|_TOGGLE}
+  
 
 ## Availability
 
-* Version 1.4 and up.
-* [Keywords currently not supported](Keywords-currently-not-supported-by-QB64).
+* **QB64 v1.4 and up**
+* **QB64-PE all versions**
+* **[Keyword not supported in Linux or macOS versions](Keyword not supported in Linux or macOS versions.md)**
 
-## See Also
+  
 
-* [_CAPSLOCK (function)](_CAPSLOCK-(function)), [_NUMLOCK (function)](_NUMLOCK-(function)), [_SCROLLLOCK (function)](_SCROLLLOCK-(function))
-* [_CAPSLOCK](_CAPSLOCK) (statement), [_NUMLOCK](_NUMLOCK) (statement)
+## See also
+
+* [_CAPSLOCK (function)](_CAPSLOCK (function).md) "CAPSLOCK (function)"), [_NUMLOCK (function)](_NUMLOCK (function).md) "NUMLOCK (function)"), [_SCROLLLOCK (function)](_SCROLLLOCK (function).md) "SCROLLLOCK (function)")
+* [_CAPSLOCK](_CAPSLOCK.md), [_NUMLOCK](_NUMLOCK.md)
+
+  

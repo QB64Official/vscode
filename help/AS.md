@@ -1,29 +1,38 @@
-The [AS](AS) keyword defines a variable data [Variable Types](Variable-Types).
+# AS
+
+The AS keyword defines a variable data [type](type.md).
+
+  
 
 ## Description
 
-* AS defines the variable or array type AS [_BIT](_BIT), [_BYTE](_BYTE), [INTEGER](INTEGER), [LONG](LONG), [_INTEGER64](_INTEGER64), [SINGLE](SINGLE), [DOUBLE](DOUBLE), [_FLOAT](_FLOAT) or [STRING](STRING).
-* Specifies a variable's [Variable Types](Variable-Types) in a declarative statement or parameter list using:
-  * [DIM](DIM) or [REDIM](REDIM)
-  * [DECLARE LIBRARY](DECLARE-LIBRARY)
-  * [SUB](SUB)
-  * [FUNCTION](FUNCTION)
-  * [TYPE](TYPE)
-  * [SHARED](SHARED)
-  * [COMMON SHARED](COMMON-SHARED)
-  * [STATIC](STATIC)
+* AS defines the variable or array type AS [_BIT](_BIT.md), [_BYTE](_BYTE.md), [INTEGER](INTEGER.md), [LONG](LONG.md), [_INTEGER64](_INTEGER64.md), [SINGLE](SINGLE.md), [DOUBLE](DOUBLE.md), [_FLOAT](_FLOAT.md) or [STRING](STRING.md).
+* Specifies a variable's [type](type.md) in a declarative statement or parameter list using:
+	+ [DIM](DIM.md) or [REDIM](REDIM.md)
+	+ [DECLARE LIBRARY](DECLARE LIBRARY.md)
+	+ [SUB](SUB.md)
+	+ [FUNCTION](FUNCTION.md)
+	+ [TYPE](TYPE.md)
+	+ [SHARED](SHARED.md)
+	+ [COMMON SHARED](COMMON SHARED.md)
+	+ [STATIC](STATIC.md)
 
 ### Details
-* Specifies a **[parameter](parameter)** variable's type in a [SUB](SUB) or [FUNCTION](FUNCTION) procedure. **Cannot be used to define a function's [Variable Types](Variable-Types)**
-* Specifies an element's type in a user-defined data [TYPE](TYPE).
-* Assigns a file number to a file or device in an [OPEN](OPEN) statement.
-* Specifies a field name in a random-access record (see [FIELD](FIELD))
-* Specifies a new file name when you rename a file (see [NAME](NAME))
-* **NOTE: Many QBasic keywords can be used as variable names if they are created as [STRING](STRING)s using the suffix **$**. You cannot use them without the suffix, use a numerical suffix or use [DIM](DIM), [REDIM](REDIM), [_DEFINE](_DEFINE), [BYVAL](BYVAL) or [TYPE](TYPE) variable [AS](AS) statements.**
 
-## See Also
+* Specifies a **[parameter](parameter.md)** variable's type in a [SUB](SUB.md) or [FUNCTION](FUNCTION.md) procedure. **Cannot be used to define a function's [type](type.md)**
+* Specifies an element's type in a user-defined data [TYPE](TYPE.md).
+* Assigns a file number to a file or device in an [OPEN](OPEN.md) statement.
+* Specifies a field name in a random-access record (see [FIELD](FIELD.md))
+* Specifies a new file name when you rename a file (see [NAME](NAME.md))
+* **NOTE: Many QBasic keywords can be used as variable names if they are created as [STRINGs](STRINGs.md) using the suffix** $**. You cannot use them without the suffix, use a numerical suffix or use [DIM](DIM.md), [REDIM](REDIM.md), [_DEFINE](_DEFINE.md), [BYVAL](BYVAL.md) or [TYPE](TYPE.md) variable AS statements.**
 
-* [DIM](DIM), [REDIM](REDIM)
-* [_DEFINE](_DEFINE) 
-* [BYVAL](BYVAL), [TYPE](TYPE)
-* [Variable Types](Variable-Types)
+  
+
+## See also
+
+* [DIM](DIM.md), [REDIM](REDIM.md)
+* [_DEFINE](_DEFINE.md)
+* [BYVAL](BYVAL.md), [TYPE](TYPE.md)
+* [Variable Types](Variable Types.md)
+
+  

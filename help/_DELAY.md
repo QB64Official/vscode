@@ -1,20 +1,26 @@
-The [_DELAY](_DELAY) statement suspends program execution for the specified number of seconds.
+# _DELAY
+
+The _DELAY statement suspends program execution for a [SINGLE](SINGLE.md) value of seconds.
+
+  
 
 ## Syntax
 
-> [_DELAY](_DELAY) seconds!
-
-## Parameter(s)
-
-* seconds! is the time to wait, accurate to nearest millisecond (.001).
+_DELAY *seconds!*
+  
 
 ## Description
 
-* While waiting, CPU cycles are relinquished to other applications.
+* *seconds!* is the time to wait, accurate to nearest millisecond (.001).
+* While waiting, cpu cycles are relinquished to other applications.
 * Delays are not affected by midnight timer corrections.
 
-## See Also
+  
 
-* [_LIMIT](_LIMIT)
-* [TIMER](TIMER)
-* [ON TIMER(n)](ON-TIMER(n))
+## See also
+
+* [_LIMIT](_LIMIT.md)
+* [TIMER](TIMER.md)
+* [ON TIMER(n)](ON TIMER(n).md) "ON TIMER(n)")
+
+  

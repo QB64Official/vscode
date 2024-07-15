@@ -1,30 +1,35 @@
-The [LCASE$](LCASE$) function returns an all-lowercase version of a [STRING](STRING).
+# LCASE$
+
+The LCASE$ function outputs an all-lowercase version of a [STRING](STRING.md).
+
+  
 
 ## Syntax
 
-> result$ = [LCASE$](LCASE$)(text$)
+*result$* = LCASE$(*text$*)
+  
 
 ## Description
 
 * Normally used to guarantee that user input is not capitalized.
 * Does not affect non-alphabetical characters.
 
-## Example(s)
+  
 
-The following code guarantees that all user letter entries will be lower case:
+## Examples
 
-```vb
+*Example:* The following code guarantees that all user letter entries will be lower case:
 
-PRINT "Do you want to continue? (y/n)"
-
-DO
-    K$ = LCASE$(INKEY$)
-LOOP UNTIL K$ = "y" OR K$ = "n"
-
+``` [PRINT](PRINT.md) "Do you want to continue? (y/n)"  [DO](DO.md)     K$ = LCASE$([INKEY$](INKEY$.md)) [LOOP](LOOP.md) [UNTIL](UNTIL.md) K$ = "y" [OR](OR.md) K$ = "n"  
 ```
 
-## See Also
+  
 
-* [UCASE$](UCASE$) (upper case)
-* [INKEY$](INKEY$)
-* [INPUT$](INPUT$)
+## See also
+
+* [Featured in our "Keyword of the Day" series](Featured in our "Keyword of the Day" series.md)
+* [UCASE$](UCASE$.md) (upper case)
+* [INKEY$](INKEY$.md)
+* [INPUT$](INPUT$.md)
+
+  

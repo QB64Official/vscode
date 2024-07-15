@@ -1,34 +1,37 @@
-The [_G2D](_G2D) function converts a **gradian** value into a **degree** value. 
+# _G2D
+
+The _G2D function converts a **gradient** value into a **degree** value.
+
+  
 
 ## Syntax
 
-> result = [_G2D](_G2D)(num)
+*result* = _G2D(*num*)
+  
 
 ## Availability
 
-* Version 1.000 and up.
+* **QB64 v1.0 and up**
+* **QB64-PE all versions**
 
-## Example(s)
+  
 
-Coverting Gradians into Degree.
+## Examples
 
-```vb
+*Example:* Coverting Gradients into Degree.
 
-INPUT "Give me an angle in Gradians ", D
-R = _G2D(D)
-PRINT "That angle in Degrees is "; R
-
+``` [INPUT](INPUT.md) "Give me an angle in Gradients ", G D = _G2D(G) [PRINT](PRINT.md) "That angle in Degrees is "; D  
 ```
 
-```text
-
-Give me an angle in Gradians 60
-That angle in Degrees is     54
-
+``` Give me an angle in Gradients 60 That angle in Degrees is     54  
 ```
 
-## See Also
- 
-* [_D2G](_D2G), [_D2R](_D2R)
-* [_G2R](_G2R)
-* [_R2D](_R2D), [_R2G](_R2G)
+  
+
+## See also
+
+* [_D2G](_D2G.md), [_D2R](_D2R.md)
+* [_G2R](_G2R.md)
+* [_R2D](_R2D.md), [_R2G](_R2G.md)
+
+  

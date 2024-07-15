@@ -1,41 +1,38 @@
-The [_TRIM$](_TRIM$) function removes both leading and trailing space characters from a [STRING](STRING) value.
+# _TRIM$
+
+The _TRIM$ function removes both leading and trailing space characters from a [STRING](STRING.md) value.
+
+  
 
 ## Syntax
 
-> return$ = [_TRIM$](_TRIM$)(text$)
+*return$* = _TRIM$(*text$*)
+  
 
 ## Description
 
-* Shorthand to using [LTRIM$](LTRIM$)([RTRIM$](RTRIM$)("text"))
-* text$ is the [STRING](STRING) value to trim.
-* If text$ contains no leading or trailing space characters, it is returned unchanged.
-* Convert fixed length [STRING](STRING) values by using a different return$ variable.
+* Shorthand to using [LTRIM$](LTRIM$.md)([RTRIM$](RTRIM$.md)("text"))
+* *text$* is the [STRING](STRING.md) value to trim.
+* If *text$* contains no leading or trailing space characters, it is returned unchanged.
+* Convert fixed length [STRING](STRING.md) values by using a different *return$* variable.
 
-## Example(s)
+  
 
-Demonstrating how _TRIM$(text$) can replace LTRIM$(RTRIM$(text$)):
+## Examples
 
-```vb
+*Example: Demonstrating how _TRIM$(text$) can replace LTRIM$(RTRIM$(text$)):*
 
-text$ = SPACE$(10) + "some text" + SPACE$(10)
-PRINT "[" + text$ + "]" 
-PRINT "[" + RTRIM$(text$) + "]" 
-PRINT "[" + LTRIM$(text$) + "]" 
-PRINT "[" + LTRIM$(RTRIM$(text$)) + "]" 
-PRINT "[" + _TRIM$(text$) + "]" 
-
+``` text$ = [SPACE$](SPACE$.md)(10) + "some text" + [SPACE$](SPACE$.md)(10) [PRINT](PRINT.md) "[" + text$ + "]" [PRINT](PRINT.md) "[" + [RTRIM$](" + [RTRIM$.md)(text$) + "]" [PRINT](PRINT.md) "[" + [LTRIM$](" + [LTRIM$.md)(text$) + "]" [PRINT](PRINT.md) "[" + [LTRIM$](" + [LTRIM$.md)([RTRIM$](RTRIM$.md)(text$)) + "]" [PRINT](PRINT.md) "[" + _TRIM$(text$) + "]"  
 ```
 
-```text
-
-[          some text          ]
-[          some text]
-[some text          ]
-[some text]
-[some text]
-
+``` [          some text          ] [          some text] [some text          ] [some text] [some text]  
 ```
 
-## See Also
+  
 
-* [RTRIM$](RTRIM$), [LTRIM$](LTRIM$)
+## See also
+
+* [Featured in our "Keyword of the Day" series](Featured in our "Keyword of the Day" series.md)
+* [RTRIM$](RTRIM$.md), [LTRIM$](LTRIM$.md)
+
+  

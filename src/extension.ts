@@ -230,7 +230,7 @@ export function showHelpByName(itemName: string) {
 			vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.file(helpFile));
 		}
 	} else if (config.get("isOpenOnLineHelpEnabled")) {
-		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://qb64phoenix.com/qb64wiki/index.php?search=${encodeURIComponent(itemName)}`));
+		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://qb64phoenix.com/qb64wiki/index.php/${encodeURIComponent(itemName)}`));
 	}
 }
 

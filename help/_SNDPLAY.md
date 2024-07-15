@@ -1,23 +1,31 @@
-The [_SNDPLAY](_SNDPLAY) statement plays a sound designated by a file handle created by [_SNDOPEN](_SNDOPEN).
+# _SNDPLAY
+
+The _SNDPLAY statement plays a sound designated by a file handle created by [_SNDOPEN](_SNDOPEN.md).
+
+  
 
 ## Syntax
 
-> [_SNDPLAY](_SNDPLAY) handle&
+_SNDPLAY *handle&*
+  
 
 ## Description
 
-* Make sure that the handle& value is not 0 before attempting to play it.
+* Make sure that the *handle&* value is not 0 before attempting to play it.
 
-## Example(s)
+  
 
-Checking a handle value before playing
+## Examples
 
-```vb
+*Example:* Checking a handle value before playing
 
-IF h& THEN _SNDPLAY h& 
-
+```  [IF](IF.md) h& [THEN](THEN.md) _SNDPLAY h&  
 ```
 
-## See Also
+  
 
-* [_SNDOPEN](_SNDOPEN), [_SNDPAUSE](_SNDPAUSE), [_SNDPLAYING](_SNDPLAYING)
+## See also
+
+* [_SNDOPEN](_SNDOPEN.md), [_SNDPAUSE](_SNDPAUSE.md), [_SNDPLAYING](_SNDPLAYING.md)
+
+  

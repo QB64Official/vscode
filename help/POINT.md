@@ -1,156 +1,103 @@
-The **POINT** function returns the pixel [COLOR](COLOR) attribute at a specified graphics coordinate or the current graphic cursor position.
+# POINT
+
+The **POINT** function returns the pixel [COLOR](COLOR.md) attribute at a specified graphics coordinate or the current graphic cursor position.
+
+  
 
 ## Syntax
 
-*Color* 
+Graphic Color
+color_attribute% = **POINT (***column%, row%***)**
+Graphic cursor position
+pointer_coordinate% = **POINT(**{0|1|2|3}**)**
+  
 
-> color_attribute% = **POINT (***column%, row%***)**
+## Parameters
 
-*Graphic cursor position*
- 
-> pointer_coordinate% = **POINT(**{0|1|2|3}**)**
+**Graphic Color syntax:**
 
-## Parameter(s)
+* The [INTEGER](INTEGER.md) *column* and *row* coordinates designate the pixel position color on the screen to read.
+* The return value is an [INTEGER](INTEGER.md) palette attribute value or an [_UNSIGNED](_UNSIGNED.md) [LONG](LONG.md) [_RGBA](_RGBA.md) 32 bit value in QB64.
 
-Graphic Color syntax:
+**Graphic cursor position syntax:**
 
-* The [INTEGER](INTEGER) *column* and *row* coordinates designate the pixel position color on the screen to read.
-* The return value is an [INTEGER](INTEGER) palette attribute value or an [_UNSIGNED](_UNSIGNED) [LONG](LONG) [_RGBA](_RGBA) 32 bit value in qb64pe.
+* The [INTEGER](INTEGER.md) position number can be 0 to 3 depending on the cursor position desired:
+	+ POINT(0) returns the current graphic cursor [SCREEN](SCREEN.md) column pixel coordinate.
+	+ POINT(1) returns the current graphic cursor [SCREEN](SCREEN.md) row pixel coordinate.
+	+ POINT(2) returns the current graphic cursor [WINDOW](WINDOW.md) column position.
+	+ POINT(3) returns the current graphic cursor [WINDOW](WINDOW.md) row position.
+* If a [WINDOW](WINDOW.md) view port has not been established, the coordinate returned will be the [SCREEN](SCREEN.md) cursor pixel position.
+* The return value is the current graphic cursor *column* or *row* pixel position on the [SCREEN](SCREEN.md) or [WINDOW](WINDOW.md).
+* Graphic cursor positions returned will be the last ones used in a graphic shape such as a [CIRCLE](CIRCLE.md) center point.
 
-Graphic cursor position syntax: 
+  
 
-* The [INTEGER](INTEGER) position number can be 0 to 3 depending on the cursor position desired:
-  * POINT(0) returns the current graphic cursor [SCREEN](SCREEN) column pixel coordinate.
-  * POINT(1) returns the current graphic cursor [SCREEN](SCREEN) row pixel coordinate.
-  * POINT(2) returns the current graphic cursor [WINDOW](WINDOW) column position.
-  * POINT(3) returns the current graphic cursor [WINDOW](WINDOW) row position.
-* If a [WINDOW](WINDOW) view port has not been established, the coordinate returned will be the [SCREEN](SCREEN) cursor pixel position.
-* The return value is the current graphic cursor *column* or *row* pixel position on the [SCREEN](SCREEN) or [WINDOW](WINDOW).
-* Graphic cursor positions returned will be the last ones used in a graphic shape such as a [CIRCLE](CIRCLE) center point.
+*Usage:*
 
-## Usage
+* Use **[_SOURCE](_SOURCE.md)** first to set the image handle that POINT should read or QB64 will assume the current source image.
 
-* Use **[_SOURCE](_SOURCE)** first to set the image handle that POINT should read or QB64PE will assume the current source image.
-> **_SOURCE 0** 'sets POINT to read the current SCREEN image after reading a previous source image
-* **POINT cannot be used in SCREEN 0!** Use the [SCREEN (function)](SCREEN-(function)) function to point text character codes and colors in SCREEN 0.
+**_SOURCE 0** 'sets POINT to read the current SCREEN image after reading a previous source image
+* **POINT cannot be used in SCREEN 0!** Use the [SCREEN](SCREEN.md) "SCREEN (function)") function to point text character codes and colors in SCREEN 0.
 
-**POINT in QBasic Legacy Graphic SCREEN Modes:**
+  
 
-* The [INTEGER](INTEGER) color attributes returned are limited by the number of colors in the legacy SCREEN mode used.
-* *Column* and *row* [INTEGER](INTEGER) parameters denote the graphic pixel coordinate to read.
+* The [INTEGER](INTEGER.md) color attributes returned are limited by the number of colors in the legacy SCREEN mode used.
+* *Column* and *row* [INTEGER](INTEGER.md) parameters denote the graphic pixel coordinate to read.
 * In **QB64** the offscreen or off image value returned is -1. Use IF POINT(x, y) <> -1 THEN...
-* In QBasic the coordinates MUST be on the screen or an [ERROR Codes](ERROR-Codes) will occur. 
+* In QBasic the coordinates MUST be on the screen or an [Illegal Function Call error](Illegal Function Call error.md) will occur.
 
-**POINT in QB64PE 32 Bit Graphic [_NEWIMAGE](_NEWIMAGE) or [_LOADIMAGE](_LOADIMAGE) Modes:**
+  
 
-* Returns [_UNSIGNED](_UNSIGNED) [LONG](LONG) 32 bit color values. Use [_UNSIGNED](_UNSIGNED) values when you don't want negative values.
-* **[_UNSIGNED](_UNSIGNED) [LONG](LONG) variables should be used when comparing POINT returns with [_RGB](_RGB) or [_RGB32](_RGB32) [_ALPHA](_ALPHA) bit values**
-* Convert 32 bit color values to RGB intensities(0 to 255) using the [_RED32](_RED32), [_GREEN32](_GREEN32) and [_BLUE32](_BLUE32) functions.
+* Returns [_UNSIGNED](_UNSIGNED.md) [LONG](LONG.md) 32 bit color values. Use [_UNSIGNED](_UNSIGNED.md) values when you don't want negative values.
+* **[_UNSIGNED](_UNSIGNED.md) [LONG](LONG.md) variables should be used when comparing POINT returns with [_RGB](_RGB.md) or [_RGB32](_RGB32.md) [_ALPHA](_ALPHA.md) bit values**
+* Convert 32 bit color values to RGB intensities(0 to 255) using the [_RED32](_RED32.md), [_GREEN32](_GREEN32.md) and [_BLUE32](_BLUE32.md) functions.
 * To convert color intensities to OUT &H3C9 color port palette intensity values divide the values of 0 to 255 by 4.
-* Use the [_PALETTECOLOR (function)](_PALETTECOLOR-(function)) to convert color port palette intensities in 32 bit modes.
+* Use the [_PALETTECOLOR (function)](_PALETTECOLOR (function).md) "PALETTECOLOR (function)") to convert color port palette intensities in 32 bit modes.
 
-## Example(s)
+  
 
-How [_RGB](_RGB) 32 bit values return [DOUBLE](DOUBLE) or [_UNSIGNED](_UNSIGNED) [LONG](LONG) values in qb64pe.
+*Example 1:* How [_RGB](_RGB.md) 32 bit values return [DOUBLE](DOUBLE.md) or [_UNSIGNED](_UNSIGNED.md) [LONG](LONG.md) values in QB64.
 
-```vb
-
-DIM clr AS LONG 'DO NOT use LONG in older versions of QB64PE (V .936 down)
-SCREEN _NEWIMAGE(640, 480, 32)
-CLS , _RGB(255, 255, 255)  'makes the background opaque white
-
-PRINT "POINT(100, 100) ="; POINT(100, 100)
-clr = POINT(100, 100)
-PRINT "Variable clr = ";  clr
-IF clr = _RGB(255, 255, 255) THEN PRINT "Long OK"
-IF POINT(100, 100) = _RGB(255, 255, 255) THEN PRINT "_RGB OK"
-IF POINT(100, 100) = clr THEN PRINT "Type OK" 'will not print with a LONG variable type
-
+``` [DIM](DIM.md) clr [AS](AS.md) [LONG](LONG.md) 'DO NOT use LONG in older versions of QB64 (V .936 down) [SCREEN](SCREEN.md) [_NEWIMAGE](_NEWIMAGE.md)(640, 480, 32) [CLS](CLS.md) , [_RGB](_RGB.md)(255, 255, 255)  'makes the background opaque white  [PRINT](PRINT.md) "POINT(100, 100) ="; POINT(100, 100) clr = POINT(100, 100) [PRINT](PRINT.md) "Variable clr = ";  clr [IF](IF.md) clr = [_RGB](_RGB.md)(255, 255, 255) [THEN](THEN.md) [PRINT](PRINT.md) "Long OK" [IF](IF.md) POINT(100, 100) = [_RGB](_RGB.md)(255, 255, 255) [THEN](THEN.md) [PRINT](PRINT.md) "_RGB OK" [IF](IF.md) POINT(100, 100) = clr [THEN](THEN.md) [PRINT](PRINT.md) "Type OK" 'will not print with a LONG variable type  
 ```
 
-> **Note:** Change the DIM *clr* variable type to [LONG](LONG) to see how the last IF statement doesn't PRINT as shown in the output below:
+**Note:** Change the [DIM](DIM.md) *clr* variable type to [LONG](LONG.md) to see how the last [IF](IF.md) statement doesn't [PRINT](PRINT.md) as shown in the output below:
 
-```text
-
-POINT(100, 100) = 4294967295
-Variable clr = -1
-Long OK
-_RGB OK
-
+``` POINT(100, 100) = 4294967295 Variable clr = -1 Long OK _RGB OK  
 ```
 
-Using a POINT mouse routine to get the 32 bit color values of an image.
+  
 
-```vb
+*Example 2:* Using a POINT mouse routine to get the 32 bit color values of the image.
 
-SCREEN _NEWIMAGE(640, 480, 32)
-_TITLE "Mouse POINTer 32"
-
-'LINE INPUT "Enter an image file: ", image$  'use quotes around file names with spaces
-image$ = "QB64bee.png" 'up to 320 X 240 with current _PUTIMAGE settings
-i& = _LOADIMAGE(image$, 32)
-IF i& >= -1 THEN BEEP: PRINT "Could NOT load image!": END
-w& = _WIDTH(i&): h& = _HEIGHT(i&)
-
-PRINT "Make background transparent?(Y\N)";
-BG$ = UCASE$(INPUT$(1))
-PRINT BG$
-_DELAY 1
-
-'CLS 'commented to keep background alpha 0
-
-IF BG$ = "Y" THEN _CLEARCOLOR _RGB32(255, 255, 255), i& 'make white Background transparent
-_PUTIMAGE (320 - w&, 240 - h&)-((2 * w&) + (320 - w&), (2 * h&) + (240 - h&)), i&, 0
-_FREEIMAGE i&
-
-_MOUSEMOVE 320, 240 'center mouse pointer on screen
-
-DO: _LIMIT 100
-  DO WHILE _MOUSEINPUT
-    mx = _MOUSEX
-    my = _MOUSEY
-    c& = POINT(mx, my)
-    r = _RED32(c&)
-    g = _GREEN32(c&)
-    b = _BLUE32(c&)
-    a = _ALPHA32(c&)
-    LOCATE 1, 1: PRINT mx; my, "R:"; r, "G:"; g, "B:"; b, "A:"; a; "  "
-    LOCATE 2, 2: PRINT "HTML Color: &H" + RIGHT$(HEX$(c&), 6)
-  LOOP
-LOOP UNTIL INKEY$ > ""
-END 
-
+``` [SCREEN](SCREEN.md) [_NEWIMAGE](_NEWIMAGE.md)(640, 480, 32) [_TITLE](_TITLE.md) "Mouse POINTer 32"   '[LINE INPUT](LINE INPUT.md) "Enter an image file: ", image$  'use quotes around file names with spaces image$ = "QB64bee.png" 'any 24/32 bit image up to 320 X 240 with current [_PUTIMAGE](_PUTIMAGE.md) settings i& = [_LOADIMAGE](_LOADIMAGE.md)(image$, 32) [IF](IF.md) i& >= -1 [THEN](THEN.md) [BEEP](BEEP.md): [PRINT](PRINT.md) "Could [NOT](NOT.md) load image!": [END](END.md) w& = [_WIDTH](_WIDTH.md) "WIDTH (function)")(i&): h& = [_HEIGHT](_HEIGHT.md)(i&)  [PRINT](PRINT.md) "Make background transparent?(Y\N)"; BG$ = [UCASE$](UCASE$.md)([INPUT$](INPUT$.md)(1)) [PRINT](PRINT.md) BG$ [_DELAY](_DELAY.md) 1  '[CLS](CLS.md) 'commented to keep background alpha 0  [IF](IF.md) BG$ = "Y" [THEN](THEN.md) [_CLEARCOLOR](_CLEARCOLOR.md) [_RGB32](_RGB32.md)(255, 255, 255), i& 'make white Background transparent [_PUTIMAGE](_PUTIMAGE.md) (320 - w&, 240 - h&)-((2 * w&) + (320 - w&), (2 * h&) + (240 - h&)), i&, 0 [_FREEIMAGE](_FREEIMAGE.md) i&  [_MOUSEMOVE](_MOUSEMOVE.md) 320, 240 'center mouse pointer on screen  [DO](DO.md): [_LIMIT](_LIMIT.md) 100   [DO](DO.md) [WHILE](WHILE.md) [_MOUSEINPUT](_MOUSEINPUT.md)     mx = [_MOUSEX](_MOUSEX.md)     my = [_MOUSEY](_MOUSEY.md)     c& = POINT(mx, my)     r = [_RED32](_RED32.md)(c&)     g = [_GREEN32](_GREEN32.md)(c&)     b = [_BLUE32](_BLUE32.md)(c&)     a = [_ALPHA32](_ALPHA32.md)(c&)     [LOCATE](LOCATE.md) 1, 1: [PRINT](PRINT.md) mx; my, "R:"; r, "G:"; g, "B:"; b, "A:"; a; "  "     [LOCATE](LOCATE.md) 2, 2: [PRINT](PRINT.md) "HTML Color: [&H](&H.md)" + [RIGHT$](RIGHT$.md)([HEX$](HEX$.md)(c&), 6)   [LOOP](LOOP.md) [LOOP](LOOP.md) [UNTIL](UNTIL.md) [INKEY$](INKEY$.md) > "" [END](END.md)  
 ```
 
-> *Explanation:* Use the mouse pointer to get the background RGB of the image to make it transparent with [_CLEARCOLOR](_CLEARCOLOR).
+*Explanation:* Use the mouse pointer to get the background RGB of the image to make it transparent with [_CLEARCOLOR](_CLEARCOLOR.md).
+  
 
-Creating an image mask to PUT an image over other colored backgrounds. See: [GET and PUT Demo](GET-and-PUT-Demo) to run code.
+*Snippet:* Creating an image mask to PUT an image over other colored backgrounds. See: [GET and PUT Demo](GET and PUT Demo.md) to run code.
 
-```vb
-
- FOR c = 0 TO 59    '60 X 60 area from 0 pixel
-   FOR r = 0 TO 59
-    IF POINT(c, r) = 0 THEN PSET (c, r), 15 ELSE PSET (c, r), 0
-   NEXT r
- NEXT c
- GET(0, 0)-(60, 60), Image(1500) ' save mask in an array(indexed above original image).
-
+```  FOR c = 0 TO 59    '60 X 60 area from 0 pixel    FOR r = 0 TO 59     IF POINT(c, r) = 0 THEN [PSET](PSET.md) (c, r), 15 ELSE PSET (c, r), 0    NEXT r  NEXT c  [GET](GET.md) "GET (graphics statement)")(0, 0)-(60, 60), Image(1500) ' save mask in an array(indexed above original image).  
 ```
 
-> *Explanation:* In the procedure all black areas(background) are changed to white for a PUT using AND over other colored objects. The other image colors are changed to black for a PUT of the original image using XOR. The array images can be BSAVEd for later use. **QB64 can also** [PUT](PUT)** a full screen 12 image from an array directly into a** [BINARY](BINARY) **file.**
+*Explanation:* In the procedure all black areas(background) are changed to white for a PUT using AND over other colored objects. The other image colors are changed to black for a PUT of the original image using XOR. The array images can be [BSAVEd](BSAVEd.md) for later use. **QB64 can also** [PUT](PUT.md) **a full screen 12 image from an array directly into a** [BINARY](BINARY.md) **file.**
+### More Examples
 
-## See Example(s)
+* [SaveImage SUB](SaveImage SUB.md)
+* [Program ScreenShots](Program ScreenShots.md)
+* [ThirtyTwoBit SUB](ThirtyTwoBit SUB.md)
+* [ThirtyTwoBit MEM SUB](ThirtyTwoBit MEM SUB.md)
 
-* [SAVEIMAGE](SAVEIMAGE) (QB64 Image to Bitmap SUB by Galleon)
-* [Program ScreenShots](Program-ScreenShots) (Member program for legacy screen modes)
-* [ThirtyTwoBit SUB](ThirtyTwoBit-SUB) (QB64 Image area to bitmap)
-* [ThirtyTwoBit MEM SUB](ThirtyTwoBit-MEM-SUB) (Fast image area to Bitmap using [_MEM](_MEM))
+  
 
-## See Also
- 
-* [_NEWIMAGE](_NEWIMAGE), [_LOADIMAGE](_LOADIMAGE) (see 32 bit modes)
-* [_MEMIMAGE](_MEMIMAGE), [_MEMGET](_MEMGET)
-* [PSET](PSET), [PRESET](PRESET)
-* [SCREEN](SCREEN), [SCREEN (function)](SCREEN-(function)) (text pointer function)
-* [GET (graphics statement)](GET-(graphics-statement)), [PUT (graphics statement)](PUT-(graphics-statement))
-* [Bitmaps](Bitmaps), [Creating Sprite Masks](Creating-Sprite-Masks), [Text Using Graphics](Text-Using-Graphics) (Demo)
+## See also
+
+* [_NEWIMAGE](_NEWIMAGE.md), [_LOADIMAGE](_LOADIMAGE.md)
+* [_MEMIMAGE](_MEMIMAGE.md), [_MEMGET](_MEMGET.md)
+* [PSET](PSET.md), [PRESET](PRESET.md)
+* [SCREEN](SCREEN.md), [SCREEN (function)](SCREEN (function).md) "SCREEN (function)")
+* [GET (graphics statement)](GET (graphics statement).md) "GET (graphics statement)"), [PUT (graphics statement)](PUT (graphics statement).md) "PUT (graphics statement)")
+* [Bitmaps](Bitmaps.md), [Creating Sprite Masks](Creating Sprite Masks.md), [Text Using Graphics](Text Using Graphics.md)
+
+  

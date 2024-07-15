@@ -1,71 +1,53 @@
-The [_TITLE](_TITLE) statement sets the program window's title-bar text.
+# _TITLE
+
+The _TITLE statement provides the program name in the title bar of the program window.
+
+  
 
 ## Syntax
 
->  [_TITLE](_TITLE) text$
+_TITLE *text$*
+  
 
-## Parameter(s)
+## Parameters
 
-* text$ can be any literal or variable [STRING](STRING) value.
+* *text$* can be any literal or variable [STRING](STRING.md) or [ASCII](ASCII.md) character value.
+
+  
 
 ## Description
 
-* The title bar will display "Untitled" if a title is not set with this statement.
-* The title of created [$CONSOLE]($CONSOLE) windows can be set using [_CONSOLETITLE](_CONSOLETITLE).
-* Note: A [_DELAY](_DELAY) may be required before the title can be set. See [_SCREENEXISTS](_SCREENEXISTS).
+* The title can be changed anywhere in a program procedure.
+* The title bar will say "Untitled" if a title is not set.
+* Change the title of the [$CONSOLE]($CONSOLE.md) windows created using [_CONSOLETITLE](_CONSOLETITLE.md)
+* **Note: A [delay](delay.md) may be required before the title can be set.** See [_SCREENEXISTS](_SCREENEXISTS.md).
 
-## Example(s)
+  
 
-How to set the program window's title-bar text.
+## Examples
 
-```vb
+*Example 1:* How to create the window title bar.
 
-_TITLE "My New Program" 
-
+``` _TITLE "My New Program"  
 ```
 
-How to find the currently running program module name and current path using a Windows API Library.
+  
 
-```vb
+*Example 2:* How to find the currently running program module name and current path using a Windows API Library.
 
-_TITLE "My program"
-_DELAY 5             '5 second delay
-
-_TITLE MID$(TITLE$, 1, INSTR(TITLE$, ".") - 1)
-
-PRINT PATH$
-
-FUNCTION TITLE$ '=== SHOW CURRENT PROGRAM
-SHARED PATH$
-DECLARE LIBRARY 'Directory Information using KERNEL32 provided by Dav
-  FUNCTION GetModuleFileNameA (BYVAL Module AS LONG, FileName AS STRING, BYVAL nSize AS LONG)
-END DECLARE
-
-FileName$ = SPACE$(256)
-Result = GetModuleFileNameA(0, FileName$, LEN(FileName$))
-IF Result THEN
-  PATH$ = LEFT$(FileName$, Result)
-  start = 1
-  DO
-    posit = INSTR(start, PATH$, "\")
-    IF posit THEN last = posit
-    start = posit + 1
-  LOOP UNTIL posit = 0
-  TITLE$ = MID$(PATH$, last + 1)
-  PATH$ = LEFT$(PATH$, last)
-ELSE TITLE$ = "": PATH$ = ""
-END IF
-END FUNCTION 
-
+``` _TITLE "My program" [_DELAY](_DELAY.md) 5             '5 second delay  _TITLE [MID$](MID$.md) "MID$ (function)")(TITLE$, 1, [INSTR](INSTR.md)(TITLE$, ".") - 1)  [PRINT](PRINT.md) PATH$   [FUNCTION](FUNCTION.md) TITLE$ '=== SHOW CURRENT PROGRAM [SHARED](SHARED.md) PATH$ [DECLARE LIBRARY](DECLARE LIBRARY.md) 'Directory Information using KERNEL32 provided by Dav   [FUNCTION](FUNCTION.md) GetModuleFileNameA ([BYVAL](BYVAL.md) Module [AS](AS.md) [LONG](LONG.md), FileName [AS](AS.md) [STRING](STRING.md), [BYVAL](BYVAL.md) nSize [AS](AS.md) [LONG](LONG.md)) [END DECLARE](END DECLARE.md)  FileName$ = [SPACE$](SPACE$.md)(256) Result = GetModuleFileNameA(0, FileName$, [LEN](LEN.md)(FileName$)) [IF](IF.md) Result [THEN](THEN.md)   PATH$ = [LEFT$](LEFT$.md)(FileName$, Result)   start = 1   DO     posit = [INSTR](INSTR.md)(start, PATH$, "\")     [IF](IF.md) posit [THEN](THEN.md) last = posit     start = posit + 1   [LOOP](LOOP.md) [UNTIL](UNTIL.md) posit = 0   TITLE$ = [MID$](MID$.md) "MID$ (function)")(PATH$, last + 1)   PATH$ = [LEFT$](LEFT$.md)(PATH$, last) [ELSE](ELSE.md) TITLE$ = "": PATH$ = "" [END IF](END IF.md) [END FUNCTION](END FUNCTION.md)  
 ```
 
->  *Note:* The actual module file name is returned. Not necessarily the Title value. The value returned can be used however.
+*Note:* The actual module file name is returned. Not necessarily the Title value. The value returned can be used however.
+  
 
-## See Also
+## See also
 
-* [_TITLE$](_TITLE$) (function)
-* [_ICON](_ICON)
-* [_DELAY](_DELAY)
-* [ASCII](ASCII)
-* [_CONSOLETITLE](_CONSOLETITLE)
-* [_SCREENEXISTS](_SCREENEXISTS)
+* [_TITLE$](_TITLE$.md)
+* [_ICON](_ICON.md)
+* [_DELAY](_DELAY.md)
+* [ASCII](ASCII.md)
+* [_CONSOLETITLE](_CONSOLETITLE.md)
+* [_SCREENEXISTS](_SCREENEXISTS.md)
+
+  

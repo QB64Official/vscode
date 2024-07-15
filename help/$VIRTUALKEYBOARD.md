@@ -1,24 +1,32 @@
-[DEPRECATED] The [$VIRTUALKEYBOARD]($VIRTUALKEYBOARD) [Metacommand](Metacommand) turns the virtual keyboard ON or OFF.
+# $VIRTUALKEYBOARD
+
+The (now deprecated) **$VIRTUALKEYBOARD** [metacommand](metacommand.md) did turn the virtual keyboard ON or OFF.
+
+  
 
 ## Syntax
 
->  [$VIRTUALKEYBOARD]($VIRTUALKEYBOARD):{ON|OFF}
+**$VIRTUALKEYBOARD:ON**
+**$VIRTUALKEYBOARD:OFF**
+  
 
 ## Description
 
-* Places a virtual keyboard on screen, which can be used in touch-enabled devices like Windows tablets.
-* Deprecated.
+* This metacommand did not require a comment *[']('.md)* or [REM](REM.md) before it. There was no space between the metacommand name, the colon and the ON/OFF parameter.
+* It placed a virtual keyboard on screen, which could be used in touch-enabled devices like Windows tablets.
+* Deprecated, in all current versions of QB64 it just generates a warning now, but has no other effect anymore.
 
-## Example(s)
+  
 
-```vb
+## Examples
 
-$VIRTUALKEYBOARD:ON
-
-DO: LOOP UNTIL INKEY$ = CHR$(27) 
-
+``` $VIRTUALKEYBOARD:ON  [DO](DO.md): [LOOP](LOOP.md) [UNTIL](UNTIL.md) [INKEY$](INKEY$.md) = [CHR$](CHR$.md)(27)  
 ```
 
-## See Also
+  
 
-* [Metacommand](Metacommand)s
+## See also
+
+* [Metacommand](Metacommand.md)
+
+  

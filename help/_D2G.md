@@ -1,34 +1,37 @@
-The [_D2G](_D2G) function converts a **degree** value into a **gradian** value. 
+# _D2G
+
+The _D2G function converts a **degree** value into a **gradient** value.
+
+  
 
 ## Syntax
 
-> result = [_D2G](_D2G)(num)
+*result* = _D2G(*num*)
+  
 
 ## Availability
 
-* Version 1.000 and up.
+* **QB64 v1.0 and up**
+* **QB64-PE all versions**
 
-## Example(s)
+  
 
-Coverting Degrees into Gradians.
+## Examples
 
-```vb
+*Example:* Coverting Degrees into Gradient.
 
-INPUT "Give me an angle in Degrees ", D
-R = _D2G(D)
-PRINT "That angle in Gradians is "; R
-
+``` [INPUT](INPUT.md) "Give me an angle in Degrees ", D G = _D2G(D) [PRINT](PRINT.md) "That angle in Gradient is "; G  
 ```
 
-```text
-
-Give me an angle in Degrees 60
-That angle in Gradient is  66.66666
-
+``` Give me an angle in Degrees 60 That angle in Gradient is  66.66666  
 ```
 
-## See Also
+  
 
-* [_D2R](_D2R)
-* [_G2D](_G2D), [_G2R](_G2R)
-* [_R2D](_R2D), [_R2G](_R2G)
+## See also
+
+* [_D2R](_D2R.md)
+* [_G2D](_G2D.md), [_G2R](_G2R.md)
+* [_R2D](_R2D.md), [_R2G](_R2G.md)
+
+  

@@ -1,24 +1,38 @@
-[_SNDRAWDONE](_SNDRAWDONE) ensures that the final buffer portion is played in short sound effects even if it is incomplete. 
+# _SNDRAWDONE
+
+_SNDRAWDONE ensures that the final buffer portion is played in short sound effects even if it is incomplete.
+
+  
 
 ## Syntax
 
-> [_SNDRAWDONE](_SNDRAWDONE) [pipeHandle&]
+_SNDRAWDONE [*pipeHandle&*]
+  
 
 ## Parameters
 
-* The optional pipeHandle& parameter refers to the sound pipe opened using [_SNDOPENRAW](_SNDOPENRAW). 
+* The optional *pipeHandle&* parameter refers to the sound pipe opened using [_SNDOPENRAW](_SNDOPENRAW.md).
+
+  
 
 ## Description
 
-* Use to force playing small buffers of [_SNDRAW](_SNDRAW) data.
+* Use to force playing small buffers of [_SNDRAW](_SNDRAW.md) data.
+
+  
 
 ## Availability
 
-* Version 1.000 and up.
+* **QB64 v1.0 and up**
+* **QB64-PE all versions**
 
-## See Also
+  
 
-* [_SNDOPENRAW](_SNDOPENRAW)
-* [_SNDRAW](_SNDRAW)
-* [_SNDRAWLEN](_SNDRAWLEN)
-* [_SNDRATE](_SNDRATE)
+## See also
+
+* [_SNDOPENRAW](_SNDOPENRAW.md)
+* [_SNDRAW](_SNDRAW.md)
+* [_SNDRAWLEN](_SNDRAWLEN.md)
+* [_SNDRATE](_SNDRATE.md)
+
+  

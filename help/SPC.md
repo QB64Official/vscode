@@ -1,42 +1,47 @@
-The SPC function is used in [PRINT](PRINT) and [LPRINT](LPRINT) statements to print or output a number of space characters.
+# SPC
+
+The SPC function is used in [PRINT](PRINT.md) and [LPRINT](LPRINT.md) statements to print or output a number of space characters.
+
+  
 
 ## Syntax
 
-> **SPC(count%)**
+**SPC(*count%*)**
+  
 
-## Parameter(s)
+## Parameters
 
-* *count* designates the number of column spaces to move the cursor in a [PRINT](PRINT) statement.
+* *count* designates the number of column spaces to move the cursor in a [PRINT](PRINT.md) statement.
 
-## Usage
+  
 
-* When used in a [PRINT](PRINT) statement,
-  * count% is the number of space characters to print, overwriting existing characters.
-  * If count% is greater than the number of columns left in the current row, remaining space characters are printed on the next row.
-* When used in a [PRINT (file statement)](PRINT-(file-statement)) statement,
-  * count% is the number of space characters to output.
-  * If count% is less than or equal to zero, the function has no effect.
+## Description
 
-## Example(s)
+* When used in a [PRINT](PRINT.md) statement,
+	+ *count%* is the number of space characters to print, overwriting existing characters.
+	+ If *count%* is greater than the number of columns left in the current row, remaining space characters are printed on the next row.
+* When used in a [PRINT #](PRINT #.md) "PRINT (file statement)") statement,
+	+ *count%* is the number of space characters to output.
+	+ If *count%* is less than or equal to zero, the function has no effect.
 
-Using SPC to space a text print.
+  
 
-```vb
+## Examples
 
-PRINT "123456789"
-PRINT "abc" ; SPC(3) ; "123"
+*Example:* Using SPC to space a text print.
 
+``` [PRINT](PRINT.md) "123456789" [PRINT](PRINT.md) "abc" ; SPC(3) ; "123" 
 ```
 
-```text
-
-123456789
-abc   123
-
+``` 123456789 abc   123  
 ```
 
-## See Also
+  
 
-* [PRINT](PRINT), [PRINT (file statement)](PRINT-(file-statement))
-* [LPRINT](LPRINT), [STRING$](STRING$)
-* [TAB](TAB), [SPACE$](SPACE$)
+## See also
+
+* [PRINT](PRINT.md), [PRINT #](PRINT #.md) "PRINT (file statement)")
+* [LPRINT](LPRINT.md), [STRING$](STRING$.md)
+* [TAB](TAB.md), [SPACE$](SPACE$.md)
+
+  

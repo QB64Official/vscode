@@ -1,42 +1,37 @@
-The [ERROR](ERROR) statement is used to simulate a program error or to troubleshoot error handling procedures.
+# ERROR
+
+The ERROR statement is used to simulate a program error or to troubleshoot error handling procedures.
+
+  
 
 ## Syntax
 
-> [ERROR](ERROR) codeNumber%
+ERROR *codeNumber%*
+  
 
 ## Description
 
-* Can be used to test an error handling routine by simulating an error. 
+* Can be used to test an error handling routine by simulating an error.
 * Error code 97 can be used to invoke the error handler for your own use, no real error in the program will trigger error 97.
-* Use error codes between 100 and 200 for custom program errors that will not be responded to by qb64pe. 
+* Use error codes between 100 and 200 for custom program errors that will not be responded to by QB64.
 
-## Example(s)
+  
 
-Creating custom error codes for a program that can be handled by an [ON ERROR](ON-ERROR) handling routine.
+## Examples
 
-```vb
+*Example:* Creating custom error codes for a program that can be handled by an [ON ERROR](ON ERROR.md) handling routine.
 
-ON ERROR GOTO handler
-
-IF x = 0 THEN ERROR 123
-x = x + 1
-IF x THEN ERROR 111
-
-END
-
-handler:
-PRINT ERR, _ERRORLINE
-BEEP
-RESUME NEXT 
-
+``` [ON ERROR](ON ERROR.md) [GOTO](GOTO.md) handler  [IF](IF.md) x = 0 [THEN](THEN.md) ERROR 123 x = x + 1 [IF](IF.md) x [THEN](THEN.md) ERROR 111  [END](END.md)   handler: [PRINT](PRINT.md) [ERR](ERR.md), [_ERRORLINE](_ERRORLINE.md) [BEEP](BEEP.md) [RESUME](RESUME.md) [NEXT](NEXT.md)  
 ```
 
-> **Note: Don't use error codes under 97 or over 200 as QB64PE may respond to those errors and interrupt the program.**
+**Note: Don't use error codes under 97 or over 200 as QB64 may respond to those errors and interrupt the program.**
+  
 
-## See Also
+## See also
 
-* [ON ERROR](ON-ERROR)
-* [ERR](ERR), [ERL](ERL)
-* [_ERRORLINE](_ERRORLINE), [_ERRORMESSAGE$](_ERRORMESSAGE$)
-* [_INCLERRORLINE](_INCLERRORLINE), [_INCLERRORFILE$](_INCLERRORFILE$)
-* [ERROR Codes](ERROR-Codes) (list)
+* [ON ERROR](ON ERROR.md)
+* [ERR](ERR.md), [ERL](ERL.md)
+* [_ERRORLINE](_ERRORLINE.md)
+* [ERROR Codes](ERROR Codes.md) (list)
+
+  

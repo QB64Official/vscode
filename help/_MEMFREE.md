@@ -1,23 +1,34 @@
-The [_MEMFREE](_MEMFREE) statement frees the designated memory block [_MEM](_MEM) value and must be used with all memory functions. 
+# _MEMFREE
+
+The _MEMFREE statement frees the designated memory block [_MEM](_MEM.md) value and must be used with all memory functions.
+
+  
 
 ## Syntax
 
-> [_MEMFREE](_MEMFREE) memoryVariable
+_MEMFREE *memoryVariable*
+  
 
-## Parameter(s)
+## Parameters
 
-* ALL designated [_MEM](_MEM) type memoryVariable values must be freed to conserve memory when they are no longer used or needed.
+* ALL designated [_MEM](_MEM.md) type *memoryVariable* values must be freed to conserve memory when they are no longer used or needed.
+
+  
 
 ## Description
 
-* Since [_MEM](_MEM) type variables cannot use a suffix, use [DIM](DIM) memoryVariable [AS](AS) [_MEM](_MEM) to create memory handle variables.
-* All values created by memory functions must be freed using [_MEMFREE](_MEMFREE) with a valid [_MEM](_MEM) variable.
+* Since [_MEM](_MEM.md) type variables cannot use a suffix, use [DIM](DIM.md) *memoryVariable* [AS](AS.md) [_MEM](_MEM.md) to create memory handle variables.
+* All values created by memory functions must be freed using _MEMFREE with a valid [_MEM](_MEM.md) variable.
 
-## See Also
+  
 
-* [_MEM](_MEM) (variable type)
-* [_MEM (function)](_MEM-(function))
-* [_MEMNEW](_MEMNEW) (function)
-* [_MEMIMAGE](_MEMIMAGE) (function)
-* [_MEMELEMENT](_MEMELEMENT) (function)
-* [_MEMGET (function)](_MEMGET-(function))
+## See also
+
+* [_MEM](_MEM.md)
+* [_MEM (function)](_MEM (function).md) "MEM (function)")
+* [_MEMNEW](_MEMNEW.md)
+* [_MEMIMAGE](_MEMIMAGE.md)
+* [_MEMELEMENT](_MEMELEMENT.md)
+* [_MEMGET (function)](_MEMGET (function).md) "MEMGET (function)")
+
+  

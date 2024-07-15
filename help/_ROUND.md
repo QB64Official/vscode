@@ -1,42 +1,35 @@
-The [_ROUND](_ROUND) function rounds to the closest even [INTEGER](INTEGER), [LONG](LONG) or [_INTEGER64](_INTEGER64) numerical value.
+# _ROUND
+
+The _ROUND function rounds to the closest even [INTEGER](INTEGER.md), [LONG](LONG.md) or [_INTEGER64](_INTEGER64.md) numerical value.
+
+  
 
 ## Syntax
 
-> value = [_ROUND](_ROUND)(number)
+*value* = _ROUND(*number*)
+  
 
 ## Description
 
-* Can round [SINGLE](SINGLE), [DOUBLE](DOUBLE) or [_FLOAT](_FLOAT) floating decimal point parameter values.
-* Can be used when numerical values exceed the limits of [CINT](CINT) or [CLNG](CLNG).
-* Rounding is done to the closest even [INTEGER](INTEGER) value. The same as QBasic does with [\](\).
+* Can round [SINGLE](SINGLE.md), [DOUBLE](DOUBLE.md) or [_FLOAT](_FLOAT.md) floating decimal point parameter values.
+* Can be used when numerical values exceed the limits of [CINT](CINT.md) or [CLNG](CLNG.md).
+* Rounding is done to the closest even [integer](integer.md) value. The same as QBasic does with [integer division](integer division.md).
 
-## Example(s)
+  
 
-Displays how QB64PE rounds to the closest even integer value.
+*Example:* Displays how QB64 rounds to the closest even integer value.
 
-```vb
-
-PRINT _ROUND(0.5)
-PRINT _ROUND(1.5)
-PRINT _ROUND(2.5)
-PRINT _ROUND(3.5)
-PRINT _ROUND(4.5)
-PRINT _ROUND(5.5) 
-
+``` [PRINT](PRINT.md) _ROUND(0.5) [PRINT](PRINT.md) _ROUND(1.5) [PRINT](PRINT.md) _ROUND(2.5) [PRINT](PRINT.md) _ROUND(3.5) [PRINT](PRINT.md) _ROUND(4.5) [PRINT](PRINT.md) _ROUND(5.5)  
 ```
 
-```text
-
-0
-2
-2
-4
-4
-6
-
+``` 0 2 2 4 4 6  
 ```
 
-## See Also
+  
 
-* [INT](INT), [CINT](CINT)
-* [FIX](FIX), [CLNG](CLNG)
+## See also
+
+* [INT](INT.md), [CINT](CINT.md)
+* [FIX](FIX.md), [CLNG](CLNG.md)
+
+  

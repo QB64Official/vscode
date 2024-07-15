@@ -1,33 +1,36 @@
-The [$ERROR]($ERROR) metacommand triggers a compilation error.
+# $ERROR
+
+The **$ERROR** [metacommand](metacommand.md) triggers a compilation error.
+
+  
 
 ## Syntax
 
->  [$ERROR]($ERROR) MESSAGE
+**$ERROR** *message*
+  
 
 ## Description
 
-* The Metacommand does **not** require a comment or REM before it.
-* MESSAGE is any text. Quotation marks are not required.
-* When QB64PE tries to compile an $ERROR metacommand a compilation error is triggered and MESSAGE is shown to the user. This is useful in [$IF]($IF) blocks.
+* This metacommand does not require a comment *[']('.md)* or [REM](REM.md) before it.
+* *message* is any text. Quotation marks are not required.
+* When QB64 tries to compile an **$ERROR** metacommand a compilation error is triggered and *message* is shown to the user. This is useful in [$IF]($IF.md) blocks.
+* If there is a particular situation where you know your program will not work properly, you can prevent the user compiling and give them a helpful error message instead by checking for the condition with [$IF]($IF.md).
+* An **$ERROR** directive not inside an conditional [$IF]($IF.md) (or [$ELSEIF]($ELSEIF.md)) block is useless because the program will **never** compile in that case.
 
-### Details
+  
 
-* If there is a particular situation where you know your program will not work properly, you can prevent the user compiling and give them a helpful error message instead by checking for the condition with [$IF]($IF).
-* An [$ERROR]($ERROR) directive not inside an [$IF]($IF) (or [$ELSEIF]($ELSEIF)) block is useless because the program will never compile.
+## Examples
 
-## Example(s)
-
-```vb
-
-$IF VERSION < 2.1 OR WINDOWS = 0 THEN
-    $ERROR Requires Windows QB64PE version 2.1 or above
-$END IF
-
+``` [$IF]($IF.md) VERSION < 2.1 [OR](OR.md) "OR (boolean)") WINDOWS = 0 [THEN](THEN.md)     $ERROR Requires Windows QB64 version 2.1 or above [$END IF]($END IF.md)   
 ```
 
-*Output*: Compilation check failed: REQUIRES WINDOWS QB64PE VERSION 2.1 OR ABOVE on line 2 (assuming your version of QB64PE doesn't meet those requirements).
+Output (IDE Status Area)
+Compilation check failed: REQUIRES WINDOWS QB64 VERSION 2.1 OR ABOVE on line 2 (assuming your version of QB64 doesn't meet those requirements).
+  
 
-## See Also
+## See also
 
-* [Metacommand](Metacommand)
-* [$IF]($IF)
+* [Metacommand](Metacommand.md)
+* [$IF]($IF.md)
+
+  

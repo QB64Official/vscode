@@ -1,94 +1,54 @@
+# PUT
+
 The **PUT #** file or port statement writes data to a specific byte or record location.
+
+  
 
 ## Syntax
 
-> **PUT #*filenumber&*,** [*position*][, {*holdingvariable*|*holdingarray()*}]
+**PUT #*filenumber&*,** [*position*][, {*holdingvariable*|*holdingarray()*}]
+  
 
-* File/port number is the number used in the [OPEN](OPEN) statement. 
-* The [INTEGER](INTEGER) or [LONG](LONG) file byte *position* in a [BINARY](BINARY) file or the record *position* in a [RANDOM](RANDOM) file **must be greater than zero**. 
-* The file byte or record *position* can be omitted if the [PUT](PUT) or [GET](GET) is consecutive or when creating new file data sequentially. 
-* The *holding variable* [TYPE](TYPE) determines byte size and the next byte position in the file when the *position* is ommitted.
+* File/port number is the number used in the [OPEN](OPEN.md) statement.
+* The [INTEGER](INTEGER.md) or [LONG](LONG.md) file byte *position* in a [BINARY](BINARY.md) file or the record *position* in a [RANDOM](RANDOM.md) file **must be greater than zero**.
+* The file byte or record *position* can be omitted if the PUT or [GET](GET.md) is consecutive or when creating new file data sequentially.
+* The *holding variable* [type](type.md) determines byte size and the next byte position in the file when the *position* is ommitted.
 * The first byte or record position is 1. This may require adding one to an offset value when documentation uses that position as 0.
-* Both the file *position* and *holding variable*(and comma) can be omitted when using a [FIELD](FIELD) definition.
-* If a [LEN](LEN) = record length statement is omitted in an [OPEN](OPEN) FOR [RANDOM](RANDOM)  statement the record size defaults to 128 bytes!
+* Both the file *position* and *holding variable*(and comma) can be omitted when using a [FIELD](FIELD.md) definition.
+* If a [LEN](LEN.md) = record length statement is omitted in an [OPEN](OPEN.md) FOR [RANDOM](RANDOM.md) statement the record size defaults to 128 bytes!
 * **Warning: Not designating a PUT position can overwrite previous file data based on the current file *position*!**
-* When using a numeric *holding variable*, values do NOT require conversion using [MKI$](MKI$), [MKL$](MKL$), [MKS$](MKS$) or [MKD$](MKD$).
-* **QB64** can load [Arrays](Arrays) data directly(brackets required) to a [BINARY](BINARY) file using **one** PUT to a [BINARY](BINARY) file: **PUT #1, , array()**
+* When using a numeric *holding variable*, values do NOT require conversion using [MKI$](MKI$.md), [MKL$](MKL$.md), [MKS$](MKS$.md) or [MKD$](MKD$.md).
+* **QB64** can load [array](array.md) data directly(brackets required) to a [BINARY](BINARY.md) file using **one** PUT to a [BINARY](BINARY.md) file: **PUT #1, , array()**
 
-## Example(s)
+  
 
-Using a [TYPE](TYPE) record variable(Contact) to enter a new [RANDOM](RANDOM) record to a file.
+*Example 1:* Using a [TYPE](TYPE.md) record variable(Contact) to enter a new [RANDOM](RANDOM.md) record to a file.
 
-```vb
-
-TYPE ContactType
-  first AS STRING * 10
-  last AS STRING * 20
-  age AS INTEGER
-END TYPE
-DIM Contact AS ContactType
-
-INPUT "Enter a first name: ", Contact.first
-INPUT "Enter a last name: ", Contact.last
-INPUT "Enter an age: ", Contact.age
-
-OPEN "Record.lst" FOR RANDOM AS #1 LEN = LEN(Contact)
-NumRecords% = LOF(1) \ LEN(Contact)
-PRINT NumRecords%; "previous records"
-
-PUT #1, NumRecords% + 1, Contact ' add a new record TYPE record value
-CLOSE #1 
-
+``` [TYPE](TYPE.md) ContactType   first [AS](AS.md) [STRING](STRING.md) * 10   last [AS](AS.md) [STRING](STRING.md) * 20   age [AS](AS.md) [INTEGER](INTEGER.md) [END](END.md) [TYPE](TYPE.md) [DIM](DIM.md) Contact [AS](AS.md) ContactType  [INPUT](INPUT.md) "Enter a first name: ", Contact.first [INPUT](INPUT.md) "Enter a last name: ", Contact.last [INPUT](INPUT.md) "Enter an age: ", Contact.age  [OPEN](OPEN.md) "Record.lst" [FOR](FOR.md) [RANDOM](RANDOM.md) [AS](AS.md) #1 [LEN](LEN.md) = [LEN](LEN.md)(Contact) NumRecords% = [LOF](LOF.md)(1) \ [LEN](LEN.md)(Contact) [PRINT](PRINT.md) NumRecords%; "previous records"  PUT #1, NumRecords% + 1, Contact ' add a new record [TYPE](TYPE.md) record value [CLOSE](CLOSE.md) #1  
 ```
 
-> *Note:* The DOT record variable values were created or changed before the PUT. The record length is 32 bytes.
+*Note:* The DOT record variable values were created or changed before the PUT. The record length is 32 bytes.
+  
 
-Placing the contents of a numerical array into a [BINARY](BINARY) file. You may want to put the array size at the beginning too.
+*Example 2:* Placing the contents of a numerical array into a [BINARY](BINARY.md) file. You may want to put the array size at the beginning too.
 
-```vb
-
-DIM SHARED array(100) AS INTEGER
-
-FOR i = 1 TO 100
-  array(i) = i
-NEXT
-showme  'display array contents
-
-OPEN "BINFILE.BIN" FOR BINARY AS #1
-
-PUT #1, , array()
-
-ERASE array 'clear element values from array and display empty
-showme
-CLOSE #1
-
-OPEN "BINFILE.BIN" FOR BINARY AS #2
-GET #2, , array()
-CLOSE #2
-showme  'display array after transfer from file
-
-END
-
-SUB showme
-FOR i = 1 TO 100
-  PRINT array(i);
-NEXT
-PRINT "done"
-END SUB 
-
+``` [DIM](DIM.md) [SHARED](SHARED.md) array(100) [AS](AS.md) [INTEGER](INTEGER.md)  [FOR](FOR.md) i = 1 [TO](TO.md) 100   array(i) = i [NEXT](NEXT.md) showme  'display array contents  [OPEN](OPEN.md) "BINFILE.BIN" [FOR](FOR.md) [BINARY](BINARY.md) [AS](AS.md) #1  PUT #1, , array()  [ERASE](ERASE.md) array 'clear element values from array and display empty showme [CLOSE](CLOSE.md) #1  [OPEN](OPEN.md) "BINFILE.BIN" [FOR](FOR.md) [BINARY](BINARY.md) [AS](AS.md) #2 [GET](GET.md) #2, , array() [CLOSE](CLOSE.md) #2 showme  'display array after transfer from file  [END](END.md)  [SUB](SUB.md) showme [FOR](FOR.md) i = 1 [TO](TO.md) 100   [PRINT](PRINT.md) array(i); [NEXT](NEXT.md) [PRINT](PRINT.md) "done" [END SUB](END SUB.md)  
 ```
 
-> *Note:* Use empty brackets in QB64PE when using [GET](GET) to create an array or [PUT](PUT) to create a [BINARY](BINARY) data file.
+*Note:* Use empty brackets in QB64 when using [GET](GET.md) to create an array or PUT to create a [BINARY](BINARY.md) data file.
+### More Examples
 
-## See Example(s)
+* [Program ScreenShots](Program ScreenShots.md)
 
-* [Program ScreenShots](Program-ScreenShots)
+  
 
-## See Also
- 
-* [GET](GET) 
-* [SEEK](SEEK), [SEEK (statement)](SEEK-(statement)) 
-* [PRINT (file statement)](PRINT-(file-statement)) 
-* [FIELD](FIELD) 
-* [PUT (graphics statement)](PUT-(graphics-statement))
-* [PUT (TCP/IP statement)](PUT-(TCP-IP-statement))
+## See also
+
+* [GET #](GET #.md)
+* [SEEK](SEEK.md), [SEEK (function)](SEEK (function).md) "SEEK (function)")
+* [PRINT #](PRINT #.md) "PRINT (file statement)")
+* [FIELD](FIELD.md)
+* [PUT (graphics statement)](PUT (graphics statement).md) "PUT (graphics statement)")
+* [PUT (TCP/IP statement)](PUT (TCP/IP statement).md) "PUT (TCP/IP statement)")
+
+  

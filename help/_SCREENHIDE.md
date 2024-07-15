@@ -1,15 +1,25 @@
-The **_SCREENHIDE** statement can be used to hide the main program window in a section of code.
+# _SCREENHIDE
+
+The _SCREENHIDE statement can be used to hide the main program window in a section of code.
+
+  
 
 ## Syntax
 
-> [_SCREENHIDE](_SCREENHIDE)
+_SCREENHIDE
+  
 
-* Use _SCREENHIDE to get rid of the main program window until later in the program. 
-* Use the [Metacommand](Metacommand) to get rid of the program window throughout a program or when using [$CONSOLE]($CONSOLE).
-* _SCREENHIDE or [$SCREENHIDE]($SCREENHIDE) must be used before [_SCREENSHOW](_SCREENSHOW) or [$SCREENSHOW]($SCREENSHOW) can be used!
+## Description
 
-## See Also
+* Use _SCREENHIDE to get rid of the main program window until later in the program.
+* Use the respective [Metacommand](Metacommand.md) to get rid of the program window throughout a program or when using [$CONSOLE]($CONSOLE.md).
 
-* [$SCREENHIDE]($SCREENHIDE), [$SCREENSHOW]($SCREENSHOW), [$CONSOLE]($CONSOLE) (QB64 [Metacommand](Metacommand)s)
-* [_SCREENSHOW](_SCREENSHOW), [_CONSOLE](_CONSOLE)
-* [_SCREENICON](_SCREENICON)
+  
+
+## See also
+
+* [$SCREENHIDE]($SCREENHIDE.md), [$SCREENSHOW]($SCREENSHOW.md), [$CONSOLE]($CONSOLE.md)
+* [_SCREENSHOW](_SCREENSHOW.md), [_CONSOLE](_CONSOLE.md)
+* [_SCREENICON](_SCREENICON.md)
+
+  
