@@ -1,17 +1,29 @@
-The [_ENVIRONCOUNT](_ENVIRONCOUNT) function returns the number of items (key/value pairs) currently stored in the system environment variables table.
+# _ENVIRONCOUNT
+
+The _ENVIRONCOUNT function returns the number of items (key/value pairs) currently stored in the system environment variables table.
+
+  
 
 ## Syntax
 
-> totalKeys& = [_ENVIRONCOUNT](_ENVIRONCOUNT)
+*totalKeys&* = _ENVIRONCOUNT
+  
 
 ## Description
 
 * Any changes made at runtime to the environment table are discarded when your program ends
 
+  
+
 ## Availability
 
-* Version 2.0 and up.
+* **QB64 v2.0 and up**
+* **QB64-PE all versions**
 
-## See Also
+  
 
-* [ENVIRON$](ENVIRON$), [ENVIRON](ENVIRON)
+## See also
+
+* [ENVIRON$](ENVIRON$.md), [ENVIRON](ENVIRON.md)
+
+  

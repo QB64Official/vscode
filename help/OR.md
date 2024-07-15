@@ -1,60 +1,49 @@
-The [OR](OR) numerical operator returns a comparative bit value of 1 if either value's bit is on.
+# OR
+
+The OR numerical operator returns a comparative bit value of 1 if either value's bit is on.
+
+  
 
 ## Syntax
 
->  result = firstValue [OR](OR) secondValue
+*result* = firstValue OR secondValue
+  
 
 ## Description
 
 * If both bits are off, it returns 0.
 * If one or both bits are on then it returns 1.
-* [OR](OR) never turns off a bit and can be used only to turn a bit on.
+* OR never turns off a bit and can be used only to turn a bit on.
 
-The results of the bitwise logical operations, where *A* and *B* are operands, and *T* and *F* indicate that a bit is set or not set:
-
-| A | B |   | [NOT](NOT)�B | A�[AND](AND)�B | A�[OR](OR)�B | A�[XOR](XOR)�B | A�[EQV](EQV)�B | A�[IMP](IMP)�B |
-| - | - | - | - | - | - | - | - | - |
-| T | T |   | F | T | T | F | T | T |
-| T | F |   | T | F | T | T | F | F |
-| F | T |   | F | F | T | T | F | T |
-| F | F |   | T | F | F | F | T | T |
-
-**[Relational Operations](Relational-Operations) return negative one (-1, all bits set) and zero (0, no bits set) for *true* and *false*, respectively.**
-This allows relational tests to be inverted and combined using the bitwise logical operations.
-
-## Example(s)
-
-OR always turns bits on! Never off.
-
-```vb
-
- a% = 5 ' 101 binary
- b% = 4 ' 100 binary
- results% = a% OR b%  ' still 101 binary using OR
- PRINT "Results% ="; results% 
-
+```                Table 4: The logical operations and its results.         In this table, **A** and **B** are the [Expressions](Expressions.md) to invert or combine.               Both may be results of former [Boolean](Boolean.md) evaluations.   ┌────────────────────────────────────────────────────────────────────────┐   │                           **Logical Operations**                           │   ├───────┬───────┬───────┬─────────┬────────┬─────────┬─────────┬─────────┤   │   **A**   │   **B**   │ [NOT](NOT.md) **B** │ **A** [AND](AND.md) **B** │ **A** OR **B** │ **A** [XOR](XOR.md) **B** │ **A** [EQV](EQV.md) **B** │ **A** [IMP](IMP.md) **B** │   ├───────┼───────┼───────┼─────────┼────────┼─────────┼─────────┼─────────┤   │ **true**  │ **true**  │ false │  true   │ true   │  false  │  true   │  true   │   ├───────┼───────┼───────┼─────────┼────────┼─────────┼─────────┼─────────┤   │ **true**  │ **false** │ true  │  false  │ true   │  true   │  false  │  false  │   ├───────┼───────┼───────┼─────────┼────────┼─────────┼─────────┼─────────┤   │ **false** │ **true**  │ false │  false  │ true   │  true   │  false  │  true   │   ├───────┼───────┼───────┼─────────┼────────┼─────────┼─────────┼─────────┤   │ **false** │ **false** │ true  │  false  │ false  │  false  │  true   │  true   │   └───────┴───────┴───────┴─────────┴────────┴─────────┴─────────┴─────────┘    **Note:** In most BASIC languages incl. QB64 these are **bitwise** operations,          hence the logic is performed for each corresponding bit in both          operators, where **true** or **false** indicates whether a bit is **set** or          **not set**. The outcome of each bit is then placed into the respective          position to build the bit pattern of the final result value.     As all [Relational Operations](Relational Operations.md) return negative one (-1, **all bits set**) for     **true** and zero (0, **no bits set**) for **false**, this allows us to use these     bitwise logical operations to invert or combine any relational checks,     as the outcome is the same for each bit and so always results into a             **true** (-1) or **false** (0) again for further evaluations.  
 ```
 
-```text
-
- Results% = 5 
-
-```
-
-Turning a data register bit on.
-
-```vb
   
-   address% = 888    'parallel port data register
-   bytevalue% = INP(address%)
-   OUT address%, bytevalue% OR 4 
 
+## Examples
+
+*Example 1:* OR always turns bits on! Never off.
+
+```  a% = 5 ' 101 binary  b% = 4 ' 100 binary  results% = a% OR b%  ' still 101 binary using OR  [PRINT](PRINT.md) "Results% ="; results%  
 ```
 
-> *Explanation:* The third register bit is only turned on if it was off. This ensures that a bit is set. OR could set more bits on with a sum of bit values such as: OUT address%, 7 would turn the first, second and third bits on. 1 + 2 + 4 = 7
+```  Results% = 5  
+```
 
-## See Also
+  
 
-* [AND](AND), [XOR](XOR) 
-* [AND (boolean)](AND-(boolean)), [OR (boolean)](OR-(boolean))
-* [Binary](Binary), [Boolean](Boolean)
+*Example 2:* Turning a data register bit on.
+
+```    address% = 888    'parallel port data register    bytevalue% = [INP](INP.md)(address%)    [OUT](OUT.md) address%, bytevalue% OR 4  
+```
+
+*Explanation:* The third register bit is only turned on if it was off. This ensures that a bit is set. OR could set more bits on with a sum of bit values such as: OUT address%, 7 would turn the first, second and third bits on. 1 + 2 + 4 = 7
+  
+
+## See also
+
+* [AND](AND.md), [XOR](XOR.md)
+* [AND (boolean)](AND (boolean).md) "AND (boolean)"), [OR (boolean)](OR (boolean).md) "OR (boolean)")
+* [Binary](Binary.md), [Boolean](Boolean.md)
+
+  

@@ -1,101 +1,48 @@
-The **TIMER** function returns the number of seconds past the previous midnite down to an accuracy of 1/18th of a second. 
+# TIMER
 
-## QB Syntax 
+A **TIMER** statement enables, turns off or stops timer event trapping. QBasic only uses the base timer, but **QB64** can run many.
 
-> seconds! = TIMER
+  
 
-##  QB64PE Syntax 
+## Syntax
 
-> seconds# = TIMER[(*accuracy!*)]
+QuickBASIC
+TIMER {ON|STOP|OFF}
+QB64
+TIMER(*number%*) {ON|STOP|OFF|FREE}
+  
 
-* TIMER return values range from 0 at midnight to 86399! A comparison value must stay within that range!
-* [INTEGER](INTEGER) or [LONG](LONG) second values range from 0 at midnight to 86399 seconds each day.
-* QBasic can return [SINGLE](SINGLE) values down to about .04 or 1/18th (one tick) of a second accurately. 
-* **QB64** can read [DOUBLE](DOUBLE) *accuracy* down to 1 millisecond. Example: start# = TIMER(.001) 
-* Use [DOUBLE](DOUBLE) variables for millisecond accuracy as [SINGLE](SINGLE) values are only accurate to 100ths of a second later in the day!
-* TIMER loops should use a midnight adjustment to avoid non-ending loops in QBasic.
-* TIMER can also be used for timing program Events. See [ON TIMER(n)](ON-TIMER(n)) or the [TIMER (statement)](TIMER-(statement))
-* **QB64** can use a [_DELAY](_DELAY) down to .001(one millisecond) or [_LIMIT](_LIMIT) loops per second. Both help limit program CPU usage.
+## Parameters
 
-## Example(s)
+* *number* denotes a specific numbered timer event in **QB64 only**. QB64 can run many timer events at once including the base timer.
+* TIMER ON enables event trapping of an [ON TIMER(n)](ON TIMER(n).md) "ON TIMER(n)") statement. While enabled, a check is made after every code statement to see if the specified time has elapsed and the ON TIMER [GOSUB](GOSUB.md) (or [SUB](SUB.md) in QB64) procedure is executed.
+* TIMER STOP disables timer event trapping. When an event occurs while stopped, it is remembered. If timer events are turned back on later, any remembered events are immediately executed.
+* TIMER OFF turns timer event trapping completely off and no subsequent events are remembered.
 
-Delay SUB with a midnight correction for when TIMER returns to 0. **QB64** can use [_DELAY](_DELAY) for delays down to .001.
+* Get a TIMER number from [_FREETIMER](_FREETIMER.md) ONLY except when the base timer(no number or 0) is used. Use specific variables or an array to hold each event number value for later reference.
+* If the TIMER number is omitted or 0, the TIMER used is the base timer.
+* Specific TIMER events can be enabled, suspended, turned off or freed using TIMER(n) ON, STOP, OFF or FREE.
+* TIMER(n) **FREE** clears a specific timer event when it is no longer needed. **The base TIMER or TIMER(0) cannot be freed!**
 
-```vb
+* The [TIMER (function)](TIMER (function).md) "TIMER (function)") can be used to find timed intervals down to 1 millisecond(.001) accuracy.
+* The [_DELAY](_DELAY.md) statement can be used to delay program execution for intervals down to milliseconds.
+* [_LIMIT](_LIMIT.md) can slow down loops to a specified number of frames per second. This can also alleviate a program's CPU usage.
 
-DO
-  PRINT "Hello";
-  Delay .5  'accuracy down to .05 seconds or 1/18th of a second in QBasic
-  PRINT "World!";
-LOOP UNTIL INKEY$ = CHR$(27) 'escape key exit
+  
 
-END
+## Examples
 
-SUB Delay (dlay!)
-start! = TIMER
-DO WHILE start! + dlay! >= TIMER
-  IF start! > TIMER THEN start! = start! - 86400
-LOOP
-END SUB 
+*Example:* How to update the time while [printing](printing.md) at the same time in a program.
 
+```   TIMER ON ' enable timer event trapping   LOCATE 4, 2 ' set the starting PRINT position   [ON TIMER](ON TIMER.md) "ON TIMER(n)")(10) GOSUB Clock ' set procedure execution repeat time   DO WHILE INKEY$ = "": PRINT "A"; : SLEEP 6: LOOP   TIMER OFF   [SYSTEM](SYSTEM.md)   Clock:   row = [CSRLIN](CSRLIN.md) ' Save current print cursor row.   col = [POS(0)](POS(0).md) ' Save current print cursor column.   LOCATE 2, 37: PRINT [TIME$](TIME$.md); ' print current time at top of screen.   LOCATE row, col ' return to last print cursor position  [RETURN](RETURN.md)  
 ```
 
-> *Explanation:* When the delay time is added to the present TIMER value, it could be over the maximum number of 86399 seconds. So when TIMER becomes less than start it has reached midnight. The delay value then must be corrected by subtracting 86400.
+NOTE: SLEEP will be interrupted in QBasic.
+  
 
-Looping one TIMER tick of 1/18th of a second (ticks per second can be changed)
+## See also
 
-```vb
+* [ON TIMER(n)](ON TIMER(n).md) "ON TIMER(n)"), [TIMER (function)](TIMER (function).md) "TIMER (function)")
+* [_DELAY](_DELAY.md), [_LIMIT](_LIMIT.md)
 
-DEF SEG = 0 ' set to PEEK and POKE TIMER Ticks
-DO ' main program loop
-  ' program code
-  POKE 1132, 0 ' zero Timer ticks
-  DO ' delay loop
-    x% = PEEK(1132)
-    IF x% <> px% THEN PRINT x%;
-    px% = x%
-  LOOP UNTIL x% >= 18 '18 ticks in one second
-  PRINT "code " ' program code
-LOOP UNTIL INKEY$ = CHR$(27)
-DEF SEG ' reset segment to default
-
-END 
-
-```
-
-```text
-
- 0  1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18 code
- 0  1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18 code
- 0  1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18 code
-
-```
-
-> *Explanation:* The [POKE](POKE) before the delay loop sets the tick count to 0. The [PEEK](PEEK) count increases until the tick count returns 18 ticks and ends the loop. The same thing could be approximated by using a delay loop with: second! = **TIMER** + 1
-
-Using a [DOUBLE](DOUBLE) variable for [TIMER](TIMER)(.001) millisecond accuracy in **QB64** throughout the day.
-
-```vb
-
- ts! = TIMER(.001)     'single variable
- td# = TIMER(.001)     'double variable
-
- PRINT "Single ="; ts!
- PRINT "Double ="; td# 
-
-```
-
-```text
-
- Single = 77073.09
- Double = 77073.094 
-
-```
-
-> *Explanation:* [SINGLE](SINGLE) variables will cut off the millisecond accuracy returned so [DOUBLE](DOUBLE) variables should be used. TIMER values will also exceed [INTEGER](INTEGER) limits. When displaying TIMER values, use [LONG](LONG) for seconds and [DOUBLE](DOUBLE) for milliseconds.
-
-## See Also
-
-* [_DELAY](_DELAY), [_LIMIT](_LIMIT), [SLEEP](SLEEP)   
-* [RANDOMIZE](RANDOMIZE), [Scancodes](Scancodes)(example)
-* [ON TIMER(n)](ON-TIMER(n)), [TIMER (statement)](TIMER-(statement))
+  

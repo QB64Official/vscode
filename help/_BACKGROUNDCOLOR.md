@@ -1,55 +1,47 @@
-The [_BACKGROUNDCOLOR](_BACKGROUNDCOLOR) function returns the current background color.
+# _BACKGROUNDCOLOR
+
+The **_BACKGROUNDCOLOR** function returns the current background color for an image handle or page.
+
+  
 
 ## Syntax
 
-> BGcolor& = [_BACKGROUNDCOLOR](_BACKGROUNDCOLOR)
+*col~&* = _BACKGROUNDCOLOR [(*imageHandle&*)]
+  
+
+## Parameters
+
+* If *imageHandle&* is omitted, it is assumed to be the current write page or image designated by [_DEST](_DEST.md).
+* If *imageHandle&* is an invalid handle, an [Invalid handle](Invalid handle.md) error occurs. Check handle values first. Zero designates the current screen.
+
+  
 
 ## Description
 
-* Use it to get the current background color to restore later in a program.
-* Returns the closest attribute value of the background color.
+* Use it to get the current background color to restore it later in a program.
+* In legacy [SCREEN](SCREEN.md) modes and in [_NEWIMAGE](_NEWIMAGE.md) 256 colors mode the color attribute/palette index is returned.
+* In [_NEWIMAGE](_NEWIMAGE.md) 32-bit mode the [_RGBA32](_RGBA32.md) value (**&H00000000** to **&HFFFFFFFF**) is returend, make sure to store it in an [_UNSIGNED](_UNSIGNED.md) [LONG](LONG.md) variable (as seen in the syntax above with the **~&** suffix), otherwise the blue component may be lost.
 
-## Example(s)
+  
 
-Storing a background color for later use.
+## Examples
 
-```vb
+Example
+Storing the background color for later use.
 
-SCREEN 0
-COLOR 1, 3
-CLS
-BG% = _BACKGROUNDCOLOR
-PRINT BG%
-
+``` [SCREEN](SCREEN.md) 0 [COLOR](COLOR.md) 1, 3 'set color 1 as foreground, color 3 as background [CLS](CLS.md) col~& = _BACKGROUNDCOLOR [PRINT](PRINT.md) col~&  
 ```
 
-```text
-3
-
+``` 3  
 ```
 
-Understanding the function output
+  
 
-```vb
+## See also
 
-SCREEN 0
-COLOR 1, 11
-CLS
-BG% = _BACKGROUNDCOLOR
-PRINT BG%                  'prints the attribute as 3 instead of 11
+* [_DEFAULTCOLOR](_DEFAULTCOLOR.md)
+* [COLOR](COLOR.md), [_DEST](_DEST.md)
+* [SCREEN](SCREEN.md), [SCREEN (function)](SCREEN (function).md) "SCREEN (function)")
+* [Color Dialog Box](Color Dialog Box.md)
 
-```
-
-```text
-3
-
-```
-
-> *Explanation: SCREEN 0 background colors over 7 will return the lower intensity color attribute values: EX: attribute - 8
-
-## See Also
-
-* [_DEFAULTCOLOR](_DEFAULTCOLOR)
-* [COLOR](COLOR), [SCREEN](SCREEN)
-* [SCREEN (function)](SCREEN-(function))
-* [Windows Libraries](Windows-Libraries)
+  

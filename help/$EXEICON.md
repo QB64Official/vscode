@@ -1,31 +1,40 @@
-**$EXEICON** pre-compiler  metacommand embeds a designated icon file into the compiled EXE file to be viewed in Windows Explorer.
+# $EXEICON
+
+**$EXEICON** pre-compiler metacommand embeds a designated icon file into the compiled EXE file to be viewed in Windows Explorer.
+
+  
 
 ## Syntax
 
->  [$EXEICON]($EXEICON):'iconfile.ico'
+$EXEICON**:**'*iconfile.ico*'
+  
 
-## Parameter(s)
+## Parameters
 
-* 'iconfile.ico' is a valid [https://en.wikipedia.org/wiki/ICO_(file_format) ICO file]
+* **iconfile.ico** is a valid [ICO file](ICO file.md) "wikipedia:ICO (file format)")
+
+  
 
 ## Description
 
-* Calling [_ICON](_ICON) without an imageHandle& uses the embeded icon, if available.
-  * Starting with **build 20170906/64**, the window will automatically use the icon embedded by [$EXEICON]($EXEICON), without having to call _ICON.
-* **[Keywords currently not supported](Keywords-currently-not-supported-by-QB64)**.
+* Calling [_ICON](_ICON.md) without an *imageHandle&* uses the embeded icon, if available.
+	+ Starting with **build 20170906/64**, the window will automatically use the icon embedded by $EXEICON, without having to call _ICON.
+* **[Keyword not supported in Linux or macOS versions](Keyword not supported in Linux or macOS versions.md)**
 
-## Example(s)
+  
 
- Embeds a designated icon file into the compiled EXE which can be viewed in Windows Explorer folders.
+## Examples
 
-```vb
+*Example:* Embeds a designated icon file into the compiled EXE which can be viewed in Windows Explorer folders.
 
-$EXEICON:'mush.ico'
-_ICON
-
+``` $EXEICON:'mush.ico' [_ICON](_ICON.md)  
 ```
 
-## See Also
+  
 
-* [_ICON](_ICON)
-* [_TITLE](_TITLE)
+## See also
+
+* [_ICON](_ICON.md)
+* [_TITLE](_TITLE.md)
+
+  

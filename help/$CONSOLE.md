@@ -1,90 +1,59 @@
-The [$CONSOLE]($CONSOLE) [metacommand](metacommand) creates a console window that can be used throughout a QB64PE program module.
+# $CONSOLE
+
+The $CONSOLE [Metacommand](Metacommand.md) creates a console window that can be used throughout a QB64 program module.
+
+  
 
 ## Syntax
 
-> [$CONSOLE]($CONSOLE)[:ONLY]
+$CONSOLE[:ONLY]
+  
 
 ## Description
 
-* [_CONSOLE](_CONSOLE) **ON** or **OFF** may be used to show or hide the console window at run time.
+* [_CONSOLE](_CONSOLE.md) **ON** or **OFF** may be used to show or hide the console window at run time.
 * The **:ONLY** option can be used when only a console window is desired without a program window.
-* [_DEST](_DEST) and [_SOURCE](_SOURCE) are automatically set to [_CONSOLE](_CONSOLE) when the **:ONLY** option is used, in order to send screen output to the console window and get input from it too.
-  * In normal [$CONSOLE]($CONSOLE) mode (dual screen) you have to manually set [_DEST](_DEST) and [_SOURCE](_SOURCE) to [_CONSOLE](_CONSOLE) in order to work with the console window.
-* [_SCREENHIDE](_SCREENHIDE) and [_SCREENSHOW](_SCREENSHOW) can be used to hide or show the main program window.
-* [_DELAY](_DELAY) or [SLEEP](SLEEP) can be used to allow the console window to be set in front of the main program window.
-* [_CONSOLETITLE](_CONSOLETITLE) can be used to change the title of the console window.
-* **Note:** Text can be copied partially or totally from console screens in Windows by highlighting and using the title bar menu. 
-> To copy console text output, right click the title bar and select *Edit* for *Mark* to highlight and repeat to *Copy* 
-* QB64PE [Metacommand](Metacommand)s are not commented out with ' or REM, differently from QBasic metacommands.
+* [_DEST](_DEST.md) [_CONSOLE](_CONSOLE.md) may be used to send screen output to the console window.
+* [_SCREENHIDE](_SCREENHIDE.md) and [_SCREENSHOW](_SCREENSHOW.md) can be used to hide or show the main program window.
+* [_DELAY](_DELAY.md) or [SLEEP](SLEEP.md) can be used to allow the console window to be set in front of the main program window.
+* **QB64 [Metacommands](Metacommands.md) are not commented out with ' or REM, unlike QuickBASIC metacommands**
+* Change the title of the $CONSOLE windows created using [_CONSOLETITLE](_CONSOLETITLE.md)
+* **Note:** Text can be copied partially or totally from console screens in Windows by highlighting and using the title bar menu.
 
-## Example(s)
+To copy console text output, right click the title bar and select *Edit* for *Mark* to highlight and repeat to *Copy*
+  
 
-Hiding and displaying a console window. Use [_DELAY](_DELAY) to place console in front of main program window.
+## Examples
 
-```vb
+*Example 1:* Hiding and displaying a console window. Use [_DELAY](_DELAY.md) to place console in front of main program window.
 
-$CONSOLE
-_DELAY 4
-
-_CONSOLE OFF
-_DELAY 4
-_CONSOLE ON
-
-_DEST _CONSOLE
-PRINT "Close this console window or click main window and press a key!" 
-
+``` $CONSOLE [_DELAY](_DELAY.md) 4  [_CONSOLE](_CONSOLE.md) [OFF](OFF.md) [_DELAY](_DELAY.md) 4 [_CONSOLE](_CONSOLE.md) [ON](ON.md)  [_DEST](_DEST.md) [_CONSOLE](_CONSOLE.md) [PRINT](PRINT.md) "Close this console window or click main window and press a key!"  
 ```
 
-How to use a Console window to copy screen output using the *Edit* menu by right clicking the console title bar.
+---
 
-```vb
+*Example 2:* How to use a Console window to copy screen output using the *Edit* menu by right clicking the console title bar.
 
-$CONSOLE
-_DEST _CONSOLE
-
-c&& = -1: d& = -1: e% = -1: f%% = -1
-hx$ = HEX$(f%%)
-PRINT "Max hex _BYTE = "; hx$; " with"; LEN(hx$); "digits ="; VAL("&H" + hx$)
-hx$ = HEX$(e%)
-PRINT "Max hex INTEGER = "; hx$; " with"; LEN(hx$); "digits ="; VAL("&H" + hx$)
-hx$ = HEX$(d&)
-PRINT "Max hex LONG = "; hx$; " with"; LEN(hx$); "digits ="; VAL("&H" + hx$)
-hx$ = HEX$(c&&)
-PRINT "Max hex _INTEGER64 = "; hx$; " with"; LEN(hx$); "digits ="; VAL("&H" + hx$)
-hx$ = HEX$(9223372036854775807)
-PRINT "Max _INTEGER64 value = "; hx$; " with"; LEN(hx$); "digits"
-hx$ = HEX$(-9223372036854775808)
-PRINT "Min _INTEGER64 value = "; hx$; " with"; LEN(hx$); "digits" 
-
+``` $CONSOLE [_DEST](_DEST.md) [_CONSOLE](_CONSOLE.md)  c&& = -1: d& = -1: e% = -1: f%% = -1 hx$ = [HEX$](HEX$.md)(f%%) [PRINT](PRINT.md) "Max hex _BYTE = "; hx$; " with"; [LEN](LEN.md)(hx$); "digits ="; [VAL](VAL.md)("&H" + hx$) hx$ = [HEX$](HEX$.md)(e%) [PRINT](PRINT.md) "Max hex INTEGER = "; hx$; " with"; [LEN](LEN.md)(hx$); "digits ="; [VAL](VAL.md)("&H" + hx$) hx$ = [HEX$](HEX$.md)(d&) [PRINT](PRINT.md) "Max hex LONG = "; hx$; " with"; [LEN](LEN.md)(hx$); "digits ="; [VAL](VAL.md)("&H" + hx$) hx$ = [HEX$](HEX$.md)(c&&) [PRINT](PRINT.md) "Max hex _INTEGER64 = "; hx$; " with"; [LEN](LEN.md)(hx$); "digits ="; [VAL](VAL.md)("&H" + hx$) hx$ = [HEX$](HEX$.md)(9223372036854775807) [PRINT](PRINT.md) "Max _INTEGER64 value = "; hx$; " with"; [LEN](LEN.md)(hx$); "digits" hx$ = [HEX$](HEX$.md)(-9223372036854775808) [PRINT](PRINT.md) "Min _INTEGER64 value = "; hx$; " with"; [LEN](LEN.md)(hx$); "digits"  
 ```
 
-```text
-
-Max hex _BYTE = FF with 2 digits = 255
-Max hex INTEGER = FFFF with 4 digits = 65535
-Max hex LONG = FFFFFFFF with 8 digits = 4294967295
-Max hex _INTEGER64 = FFFFFFFFFFFFFFFF with 16 digits =-1
-Max _INTEGER64 value = 7FFFFFFFFFFFFFFF with 16 digits
-Min _INTEGER64 value = 8000000000000000 with 16 digits
-
+``` Max hex _BYTE = FF with 2 digits = 255 Max hex INTEGER = FFFF with 4 digits = 65535 Max hex LONG = FFFFFFFF with 8 digits = 4294967295 Max hex _INTEGER64 = FFFFFFFFFFFFFFFF with 16 digits =-1 Max _INTEGER64 value = 7FFFFFFFFFFFFFFF with 16 digits Min _INTEGER64 value = 8000000000000000 with 16 digits  
 ```
 
-> *Console:* Right click and select *Edit* > *Select All* (mouse highlight after) then hit Enter or select *Edit* > *Copy* to the [_CLIPBOARD$ (function)](_CLIPBOARD$-(function)).
+*Console:* Right click and select *Edit* > *Select All* (mouse highlight after) then hit Enter or select *Edit* > *Copy* to the clipboard.
 
-```text
-
-Max hex _BYTE = FF with 2 digits = 255
-Max hex INTEGER = FFFF with 4 digits = 65535
-Max hex LONG = FFFFFFFF with 8 digits = 4294967295
-Max hex _INTEGER64 = FFFFFFFFFFFFFFFF with 16 digits =-1
-
+``` Max hex _BYTE = FF with 2 digits = 255 Max hex INTEGER = FFFF with 4 digits = 65535 Max hex LONG = FFFFFFFF with 8 digits = 4294967295 Max hex _INTEGER64 = FFFFFFFFFFFFFFFF with 16 digits =-1  
 ```
 
-> *Copied text:* The above text was copied after *Select All* was selected and the smaller area was re-highlighted with the mouse.
+*Copied text:* The above text was copied after *Select All* was selected and the smaller area was re-highlighted with the mouse.
+  
 
-## See Also
+## See also
 
-* [_CONSOLE](_CONSOLE)
-* [$SCREENHIDE]($SCREENHIDE), [$SCREENSHOW]($SCREENSHOW) (QB64 [Metacommand](Metacommand)s)
-* [_SCREENHIDE](_SCREENHIDE), [_SCREENSHOW](_SCREENSHOW)
-* [C Libraries](C-Libraries)
+* [_CLIPBOARD$ (function)](_CLIPBOARD$ (function).md) "CLIPBOARD$ (function)"), [_CLIPBOARD$](_CLIPBOARD$.md) (statement)
+* [_CONSOLE](_CONSOLE.md), [_ECHO](_ECHO.md)
+* [$SCREENHIDE]($SCREENHIDE.md), [$SCREENSHOW]($SCREENSHOW.md) (QB64 [Metacommands](Metacommands.md))
+* [_SCREENHIDE](_SCREENHIDE.md), [_SCREENSHOW](_SCREENSHOW.md)
+* [C Console Library](C Console Library.md)
+
+  

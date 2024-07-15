@@ -1,35 +1,41 @@
-[CSNG](CSNG) converts a numerical value to the closest [SINGLE](SINGLE)-precision number.
+# CSNG
+
+CSNG converts a numerical value to the closest [SINGLE](SINGLE.md)-precision number.
+
+  
 
 ## Syntax
- 
-> singleValue! = [CSNG](CSNG)(expression)
 
-## Parameter(s)
+*singleValue!* = CSNG(*expression*)
+  
 
-* expression is any [TYPE](TYPE) of literal or variable numerical value or mathematical calculation.
+## Parameters
+
+* *expression* is any [TYPE](TYPE.md) of literal or variable numerical value or mathematical calculation.
+
+  
 
 ## Description
 
-* Returns the closest [SINGLE](SINGLE) decimal point value.
-* Also used to define a value as [SINGLE](SINGLE)-precision up to 7 decimals.
+* Returns the closest [SINGLE](SINGLE.md) decimal point value.
+* Also used to define a value as [SINGLE](SINGLE.md)-precision up to 7 decimals.
 
-## Example(s)
+  
 
-```vb
+## Examples
 
- A# = 975.3421222#
- PRINT A#, CSNG(A#)
-
+```  A# = 975.3421222#  PRINT A#, CSNG(A#)  
 ```
 
-```text
-
-975.3421222      975.3421
-
+``` 975.3421222      975.3421  
 ```
 
-## See Also
- 
-* [CDBL](CDBL), [CLNG](CLNG) 
-* [CINT](CINT), [INT](INT) 
-* [_ROUND](_ROUND)
+  
+
+## See also
+
+* [CDBL](CDBL.md), [CLNG](CLNG.md)
+* [CINT](CINT.md), [INT](INT.md)
+* [_ROUND](_ROUND.md)
+
+  

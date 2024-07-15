@@ -1,33 +1,40 @@
-The [_CONTINUE](_CONTINUE) statement is used in a [DO...LOOP](DO...LOOP), [WHILE...WEND](WHILE...WEND) or [FOR...NEXT](FOR...NEXT) block to skip the remaining lines of code in a block (without exiting it) and start the next iteration. It works as a shortcut to a [GOTO](GOTO), but without the need for a [line numbers](line-numbers). 
+# _CONTINUE
+
+  
+
+The _CONTINUE statement is used in a [DO...LOOP](DO...LOOP.md), [WHILE...WEND](WHILE...WEND.md) or [FOR...NEXT](FOR...NEXT.md) block to skip the remaining lines of code in a block (without exiting it) and start the next iteration. It works as a shortcut to a [GOTO](GOTO.md), but without the need for a [line label](line label.md).
+
+  
 
 ## Syntax
 
-> [_CONTINUE](_CONTINUE)
+_CONTINUE
+  
 
 ## Availability
 
-* Build 20170628/55 and up.
+* **QB64 v1.2 and up**
+* **QB64-PE all versions**
 
-## Example(s)
+  
 
-```vb
+## Examples
 
-FOR i = 1 TO 10
-    IF i = 5 THEN _CONTINUE
-    PRINT i;
-NEXT
+*Example:*
 
+``` [FOR](FOR.md) i = 1 [TO](TO.md) 10     [IF](IF.md) i = 5 [THEN](THEN.md) _CONTINUE     [PRINT](PRINT.md) i; [NEXT](NEXT.md)  
 ```
 
-```text
-
- 1  2  3  4  6  7  8  9  10
-
+```  1  2  3  4  6  7  8  9  10  
 ```
 
-## See Also
+  
 
-* [DO...LOOP](DO...LOOP)
-* [WHILE...WEND](WHILE...WEND)
-* [FOR...NEXT](FOR...NEXT)
-* [GOTO](GOTO)
+## See also
+
+* [DO...LOOP](DO...LOOP.md)
+* [WHILE...WEND](WHILE...WEND.md)
+* [FOR...NEXT](FOR...NEXT.md)
+* [GOTO](GOTO.md)
+
+  

@@ -1,92 +1,53 @@
-The [_MOUSEINPUT](_MOUSEINPUT) function is used to monitor any new mouse positions, button presses or movements of the scroll wheel. Must be called before other mouse information becomes available.
+# _MOUSEINPUT
+
+The _MOUSEINPUT function is used to monitor any new mouse positions, button presses or movements of the scroll wheel. Must be called before other mouse information becomes available.
+
+  
 
 ## Syntax
 
-> infoExists%% = [_MOUSEINPUT](_MOUSEINPUT)
+*infoExists%%* = _MOUSEINPUT
+  
 
 ## Description
 
 * Returns -1 if new mouse information is available, otherwise it returns 0.
-* Must be called before reading any of the other mouse functions. The function will not miss any mouse input even during an [INPUT](INPUT) entry.
+* Must be called before reading any of the other mouse functions. The function will not miss any mouse input even during an [INPUT](INPUT.md) entry.
 * Use in a loop to monitor the mouse buttons, scroll wheel and coordinate positions.
-* To clear all previous mouse data, use [_MOUSEINPUT](_MOUSEINPUT) in a loop until it returns 0.
+* To clear all previous mouse data, use _MOUSEINPUT in a loop until it returns 0.
 
-## Example(s)
+  
 
-Mouse coordinate, click and scroll events are returned sequentially inside of a _MOUSEINPUT loop.
+## Examples
 
-```vb
+*Example 1:* Mouse coordinate, click and scroll events are returned sequentially inside of a _MOUSEINPUT loop.
 
-DO
-  DO WHILE _MOUSEINPUT '      Check the mouse status
-    PRINT _MOUSEX, _MOUSEY, _MOUSEBUTTON(1), _MOUSEWHEEL
-  LOOP
-LOOP UNTIL INKEY$ <> "" 
-
+``` DO   [DO](DO.md) [WHILE](WHILE.md) _MOUSEINPUT '      Check the mouse status     [PRINT](PRINT.md) [_MOUSEX](_MOUSEX.md), [_MOUSEY](_MOUSEY.md), [_MOUSEBUTTON](_MOUSEBUTTON.md)(1), [_MOUSEWHEEL](_MOUSEWHEEL.md)   [LOOP](LOOP.md) [LOOP](LOOP.md) [UNTIL](UNTIL.md) [INKEY$](INKEY$.md) <> ""  
 ```
 
-> *Explanation:* The latest mouse function status can be read after the loop. [_LIMIT](_LIMIT) and [_DELAY](_DELAY) loops will slow returns down.
+*Explanation:* The latest mouse function status can be read after the loop. [_LIMIT](_LIMIT.md) and [_DELAY](_DELAY.md) loops will slow returns down.
+  
 
-How to use a _MOUSEINPUT loop to locate [PSET](PSET) positions on a screen using a right mouse button click.
+*Example 2:* How to use a _MOUSEINPUT loop to locate [PSET](PSET.md) positions on a screen using a right mouse button click.
 
-```vb
-
-SCREEN 12
-
-DO ' main program loop
-
-  ' your program code
-
-  DO WHILE _MOUSEINPUT'mouse status changes only
-    x = _MOUSEX
-    y = _MOUSEY
-    IF x > 0 AND x < 640 AND y > 0 AND y < 480 THEN
-      IF _MOUSEBUTTON(2) THEN
-        PSET (x, y), 15
-        LOCATE 1, 1: PRINT x, y
-      END IF
-    END IF
-  LOOP 
-
-  ' your program code
-
-LOOP UNTIL INKEY$ = CHR$(27) 
-
+``` [SCREEN](SCREEN.md) 12  [DO](DO.md) ' main program loop    ' your program code    [DO](DO.md) [WHILE](WHILE.md) _MOUSEINPUT'mouse status changes only     x = [_MOUSEX](_MOUSEX.md)     y = [_MOUSEY](_MOUSEY.md)     [IF](IF.md) x > 0 [AND](AND.md) "AND (boolean)") x < 640 [AND](AND.md) "AND (boolean)") y > 0 [AND](AND.md) "AND (boolean)") y < 480 [THEN](THEN.md)       [IF](IF.md) [_MOUSEBUTTON](_MOUSEBUTTON.md)(2) [THEN](THEN.md)         [PSET](PSET.md) (x, y), 15         [LOCATE](LOCATE.md) 1, 1: [PRINT](PRINT.md) x, y       [END IF](END IF.md)     [END IF](END IF.md)   [LOOP](LOOP.md)    ' your program code  [LOOP](LOOP.md) [UNTIL](UNTIL.md) [INKEY$](INKEY$.md) = [CHR$](CHR$.md)(27)  
 ```
 
-Clearing any mouse data read before or during an [INPUT](INPUT) entry. Press "I" to enter input:
+  
 
-```vb
+*Example 3:* Clearing any mouse data read before or during an [INPUT](INPUT.md) entry. Press "I" to enter input:
 
-PRINT "Press I to enter input! Press Q to quit"
-DO 
-  K$ = UCASE$(INKEY$) 
-  DO  
-    IF _MOUSEBUTTON(1) = -1 THEN PRINT "*"    'indicates a mouse click event
-  LOOP WHILE _MOUSEINPUT
-  IF K$ = "Q" THEN END 
-  IF K$ = "I" THEN                                          'press I to enter text
-    INPUT "Click the mouse and enter something: ", entry$   'enter some text 
-    GOSUB Clickcheck                                        'clear mouse data
-  END IF 
-LOOP 
-
-END 
-
-Clickcheck: 
-count = 0 
-DO  
-  count = count + 1 
-LOOP WHILE _MOUSEINPUT
-PRINT count        'returns the number of loops before mouse data is cleared
-RETURN 
-
+``` [PRINT](PRINT.md) "Press I to enter input! Press Q to quit" [DO](DO.md)   K$ = [UCASE$](UCASE$.md)([INKEY$](INKEY$.md))   [DO](DO.md)     [IF](IF.md) [_MOUSEBUTTON](_MOUSEBUTTON.md)(1) = -1 [THEN](THEN.md) [PRINT](PRINT.md) "*"    'indicates a mouse click event   [LOOP](LOOP.md) [WHILE](WHILE.md) _MOUSEINPUT   [IF](IF.md) K$ = "Q" [THEN](THEN.md) [END](END.md)   [IF](IF.md) K$ = "I" [THEN](THEN.md)                                          'press I to enter text     [INPUT](INPUT.md) "Click the mouse and enter something: ", entry$   'enter some text     [GOSUB](GOSUB.md) Clickcheck                                        'clear mouse data   [END IF](END IF.md) [LOOP](LOOP.md)  [END](END.md)  Clickcheck: count = 0 [DO](DO.md)   count = count + 1 [LOOP](LOOP.md) [WHILE](WHILE.md) _MOUSEINPUT [PRINT](PRINT.md) count        'returns the number of loops before mouse data is cleared [RETURN](RETURN.md)  
 ```
 
-> *Explanation:* Click the mouse a few times while entering [INPUT](INPUT) text. When Enter is pressed, the number of loops are displayed.
+*Explanation:* Click the mouse a few times while entering [INPUT](INPUT.md) text. When Enter is pressed, the number of loops are displayed.
+  
 
-## See Also
+## See also
 
-* [_MOUSEX](_MOUSEX), [_MOUSEY](_MOUSEY), [_MOUSEBUTTON](_MOUSEBUTTON), [_MOUSEWHEEL](_MOUSEWHEEL)
-* [_MOUSESHOW](_MOUSESHOW), [_MOUSEHIDE](_MOUSEHIDE), [_MOUSEMOVE](_MOUSEMOVE)
-* [Controller Devices](Controller-Devices)
+* [Featured in our "Keyword of the Day" series](Featured in our "Keyword of the Day" series.md)
+* [_MOUSEX](_MOUSEX.md), [_MOUSEY](_MOUSEY.md), [_MOUSEBUTTON](_MOUSEBUTTON.md), [_MOUSEWHEEL](_MOUSEWHEEL.md)
+* [_MOUSESHOW](_MOUSESHOW.md), [_MOUSEHIDE](_MOUSEHIDE.md), [_MOUSEMOVE](_MOUSEMOVE.md)
+* [Controller Devices](Controller Devices.md)
+
+  

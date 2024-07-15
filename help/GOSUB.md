@@ -1,79 +1,57 @@
-[GOSUB](GOSUB) sends the program flow to a sub procedure identified by a line number or label.
+# GOSUB
+
+GOSUB sends the program flow to a sub procedure identified by a line number or label.
+
+  
 
 ## Syntax
 
-> GOSUB {lineNumber|label}
+GOSUB {*lineNumber*|*label*}
+  
 
 ## Description
 
-* Use [RETURN](RETURN) in a sub procedure to return to the next line of code after the original [GOSUB](GOSUB) call. [END](END) or [SYSTEM](SYSTEM) can also be used to end program.
-* GOSUB and GOTO can be used **within** [SUB](SUB) or [FUNCTION](FUNCTION) procedures, but cannot refer to a label located outside the procedure.
+* Use [RETURN](RETURN.md) in a sub procedure to return to the next line of code after the original GOSUB call. [END](END.md) or [SYSTEM](SYSTEM.md) can also be used to end program.
+* GOSUB and GOTO can be used **within** [SUB](SUB.md) or [FUNCTION](FUNCTION.md) procedures, but cannot refer to a label located outside the procedure.
 
-## QBasic
+### QBasic/QuickBASIC
 
-* Too many GOSUBs without a [RETURN](RETURN) can eventually cause "Out of Stack Errors" in QBasic as each GOSUB uses memory to store the location to return to. Each [RETURN](RETURN) frees the memory of the GOSUB it returns to.
+* Too many GOSUBs without a [RETURN](RETURN.md) can eventually cause "Out of Stack Errors" in QBasic as each GOSUB uses memory to store the location to return to. Each [RETURN](RETURN.md) frees the memory of the GOSUB it returns to.
 
-## Example(s)
+  
 
-Simple usage of GOSUB
+## Examples
 
-```vb
+*Example:* Simple usage of GOSUB
 
-PRINT "1. It goes to the subroutine."
-GOSUB subroutine
-PRINT "3. And it returns."
-END
-
-subroutine:
-PRINT "2. It is at the subroutine."
-RETURN
-
-
+``` [PRINT](PRINT.md) "1. It goes to the subroutine." GOSUB subroutine [PRINT](PRINT.md) "3. And it returns." [END](END.md)  subroutine: [PRINT](PRINT.md) "2. It is at the subroutine." [RETURN](RETURN.md)   
 ```
 
-```text
-
-1. It goes to the subroutine.
-2. It is at the subroutine.
-3. And it returns.
-
+``` 1. It goes to the subroutine. 2. It is at the subroutine. 3. And it returns.  
 ```
 
-What happens if two GOSUB executes then two RETURN's?
+  
 
-```vb
+  
 
-start: 
- 
-a = a + 1 
-IF a = 1 THEN GOSUB here: PRINT "It returned to IF a = 1": END 
-IF a = 2 THEN GOSUB there: PRINT "It returned to IF a = 2": RETURN
+*Example:* What happens if two GOSUB executes then two RETURN's?
 
-here: 
-PRINT "It went here." 
-GOTO start
-
-there: 
-PRINT "It went there." 
-RETURN 
-
+``` start:  a = a + 1 [IF](IF.md) a = 1 [THEN](THEN.md) GOSUB here: [PRINT](PRINT.md) "It returned to IF a = 1": [END](END.md) [IF](IF.md) a = 2 [THEN](THEN.md) GOSUB there: [PRINT](PRINT.md) "It returned to IF a = 2": [RETURN](RETURN.md)    here: [PRINT](PRINT.md) "It went here." [GOTO](GOTO.md) start  there: [PRINT](PRINT.md) "It went there." [RETURN](RETURN.md)  
 ```
 
-```text
-
-It went here.
-It went there.
-It returned to IF a = 2
-It returned to IF a = 1
-
+``` It went here. It went there. It returned to IF a = 2 It returned to IF a = 1  
 ```
 
 *Explanation:* When a = 1 it uses GOSUB to go to "here:", then it uses GOTO to go back to "start:". a is increased by one so when a = 2 it uses GOSUB to go to "there:", and uses RETURN to go the last GOSUB (which is on the IF a = 2 line), it then encounters another RETURN which makes it return to the first GOSUB call we used on the IF a = 1 line.
 
-## See Also
+  
 
-* [ON...GOSUB](ON...GOSUB)
-* [ON...GOTO](ON...GOTO), [GOTO](GOTO)
-* [ON ERROR](ON-ERROR), [RESUME](RESUME)
-* [ON TIMER (n)](ON-TIMER-(n))
-* [Line number](Line-number)
+## See also
+
+* [ON...GOSUB](ON...GOSUB.md)
+* [ON...GOTO](ON...GOTO.md), [GOTO](GOTO.md)
+* [ON ERROR](ON ERROR.md), [RESUME](RESUME.md)
+* [ON TIMER(n)](ON TIMER(n).md) "ON TIMER(n)")
+* [Line number](Line number.md)
+
+  

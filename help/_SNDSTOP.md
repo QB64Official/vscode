@@ -1,21 +1,31 @@
-The [_SNDSTOP](_SNDSTOP) statement stops a playing or paused sound using a handle from the [_SNDOPEN](_SNDOPEN) or [_SNDCOPY](_SNDCOPY) functions.
+# _SNDSTOP
+
+The _SNDSTOP statement stops a playing or paused sound using a handle from the [_SNDOPEN](_SNDOPEN.md) or [_SNDCOPY](_SNDCOPY.md) functions.
+
+  
 
 ## Syntax
 
-> [_SNDSTOP](_SNDSTOP) handle&
+_SNDSTOP *handle&*
+  
 
 ## Description
 
-* Sounds can be resumed using [_SNDPLAY](_SNDPLAY) with the correct handle.
+* Sounds can be resumed using [_SNDPLAY](_SNDPLAY.md) with the correct handle.
 
-## Example(s)
+  
 
-```vb
+## Examples
 
-_SNDSTOP h& 
+*Example:*
 
+``` _SNDSTOP h&  
 ```
 
-## See Also
+  
 
-* [_SNDPAUSE](_SNDPAUSE)
+## See also
+
+* [_SNDPAUSE](_SNDPAUSE.md)
+
+  

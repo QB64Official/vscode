@@ -1,34 +1,37 @@
-The [_R2G](_R2G) function converts a **radian** value into a **gradian** value. 
+# _R2G
+
+The _R2G function converts a **radian** value into a **gradient** value.
+
+  
 
 ## Syntax
 
-> result! = [_R2G](_R2G)(num)
+*result!* = _R2G(*num*)
+  
 
 ## Availability
 
-* Version 1.000 and up.
+* **QB64 v1.0 and up**
+* **QB64-PE all versions**
 
-## Example(s)
- 
-Converting Radian into Gradian.
+  
 
-```vb
+## Examples
 
-INPUT "Give me an angle in Radians ", D
-R = _R2G(D)
-PRINT "That angle in Gradians is "; R
+*Example:* Coverting Radian into Gradient.
 
+``` [INPUT](INPUT.md) "Give me an angle in Radians ", R G = _R2G(R) [PRINT](PRINT.md) "That angle in Gradient is "; G  
 ```
 
-```text
-
-Give me an angle in Radians 0.5
-That angle in Gradians is   31.83099
-
+``` Give me an angle in Radians 0.5 That angle in Gradient is   31.83099  
 ```
 
-## See Also
+  
 
-* [_D2G](_D2G), [_D2R](_D2R)
-* [_G2D](_G2D), [_G2R](_G2R)
-* [_R2D](_R2D)
+## See also
+
+* [_D2G](_D2G.md), [_D2R](_D2R.md)
+* [_G2D](_G2D.md), [_G2R](_G2R.md)
+* [_R2D](_R2D.md)
+
+  

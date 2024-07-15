@@ -3,8 +3,12 @@ All notable changes to the "QB64 PE" extension will be documented in this file.
 
 ## 0.10.x (plan)
 - Enhancements
-  - Add new markdown hover help for QB64 PE keywords up to version `3.13.1`
   - Modify`tasks.json` to support QB64 PE.
+
+## 0.10.3
+- Enhancements
+  - Add new markdown hover helpf or QB64 PE keywords up to version `3.13.1`
+  - Modified wiki search online help to work with qb64phoenix.com/wiki/
 
 ## 0.10.2
 - Enhancements

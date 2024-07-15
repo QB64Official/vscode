@@ -1,33 +1,47 @@
-The [_DEFAULTCOLOR](_DEFAULTCOLOR) function returns the current default text color for an image handle or page.
+# _DEFAULTCOLOR
+
+The **_DEFAULTCOLOR** function returns the current default (text/drawing) color for an image handle or page.
+
+  
 
 ## Syntax
 
-> result& = [_DEFAULTCOLOR](_DEFAULTCOLOR) [(imageHandle&)]
+*col~&* = _DEFAULTCOLOR [(*imageHandle&*)]
+  
+
+## Parameters
+
+* If *imageHandle&* is omitted, it is assumed to be the current write page or image designated by [_DEST](_DEST.md).
+* If *imageHandle&* is an invalid handle, an [Invalid handle](Invalid handle.md) error occurs. Check handle values first. Zero designates the current screen.
+
+  
 
 ## Description
 
-* If imageHandle& is omitted, it is assumed to be the current write page or image designated by [_DEST](_DEST).
-* If imageHandle& is an invalid handle, an [ERROR Codes](ERROR-Codes) error occurs. Check handle values first.
-* Default foreground colors are: [SCREEN](SCREEN) 0 = 7, [SCREEN](SCREEN) 1 and 10 = 3, [SCREEN](SCREEN) 2 and 11 = 1. All other [SCREEN](SCREEN)s = 15. 
+* Use it to get the current default (foreground) color to restore it later in a program.
+* In legacy [SCREEN](SCREEN.md) modes and in [_NEWIMAGE](_NEWIMAGE.md) 256 colors mode the color attribute/palette index is returned.
+* In [_NEWIMAGE](_NEWIMAGE.md) 32-bit mode the [_RGBA32](_RGBA32.md) value (**&H00000000** to **&HFFFFFFFF**) is returend, make sure to store it in an [_UNSIGNED](_UNSIGNED.md) [LONG](LONG.md) variable (as seen in the syntax above with the **~&** suffix), otherwise the blue component may be lost.
 
-## Example(s)
+  
 
-The default color is the color assigned to the text foreground. The [SCREEN](SCREEN) 12 default is [COLOR](COLOR) 15.
+## Examples
 
-```vb
+Example
+Storing the default color for later use. The default color is the color set as foreground.
 
-SCREEN 12
-OUT &H3C8, 0: OUT &H3C9, 63: OUT &H3C9, 63: OUT &H3C9, 63  'assign background RGB intensities
-OUT &H3C8, 8: OUT &H3C9, 0: OUT &H3C9, 0: OUT &H3C9, 0     'assign RGB intensities to COLOR 8
-_PRINTMODE  _KEEPBACKGROUND
-COLOR 8                                                    'assign color 8 to text foreground
-PRINT "The default color is attribute"; _DEFAULTCOLOR 
-
+``` [SCREEN](SCREEN.md) 0 [COLOR](COLOR.md) 4, 7 'set color 4 as foreground, color 7 as background [CLS](CLS.md) col~& = _DEFAULTCOLOR [PRINT](PRINT.md) col~&  
 ```
 
-## See Also
+``` 4  
+```
 
-* [COLOR](COLOR)
-* [_DEST](_DEST)
-* [Images](Images)
-* [Windows Libraries](Windows-Libraries)
+  
+
+## See also
+
+* [_BACKGROUNDCOLOR](_BACKGROUNDCOLOR.md)
+* [COLOR](COLOR.md), [_DEST](_DEST.md)
+* [SCREEN](SCREEN.md), [SCREEN (function)](SCREEN (function).md) "SCREEN (function)")
+* [Color Dialog Box](Color Dialog Box.md)
+
+  

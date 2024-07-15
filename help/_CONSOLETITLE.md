@@ -1,34 +1,34 @@
-The [_CONSOLETITLE](_CONSOLETITLE) statement sets the console window's title-bar text.
+# _CONSOLETITLE
+
+The _CONSOLETITLE statement creates the title of the console window using a literal or variable [string](string.md).
+
+  
 
 ## Syntax
 
-> [_CONSOLETITLE](_CONSOLETITLE) text$
+_CONSOLETITLE *text$*
+  
 
-## Parameter(s)
+## Description
 
-* *text$* can be any literal or variable [STRING](STRING) value.
+* The *text$* used can be a literal or variable [STRING](STRING.md) value.
 
-## Example(s)
- 
-Hiding the main program window while displaying the console window with a title.
+  
 
-```vb
+## Examples
 
-$SCREENHIDE
-_DELAY 4
-$CONSOLE
-_CONSOLETITLE "Error Log"
+*Example:* Hiding the main program window while displaying the console window with a title.
 
-_DEST _CONSOLE
-PRINT "Errors go here! (fyi, this line is not an error)"
-END
-
+``` [$SCREENHIDE]($SCREENHIDE.md) [_DELAY](_DELAY.md) 4 [$CONSOLE]($CONSOLE.md) _CONSOLETITLE "Error Log"  [_DEST](_DEST.md) [_CONSOLE](_CONSOLE.md) [PRINT](PRINT.md) "Errors go here! (fyi, this line is not an error)" [END](END.md)  
 ```
 
-> *Note:* You can also use [SHELL](SHELL) "title consoletitle" to set the title of the console window. However, the recommended practice is to use [_CONSOLETITLE](_CONSOLETITLE).
+*Note:* You can also use [SHELL](SHELL.md) "title consoletitle" to set the title of the console window. However, **the recommended practice is to use _CONSOLETITLE**.
+  
 
-## See Also
+## See also
 
-* [$CONSOLE]($CONSOLE), [_CONSOLE](_CONSOLE)
-* [$SCREENHIDE]($SCREENHIDE), [$SCREENSHOW]($SCREENSHOW)
-* [_SCREENHIDE](_SCREENHIDE), [_SCREENSHOW](_SCREENSHOW)
+* [$CONSOLE]($CONSOLE.md), [_CONSOLE](_CONSOLE.md)
+* [$SCREENHIDE]($SCREENHIDE.md), [$SCREENSHOW]($SCREENSHOW.md)
+* [_SCREENHIDE](_SCREENHIDE.md), [_SCREENSHOW](_SCREENSHOW.md)
+
+  

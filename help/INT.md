@@ -1,39 +1,44 @@
-The [INT](INT) function rounds a numeric value down to the next whole number. 
+# INT
+
+The INT function rounds a numeric value down to the next whole number.
+
+  
 
 ## Syntax
 
-> result = [INT](INT)(expression)
+*result* = INT(*expression*)
+  
 
-## Parameter(s)
+## Parameters
 
-* expression is any [Data types](Data-types) of literal or variable numerical value or mathematical calculation.
+* *expression* is any [type](type.md) of literal or variable numerical value or mathematical calculation.
+
+  
 
 ## Description
 
-* [INT](INT) returns the first whole number [INTEGER](INTEGER) that is less than the expression value.
-* This means that [INT](INT) rounds down for both positive and negative numbers.
-* Use [FIX](FIX) to round negative values up. It is identical to [INT](INT) for positive values.
+* INT returns the first whole number [INTEGER](INTEGER.md) that is less than the *expression* value.
+* This means that INT rounds down for both positive and negative numbers.
+* Use [FIX](FIX.md) to round negative values up. It is identical to INT for positive values.
 
-## Example(s)
+  
 
-Displaying the rounding behavior of [INT](INT).
+## Examples
 
-```vb
+*Example:* Displaying the rounding behavior of INT.
 
-PRINT INT(2.5)
-PRINT INT(-2.5)
-
+``` PRINT INT(2.5) PRINT INT(-2.5)  
 ```
 
-```text
-
- 2 
--3
-
+```  2 -3  
 ```
 
-## See Also
+  
 
-* [CINT](CINT), [CLNG](CLNG), [FIX](FIX)
-* [CSNG](CSNG), [CDBL](CDBL)
-* [_ROUND](_ROUND), [_CEIL](_CEIL)
+## See also
+
+* [CINT](CINT.md), [CLNG](CLNG.md), [FIX](FIX.md)
+* [CSNG](CSNG.md), [CDBL](CDBL.md)
+* [_ROUND](_ROUND.md), [_CEIL](_CEIL.md)
+
+  
