@@ -1,23 +1,16 @@
-# _SCREENSHOW
+## _SCREENSHOW
+---
 
-The _SCREENSHOW statement can be used to display the main program window in a section of code.
+### The _SCREENSHOW statement can be used to display the main program window in a section of code.
 
-  
+#### SYNTAX
 
-## Syntax
+`_SCREENSHOW`
 
-_SCREENSHOW
-  
+#### DESCRIPTION
+* Use [_SCREENSHOW](./_SCREENSHOW.md) to display the main program window after it was hidden by [_SCREENHIDE](./_SCREENHIDE.md) .
 
-## Description
 
-* Use _SCREENSHOW to display the main program window after it was hidden by [_SCREENHIDE](_SCREENHIDE.md).
-
-  
-
-## See also
-
-* [$SCREENHIDE]($SCREENHIDE.md), [$SCREENSHOW]($SCREENSHOW.md), [$CONSOLE]($CONSOLE.md)
-* [_SCREENHIDE](_SCREENHIDE.md), [_CONSOLE](_CONSOLE.md)
-
-  
+#### SEE ALSO
+* $SCREENHIDE , $SCREENSHOW , $[CONSOLE](./CONSOLE.md)
+* [_SCREENHIDE](./_SCREENHIDE.md) , [_CONSOLE](./_CONSOLE.md)

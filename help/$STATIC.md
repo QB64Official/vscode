@@ -1,37 +1,35 @@
-# $STATIC
+## $STATIC
+---
 
-The $STATIC [metacommand](metacommand.md) allows the creation of static (unresizable) arrays.
+### The $STATIC metacommand allows the creation of static (unresizable) arrays.
 
-  
+#### SYNTAX
 
-## Syntax
+`{ REM | ' } $STATIC`
 
-{[REM](REM.md) | [']('.md) } $STATIC
-  
+#### DESCRIPTION
+* QBasic Metacommands require a [REM](./REM.md) or apostrophy (') before them and are normally placed at the start of the main module.
+* Static arrays cannot be resized. If a variable is used to size any array, it becomes $DYNAMIC .
+* A [REDIM](./REDIM.md) statement has no effect on $[STATIC](./STATIC.md) arrays except perhaps a duplicate definition error at the [REDIM](./REDIM.md) statement.
+* The array's type cannot be changed once [DIM](./DIM.md) and a literal value sets the dimensions and element size.
+* $[STATIC](./STATIC.md) defined program arrays cannot be re-sized or use [_PRESERVE](./_PRESERVE.md) .
 
-## Description
 
-* QBasic [Metacommands](Metacommands.md) require a REM or apostrophy (') before them and are normally placed at the start of the main module.
-* Static arrays cannot be resized. If a variable is used to size any array, it becomes [$DYNAMIC]($DYNAMIC.md).
-* A [REDIM](REDIM.md) statement has no effect on $STATIC arrays except perhaps a [duplicate definition error](duplicate definition error.md) at the [REDIM](REDIM.md) statement.
-* The array's type cannot be changed once [DIM](DIM.md) and a literal value sets the dimensions and element size.
-* $STATIC defined program [arrays](arrays.md) cannot be [re-sized](re-sized.md) or use [_PRESERVE](_PRESERVE.md).
+#### EXAMPLES
+##### Example: When a variable is used, the array can be resized despite $STATIC. The array becomes $DYNAMIC .
+```vb
+'$STATIC
 
-  
+INPUT "Enter array size: ", size
+DIM array(size)   'using an actual number instead of the variable will create an error!
 
-## Examples
+REDIM array(2 * size)
 
-*Example:* When a variable is used, the array can be resized despite $STATIC. The array becomes [$DYNAMIC]($DYNAMIC.md).
-
-``` '$STATIC  [INPUT](INPUT.md) "Enter array size: ", size [DIM](DIM.md) array(size)   'using an actual number instead of the variable will create an error!  [REDIM](REDIM.md) array(2 * size)  [PRINT](PRINT.md) [UBOUND](UBOUND.md)(array)  
+PRINT UBOUND(array)
 ```
-
-*Note:* [DIM](DIM.md) using a literal numerical size will create a Duplicate definition error.
   
 
-## See also
 
-* [$DYNAMIC]($DYNAMIC.md), [STATIC](STATIC.md)
-* [Arrays](Arrays.md), [Metacommand](Metacommand.md)
-
-  
+#### SEE ALSO
+* $DYNAMIC , [STATIC](./STATIC.md)
+* Arrays , Metacommand

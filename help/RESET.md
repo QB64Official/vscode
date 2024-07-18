@@ -1,23 +1,13 @@
-# RESET
+## RESET
+---
 
-The **RESET** statement closes all files and writes the directory information to a diskette before it is removed from a disk drive.
+### The RESET statement closes all files and writes the directory information to a diskette before it is removed from a disk drive.
 
-  
+#### SYNTAX
 
-## Syntax
+`RESET`
 
-RESET
-  
-
-* Always execute a RESET command before removing a diskette from a disk drive. Otherwise, when the diskette is used again, it will not have the current directory information written on the directory track.
-* RESET closes all open files on all drives and writes the directory track to every diskette with open files.
-
-  
-
-## See also
-
-* [Featured in our "Keyword of the Day" series](Featured in our "Keyword of the Day" series.md)
-* [OPEN](OPEN.md)
-* [CLOSE](CLOSE.md)
-
-  
+#### SEE ALSO
+* Featured in our "Keyword of the Day" series
+* [OPEN](./OPEN.md)
+* [CLOSE](./CLOSE.md)

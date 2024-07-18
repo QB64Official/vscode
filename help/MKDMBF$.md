@@ -1,24 +1,17 @@
-# MKDMBF$
+## MKDMBF$
+---
 
-The MKDMBF$ function encodes a double-precision IEEE number to a string value in the Microsoft Binary format.
+### The MKDMBF$ function encodes a double-precision IEEE number to a string value in the Microsoft Binary format.
 
-  
+#### SYNTAX
 
-## Syntax
+`result$ = MKDMBF$ ( doublePrecisionVariableOrLiteral# )`
 
-*result$* = MKDMBF$(*doublePrecisionVariableOrLiteral#*)
-  
+#### DESCRIPTION
+* Encodes [DOUBLE](./DOUBLE.md) values to string values in Microsoft Binary format.
+* The resulting string value can be decoded using [CVDMBF](./CVDMBF.md) .
 
-## Description
 
-* Encodes [DOUBLE](DOUBLE.md) values to [string](string.md) values in Microsoft Binary format.
-* The resulting string value can be decoded using [CVDMBF](CVDMBF.md).
-
-  
-
-## See also
-
-* [MKSMBF$](MKSMBF$.md)
-* [CVDMBF](CVDMBF.md), [CVSMBF](CVSMBF.md)
-
-  
+#### SEE ALSO
+* MKSMBF$
+* [CVDMBF](./CVDMBF.md) , [CVSMBF](./CVSMBF.md)

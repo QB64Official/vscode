@@ -1,53 +1,68 @@
-# _TITLE
+## _TITLE
+---
 
-The _TITLE statement provides the program name in the title bar of the program window.
+### The _TITLE statement provides the program name in the title bar of the program window.
 
-  
+#### SYNTAX
 
-## Syntax
+`_TITLE text$`
 
-_TITLE *text$*
-  
+#### PARAMETERS
+* text$ can be any literal or variable [STRING](./STRING.md) or ASCII character value.
 
-## Parameters
 
-* *text$* can be any literal or variable [STRING](STRING.md) or [ASCII](ASCII.md) character value.
-
-  
-
-## Description
-
+#### DESCRIPTION
 * The title can be changed anywhere in a program procedure.
 * The title bar will say "Untitled" if a title is not set.
-* Change the title of the [$CONSOLE]($CONSOLE.md) windows created using [_CONSOLETITLE](_CONSOLETITLE.md)
-* **Note: A [delay](delay.md) may be required before the title can be set.** See [_SCREENEXISTS](_SCREENEXISTS.md).
+* Change the title of the $[CONSOLE](./CONSOLE.md) windows created using [_CONSOLETITLE](./_CONSOLETITLE.md)
+* Note: A delay may be required before the title can be set. See [_SCREENEXISTS](./_SCREENEXISTS.md) .
 
-  
 
-## Examples
-
-*Example 1:* How to create the window title bar.
-
-``` _TITLE "My New Program"  
+#### EXAMPLES
+##### Example 1: How to create the window title bar.
+```vb
+_TITLE "My New Program"
 ```
-
   
+##### Example 2: How to find the currently running program module name and current path using a Windows API Library.
+```vb
+_TITLE "My program"
+_DELAY 5             '5 second delay
 
-*Example 2:* How to find the currently running program module name and current path using a Windows API Library.
+_TITLE MID$(TITLE$, 1, INSTR(TITLE$, ".") - 1)
 
-``` _TITLE "My program" [_DELAY](_DELAY.md) 5             '5 second delay  _TITLE [MID$](MID$.md) "MID$ (function)")(TITLE$, 1, [INSTR](INSTR.md)(TITLE$, ".") - 1)  [PRINT](PRINT.md) PATH$   [FUNCTION](FUNCTION.md) TITLE$ '=== SHOW CURRENT PROGRAM [SHARED](SHARED.md) PATH$ [DECLARE LIBRARY](DECLARE LIBRARY.md) 'Directory Information using KERNEL32 provided by Dav   [FUNCTION](FUNCTION.md) GetModuleFileNameA ([BYVAL](BYVAL.md) Module [AS](AS.md) [LONG](LONG.md), FileName [AS](AS.md) [STRING](STRING.md), [BYVAL](BYVAL.md) nSize [AS](AS.md) [LONG](LONG.md)) [END DECLARE](END DECLARE.md)  FileName$ = [SPACE$](SPACE$.md)(256) Result = GetModuleFileNameA(0, FileName$, [LEN](LEN.md)(FileName$)) [IF](IF.md) Result [THEN](THEN.md)   PATH$ = [LEFT$](LEFT$.md)(FileName$, Result)   start = 1   DO     posit = [INSTR](INSTR.md)(start, PATH$, "\")     [IF](IF.md) posit [THEN](THEN.md) last = posit     start = posit + 1   [LOOP](LOOP.md) [UNTIL](UNTIL.md) posit = 0   TITLE$ = [MID$](MID$.md) "MID$ (function)")(PATH$, last + 1)   PATH$ = [LEFT$](LEFT$.md)(PATH$, last) [ELSE](ELSE.md) TITLE$ = "": PATH$ = "" [END IF](END IF.md) [END FUNCTION](END FUNCTION.md)  
+PRINT PATH$
+
+
+FUNCTION TITLE$ '=== SHOW CURRENT PROGRAM
+SHARED PATH$
+DECLARE LIBRARY 'Directory Information using KERNEL32 provided by Dav
+ FUNCTION GetModuleFileNameA (BYVAL Module AS LONG, FileName AS STRING, BYVAL nSize AS LONG)
+END DECLARE
+
+FileName$ = SPACE$(256)
+Result = GetModuleFileNameA(0, FileName$, LEN(FileName$))
+IF Result THEN
+ PATH$ = LEFT$(FileName$, Result)
+ start = 1
+ DO
+   posit = INSTR(start, PATH$, "\")
+   IF posit THEN last = posit
+   start = posit + 1
+ LOOP UNTIL posit = 0
+ TITLE$ = MID$(PATH$, last + 1)
+ PATH$ = LEFT$(PATH$, last)
+ELSE TITLE$ = "": PATH$ = ""
+END IF
+END FUNCTION
 ```
-
-*Note:* The actual module file name is returned. Not necessarily the Title value. The value returned can be used however.
   
 
-## See also
 
-* [_TITLE$](_TITLE$.md)
-* [_ICON](_ICON.md)
-* [_DELAY](_DELAY.md)
-* [ASCII](ASCII.md)
-* [_CONSOLETITLE](_CONSOLETITLE.md)
-* [_SCREENEXISTS](_SCREENEXISTS.md)
-
-  
+#### SEE ALSO
+* [_TITLE](./_TITLE.md)$
+* [_ICON](./_ICON.md)
+* [_DELAY](./_DELAY.md)
+* ASCII
+* [_CONSOLETITLE](./_CONSOLETITLE.md)
+* [_SCREENEXISTS](./_SCREENEXISTS.md)

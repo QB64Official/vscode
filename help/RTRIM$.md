@@ -1,43 +1,40 @@
-# RTRIM$
+## RTRIM$
+---
 
-The RTRIM$ function removes trailing space characters from a [STRING](STRING.md) value.
+### The RTRIM$ function removes trailing space characters from a STRING value.
 
-  
+#### SYNTAX
 
-## Syntax
+`return$ = RTRIM$ ( value$ )`
 
-*return$* = RTRIM$(*value$*)
-  
+#### DESCRIPTION
+* value$ is the [STRING](./STRING.md) value to trim.
+* If value$ contains no trailing space characters, value$ is returned unchanged.
+* Convert fixed length [STRING](./STRING.md) values by using a different return$ variable.
 
-## Description
 
-* *value$* is the [STRING](STRING.md) value to trim.
-* If *value$* contains no trailing space characters, *value$* is returned unchanged.
-* Convert fixed length [STRING](STRING.md) values by using a different *return$* variable.
-
-  
-
-## Examples
-
-Trimming a fixed length string value for use by another string variable:
-
-``` name$ = RTRIM$(contact.name) ' trims spaces from end of fixed length [TYPE](TYPE.md) value.  
+#### EXAMPLES
+##### Trimming a fixed length string value for use by another string variable:
+```vb
+name$ = RTRIM$(contact.name) ' trims spaces from end of fixed length TYPE value.
 ```
-
-Trimming text string ends:
-
-``` [PRINT](PRINT.md) RTRIM$("some text") + "." [PRINT](PRINT.md) RTRIM$("some text   ") + "." [PRINT](PRINT.md) RTRIM$("Tommy    ")  
+  
+##### Trimming text string ends:
+```vb
+PRINT RTRIM$("some text") + "."
+PRINT RTRIM$("some text   ") + "."
+PRINT RTRIM$("Tommy    ")
 ```
-
-``` some text. some text. Tommy  
+  
+```vb
+some text.
+some text.
+Tommy
 ```
-
   
 
-## See also
 
-* [Featured in our "Keyword of the Day" series](Featured in our "Keyword of the Day" series.md)
-* [_TRIM$](_TRIM$.md), [LTRIM$](LTRIM$.md), [STR$](STR$.md)
-* [LSET](LSET.md), [RSET](RSET.md)
-
-  
+#### SEE ALSO
+* Featured in our "Keyword of the Day" series
+* _TRIM$ , LTRIM$ , STR$
+* [LSET](./LSET.md) , [RSET](./RSET.md)

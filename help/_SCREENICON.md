@@ -1,31 +1,17 @@
-# _SCREENICON
+## _SCREENICON
+---
 
-The _SCREENICON statement can be used to minimize the main program window to the taskbar.
+### The _SCREENICON statement can be used to minimize the main program window to the taskbar.
 
-  
+#### SYNTAX
 
-## Syntax
+`_SCREENICON`
 
-_SCREENICON
-  
+#### DESCRIPTION
+* Use [_SCREENICON](./_SCREENICON.md) to minimize the main program window to the taskbar.
 
-## Description
 
-* Use _SCREENICON to minimize the main program window to the taskbar.
-
-  
-
-## Availability
-
-* **QB64 v1.0 and up**
-* **QB64-PE all versions**
-
-  
-
-## See also
-
-* [$SCREENHIDE]($SCREENHIDE.md), [$SCREENSHOW]($SCREENSHOW.md), [$CONSOLE]($CONSOLE.md)
-* [_SCREENHIDE](_SCREENHIDE.md), [_SCREENSHOW](_SCREENSHOW.md), [_CONSOLE](_CONSOLE.md)
-* [_SCREENICON (function)](_SCREENICON (function).md) "SCREENICON (function)")
-
-  
+#### SEE ALSO
+* $SCREENHIDE , $SCREENSHOW , $[CONSOLE](./CONSOLE.md)
+* [_SCREENHIDE](./_SCREENHIDE.md) , [_SCREENSHOW](./_SCREENSHOW.md) , [_CONSOLE](./_CONSOLE.md)
+* [_SCREENICON](./_SCREENICON.md) (function)

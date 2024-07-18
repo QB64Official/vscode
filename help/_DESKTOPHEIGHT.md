@@ -1,39 +1,27 @@
-# _DESKTOPHEIGHT
+## _DESKTOPHEIGHT
+---
 
-The _DESKTOPHEIGHT function returns the height of the users current desktop.
+### The _DESKTOPHEIGHT function returns the height of the users current desktop.
 
-  
+#### SYNTAX
 
-## Syntax
+`y& = _DESKTOPHEIGHT`
 
-*y&* = _DESKTOPHEIGHT
-  
-
-## Description
-
+#### DESCRIPTION
 * No parameters are needed for this function.
 * This returns the height of the user's desktop, not the size of any screen or window which might be open on that desktop.
 
-  
 
-## Availability
-
-* **QB64 v1.0 and up**
-* **QB64-PE all versions**
-
-  
-
-## Examples
-
-``` s& = [_NEWIMAGE](_NEWIMAGE.md)(800, 600, 256) [SCREEN](SCREEN.md) s& [PRINT](PRINT.md) [_DESKTOPWIDTH](_DESKTOPWIDTH.md), _DESKTOPHEIGHT [PRINT](PRINT.md) [_WIDTH](_WIDTH.md) "WIDTH (function)"), [_HEIGHT](_HEIGHT.md)  
+#### EXAMPLES
+```vb
+s& = _NEWIMAGE(800, 600, 256)
+SCREEN s&
+PRINT _DESKTOPWIDTH, _DESKTOPHEIGHT
+PRINT _WIDTH, _HEIGHT
 ```
-
-*Explanation:* This will print the size of the user desktop (for example *1920, 1080* for a standard hdmi monitor), and then the size of the current [screen](screen.md) (800, 600).
   
 
-## See also
 
-* [_HEIGHT](_HEIGHT.md), [_DESKTOPWIDTH](_DESKTOPWIDTH.md)
-* [_WIDTH](_WIDTH.md), [_SCREENIMAGE](_SCREENIMAGE.md)
-
-  
+#### SEE ALSO
+* [_HEIGHT](file:/home/grymmjack/git/QB64pe/internal/help/_HEIGHT.md) , [_DESKTOPWIDTH](file:/home/grymmjack/git/QB64pe/internal/help/_DESKTOPWIDTH.md)
+* [_WIDTH](file:/home/grymmjack/git/QB64pe/internal/help/_WIDTH.md) , [_SCREENIMAGE](file:/home/grymmjack/git/QB64pe/internal/help/_SCREENIMAGE.md)

@@ -1,35 +1,13 @@
-# RSET
+## RSET
+---
 
-The **RSET** statement right-justifies a string according to length of the string expression.
+### The RSET statement right-justifies a string according to length of the string expression.
 
-  
+#### SYNTAX
 
-## Syntax
+`RSET string_variable = string_expression`
 
-RSET string_variable = string_expression
-  
-
-* If the *string_expression* is longer than a fixed length string variable the value is truncated from the right side in [LSET](LSET.md) or RSET.
-* If the *string_expression* is smaller than the fixed length, spaces will occupy the extra positions in the string.
-* RSET can be used with a [FIELD](FIELD.md) or [TYPE](TYPE.md) string definition to set the buffer position before a [PUT](PUT.md).
-
-  
-
-*Example:*
-
-``` [CLS](CLS.md) [DIM](DIM.md) thestring [AS](AS.md) [STRING](STRING.md) * 10 [PRINT](PRINT.md) "12345678901234567890" RSET thestring = "Hello!" [PRINT](PRINT.md) thestring anystring$ = [SPACE$](SPACE$.md)(20) RSET anystring$ = "Hello again!" [PRINT](PRINT.md) anystring$ RSET thestring = "Over ten characters long" [PRINT](PRINT.md) thestring  
-```
-
-``` 12345678901234567890     Hello!         Hello Again! Over ten c  
-```
-
-*Explanation:* Notice how "Hello!" ends at the tenth position because the length of *thestring* is 10. When we used SPACE$(20) the length of *anystring$* became 20 so "Hello Again!" ended at the 20th position. That is right-justified. The last line "Over ten c" is truncated as it didn't fit into *thestring'*s length of only 10 characters.
-  
-
-## See also
-
-* [RTRIM$](RTRIM$.md), [FIELD](FIELD.md)
-* [LSET](LSET.md), [LTRIM$](LTRIM$.md)
-* [PUT](PUT.md), [GET](GET.md)
-
-  
+#### SEE ALSO
+* RTRIM$ , [FIELD](./FIELD.md)
+* [LSET](./LSET.md) , LTRIM$
+* [PUT](./PUT.md) , [GET](./GET.md)

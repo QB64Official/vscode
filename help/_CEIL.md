@@ -1,43 +1,28 @@
-# _CEIL
+## _CEIL
+---
 
-The _CEIL function rounds a numeric value up to the next whole number or [INTEGER](INTEGER.md) value.
+### The _CEIL function rounds a numeric value up to the next whole number or INTEGER value.
 
-  
+#### SYNTAX
 
-## Syntax
+`result = _CEIL ( expression )`
 
-*result* = _CEIL(*expression*)
-  
-
-* _CEIL returns he smallest integral value that is greater than the numerical *expression* (as a floating-point value).
-* This means that _CEIL rounds up for both positive and negative numbers.
-
-  
-
-## Availability
-
-* **QB64 v1.0 and up**
-* **QB64-PE all versions**
-
-  
-
-## Examples
-
-*Example:* Displaying the rounding behavior of [INT](INT.md), [CINT](CINT.md) and [FIX](FIX.md) vs _CEIL.
-
-``` [PRINT](PRINT.md) [INT](INT.md)(2.5), [CINT](CINT.md)(2.5), [FIX](FIX.md)(2.5), _CEIL(2.5) [PRINT](PRINT.md) [INT](INT.md)(-2.5), [CINT](CINT.md)(-2.5), [FIX](FIX.md)(-2.5), _CEIL(-2.5)  
+#### EXAMPLES
+##### Example: Displaying the rounding behavior of INT , CINT and FIX vs _CEIL .
+```vb
+PRINT INT(2.5), CINT(2.5), FIX(2.5), _CEIL(2.5)
+PRINT INT(-2.5), CINT(-2.5), FIX(-2.5), _CEIL(-2.5)
 ```
-
-```  2        2         2         3 -3       -2        -2        -2  
+  
+```vb
+2        2         2         3
+-3       -2        -2        -2
 ```
-
   
 
-## See also
 
-* [INT](INT.md), [FIX](FIX.md)
-* [CINT](CINT.md), [CLNG](CLNG.md),
-* [CSNG](CSNG.md), [CDBL](CDBL.md)
-* [_ROUND](_ROUND.md)
-
-  
+#### SEE ALSO
+* [INT](file:/home/grymmjack/git/QB64pe/internal/help/INT.md) , [FIX](file:/home/grymmjack/git/QB64pe/internal/help/FIX.md)
+* [CINT](file:/home/grymmjack/git/QB64pe/internal/help/CINT.md) , [CLNG](file:/home/grymmjack/git/QB64pe/internal/help/CLNG.md) ,
+* [CSNG](file:/home/grymmjack/git/QB64pe/internal/help/CSNG.md) , [CDBL](file:/home/grymmjack/git/QB64pe/internal/help/CDBL.md)
+* [_ROUND](file:/home/grymmjack/git/QB64pe/internal/help/_ROUND.md)

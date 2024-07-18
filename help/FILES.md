@@ -1,44 +1,35 @@
-# FILES
+## FILES
+---
 
-The FILES statement is used to print a list of files in the current directory using a file specification.
+### The FILES statement is used to print a list of files in the current directory using a file specification.
 
-  
+#### SYNTAX
 
-## Syntax
+`FILES [ fileSpec$ ]`
 
-FILES [*fileSpec$*]
-  
+#### DESCRIPTION
+* fileSpec$ is a string expression or variable containing a path when required.
+* fileSpec$ can use the * and ? wildcard specifications:
+	* * denotes one or more wildcard characters in a filename or path specification as any legal file name  character(s).
+	* ? denotes one wildcard letter in a filename or path specification as any legal filename character.
+* If fileSpec$ is omitted, it is assumed to be "*.*" (all files and folders in the current directory).
+* Illegal filename characters in QB64 include * > < : " | \ / with any amount of dot extensions being allowed in Windows.
+* [FILES](./FILES.md) lists can make the screen roll up. Try using [SHELL](./SHELL.md) "DIR" with the /P option. DIR command .
+* To get individual directory entries use _FILES$ instead.
 
-## Description
 
-* *fileSpec$* is a string expression or variable containing a path when required.
-* *fileSpec$* can use the * and ? wildcard specifications:
-	+ ***** denotes one or more wildcard characters in a filename or path specification as any legal file name character(s).
-	+ **?** denotes one wildcard letter in a filename or path specification as any legal filename character.
-* If *fileSpec$* is omitted, it is assumed to be **"*.*"** (all files and folders in the current directory).
-* Illegal filename characters in **QB64** include * > < : " | \ / with any amount of dot extensions being allowed in Windows.
-* FILES lists can make the screen roll up. Try using SHELL "DIR" with the /P option. [DIR command](DIR command.md).
-* To get individual directory entries use [_FILES$](_FILES$.md) instead.
-
-  
-
-## Examples
-
-*Example 1:* Finding a list of all BAS files in the current folder.
-
-``` FILES "*.BAS"  
+#### EXAMPLES
+```vb
+FILES "*.BAS"
 ```
-
   
 
-## See also
 
-* [_FILES$](_FILES$.md)
-* [SHELL](SHELL.md)
-* [CHDIR](CHDIR.md), [MKDIR](MKDIR.md)
-* [RMDIR](RMDIR.md), [KILL](KILL.md)
-* [_CWD$](_CWD$.md), [_STARTDIR$](_STARTDIR$.md)
-* [_FILEEXISTS](_FILEEXISTS.md), [_DIREXISTS](_DIREXISTS.md)
-* [$CONSOLE]($CONSOLE.md)
-
-  
+#### SEE ALSO
+* _FILES$
+* [SHELL](./SHELL.md)
+* [CHDIR](./CHDIR.md) , [MKDIR](./MKDIR.md)
+* [RMDIR](./RMDIR.md) , [KILL](./KILL.md)
+* _CWD$ , _STARTDIR$
+* [_FILEEXISTS](./_FILEEXISTS.md) , [_DIREXISTS](./_DIREXISTS.md)
+* $[CONSOLE](./CONSOLE.md)

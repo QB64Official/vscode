@@ -1,37 +1,31 @@
-# _FILEEXISTS
+## _FILEEXISTS
+---
 
-The **_FILEEXISTS** function determines if a designated file name exists and returns true (-1) or false (0).
+### The _FILEEXISTS function determines if a designated file name exists and returns true (-1) or false (0).
 
-  
+#### SYNTAX
 
-## Syntax
+`theFileExists% = _FILEEXISTS ( filename$ )`
 
-*theFileExists%* = _FILEEXISTS(*filename$*)
-  
-
-## Description
-
-* The *filename$* parameter can be a literal or variable [string](string.md) value that can include a path.
+#### DESCRIPTION
+* The filename$ parameter can be a literal or variable string value that can include a path.
 * The function returns -1 when a file exists and 0 when it does not.
-* The function reads the system information directly without using a [SHELL](SHELL.md) procedure.
-* The function will use the appropriate Operating System path separators. [_OS$](_OS$.md) can determine the operating system.
-* **This function does not guarantee that a file can be accessed or opened, just that it exists.**
+* The function reads the system information directly without using a [SHELL](./SHELL.md) procedure.
+* The function will use the appropriate Operating System path separators. _OS$ can determine the operating system.
+* This function does not guarantee that a file can be accessed or opened, just that it exists.
 
-  
 
-## Examples
-
-*Example:* Checks if a file exists before opening it.
-
-``` [IF](IF.md) _FILEEXISTS("mysettings.ini") [THEN](THEN.md)     [PRINT](PRINT.md) "Settings file found." [END IF](END IF.md)  
+#### EXAMPLES
+##### Example: Checks if a file exists before opening it.
+```vb
+IF _FILEEXISTS("mysettings.ini") THEN
+   PRINT "Settings file found."
+END IF
 ```
-
   
 
-## See also
 
-* [_DIREXISTS](_DIREXISTS.md), [_OS$](_OS$.md)
-* [SHELL](SHELL.md), [FILES](FILES.md)
-* [KILL](KILL.md)
-
-  
+#### SEE ALSO
+* [_DIREXISTS](./_DIREXISTS.md) , _OS$
+* [SHELL](./SHELL.md) , [FILES](./FILES.md)
+* [KILL](./KILL.md)

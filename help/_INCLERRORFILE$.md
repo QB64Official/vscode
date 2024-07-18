@@ -1,44 +1,49 @@
-# _INCLERRORFILE$
+## _INCLERRORFILE$
+---
 
-The _INCLERRORFILE$ function returns the name of the original source code [$INCLUDE]($INCLUDE.md) module that caused the most recent error.
+### The _INCLERRORFILE$ function returns the name of the original source code $INCLUDE module that caused the most recent error.
 
-  
+#### SYNTAX
 
-## Syntax
+`errfile$ = _INCLERRORFILE$`
 
-*errfile$* = _INCLERRORFILE$
-  
+#### DESCRIPTION
 
-## Description
 
-If the last error occurred in the main module, _INCLERRORFILE$ returns an empty string.
+#### EXAMPLES
+##### Example:
+```vb
+ON ERROR GOTO DebugLine
 
-  
+ERROR 250 'simulated error code - an error in the main module leaves _INCLERRORLINE empty (= 0)
 
-## Availability
+'$INCLUDE:'haserror.bi'
 
-* **Version 1.1 and up**.
+END
 
-  
-
-## Examples
-
-*Example:*
-
-``` [ON ERROR](ON ERROR.md) [GOTO](GOTO.md) DebugLine  [ERROR](ERROR.md) 250 'simulated error code - an error in the main module leaves _INCLERRORLINE empty (= 0)  '[$INCLUDE]($INCLUDE.md):'haserror.bi'  [END](END.md)  DebugLine: [PRINT](PRINT.md) "An error occurred. Please contact support with the following details: [PRINT](PRINT.md) "ERROR "; [ERR](ERR.md); " ON LINE: "; [_ERRORLINE](_ERRORLINE.md) [IF](IF.md) [_INCLERRORLINE](_INCLERRORLINE.md) [THEN](THEN.md)     [PRINT](PRINT.md) "    IN MODULE "; _INCLERRORFILE$; " (line"; [_INCLERRORLINE](_INCLERRORLINE.md); ")" [END IF](END IF.md) [RESUME](RESUME.md) [NEXT](NEXT.md)  
+DebugLine:
+PRINT "An error occurred. Please contact support with the following details:
+PRINT "ERROR "; ERR; " ON LINE: "; _ERRORLINE
+IF _INCLERRORLINE THEN
+   PRINT "    IN MODULE "; _INCLERRORFILE$; " (line"; _INCLERRORLINE; ")"
+END IF
+RESUME NEXT
 ```
+  
+```vb
+An error occurred. Please contact support with the following details:
+ERROR  250  ON LINE:  6
 
-``` An error occurred. Please contact support with the following details: ERROR  250  ON LINE:  6  An error occurred. Please contact support with the following details: ERROR  250  ON LINE:  9     IN MODULE haserror.bi ( line 1 )  
+An error occurred. Please contact support with the following details:
+ERROR  250  ON LINE:  9
+   IN MODULE haserror.bi ( line 1 )
 ```
-
   
 
-## See also
 
-* [_INCLERRORLINE](_INCLERRORLINE.md)
-* [ON ERROR](ON ERROR.md), [ERR](ERR.md)
-* [ERROR](ERROR.md)
-* [ERROR Codes](ERROR Codes.md)
-* [$INCLUDE]($INCLUDE.md)
-
-  
+#### SEE ALSO
+* [_INCLERRORLINE](./_INCLERRORLINE.md)
+* [ON](./ON.md) [ERROR](./ERROR.md) , [ERR](./ERR.md)
+* [ERROR](./ERROR.md)
+* [ERROR](./ERROR.md) Codes
+* $INCLUDE

@@ -1,47 +1,56 @@
-# _ROR
+## _ROR
+---
 
-The _ROR function is used to rotate the bits of a numerical value to the right. A rotation (or circular shift) is an operation similar to shift ([_SHL](_SHL.md) and [_SHR](_SHR.md)) except that the bits that fall off at one end are put back to the other end.
+### The _ROR function is used to rotate the bits of a numerical value to the right. A rotation (or circular shift) is an operation similar to shift ( _SHL and _SHR ) except that the bits that fall off at one end are put back to the other end.
 
-  
+#### SYNTAX
 
-## Syntax
+`result = _ROR ( numericalVariable , numericalValue )`
 
-*result* = _ROR(*numericalVariable*, *numericalValue*)
-  
-
-## Parameters
-
-* *numericalVariable* is the variable to shift the bits of and can be of the following types: [_BYTE](_BYTE.md), [INTEGER](INTEGER.md), [LONG](LONG.md), or [_INTEGER64](_INTEGER64.md).
-* Integer values can be signed or [_UNSIGNED](_UNSIGNED.md).
-* *numericalValue* is the number of places to rotate the bits.
+#### PARAMETERS
+* numericalVariable is the variable to shift the bits of and can be of the following types: [_BYTE](./_BYTE.md) , [INTEGER](./INTEGER.md) , [LONG](./LONG.md) , or [_INTEGER64](./_INTEGER64.md) .
+* Integer values can be signed or [_UNSIGNED](./_UNSIGNED.md) .
+* numericalValue is the number of places to rotate the bits.
 * While 0 is a valid value it will have no affect on the variable being rotated.
 
-  
 
-## Description
-
+#### DESCRIPTION
 * In right rotation, the bits that fall off at right end are put back at left end.
 * The type of variable used to store the results should match the type of the variable being shifted.
 
-  
 
-## Availability
+#### EXAMPLES
+```vb
+OPTION _EXPLICIT
 
-* **QB64-PE v3.1.0 and up**
+DIM a AS _UNSIGNED _BYTE
+DIM b AS _UNSIGNED INTEGER
+DIM c AS _UNSIGNED LONG
+DIM d AS _UNSIGNED _INTEGER64
 
-  
+a = &B11110000
+b = &B1111111100000000
+c = &B11111111111111110000000000000000
+d = &B1111111111111111111111111111111100000000000000000000000000000000
 
-## Examples
+DO
+   a = _ROR(a, 1)
+   b = _ROR(b, 1)
+   c = _ROR(c, 1)
+   d = _ROR(d, 1)
 
-``` [OPTION _EXPLICIT](OPTION _EXPLICIT.md)  [DIM](DIM.md) a [AS](AS.md) [_UNSIGNED](_UNSIGNED.md) [_BYTE](_BYTE.md) [DIM](DIM.md) b [AS](AS.md) [_UNSIGNED](_UNSIGNED.md) [INTEGER](INTEGER.md) [DIM](DIM.md) c [AS](AS.md) [_UNSIGNED](_UNSIGNED.md) [LONG](LONG.md) [DIM](DIM.md) d [AS](AS.md) [_UNSIGNED](_UNSIGNED.md) [_INTEGER64](_INTEGER64.md)  a = &B11110000 b = &B1111111100000000 c = &B11111111111111110000000000000000 d = &B1111111111111111111111111111111100000000000000000000000000000000  [DO](DO.md)     a = _ROR(a, 1)     b = _ROR(b, 1)     c = _ROR(c, 1)     d = _ROR(d, 1)      [LOCATE](LOCATE.md) 1, 1: [PRINT](PRINT.md) [RIGHT$](RIGHT$.md)([STRING$](STRING$.md)(8, "0") + [_BIN$](_BIN$.md)(a), 8);     [LOCATE](LOCATE.md) 2, 1: [PRINT](PRINT.md) [RIGHT$](RIGHT$.md)([STRING$](STRING$.md)(16, "0") + [_BIN$](_BIN$.md)(b), 16);     [LOCATE](LOCATE.md) 3, 1: [PRINT](PRINT.md) [RIGHT$](RIGHT$.md)([STRING$](STRING$.md)(32, "0") + [_BIN$](_BIN$.md)(c), 32);     [LOCATE](LOCATE.md) 4, 1: [PRINT](PRINT.md) [RIGHT$](RIGHT$.md)([STRING$](STRING$.md)(64, "0") + [_BIN$](_BIN$.md)(d), 64);      [_LIMIT](_LIMIT.md) 15 [LOOP](LOOP.md) [WHILE](WHILE.md) [_KEYHIT](_KEYHIT.md) <> 27  
+   LOCATE 1, 1: PRINT RIGHT$(STRING$(8, "0") + _BIN$(a), 8);
+   LOCATE 2, 1: PRINT RIGHT$(STRING$(16, "0") + _BIN$(b), 16);
+   LOCATE 3, 1: PRINT RIGHT$(STRING$(32, "0") + _BIN$(c), 32);
+   LOCATE 4, 1: PRINT RIGHT$(STRING$(64, "0") + _BIN$(d), 64);
+
+   _LIMIT 15
+LOOP WHILE _KEYHIT <> 27
 ```
-
   
 
-## See also
 
-* [_ROL](_ROL.md), [_SHL](_SHL.md), [_SHR](_SHR.md)
-* [_BYTE](_BYTE.md), [INTEGER](INTEGER.md)
-* [LONG](LONG.md), [_INTEGER64](_INTEGER64.md)
-
-  
+#### SEE ALSO
+* [_ROL](./_ROL.md) , [_SHL](./_SHL.md) , [_SHR](./_SHR.md)
+* [_BYTE](./_BYTE.md) , [INTEGER](./INTEGER.md)
+* [LONG](./LONG.md) , [_INTEGER64](./_INTEGER64.md)
