@@ -90,7 +90,7 @@ export function getQB64Word(editor: vscode.TextEditor): string {
  */
 export function getQB64WordFromDocument(document: vscode.TextDocument, position: vscode.Position): string {
 
-	const stop: string = " (+-=<>[{}]`);:.,%$#`&!\t";
+	const stop: string = " (+-=<>[{}]`);:.,%#`&!\t";
 	const lineOfCode = document.lineAt(position.line).text;
 	const cursorPostion = position.character + 1;
 	let retvalue: string = "";

@@ -5,6 +5,10 @@ All notable changes to the "QB64 PE" extension will be documented in this file.
 - Enhancements
   - Modify`tasks.json` to support QB64 PE.
 
+## 0.10.5
+- Fixes
+  - Fixed stripping of `$` from help file parser
+  
 ## 0.10.4
 - Enhancements
   - Fixed new markdown hover help for QB64 PE keywords up to version `3.13.1`
