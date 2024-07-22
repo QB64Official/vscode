@@ -7,7 +7,7 @@ const vscodeChannel: any = vscode.window.createOutputChannel("QB64PE: .vscode", 
 const createBackupChannel: any = vscode.window.createOutputChannel("QB64PE: Create Backup", "QB64PE");
 const decorateChannel: any = vscode.window.createOutputChannel("QB64PE: Decorate", "QB64PE");
 const definitionProviderChannel: any = vscode.window.createOutputChannel("QB64PE: Definition Provider", "QB64PE");
-const formatterhannel = vscode.window.createOutputChannel("QB64PE: Formatter", "QB64PE");
+const formatterChannel = vscode.window.createOutputChannel("QB64PE: Formatter", "QB64PE");
 const gitChannel: any = vscode.window.createOutputChannel("QB64PE: Git", "QB64PE");
 const helpChannel: any = vscode.window.createOutputChannel("QB64PE: Help", "QB64PE");
 const hoverProviderChannel: any = vscode.window.createOutputChannel("QB64PE: Hover Provider", "QB64PE");
@@ -58,7 +58,7 @@ export function getChannel(type: channelType) {
 			return createBackupChannel;
 
 		case channelType.formatter:
-			return formatterhannel;
+			return formatterChannel;
 
 		case channelType.openIncludeFile:
 			return openIncludeFileChannel;
@@ -86,11 +86,11 @@ export function getChannel(type: channelType) {
 /**
  * 
  * @param message Message to write to the output channel
- * @param outputChannnel The channel to write the message to.
+ * @param outputChannel The channel to write the message to.
  */
-export function writeLine(message: string, outputChannnel: any) {
-	if (outputChannnel) {
-		outputChannnel.appendLine(message);
+export function writeLine(message: string, outputChannel: any) {
+	if (outputChannel) {
+		outputChannel.appendLine(message);
 	} else {
 		console.log(message);
 	}

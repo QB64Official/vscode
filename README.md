@@ -19,7 +19,7 @@ A VSCode extension that adds support for [QB64 PE](https://www.qb64phoenix.com).
 * Build Only
 * Highlights TODOs in the comments
 * Box around (_)rgb(32) commands the color of the command.
-* `ctrl+alt+l` to run the lint - this is expermental.  Please report any issues.
+* `ctrl+alt+l` to run the lint - this is experimental.  Please report any issues.
 * Snippets
   - ifelse
   - ifthen
@@ -55,6 +55,6 @@ The VS Code for QB64PE extension is subject to these license terms. The source c
    - They have been edited for QB64
 * Followed for Decorations: https://vscode.rocks/decorations/
 * The todo list icon came from: https://www.iconfinder.com/search?q=todo&price=free&style=outline&license=gte__1
-* I just stright up stole the core of F5 anything and baked it in to get F5 working with out external extenstions
+* I just straight up stole the core of F5 anything and baked it in to get F5 working with out external extensions
   - https://github.com/discretegames/f5anything
 * To get an absolute from a relative is used code based off of https://www.geeksforgeeks.org/convert-relative-path-url-to-absolute-path-url-using-javascript/

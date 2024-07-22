@@ -213,50 +213,50 @@ export function createFiles() {
 		]
 	}`;
 
-	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.vscode);
+	let outputChannel: any = logFunctions.getChannel(logFunctions.channelType.vscode);
 	try {
 
 		if (!vscode.workspace.workspaceFolders || vscode.workspace.workspaceFolders.length < 1) {
-			logFunctions.writeLine("Cannot find working folder", outputChannnel);
+			logFunctions.writeLine("Cannot find working folder", outputChannel);
 		}
 		const vscodeFolder = vscode.workspace.workspaceFolders[0].uri.fsPath + "/.vscode";
 
-		logFunctions.writeLine("Checking for: " + vscodeFolder, outputChannnel);
+		logFunctions.writeLine("Checking for: " + vscodeFolder, outputChannel);
 		if (fs.existsSync(vscodeFolder)) {
-			logFunctions.writeLine("    Found", outputChannnel);
+			logFunctions.writeLine("    Found", outputChannel);
 		} else {
-			logFunctions.writeLine("Creating folder: " + vscodeFolder, outputChannnel);
+			logFunctions.writeLine("Creating folder: " + vscodeFolder, outputChannel);
 			fs.mkdirSync(vscodeFolder);
 		}
 
 		const launchFile = vscodeFolder + "/launch.json";
-		logFunctions.writeLine("Checking for: " + launchFile, outputChannnel);
+		logFunctions.writeLine("Checking for: " + launchFile, outputChannel);
 		if (fs.existsSync(launchFile)) {
-			logFunctions.writeLine("    Found", outputChannnel);
+			logFunctions.writeLine("    Found", outputChannel);
 		} else {
-			logFunctions.writeLine("Creating File: " + launchFile, outputChannnel);
+			logFunctions.writeLine("Creating File: " + launchFile, outputChannel);
 			fs.writeFileSync(launchFile, launchJson);
 		}
 
 		const settingsFile: string = vscodeFolder + "/settings.json";
-		logFunctions.writeLine("Checking for: " + settingsFile, outputChannnel);
+		logFunctions.writeLine("Checking for: " + settingsFile, outputChannel);
 		if (fs.existsSync(settingsFile)) {
-			logFunctions.writeLine("    Found", outputChannnel);
+			logFunctions.writeLine("    Found", outputChannel);
 		} else {
-			logFunctions.writeLine("Creating File: " + settingsFile, outputChannnel);
+			logFunctions.writeLine("Creating File: " + settingsFile, outputChannel);
 			fs.writeFileSync(settingsFile, settingsJson);
 		}
 
 		const buuildTaskFile: string = vscodeFolder + "/tasks.json";
-		logFunctions.writeLine("Checking for: " + buuildTaskFile, outputChannnel);
+		logFunctions.writeLine("Checking for: " + buuildTaskFile, outputChannel);
 		if (fs.existsSync(buuildTaskFile)) {
-			logFunctions.writeLine("    Found", outputChannnel);
+			logFunctions.writeLine("    Found", outputChannel);
 		} else {
-			logFunctions.writeLine("Creating File: " + buuildTaskFile, outputChannnel);
+			logFunctions.writeLine("Creating File: " + buuildTaskFile, outputChannel);
 			fs.writeFileSync(buuildTaskFile, tasksJson);
 		}
 
 	} catch (error) {
-		logFunctions.writeLine("ERROR: " + error, outputChannnel)
+		logFunctions.writeLine("ERROR: " + error, outputChannel)
 	}
 }

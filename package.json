@@ -31,7 +31,7 @@
             "files.trimTrailingWhitespace": true,
             "editor.formatOnSave": true,
             "editor.wordWrap": "off",
-            "editor.autoIndet": true,
+            "editor.autoIndent": true,
             "explorer.autoReveal": true
         }
     },
@@ -128,7 +128,7 @@
                     "default": false,
                     "description": "Format|Enable: Formatting"
                 },
-                "qb64pe.isFormatMetaComamndsMixedCaseEnabled": {
+                "qb64pe.isFormatMetaCommandsMixedCaseEnabled": {
                     "type": "boolean",
                     "default": true,
                     "description": "Format|Enable: Format meta commands as mixed case.  If isFormatEnabled is false this is also disabled."
@@ -141,7 +141,7 @@
                 "qb64pe.isCurrentRowHighlightEnabled": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Decorate|Enable: Hightlight the current row."
+                    "description": "Decorate|Enable: Highlight the current row."
                 },
                 "qb64pe.isTodoHighlightEnabled": {
                     "type": "boolean",
@@ -196,7 +196,7 @@
                 "qb64pe.formatMode": {
                     "type": "string",
                     "default": "Lower Case",
-                    "description": "How keywords are fomatted",
+                    "description": "How keywords are formatted",
                     "enum": [
                         "No Change",
                         "Lower Case",

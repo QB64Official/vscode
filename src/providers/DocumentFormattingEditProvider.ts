@@ -6,12 +6,12 @@ import { TokenInfo } from "../TokenInfo";
 // Code Formatter
 // Seems like a good place to find includes and make the double click to open work.
 export class DocumentFormattingEditProvider implements vscode.DocumentFormattingEditProvider {
-	outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.formatter);
+	outputChannel: any = logFunctions.getChannel(logFunctions.channelType.formatter);
 	//regexOperators = /\s+,|\(|\)|\+|-|=|<|>|\[|\]|\/|{|}|`|;|:|\*|:\s+/g;
 
 	/**
 	 * Add spaces around the operators
-	 * @param code Code Snipette
+	 * @param code Code Snippet
 	 * @returns 
 	 */
 	private addOperatorSpaces(code: string): string {
@@ -197,8 +197,8 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 		// const operators = ",(+-=<>[{}]`);:.";
 		const qb64Config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64pe");
-		const vscodeConig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
-		const indent = vscodeConig.get("insertSpaces") ? " ".repeat(vscodeConig.get("tabSize")) : "\t"
+		const vscodeConfig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("editor")
+		const indent = vscodeConfig.get("insertSpaces") ? " ".repeat(vscodeConfig.get("tabSize")) : "\t"
 
 		try {
 
@@ -213,7 +213,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 
 			for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
 
-				// logFunctions.writeLine(`Line Number: ${lineNumber}`, this.outputChannnel);
+				// logFunctions.writeLine(`Line Number: ${lineNumber}`, this.outputChannel);
 
 				if (token.isCancellationRequested) {
 					return null;
@@ -328,7 +328,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			}
 
 		} catch (error) {
-			logFunctions.writeLine(`ERROR in provideDocumentFormattingEdits: ${error}`, this.outputChannnel);
+			logFunctions.writeLine(`ERROR in provideDocumentFormattingEdits: ${error}`, this.outputChannel);
 		}
 		return retvalue;
 	}
@@ -341,7 +341,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			if (tokenCache.has(word.toLowerCase())) {
 				tokenInfo = tokenCache.get(word.toLowerCase());
 			} else {
-				tokenInfo = new TokenInfo(word, "", this.outputChannnel);
+				tokenInfo = new TokenInfo(word, "", this.outputChannel);
 				if (previousWord.toLowerCase() == "const") {
 					let spot: number = tokenInfo.WordFormatted.lastIndexOf(".")
 					if (spot > 1) {
@@ -364,7 +364,7 @@ export class DocumentFormattingEditProvider implements vscode.DocumentFormatting
 			if (tokenInfo) {
 				return tokenInfo.WordFormatted;
 			} else {
-				logFunctions.writeLine(`Unable to find ${word}`, this.outputChannnel)
+				logFunctions.writeLine(`Unable to find ${word}`, this.outputChannel)
 			}
 		}
 		return word;

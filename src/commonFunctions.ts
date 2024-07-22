@@ -36,16 +36,16 @@ export function escapeRegExp(text: string) { return text.replace(/[-[\]{}()*+?.,
  */
 export function getAbsolutePath(base: string, relative: string): string {
 	let work: string[] = base.split("/");
-	let relativeArrary = relative.split("/");
+	let relativeArray = relative.split("/");
 	work.pop(); // ignore the current file name (or no string)
 	// (ignore if "base" is the current folder without having slash in trail)
-	for (let i = 0; i < relativeArrary.length; i++) {
-		if (relativeArrary[i] == ".")
+	for (let i = 0; i < relativeArray.length; i++) {
+		if (relativeArray[i] == ".")
 			continue;
-		if (relativeArrary[i] == "..") {
+		if (relativeArray[i] == "..") {
 			work.pop();
 		} else {
-			work.push(relativeArrary[i]);
+			work.push(relativeArray[i]);
 		}
 	}
 	return work.join("/");
@@ -65,7 +65,7 @@ export function createRange(match: RegExpMatchArray, lineNumber: number, matchIn
 }
 
 /**
- * Gets the QB64PE word at the current curson postion in the current from the passed editor.
+ * Gets the QB64PE word at the current cursor position in the current from the passed editor.
  * @param editor 
  * @returns The selected word/word under the cursor
  */
@@ -83,20 +83,21 @@ export function getQB64Word(editor: vscode.TextEditor): string {
 }
 
 /**
- * * Gets the QB64PE word at the current postion in the passed document
+ * * Gets the QB64PE word at the current position in the passed document
  * @param document 
  * @param position 
  * @returns 
  */
 export function getQB64WordFromDocument(document: vscode.TextDocument, position: vscode.Position): string {
 
-	const stop: string = " (+-=<>[{}]`);:.,%#`&!\t";
+	const stop: string = " (+-=<>[{}]`);:.,%#`&!_\t";
 	const lineOfCode = document.lineAt(position.line).text;
-	const cursorPostion = position.character + 1;
+	//const cursorPosition = position.character + 1;
+	const cursorPosition = position.character;// + 1;
 	let retvalue: string = "";
 
-	// Get the first part of athe string
-	for (let i: number = cursorPostion - 1; i >= 0; i--) {
+	// Get the first part of the string
+	for (let i: number = cursorPosition - 1; i >= 0; i--) {
 		let currentChar = lineOfCode.substring(i - 1, i);
 		if (currentChar == "" || stop.indexOf(currentChar) > -1) {
 			break;
@@ -104,8 +105,8 @@ export function getQB64WordFromDocument(document: vscode.TextDocument, position:
 		retvalue = currentChar + retvalue;
 	}
 
-	// Get the last part of athe string
-	for (let i: number = cursorPostion; i <= lineOfCode.length; i++) {
+	// Get the last part of the string
+	for (let i: number = cursorPosition; i <= lineOfCode.length; i++) {
 		let currentChar = lineOfCode.substring(i - 1, i);
 		if (currentChar == "" || stop.indexOf(currentChar) > -1) {
 			break;

@@ -13,11 +13,11 @@ var diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createD
  * Runs the compiler/linter then calls lintCurrentFile with the output.
  */
 export function runLint() {
-	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
+	const outputChannel: any = logFunctions.getChannel(logFunctions.channelType.lint);
 
 	try {
 		if (!vscode.window.activeTextEditor) {
-			logFunctions.writeLine("Cannot find activeTextEditor", outputChannnel);
+			logFunctions.writeLine("Cannot find activeTextEditor", outputChannel);
 			return;
 		}
 
@@ -25,7 +25,7 @@ export function runLint() {
 		let compilerPath: string = config.get("compilerPath");
 
 		if (!compilerPath) {
-			logFunctions.writeLine("The QB64PE compiler path is not set.", outputChannnel);
+			logFunctions.writeLine("The QB64PE compiler path is not set.", outputChannel);
 			return;
 		}
 
@@ -50,39 +50,39 @@ export function runLint() {
 		}
 
 		const command = `${compilerPath} -c "${sourceCode}" -o "${binaryName}" -x -w `;
-		outputChannnel.clear();
+		outputChannel.clear();
 		if (config.get("isShowLintChannelEnabled")) {
-			outputChannnel.show(true)
+			outputChannel.show(true)
 		}
 
 		if (!fs.existsSync(binaryName)) {
-			logFunctions.writeLine(`File: ${binaryName} Not Found`, outputChannnel);
+			logFunctions.writeLine(`File: ${binaryName} Not Found`, outputChannel);
 			return;
 		}
 
-		logFunctions.writeLine(`Running: ${command}`, outputChannnel);
+		logFunctions.writeLine(`Running: ${command}`, outputChannel);
 
 		exec(command, (error, stdout, stderr) => {
 			if (error) {
-				logFunctions.writeLine(error.message, outputChannnel);
+				logFunctions.writeLine(error.message, outputChannel);
 			}
 			if (stderr) {
-				logFunctions.writeLine(stderr, outputChannnel);
+				logFunctions.writeLine(stderr, outputChannel);
 			}
 			if (stdout) {
-				logFunctions.writeLine(`${stdout}\n`, outputChannnel);
+				logFunctions.writeLine(`${stdout}\n`, outputChannel);
 				lintCurrentFile(stdout);
-				logFunctions.writeLine(`Delete file ${binaryName}`, outputChannnel);
+				logFunctions.writeLine(`Delete file ${binaryName}`, outputChannel);
 				if (sourceCode != binaryName) {
-					deleteFile(binaryName, outputChannnel);
+					deleteFile(binaryName, outputChannel);
 				}
 			} else {
-				logFunctions.writeLine("No stdout from qb64pe.exe found", outputChannnel);
+				logFunctions.writeLine("No stdout from qb64pe.exe found", outputChannel);
 			}
 		});
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR in runLint: ${error}`, outputChannnel);
+		logFunctions.writeLine(`ERROR in runLint: ${error}`, outputChannel);
 	}
 }
 
@@ -91,16 +91,16 @@ export function runLint() {
  * @param fileName {string} File to delete
  * @returns void
  */
-function deleteFile(fileName: string, outputChannnel: any) {
+function deleteFile(fileName: string, outputChannel: any) {
 	const { unlink } = require('fs/promises');
 	(async function (path) {
 		try {
 			if (fs.existsSync(path)) {
 				await unlink(path);
-				logFunctions.writeLine(`File ${path} Deleted`, outputChannnel)
+				logFunctions.writeLine(`File ${path} Deleted`, outputChannel)
 			}
 		} catch (error) {
-			logFunctions.writeLine(`ERROR in deleteFile: ${error.message}`, outputChannnel)
+			logFunctions.writeLine(`ERROR in deleteFile: ${error.message}`, outputChannel)
 		}
 	})(fileName);
 }
@@ -111,13 +111,13 @@ function deleteFile(fileName: string, outputChannnel: any) {
  * @returns void
  */
 function lintCurrentFile(compilerOutput: string) {
-	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.lint);
+	const outputChannel: any = logFunctions.getChannel(logFunctions.channelType.lint);
 	const lintSource = "QB64PE-lint"
 
 	try {
 		let document: vscode.TextDocument = vscode.window.activeTextEditor.document;
 		if (!document) {
-			outputChannnel.appendLine("Unable to find document");
+			outputChannel.appendLine("Unable to find document");
 			return;
 		}
 		let sourceCode: string[] = document.getText().split('\n')
@@ -212,7 +212,7 @@ function lintCurrentFile(compilerOutput: string) {
 				const tokens: string[] = lintLine.split(":");
 
 				if (path.basename(document.uri.fsPath) != tokens[0]) {
-					// Somehow highlight the file in the explorer view and maybel the include statement that goes with it.
+					// Somehow highlight the file in the explorer view and maybe the include statement that goes with it.
 					continue;
 				}
 				errorLineNumber = Number(tokens[1]) - 1;
@@ -232,6 +232,6 @@ function lintCurrentFile(compilerOutput: string) {
 		}
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR: ${error}`, outputChannnel);
+		logFunctions.writeLine(`ERROR: ${error}`, outputChannel);
 	}
 }

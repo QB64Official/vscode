@@ -126,8 +126,9 @@ function getAsciiChart() {
 	<body onload="init();">
 			References:
 			<p>
-				<a href="https://github.com/QB64Official/qb64/wiki/ASCII">QB64Official/qb64 ASCII</a><br>
-				<a href="https://github.com/QB64Official/qb64/wiki/Unicode">QB64Official/qb64 Unicode</a><br>
+			
+				<a href="https://qb64phoenix.com/qb64wiki/index.php/ASCII">QB64PE Wiki ASCII</a><br>
+				<a href="https://qb64phoenix.com/qb64wiki/index.php/Unicode">QB64PE Wiki Unicode</a><br>
 				<a href="https://www.compart.com/en/unicode">Unicode Compart</a>
 			</p>
 		
@@ -262,7 +263,7 @@ function getAsciiChart() {
 					<td title="Decimal: 112 | Hex: 70 | p | Lowercase p">p</td>
 				</tr>
 				<tr>
-					<td title="Decimal: 113 | Hex: 71 | p | Lowercase q">q</td>
+					<td title="Decimal: 113 | Hex: 71 | q | Lowercase q">q</td>
 					<td title="Decimal: 114 | Hex: 72 | r | Lowercase r">r</td>
 					<td title="Decimal: 115 | Hex: 73 | s | Lowercase s">s</td>
 					<td title="Decimal: 116 | Hex: 74 | t | Lowercase t">t</td>
@@ -367,59 +368,58 @@ function getAsciiChart() {
 					<td title="Decimal: 206 | Hex: CD | ═ | Box Drawings Double Horizontal">═</td>
 					<td title="Decimal: 207 | Hex: CE | ╬ | Box Drawings Double Vertical and Horizontal">╬</td>
 					<td title="Decimal: 208 | Hex: CF | ╧ | Box Drawings Up Single and Horizontal Double">╧</td>
-					<td title="Decimal: 209 | Hex: D0 | ╨ | Box Drawings Up Double and Horizontal Single">╨</td>
+					<td title="Decimal: 209 | Hex: D0 | ╥ | Box Drawings Up Double and Horizontal Single">╥</td>
 				</tr>
 				<tr>
 					<td title="Decimal: 210 | Hex: D1 | ╤ | Box Drawings Down Single and Horizontal Double">╤</td>
-					<td title="Decimal: 211 | Hex: D2 | ╥ | Box Drawings Down Double and Horizontal Single">╥</td>
-					<td title="Decimal: 212 | Hex: D3 | ╙ | Box Drawings Up Double and Right Single">╙</td>
-					<td title="Decimal: 213 | Hex: D4 | ╘ | Box Drawings Up Single and Right Double">╘</td>
-					<td title="Decimal: 214 | Hex: D5 | ╒ | Box Drawings Down Single and Right Double">╒</td>
-					<td title="Decimal: 215 | Hex: D6 | ╓ | Box Drawings Down Double and Right Single">╓</td>
-					<td title="Decimal: 216 | Hex: D7 | ╫ | Box Drawings Vertical Double and Horizontal Single">╫</td>
-					<td title="Decimal: 217 | Hex: D8 | ╪ | Box Drawings Vertical Single and Horizontal Double">╪</td>
-					<td title="Decimal: 218 | Hex: D9 | ┘ | Box Drawings Light Up and Left">┘</td>
-					<td title="Decimal: 219 | Hex: DA | ┌ | Box Drawings Light Down and Right">┌</td>
-					<td title="Decimal: 220 | Hex: DB | █ | Full Block">█</td>
-					<td title="Decimal: 221 | Hex: DC | ▄ | Lower Half Block">▄</td>
-					<td title="Decimal: 222 | Hex: DD | ▌ | Left Half Block">▌</td>
-					<td title="Decimal: 223 | Hex: DE | ▐ | Right Half Block">▐</td>
-					<td title="Decimal: 224 | Hex: DF | ▀ | Upper Half Block">▀</td>
-					<td title="Decimal: 225 | Hex: E0 | α | Greek Small Letter Alpha">α</td>
+					<td title="Decimal: 211 | Hex: D2 | ╙ | Box Drawings Down Double and Horizontal Single">╙</td>
+					<td title="Decimal: 212 | Hex: D4 | ╘ | Box Drawings Up Single and Right Double">╘</td>
+					<td title="Decimal: 213 | Hex: D5 | ╒ | Box Drawings Down Single and Right Double">╒</td>
+					<td title="Decimal: 214 | Hex: D6 | ╓ | Box Drawings Down Double and Right Single">╓</td>
+					<td title="Decimal: 215 | Hex: D7 | ╫ | Box Drawings Vertical Double and Horizontal Single">╫</td>
+					<td title="Decimal: 216 | Hex: D8 | ╪ | Box Drawings Vertical Single and Horizontal Double">╪</td>
+					<td title="Decimal: 217 | Hex: D9 | ┘ | Box Drawings Light Up and Left">┘</td>
+					<td title="Decimal: 218 | Hex: DA | ┌ | Box Drawings Light Down and Right">┌</td>
+					<td title="Decimal: 219 | Hex: DB | █ | Full Block">█</td>
+					<td title="Decimal: 220 | Hex: DC | ▄ | Lower Half Block">▄</td>
+					<td title="Decimal: 221 | Hex: DD | ▌ | Left Half Block">▌</td>
+					<td title="Decimal: 222 | Hex: DE | ▐ | Right Half Block">▐</td>
+					<td title="Decimal: 223 | Hex: DF | ▀ | Upper Half Block">▀</td>
+					<td title="Decimal: 224 | Hex: E0 | α | Greek Small Letter Alpha">α</td>
 				</tr>
 				<tr>
-					<td title="Decimal: 226 | Hex: E1 | ß | Latin Small Letter Sharp S">ß</td>
-					<td title="Decimal: 227 | Hex: E2 | Γ | Greek Capital Letter Gamma">Γ</td>
-					<td title="Decimal: 228 | Hex: E3 | π | Greek Small Letter Pi">π</td>
-					<td title="Decimal: 229 | Hex: E4 | Σ | Greek Capital Letter Sigma">Σ</td>
-					<td title="Decimal: 230 | Hex: E5 | σ | Greek Small Letter Sigma">σ</td>
-					<td title="Decimal: 231 | Hex: E6 | µ | Micro Sign">µ</td>
-					<td title="Decimal: 232 | Hex: E7 | τ | Greek Small Letter Tau">τ</td>
-					<td title="Decimal: 233 | Hex: E8 | Φ | Greek Capital Letter Phi">Φ</td>
-					<td title="Decimal: 234 | Hex: E9 | Θ | Greek Capital Letter Theta">Θ</td>
-					<td title="Decimal: 235 | Hex: EA | Ω | Greek Capital Letter Omega">Ω</td>
-					<td title="Decimal: 236 | Hex: EB | δ | Greek Small Letter Delta">δ</td>
-					<td title="Decimal: 237 | Hex: EC | ∞ | Infinity">∞</td>
-					<td title="Decimal: 238 | Hex: ED | φ | Greek Small Letter Phi">φ</td>
-					<td title="Decimal: 239 | Hex: EE | ε | Greek Small Letter Epsilon">ε</td>
-					<td title="Decimal: 240 | Hex: EF | ∩ | Intersection">∩</td>
-					<td title="Decimal: 241 | Hex: F0 | ≡ | Identical To">≡</td>
+					<td title="Decimal: 225 | Hex: E1 | ß | Latin Small Letter Beta">ß</td>
+					<td title="Decimal: 226 | Hex: E2 | Γ | Greek Capital Letter Gamma">Γ</td>
+					<td title="Decimal: 227 | Hex: E3 | π | Greek Small Letter Pi">π</td>
+					<td title="Decimal: 228 | Hex: E4 | Σ | Greek Capital Letter Sigma">Σ</td>
+					<td title="Decimal: 229 | Hex: E5 | σ | Greek Small Letter Sigma">σ</td>
+					<td title="Decimal: 230 | Hex: E6 | µ | Micro Sign">µ</td>
+					<td title="Decimal: 231 | Hex: E7 | τ | Greek Small Letter Tau">τ</td>
+					<td title="Decimal: 232 | Hex: E8 | Φ | Greek Capital Letter Phi">Φ</td>
+					<td title="Decimal: 233 | Hex: E9 | Θ | Greek Capital Letter Theta">Θ</td>
+					<td title="Decimal: 234 | Hex: EA | Ω | Greek Capital Letter Omega">Ω</td>
+					<td title="Decimal: 235 | Hex: EB | δ | Greek Small Letter Delta">δ</td>
+					<td title="Decimal: 236 | Hex: EC | ∞ | Infinity">∞</td>
+					<td title="Decimal: 237 | Hex: ED | φ | Greek Small Letter Phi">φ</td>
+					<td title="Decimal: 238 | Hex: EE | ε | Greek Small Letter Epsilon">ε</td>
+					<td title="Decimal: 239 | Hex: EF | ∩ | Intersection">∩</td>
+					<td title="Decimal: 240 | Hex: F0 | ≡ | Identical To">≡</td>
 				</tr>
 				<tr>
-					<td title="Decimal: 242 | Hex: F1 | ± | Plus-or-minus sign">±</td>
-					<td title="Decimal: 243 | Hex: F2 | ≥ | Greater than or equal to">≥</td>
-					<td title="Decimal: 244 | Hex: F3 | ≤ | Less than or equal to">≤</td>
-					<td title="Decimal: 245 | Hex: F4 | ⌠ | Top Half Integral">⌠</td>
-					<td title="Decimal: 246 | Hex: F5 | ⌡ | Bottom Half Integral">⌡</td>
-					<td title="Decimal: 247 | Hex: F6 | ÷ | Division">÷</td>
-					<td title="Decimal: 248 | Hex: F7 | ≈ | Approximately Equal">≈</td>
-					<td title="Decimal: 249 | Hex: F8 | ° | Degree">°</td>
-					<td title="Decimal: 250 | Hex: F9 | ∙ | Bullet">∙</td>
-					<td title="Decimal: 251 | Hex: FA | · | Middle Dot">·</td>
-					<td title="Decimal: 252 | Hex: FB | √ | Square root">√</td>
-					<td title="Decimal: 253 | Hex: FC | ⁿ | Superscript Latin Small Letter N">ⁿ</td>
-					<td title="Decimal: 254 | Hex: FD | ² | Squared">²</td>
-					<td title="Decimal: 255 | Hex: FE | ■ | ">■</td>
+					<td title="Decimal: 241 | Hex: F1 | ± | Plus-or-minus sign">±</td>
+					<td title="Decimal: 242 | Hex: F2 | ≥ | Greater than or equal to">≥</td>
+					<td title="Decimal: 243 | Hex: F3 | ≤ | Less than or equal to">≤</td>
+					<td title="Decimal: 244 | Hex: F4 | ⌠ | Top Half Integral">⌠</td>
+					<td title="Decimal: 245 | Hex: F5 | ⌡ | Bottom Half Integral">⌡</td>
+					<td title="Decimal: 246 | Hex: F6 | ÷ | Division">÷</td>
+					<td title="Decimal: 247 | Hex: F7 | ≈ | Approximately Equal">≈</td>
+					<td title="Decimal: 248 | Hex: F8 | ° | Degree">°</td>
+					<td title="Decimal: 249 | Hex: F9 | ∙ | Bullet">∙</td>
+					<td title="Decimal: 250 | Hex: FA | · | Middle Dot">·</td>
+					<td title="Decimal: 251 | Hex: FB | √ | Square root">√</td>
+					<td title="Decimal: 252 | Hex: FC | ⁿ | Superscript Latin Small Letter N">ⁿ</td>
+					<td title="Decimal: 253 | Hex: FD | ² | Squared">²</td>
+					<td title="Decimal: 254 | Hex: FE | ■ | ">■</td>
 					<td></td>
 					<td></td>
 				</tr>										

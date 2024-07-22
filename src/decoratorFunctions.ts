@@ -65,7 +65,7 @@ function getSubDecoration(): vscode.TextEditorDecorationType {
 		}
 
 		const config: any = vscode.workspace.getConfiguration("qb64pe");
-		let userFunctionColorRule: any = textMateRules.find(rule => rule.scope == 'userfunctions.QB64');
+		let userFunctionColorRule: any = textMateRules.find(rule => rule.scope == 'userfunctions.qb64');
 		let userFunctionColor: string = userFunctionColorRule ? userFunctionColorRule.settings.foreground : undefined;
 		let fontWeight: string = config.get("isBoldingSubsAndFunctionsEnabled") ? "bolder" : "normal";
 
@@ -95,7 +95,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 	}
 
 	const extension = vscode.extensions.getExtension('qb64pe.qb64');
-	const outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
+	const outputChannel: any = logFunctions.getChannel(logFunctions.channelType.decorator);
 
 	if (extension) { // Skip non QB64PE files.
 		const languageConfigurations: any[] = extension.packageJSON.contributes.languages;
@@ -115,7 +115,7 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 		}
 	}
 
-	const currrentLine: vscode.Position = editor.selection.active;
+	const currentLine: vscode.Position = editor.selection.active;
 	try {
 
 		const decorationTypeIncludeLeading: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({ color: 'rgb(68,140,255)' })
@@ -131,12 +131,12 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 
 		if (scanAllLines) {
 			const sourceCode = editor.document.getText().split('\n');
-			for (let currrentLineNumber = 0; currrentLineNumber < sourceCode.length; currrentLineNumber++) {
-				decorate(editor, currrentLineNumber, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands, isTodoHighlightEnabled, isRgbColorEnabled);
+			for (let currentLineNumber = 0; currentLineNumber < sourceCode.length; currentLineNumber++) {
+				decorate(editor, currentLineNumber, outputChannel, includeLeading, includeTrailing, todos, subs, metacommands, isTodoHighlightEnabled, isRgbColorEnabled);
 			}
 		} else {
-			if ((lastLine && (lastLine.line !== currrentLine.line))) {
-				decorate(editor, lastLine.line, outputChannnel, includeLeading, includeTrailing, todos, subs, metacommands, isTodoHighlightEnabled, isRgbColorEnabled);
+			if ((lastLine && (lastLine.line !== currentLine.line))) {
+				decorate(editor, lastLine.line, outputChannel, includeLeading, includeTrailing, todos, subs, metacommands, isTodoHighlightEnabled, isRgbColorEnabled);
 			}
 		}
 
@@ -158,12 +158,12 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 			editor.setDecorations(todoDecoration, todos);
 		}
 
-		if (currrentLine) {
+		if (currentLine) {
 			const config = vscode.workspace.getConfiguration("qb64pe");
 			if (config.get("isCurrentRowHighlightEnabled")) {
 				let current: vscode.Range[] = [new vscode.Range(
-					new vscode.Position(currrentLine.line, 0),
-					new vscode.Position(currrentLine.line, editor.document.lineAt(currrentLine.line).text.length))
+					new vscode.Position(currentLine.line, 0),
+					new vscode.Position(currentLine.line, editor.document.lineAt(currentLine.line).text.length))
 				];
 				editor.setDecorations(decorationTypeCurrentRow, []);
 				editor.setDecorations(decorationTypeCurrentRow, current);
@@ -171,10 +171,10 @@ export function scanFile(editor: any, scanAllLines: boolean) {
 		}
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR in scanFile: ${error}`, outputChannnel);
+		logFunctions.writeLine(`ERROR in scanFile: ${error}`, outputChannel);
 	} finally {
-		if (currrentLine) {
-			lastLine = currrentLine;
+		if (currentLine) {
+			lastLine = currentLine;
 		}
 	}
 }
@@ -183,14 +183,14 @@ export function scanFile(editor: any, scanAllLines: boolean) {
  * Decorate a line or loads the an array of decorations
  * @param editor 
  * @param lineNumber Line Number in the code file.
- * @param outputChannnel Channel to write mesages to
+ * @param outputChannel Channel to write messages to
  * @param includeLeading 
  * @param includeTrailing 
  * @param todos Array of To do decorations 
  * @param subs Array of subs/functions decorations
  * @returns 
  */
-function decorate(editor: any, lineNumber: number, outputChannnel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[], metacommands: vscode.Range[], isTodoHighlightEnabled: boolean, isRgbColorEnabled: boolean) {
+function decorate(editor: any, lineNumber: number, outputChannel: any, includeLeading: vscode.Range[], includeTrailing: vscode.Range[], todos: vscode.Range[], subs: vscode.Range[], metacommands: vscode.Range[], isTodoHighlightEnabled: boolean, isRgbColorEnabled: boolean) {
 
 	let lineOfCode: string = editor.document.lineAt(lineNumber).text;
 
@@ -219,13 +219,13 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 			}
 			return;
 		}
-		//logFunctions.writeLine(`decorate(${lineNumber + 1}) | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannnel);
+		//logFunctions.writeLine(`decorate(${lineNumber + 1}) | editor.selection.active.line: ${editor.selection.active.line} | Code: ${lineOfCode}`, outputChannel);
 
 		if (isRgbColorEnabled) {
 			const matches = lineOfCode.matchAll(/(?<=rgb|rgb32)(\()[ 0-9]+(,[ 0-9]+)+(,[ 0-9]+)+(\))/ig);
 			if (matches) {
 				for (const match of matches) {
-					logFunctions.writeLine(`lineNumber: ${lineNumber} | RGB Match Found at Column: ${match.index}`, outputChannnel);
+					logFunctions.writeLine(`lineNumber: ${lineNumber} | RGB Match Found at Column: ${match.index}`, outputChannel);
 					let rgb: string[] = match[0].substring(match[0].indexOf("(") + 1).replace(")", "").split(",");
 					let work: vscode.Range[] = [commonFunctions.createRange(match, lineNumber, 0)];
 					let colorDec = vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(${rgb[red]},${rgb[green]},${rgb[blue]})`, borderRadius: "5px" });
@@ -254,7 +254,7 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		let matches = lineOfCode.matchAll(/\b(as)\s+(\b\w+)/ig);
 		if (matches) {
 			for (const match of matches) {
-				logFunctions.writeLine(`lineNumber: ${lineNumber} | AS Match Found at Column: ${match.index}`, outputChannnel);
+				logFunctions.writeLine(`lineNumber: ${lineNumber} | AS Match Found at Column: ${match.index}`, outputChannel);
 				let work: vscode.Range[] = [commonFunctions.createRange(match, lineNumber, 0)];
 				let colorDec = vscode.window.createTextEditorDecorationType({ border: `2px solid rgb(0,255,0)`, borderRadius: "10px" });
 				editor.setDecorations(colorDec, work);
@@ -265,7 +265,7 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		let matches = lineOfCode.matchAll(/(?<=\W|^)(REM|'|\$DYNAMIC|\$STATIC|Option _Explicit|Option Explicit|option _explicitarray|option explicitarray|\$RESIZE:ON|\$RESIZE:OFF|\$RESIZE:STRETCH|\$RESIZE:SMOOTH|\$ASSERTS|\$Noprefix|\$CHECKING|\$COLOR|\$CONSOLE:ONLY|\$CONSOLE:ON|\$CONSOLE:OFF|\$CONSOLE|\$DEBUG|\$ERROR|\$EXEICON:|\$LET|\$IF|\$ELSEIF|\$END IF|\$SCREENHIDE|\$SCREENSHOW|\$VIRTUALKEYBOARD|\$VERSIONINFO:Comments|\$VERSIONINFO:CompanyName|\$VERSIONINFO:FileDescription|\$VERSIONINFO:FileVersion|\$VERSIONINFO:InternalName|\$VERSIONINFO:LegalCopyright|\$VERSIONINFO:LegalTrademarks|\$VERSIONINFO:OriginalFilename|\$VERSIONINFO:ProductName|\$VERSIONINFO:ProductVersion|\$VERSIONINFO:Web)(?=\W|$)/ig);
 		if (matches) {
 			for (const match of matches) {
-				logFunctions.writeLine(`lineNumber: ${lineNumber} | MetaCommand Match Found at Column: ${match.index}`, outputChannnel);
+				logFunctions.writeLine(`lineNumber: ${lineNumber} | MetaCommand Match Found at Column: ${match.index}`, outputChannel);
 				metacommands.push(commonFunctions.createRange(match, lineNumber, 0));
 			}
 		}
@@ -276,7 +276,7 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 			for (let tokenIndex = 0; tokenIndex < tokens.length; tokenIndex++) {
 				const sub = symbolCache.find((s) => s.name && s.name === tokens[tokenIndex].trim().toLowerCase().replace(/(call|gosub|goto|:)$/i, ""));
 				if (sub) {
-					// Typescritpt regex sucks.
+					// TypeScript regex sucks.
 					// Remove the comments from the line and parse that.
 					const codeWithoutComments = lineOfCode.replace(/'.*$/, '').trimEnd();
 					let subName = commonFunctions.escapeRegExp(sub.name)
@@ -300,6 +300,6 @@ function decorate(editor: any, lineNumber: number, outputChannnel: any, includeL
 		}
 
 	} catch (error) {
-		logFunctions.writeLine(`ERROR in decorate: ${error}`, outputChannnel);
+		logFunctions.writeLine(`ERROR in decorate: ${error}`, outputChannel);
 	}
 }

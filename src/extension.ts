@@ -2,7 +2,7 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import * as gitFunctions from "./gitFunctions";
-import * as vscodeFucnctions from "./vscodeFunctions";
+import * as vscodeFunctions from "./vscodeFunctions";
 import * as decoratorFunctions from "./decoratorFunctions";
 import * as lintFunctions from "./lintFunctions";
 import * as logFunctions from "./logFunctions";
@@ -19,7 +19,7 @@ import { DocumentFormattingEditProvider } from "./providers/DocumentFormattingEd
 import { HoverProvider } from "./providers/HoverProvider";
 import { TodoTreeProvider } from "./TodoTreeProvider";
 
-// To swith to debug mode the scripts in the package.json need to be changed.
+// To switch to debug mode the scripts in the package.json need to be changed.
 // https://code.visualstudio.com/api/working-with-extensions/bundling-extension#Publishing
 
 // TODO: Get the TODOs window working.
@@ -77,7 +77,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	// context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("qb64pe", new DebugAdapterDescriptorFactory()));
 
 	decoratorFunctions.setupDecorate();
-	vscodeFucnctions.createFiles();
+	vscodeFunctions.createFiles();
 	gitFunctions.createGitignore();
 
 	let tempPath: string = config.get('helpPath')
@@ -246,7 +246,7 @@ export function runLint() {
  * @returns True if the file was created
  */
 function createBackup() {
-	let outputChannnel: any = logFunctions.getChannel(logFunctions.channelType.createBackup);
+	let outputChannel: any = logFunctions.getChannel(logFunctions.channelType.createBackup);
 	try {
 
 		if (!vscode.window.activeTextEditor || vscode.window.activeTextEditor.document.languageId != "QB64PE") {
@@ -261,12 +261,12 @@ function createBackup() {
 
 		let source = vscode.window.activeTextEditor.document.fileName
 		let backupFile = source + "-bak";
-		outputChannnel.appendLine(`Tying to copy ${source} to ${backupFile}`);
+		outputChannel.appendLine(`Trying to copy ${source} to ${backupFile}`);
 		fs.copyFileSync(source, backupFile)
-		outputChannnel.appendLine(`File ${source} copied to ${backupFile}`);
+		outputChannel.appendLine(`File ${source} copied to ${backupFile}`);
 		return true;
 	} catch (error) {
-		outputChannnel.appendLine(`ERROR: in createBackup:  ${error}`);
+		outputChannel.appendLine(`ERROR: in createBackup:  ${error}`);
 		return false;
 	}
 }
