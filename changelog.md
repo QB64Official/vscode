@@ -7,6 +7,7 @@ All notable changes to the "QB64 PE" extension will be documented in this file.
 
 ## 0.10.5
 - Fixes
+  - Fixed ASCII chart offset issue
   - Fixed all known typos and spelling errors
   - Fixed stripping of `$` from help file parser
   
