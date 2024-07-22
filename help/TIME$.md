@@ -1,64 +1,104 @@
-## TIME$
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [TIME\$](TIME\$.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/TIME$)
 ---
+<blockquote>
 
 ### The TIME$ Function returns a STRING representation of the current computer time in a 24 hour format.
 
+</blockquote>
+
 #### SYNTAX
+
+<blockquote>
 
 `PRINT "Present time = "; TIME$`
 
+</blockquote>
+
 #### DESCRIPTION
-* Returns the present computer time in hh:mm:ss 24 hour format: "19:20:33"
-* Uses 2 colon (:) separators between hours, minutes and seconds
-* Hour values range from "00" to "23" starting from midnite.
-* Minutes and seconds range from "00" to "59"
-* Continuous TIME$ calls may lag if a QBasic program is minimized to the taskbar!
+
+<blockquote>
+
+*  Returns the present computer time in hh:mm:ss 24 hour format: "19:20:33"
+*  Uses 2 colon (:) separators between hours, minutes and seconds
+*  Hour values range from "00" to "23" starting from midnite.
+*  Minutes and seconds range from "00" to "59"
+*  Continuous TIME$ calls may lag if a QBasic program is minimized to the taskbar!
 
 
-#### EXAMPLES
-##### Example 1: A simple clock using DRAW with Turn Angle.
-```vb
-SCREEN 12
-DO
-   CLS
-   t$ = TIME$: h = VAL(t$): m = VAL(MID$(t$, 4, 2)): s = VAL(MID$(t$, 7, 2))
-   PRINT t$
-   CIRCLE STEP(0, 0), 200, 8
-   DRAW "c12ta" + STR$((h MOD 12) * -30) + "nu133"
-   DRAW "c14ta" + STR$(m * -6) + "nu200"
-   DRAW "c9ta" + STR$(s * -6) + "nu200"
-   _DISPLAY
-   _LIMIT 1
-LOOP UNTIL INKEY$ = CHR$(27)
-```
-  
-##### Example 2: The following Function converts TIME$ to normal 12 hour AM-PM digital clock  format.
-```vb
-PRINT TIME$
-PRINT Clock$
-
-FUNCTION Clock$
-hour$ = LEFT$(TIME$, 2): H% = VAL(hour$)
-min$ = MID$(TIME$, 3, 3)
-IF H% >= 12 THEN ampm$ = " PM" ELSE ampm$ = " AM"
-IF H% > 12 THEN
- IF H% - 12 < 10 THEN hour$ = STR$(H% - 12) ELSE hour$ = LTRIM$(STR$(H% - 12))
-ELSEIF H% = 0 THEN hour$ = "12"          ' midnight hour
-ELSE : IF H% < 10 THEN hour$ = STR$(H%)  ' eliminate leading zeros
-END IF
-Clock$ = hour$ + min$ + ampm$
-END FUNCTION
-```
-  
-```vb
-14:13:36
-2:13 PM
-```
-  
-
+</blockquote>
 
 #### SEE ALSO
-* [TIMER](./TIMER.md) (function)
-* DATE$ , [IF](./IF.md)...[THEN](./THEN.md)
-* [VAL](./VAL.md) , STR$ , MID$ (function)
-* LEFT$ , RIGHT$
+
+<blockquote>
+
+*  [TIMER](TIMER.md)  (function)
+*  DATE$ , [IF](IF.md) ... [THEN](THEN.md) 
+*  [VAL](VAL.md)  , STR$ , MID$ (function)
+*  LEFT$ , [RIGHT\$](RIGHT\$.md) 
+
+</blockquote>

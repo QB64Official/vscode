@@ -1,18 +1,107 @@
-## THEN
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [THEN](THEN.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/THEN)
 ---
+<blockquote>
 
 ### THEN is required in IF...THEN conditional evaluation statements.
 
+</blockquote>
+
 #### SYNTAX
+
+<blockquote>
 
 `IF condition THEN execute_code`
 
-#### DESCRIPTION
-* [THEN](./THEN.md) is required on the same code line as the [IF](./IF.md) statement.
-* The condition value must be true(-1) or <> 0 for the statement code to be executed.
+</blockquote>
 
+#### DESCRIPTION
+
+<blockquote>
+
+*  [THEN](THEN.md)  is required on the same code line as the [IF](IF.md)  statement.
+*  The condition value must be true(-1) or <> 0 for the statement code to be executed.
+
+
+</blockquote>
+
+#### EXAMPLES
+
+<blockquote>
+
+
+</blockquote>
 
 #### SEE ALSO
-* [IF](./IF.md)...[THEN](./THEN.md)
-* [ELSE](./ELSE.md) , [ELSEIF](./ELSEIF.md)
-* [END](./END.md) [IF](./IF.md)
+
+<blockquote>
+
+*  [IF](IF.md) ... [THEN](THEN.md) 
+*  [ELSE](ELSE.md)  , [ELSEIF](ELSEIF.md) 
+*  [END](END.md) [IF](IF.md) 
+
+</blockquote>

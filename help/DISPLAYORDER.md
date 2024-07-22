@@ -1,0 +1,122 @@
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [_DISPLAYORDER](DISPLAYORDER.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/_DISPLAYORDER)
+---
+<blockquote>
+
+### The _DISPLAYORDER statement defines the order to render software, hardware and custom-OpenGL-code.
+
+</blockquote>
+
+#### SYNTAX
+
+<blockquote>
+
+`_DISPLAYORDER [{_SOFTWARE|_HARDWARE|_HARDWARE1|_GLRENDER}][, ...][, ...][, ...][, ...]`
+
+</blockquote>
+
+#### PARAMETERS
+
+<blockquote>
+
+*  [_SOFTWARE](SOFTWARE.md)  refers to software created surfaces or SCREENs .
+*  [_HARDWARE](HARDWARE.md)  and [_HARDWARE1](HARDWARE1.md)  refer to surfaces created by OpenGL hardware acceleration.
+*  [_GLRENDER](GLRENDER.md)  refers to OpenGL code rendering order
+
+</blockquote>
+
+#### DESCRIPTION
+
+<blockquote>
+
+*  The default on program start [IS](IS.md) : [_DISPLAYORDER](DISPLAYORDER.md) [_SOFTWARE](SOFTWARE.md) , [_HARDWARE](HARDWARE.md) , [_GLRENDER](GLRENDER.md) , [_HARDWARE1](HARDWARE1.md) 
+*  Any content or combination order is allowed, except listing the same content twice consecutively.
+*  Simply using [_DISPLAYORDER](DISPLAYORDER.md) [_HARDWARE](HARDWARE.md)  will render hardware surfaces only.
+*  Use an underscore to continue a code line on a new text row in the IDE.
+*  After [_DISPLAYORDER](DISPLAYORDER.md)  has been used, it must be used to make any changes, even to default.
+
+
+</blockquote>
+
+#### EXAMPLES
+
+<blockquote>
+
+
+</blockquote>
+
+#### SEE ALSO
+
+<blockquote>
+
+*  [_DISPLAY](DISPLAY.md) 
+*  [_PUTIMAGE](PUTIMAGE.md) 
+*  [_LOADIMAGE](LOADIMAGE.md) 
+*  [_COPYIMAGE](COPYIMAGE.md) 
+*  Hardware images
+
+</blockquote>

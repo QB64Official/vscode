@@ -1,107 +1,115 @@
-## COLOR
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [COLOR](COLOR.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/COLOR)
 ---
+<blockquote>
 
 ### The COLOR statement is used to change the foreground and background colors for printing text.
 
+</blockquote>
+
 #### SYNTAX
+
+<blockquote>
 
 `COLOR [ foreground& ][, background& ]`
 
+</blockquote>
+
 #### DESCRIPTION
-* background& colors are available in all QB64 color [SCREEN](./SCREEN.md) modes.
-* [SCREEN](./SCREEN.md) mode 10 has only 3 white foreground attributes including flashing.
-* To change the background& color only, use a comma and the desired color. Ex: [COLOR](./COLOR.md) , background&
-* Graphic drawing statements like [PSET](./PSET.md) , [PRESET](./PRESET.md) , [LINE](./LINE.md) , etc, also use the colors set by the [COLOR](./COLOR.md) statement if no color is passed when they are called.
-* The $[COLOR](./COLOR.md) metacommand adds named color constants for both text and 32-bit modes.
+
+<blockquote>
+
+*  background& colors are available in all QB64 color [SCREEN](SCREEN.md)  modes.
+*  [SCREEN](SCREEN.md)  mode 10 has only 3 white foreground attributes including flashing.
+*  To change the background& [COLOR](COLOR.md)  only, use a comma and the desired [COLOR](COLOR.md) . Ex: [COLOR](COLOR.md)  , background&
+*  Graphic drawing statements like [PSET](PSET.md)  , [PRESET](PRESET.md)  , [LINE](LINE.md)  , etc, also use the colors set by the [COLOR](COLOR.md)  statement if no [COLOR](COLOR.md)  is passed when they are called.
+*  The $COLOR metacommand adds named color constants for both text and 32-bit modes.
 
 
-#### EXAMPLES
-##### Example 1: Reading the default RGB color settings of color attribute 15.
-```vb
-OUT &H3C7, 15
-red% = INP(&H3C9)
-green% = INP(&H3C9)
-blue% = INP(&H3C9)
-PRINT red%, green%, blue%
-```
-  
-```vb
-63       63       63
-```
-  
-##### Example 2: Changing the color settings of attribute 0 (the background) to blue in SCREENs 12 or 13.
-```vb
-SCREEN 12
-OUT &H3C8, 0          'set color port attribute to write
-OUT &H3C9, 0          'red intensity
-OUT &H3C9, 0          'green intensity
-OUT &H3C9, 42         'blue intensity
-
-OUT &H3C7, 0
-PRINT INP(&H3C9); INP(&H3C9); INP(&H3C9)
-END
-```
-  
-```vb
-0  0  42
-```
-  
-##### Example 3: Printing in fullscreen SCREEN 0 mode with a color background under the text only.
-```vb
-SCREEN 0: _FULLSCREEN ' used for fullscreen instead of window
-COLOR 14, 6: LOCATE 4, 4: PRINT "Hello!"
-```
-  
-```vb
-Hello!
-```
-  
-##### Example 4: Using CLS after setting the background color in SCREEN 0 to make the color cover the entire screen.
-```vb
-SCREEN 0: _FULLSCREEN
-COLOR , 7: CLS
-COLOR 9: PRINT "Hello"
-```
-  
-```vb
-Hello
-```
-  
-##### Example 5: Using a different foreground color for each letter:
-```vb
-SCREEN 0
-COLOR 1: PRINT "H";
-COLOR 3: PRINT "E";
-COLOR 4: PRINT "L";
-COLOR 5: PRINT "L";
-COLOR 6: PRINT "O"
-COLOR 9: PRINT "W";
-COLOR 11: PRINT "O";
-COLOR 12: PRINT "R";
-COLOR 13: PRINT "L";
-COLOR 14: PRINT "D"
-```
-  
-```vb
-HELLO
-WORLD
-```
-  
-
+</blockquote>
 
 #### SEE ALSO
-* $[COLOR](./COLOR.md) (metacommand)
-* [_RGB](./_RGB.md) , [_RGBA](./_RGBA.md) , [_RGB32](./_RGB32.md) , RGBA32 .
-* [_RED](./_RED.md) , [_GREEN](./_GREEN.md) , [_BLUE](./_BLUE.md)
-* [_RED32](./_RED32.md) , [_GREEN32](./_GREEN32.md) , [_BLUE32](./_BLUE32.md)
-* [_ALPHA](./_ALPHA.md) , [_ALPHA32](./_ALPHA32.md) , [_CLEARCOLOR](./_CLEARCOLOR.md)
-* [PRINT](./PRINT.md) , [LOCATE](./LOCATE.md) , [SCREEN](./SCREEN.md)
-* [POINT](./POINT.md) , [SCREEN](./SCREEN.md) (function)
-* [OUT](./OUT.md) , [INP](./INP.md) , [PALETTE](./PALETTE.md)
-* [_BLINK](./_BLINK.md)
-* [_DEFAULTCOLOR](./_DEFAULTCOLOR.md)
-* [_BACKGROUNDCOLOR](./_BACKGROUNDCOLOR.md)
-* [_PALETTECOLOR](./_PALETTECOLOR.md)
-* Color Dialog Box
-* $[COLOR](./COLOR.md):0 Name Table
-* $[COLOR](./COLOR.md):32 Name Table
+
+<blockquote>
+
+*  $COLOR (metacommand)
+*  [_RGB](RGB.md)  , [_RGBA](RGBA.md)  , [_RGB32](RGB32.md)  , RGBA32 .
+*  [_RED](RED.md)  , [_GREEN](GREEN.md)  , [_BLUE](BLUE.md) 
+*  [_RED32](RED32.md)  , [_GREEN32](GREEN32.md)  , [_BLUE32](BLUE32.md) 
+*  [_ALPHA](ALPHA.md)  , [_ALPHA32](ALPHA32.md)  , [_CLEARCOLOR](CLEARCOLOR.md) 
+*  [PRINT](PRINT.md)  , [LOCATE](LOCATE.md)  , [SCREEN](SCREEN.md) 
+*  [POINT](POINT.md)  , [SCREEN](SCREEN.md)  (function)
+*  [OUT](OUT.md)  , [INP](INP.md)  , [PALETTE](PALETTE.md) 
+*  [_BLINK](BLINK.md) 
+*  [_DEFAULTCOLOR](DEFAULTCOLOR.md) 
+*  [_BACKGROUNDCOLOR](BACKGROUNDCOLOR.md) 
+*  [_PALETTECOLOR](PALETTECOLOR.md) 
+*  Color Dialog Box
+*  $COLOR:0 Name Table
+*  $COLOR:32 Name Table
+
+</blockquote>

@@ -1,46 +1,102 @@
-## LPOS
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [LPOS](LPOS.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/LPOS)
 ---
+<blockquote>
 
 ### The LPOS function returns the current LPT printer head position.
 
+</blockquote>
+
 #### SYNTAX
+
+<blockquote>
 
 `result% = LPOS ( index% )`
 
+</blockquote>
+
 #### DESCRIPTION
-* index% is the index of the printer, which can have the following values:
+
+<blockquote>
+
+*  index% is the index of the printer, which can have the following values:
 	* 0 - LPT1:
 	* 1 - LPT1:
 	* 2 - LPT2:
 	* 3 - LPT3:
-* The [LPOS](./LPOS.md) function does not necessarily give the physical position of the print head because it does not expand tab characters. In addition, some printers may buffer characters.
+*  The [LPOS](LPOS.md)  function does not necessarily give the physical position of the print head because it does not expand tab characters. In addition, some printers may buffer characters.
 
 
-#### EXAMPLES
-```vb
-CLS
-LPRINT "Team Members"; TAB(76); "TEAM" : LPRINT
-INPUT "How many teams"; TEAMS
-INPUT "How many players per team";PPT
-PRINT
-FOR T = 1 TO TEAMS
-   INPUT "Team name: ", TEAM$
-   FOR P = 1 TO PPT
-       INPUT "   Enter player name: ", PLAYER$
-       LPRINT PLAYER$;
-       IF P < PPT THEN
-           IF LPOS(0) > 55 THEN ' Print a new line if print head past column 55.
-               LPRINT : LPRINT SPACE$(5);
-           ELSE
-               LPRINT ", ";         'Otherwise, print a comma.
-           END IF
-       END IF
-   NEXT P
-LPRINT STRING$(80 - LPOS(0) - LEN(TEAM$),"."); TEAM$
-NEXT T
-```
-  
-
+</blockquote>
 
 #### SEE ALSO
-* [LPRINT](./LPRINT.md)
+
+<blockquote>
+
+*  [LPRINT](LPRINT.md) 
+
+</blockquote>

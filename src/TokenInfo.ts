@@ -169,7 +169,7 @@ export class TokenInfo {
 				let helpPath: string = config.get("helpPath");
 				let helpFile: string = path.join(helpPath, `${this.helpify()}.md`).replaceAll("\\", "/");
 				retvalue = fs.readFileSync(this.offlinehelp).toString();
-				retvalue = retvalue.replaceAll(/\[([\w|\$]*)\]\((([\.|\/|\w|\$])*)\)/igm, '[$1](file:' + helpPath.replaceAll('\\', '/') + '/$1.md)');				
+				// retvalue = retvalue.replaceAll(/\[([\w|\$]*)\]\((([\.|\/|\w|\$])*)\)/igm, '[$1](file:' + this.offlinehelp + ')');				
 			} else {
 				retvalue = "Press F1 for help"
 			}

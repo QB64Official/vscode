@@ -1,13 +1,115 @@
-## VIEW
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [VIEW](VIEW.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/VIEW)
 ---
+<blockquote>
 
 ### The VIEW statement creates a graphics view port area by defining the coordinate limits to be viewed.
 
+</blockquote>
+
 #### SYNTAX
+
+<blockquote>
 
 `VIEW [[SCREEN] (column1, row1)-(column2, row2)[, [color][, border]]]`
 
+</blockquote>
+
+#### EXAMPLES
+
+<blockquote>
+
+
+
+##### Example 1: Using SCREEN option with absolute screen coordinates.
+```vb
+SCREEN 12
+VIEW SCREEN (200, 200)-(400, 400), 1, 9 ' blue BG with light blue border
+CIRCLE (220, 220), 20, 11 ' using the actual screen coordinates
+```
+  
+<br>
+
+##### Example 2: Using coordinates relative to the viewport box area.
+```vb
+SCREEN 12
+VIEW (200, 200)-(400, 400), 1, 9
+CIRCLE (20, 20), 20, 11 ' using coordinates inside of the viewport
+```
+  
+<br>
+</blockquote>
+
 #### SEE ALSO
-* [VIEW](./VIEW.md) [PRINT](./PRINT.md)
-* [WINDOW](./WINDOW.md)
-* [SCREEN](./SCREEN.md) , [CLS](./CLS.md)
+
+<blockquote>
+
+*  [VIEW](VIEW.md)  [PRINT](PRINT.md) 
+*  [WINDOW](WINDOW.md) 
+*  [SCREEN](SCREEN.md)  , [CLS](CLS.md) 
+
+</blockquote>

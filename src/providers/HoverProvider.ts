@@ -31,7 +31,7 @@ export class HoverProvider implements vscode.HoverProvider {
 				const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64pe")
 				let helpPath: string = config.get("helpPath");
 				let helpFile: string = path.join(helpPath).replaceAll("\\", "/");
-				markdownString.baseUri = vscode.Uri.file(helpFile);
+				markdownString.baseUri = vscode.Uri.file(helpFile + '/');
 				markdownString.isTrusted = true;
 				markdownString.supportHtml = true;
 				return new vscode.Hover(markdownString);
@@ -63,7 +63,7 @@ export class HoverProvider implements vscode.HoverProvider {
 						const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64pe")
 						let helpPath: string = config.get("helpPath");
 						let helpFile: string = path.join(helpPath).replaceAll("\\", "/");
-						markdownString.baseUri = vscode.Uri.file(helpFile);
+						markdownString.baseUri = vscode.Uri.file(helpFile + '/');
 						markdownString.isTrusted = true;
 						markdownString.supportHtml = true;
 						return new vscode.Hover(markdownString);
@@ -84,7 +84,7 @@ export class HoverProvider implements vscode.HoverProvider {
 						const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64pe")
 						let helpPath: string = config.get("helpPath");
 						let helpFile: string = path.join(helpPath).replaceAll("\\", "/");
-						markdownString.baseUri = vscode.Uri.file(helpFile);
+						markdownString.baseUri = vscode.Uri.file(helpFile + '/');
 						markdownString.isTrusted = true;
 						markdownString.supportHtml = true;
 
@@ -107,7 +107,7 @@ export class HoverProvider implements vscode.HoverProvider {
 					const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64pe")
 					let helpPath: string = config.get("helpPath");
 					let helpFile: string = path.join(helpPath).replaceAll("\\", "/");
-					markdownString.baseUri = vscode.Uri.file(helpFile);
+					markdownString.baseUri = vscode.Uri.file(helpFile + '/');
 					markdownString.isTrusted = true;
 					markdownString.supportHtml = true;
 					return new vscode.Hover(markdownString);

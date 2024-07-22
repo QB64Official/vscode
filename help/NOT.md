@@ -1,77 +1,103 @@
-## NOT
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [NOT](NOT.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/NOT)
 ---
+<blockquote>
 
 ### NOT is a boolean logical operator that will change a false statement to a true one and vice-versa.
 
+</blockquote>
+
 #### SYNTAX
+
+<blockquote>
 
 `True = -1: False = NOT True`
 
+</blockquote>
+
 #### DESCRIPTION
-* In QBasic, True = -1 and False = 0 in boolean logic and evaluation statements.
-* [NOT](./NOT.md) evaluates a value and returns the bitwise opposite, meaning that [NOT](./NOT.md) 0 = -1 .
-* Often called a negative logic operator, it returns the opposite of a value as true or false.
-* Values are changed by their bit values so that each bit is changed to the opposite of on or off. See example 3 below.
+
+<blockquote>
+
+*  In QBasic, True = -1 and False = 0 in boolean logic and evaluation statements.
+*  [NOT](NOT.md)  evaluates a value and returns the bitwise opposite, meaning that [NOT](NOT.md)  0 = -1 .
+*  Often called a negative logic operator, it returns the opposite of a value as true or false.
+*  Values are changed by their bit values so that each bit is changed to the opposite of on or off. See example 3 below.
 
 
-#### EXAMPLES
-##### Example 1: Alternating between two conditions in a program loop.
-```vb
-DO
-switch = NOT switch       'NOT changes value from -1 to 0 and vice-versa
-LOCATE 10, 38
-IF switch THEN PRINT "True!" ELSE PRINT "False"
-SLEEP
-k$ = INKEY$
-LOOP UNTIL k$ = CHR$(27) ' escape key quit
-```
-  
-##### Example 2: Reading a file until it reaches the End Of File.
-```vb
-DO WHILE NOT EOF(1)
- INPUT #1, data1, data2, data3
-LOOP
-```
-  
-##### Example 3: So why does NOT 5 = -6 ? Because NOT changes every bit of a value into the opposite:
-```vb
-PRINT NOT 5
-PRINT
-ReadBits 5
-ReadBits -6
-
-SUB ReadBits (n AS INTEGER) 'change type value and i bit reads for other whole type values
-FOR i = 15 TO 0 STEP -1 'see the 16 bit values
-   IF n AND 2 ^ i THEN PRINT "1"; ELSE PRINT "0";
-NEXT
-PRINT
-END SUB
-```
-  
-```vb
--6
-
-0000000000000101
-1111111111111010
-```
-  
-```vb
-'16 bit INTEGER values from -32768 to 32767
-a% = &B0000000000000101
-PRINT a%
-b% = &B1111111111111010
-PRINT b%
-'8 bit BYTE values from -128 to 127
-a%% = &B00000101
-PRINT a%%
-b%% = &B11111010
-PRINT b%%
-```
-  
-
+</blockquote>
 
 #### SEE ALSO
-* [_BIT](./_BIT.md) , &B , [_BYTE](./_BYTE.md)
-* [AND](./AND.md) , [XOR](./XOR.md) , [OR](./OR.md)
-* Binary , Boolean
-* Mathematical Operations
+
+<blockquote>
+
+*  [_BIT](BIT.md)  , &B , [_BYTE](BYTE.md) 
+*  [AND](AND.md)  , [XOR](XOR.md)  , [OR](OR.md) 
+*  Binary , Boolean
+*  Mathematical Operations
+
+</blockquote>

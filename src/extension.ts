@@ -82,8 +82,8 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	let tempPath: string = config.get('helpPath')
 	if (tempPath == null || tempPath.length < 1) {
-		let tempPath = path.join(context.extensionPath, "help");
-		config.update('helpPath', tempPath, vscode.ConfigurationTarget.Global);
+		//let tempPath = path.join(context.extensionPath, "help");
+		config.update('helpPath', context.extensionPath, vscode.ConfigurationTarget.Global);
 	}
 
 	// Todo window stuff

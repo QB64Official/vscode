@@ -6,6 +6,13 @@ All notable changes to the "QB64 PE" extension will be documented in this file.
   - Modify`tasks.json` to support QB64 PE.
 
 ## 0.10.5
+- Enhancements
+  - Added markdown help that's been styled and improved
+    - Link to markdown file in title
+    - Link to QB64PE wiki (click the 📖)
+    - Styled stand-alone markdown (the hover has limits but I've done my best)
+    - All files were generated with https://github.com/grymmjack/qb64pe-wiki-to-markdown
+      - This has undergone drastic changes to accommodate the vscode extension.
 - Fixes
   - Fixed ASCII chart offset issue
   - Fixed all known typos and spelling errors

@@ -1,46 +1,102 @@
-## WIDTH
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [WIDTH](WIDTH.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/WIDTH)
 ---
+<blockquote>
 
 ### The WIDTH statement changes the text dimensions of certain SCREEN modes or devices.
 
-#### PARAMETERS
-* When parameters are not specified, columns defaults to 80 with 25 (30 in [SCREEN](./SCREEN.md) 11 or 12) rows.
+</blockquote>
 
+#### PARAMETERS
+
+<blockquote>
+
+*  When parameters are not specified, columns defaults to 80 with 25 (30 in [SCREEN](SCREEN.md)  11 or 12) rows.
+
+</blockquote>
 
 #### DESCRIPTION
-* [WIDTH](./WIDTH.md) should be used after a program [SCREEN](./SCREEN.md) statement. It does not affect screen graphics or graphic coordinates.
-* Affects [SCREEN](./SCREEN.md) 0 Window size and alters the text block size of each screen mode listed in QBasic:
+
+<blockquote>
+
+*  [WIDTH](WIDTH.md)  should be used after a program [SCREEN](SCREEN.md)  statement. It does not affect [SCREEN](SCREEN.md)  graphics or graphic coordinates.
+*  Affects [SCREEN](SCREEN.md)  0 Window size and alters the text block size of each [SCREEN](SCREEN.md)  mode listed in QBasic:
 
 
-#### EXAMPLES
-```vb
-$CONSOLE:ONLY
-WIDTH 80, 25, 300, 100
-CLS
-FOR i = 1 TO 97
-   PRINT i
-NEXT
-PRINT STRING$(100, "0") + STRING$(100, "1") + STRING$(100, "2") 'print the 100's placeholders
-FOR j = 1 TO 3
-   FOR i = 0 TO 9
-       PRINT STRING$(10, _TRIM$(STR$(i))); 'print the 10's placeholders
-   NEXT
-NEXT
-
-FOR j = 1 TO 30
-   FOR i = 0 TO 9
-       PRINT _TRIM$(STR$(i)); 'print the 1's placeholders.
-   NEXT
-NEXT
-
-SLEEP
-```
-  
-
+</blockquote>
 
 #### SEE ALSO
-* Featured in our "Keyword of the Day" series
-* [SCREEN](./SCREEN.md) , [COLOR](./COLOR.md) , [OUT](./OUT.md)
-* [_PRINTWIDTH](./_PRINTWIDTH.md)
-* [_WIDTH](./_WIDTH.md) (function) , [_HEIGHT](./_HEIGHT.md)
-* [_FONT](./_FONT.md) , [_FONTWIDTH](./_FONTWIDTH.md) , [_FONTHEIGHT](./_FONTHEIGHT.md)
+
+<blockquote>
+
+*  Featured in our "Keyword of the Day" series
+*  [SCREEN](SCREEN.md)  , [COLOR](COLOR.md)  , [OUT](OUT.md) 
+*  [_PRINTWIDTH](PRINTWIDTH.md) 
+*  [_WIDTH]( [WIDTH](WIDTH.md) .md)  (function) , [_HEIGHT](HEIGHT.md) 
+*  [_FONT](FONT.md)  , [_FONTWIDTH](FONTWIDTH.md)  , [_FONTHEIGHT](FONTHEIGHT.md) 
+
+</blockquote>

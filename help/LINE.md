@@ -1,85 +1,119 @@
-## LINE
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [LINE](LINE.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/LINE)
 ---
+<blockquote>
 
 ### The LINE statement is used in graphic SCREEN modes to create lines or boxes.
 
+</blockquote>
+
 #### SYNTAX
+
+<blockquote>
 
 `LINE [STEP] [ ( column1 , row1 ) ] - [STEP] ( column2 , row2 ), color [, [{B|BF}], style% ]`
 
-#### PARAMETERS
-* The [STEP](./STEP.md) keyword make column and row coordinates relative to the previously coordinates set by any graphic statement.
-* The optional parameters ( column1 , row1 ) set the line's starting point.
-* The dash and second coordinate parameters ( column2 , row2 ) must be designated to complete the line or box.
-* The [INTEGER](./INTEGER.md) color attribute or [LONG](./LONG.md) [_RGB32](./_RGB32.md) 32 bit color value sets the drawing color.  If omitted, the current destination page's [_DEFAULTCOLOR](./_DEFAULTCOLOR.md) is used.
-* Optional B keyword creates a rectangle ( b ox) using the start and end coordinates as diagonal corners. BF creates a b ox f illed.
-* The style% signed [INTEGER](./INTEGER.md) value sets a dotted pattern to draw the line or rectangle outline.
+</blockquote>
 
+#### PARAMETERS
+
+<blockquote>
+
+*  The [STEP](STEP.md)  keyword make column and row coordinates relative to the previously coordinates set by any graphic statement.
+*  The optional parameters ( column1 , row1 ) set the line's starting point.
+*  The dash and second coordinate parameters ( column2 , row2 ) must be designated to complete the line or box.
+*  The [INTEGER](INTEGER.md) [COLOR](COLOR.md)  attribute [OR](OR.md)  [LONG](LONG.md)  [_RGB32](RGB32.md)  32 bit [COLOR](COLOR.md)  value sets the drawing [COLOR](COLOR.md) .  If omitted, the current destination page's [_DEFAULTCOLOR](DEFAULTCOLOR.md)  is used.
+*  Optional B keyword creates a rectangle ( b ox) using the start and end coordinates as diagonal corners. BF creates a b ox f illed.
+*  The style% signed [INTEGER](INTEGER.md)  value sets a dotted pattern to draw the line or rectangle outline.
+
+</blockquote>
 
 #### DESCRIPTION
-* Creates a colored line between the given coordinates. Can be drawn partially off screen.
-* B creates a box outline with each side parallel to the program screen sides. BF creates a filled box.
-* style% can be used to create a dotted pattern to draw the line.
+
+<blockquote>
+
+*  Creates a colored line between the given coordinates. Can be drawn partially off screen.
+*  B creates a box outline with each side parallel to the program screen sides. BF creates a filled box.
+*  style% can be used to create a dotted pattern to draw the line.
 	* B can be used with a style% to draw the rectangle outline using the desired pattern.
 	* BF ignores the style% parameter. See examples 2, 3 and 4 below.
-* The graphic cursor is set to the center of the program window on program start. Using the [STEP](./STEP.md) keyword makes the coordinates relative to the current graphic cursor.
-* [LINE](./LINE.md) can be used in any graphic screen mode, but cannot be used in the default screen mode 0 as it is text only.
+*  The graphic cursor is set to the center of the program window on program start. Using the [STEP](STEP.md)  keyword makes the coordinates relative to the current graphic cursor.
+*  [LINE](LINE.md)  can be used in any graphic screen mode, but cannot be used in the default screen mode 0 as it is text only.
 
 
-#### EXAMPLES
-##### Example 1: Following one line with another by omitting the second line's first coordinate parameter bracket entirely:
-```vb
-SCREEN 12
-
-LINE (100, 100)-(200, 200), 10    'creates a line
-LINE -(400, 200), 12              'creates a second line from end of first
-
-END
-```
-  
-##### Example 2: Creating styled lines and boxes with the LINE statement. Different style values create different dashed line spacing.
-```vb
-SCREEN 12
-
-LINE (100, 100)-(300, 300), 10, , 63    'creates a styled line
-LINE (100, 100)-(300, 300), 12, B, 255  'creates styled box shape
-
-END
-```
-  
-##### Example 3: The style value sets each 16 pixel line section as the value's bits are set on or off:
-```vb
-SCREEN 13
-_FULLSCREEN 'required in QB64 only
-_DELAY 5
-FOR i% = 1 TO 2 ^ 15 'use exponential value instead of -32768
-   COLOR 15:LOCATE 10, 5: PRINT i%;
-   LINE (10, 60)-(300, 60), 0 'erase previous lines
-   LINE (10, 60)-(300, 60), 12, , i%
-   tmp$ = ""
-   FOR b% = 15 TO 0 STEP -1 'create binary text value showing bits on as █, off as space
-       IF i% AND 2 ^ b% THEN tmp$ = tmp$ + CHR$(219) ELSE tmp$ = tmp$ + SPACE$(1)
-   NEXT
-   COLOR 12:LOCATE 10, 20: PRINT tmp$;
-   IF INKEY$ <> "" THEN EXIT FOR 'any key exit
-   _DELAY .001 'set delay time as required
-NEXT
-```
-  
-##### Example 4: Using binary code to design a style pattern:
-```vb
-SCREEN 12
-
-LINE (100, 100)-(300, 100), 10, , &B0000111100001111 '16-bits
-LINE (100, 110)-(300, 110), 11, , &B0011001100110011
-LINE (100, 120)-(300, 120), 12, , &B0101010101010101
-LINE (100, 130)-(300, 130), 13, , &B1000100010001000
-```
-  
-
+</blockquote>
 
 #### SEE ALSO
-* [SCREEN](./SCREEN.md) , [COLOR](./COLOR.md)
-* [DRAW](./DRAW.md) , [CIRCLE](./CIRCLE.md) , [STEP](./STEP.md)
-* [PSET](./PSET.md) , [PRESET](./PRESET.md)
-* [AND](./AND.md) , [OR](./OR.md) (logical operators)
+
+<blockquote>
+
+*  [SCREEN](SCREEN.md)  , [COLOR](COLOR.md) 
+*  [DRAW](DRAW.md)  , [CIRCLE](CIRCLE.md)  , [STEP](STEP.md) 
+*  [PSET](PSET.md)  , [PRESET](PRESET.md) 
+*  [AND](AND.md)  , [OR](OR.md)  (logical operators)
+
+</blockquote>

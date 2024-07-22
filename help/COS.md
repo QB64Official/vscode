@@ -1,101 +1,112 @@
-## COS
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [COS](COS.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/COS)
 ---
+<blockquote>
 
 ### The COS function returns the horizontal component or the cosine of an angle measured in radians.
 
+</blockquote>
+
 #### SYNTAX
+
+<blockquote>
 
 `value! = COS ( radianAngle! )`
 
-#### PARAMETERS
-* The radianAngle! must be measured in radians.
+</blockquote>
 
+#### PARAMETERS
+
+<blockquote>
+
+*  The radianAngle! must be measured in radians.
+
+</blockquote>
 
 #### DESCRIPTION
-* To convert from degrees to radians, multiply degrees * π / 180.
-* [COS](./COS.md) INE is the horizontal component of a unit vector in the direction theta (θ).
-* [COS](./COS.md)(x) can be calculated in either [SINGLE](./SINGLE.md) or [DOUBLE](./DOUBLE.md) precision depending on its argument.
+
+<blockquote>
+
+*  To convert from degrees to radians, multiply degrees * π / 180.
+*  [COS](COS.md)  INE is the horizontal component of a unit vector in the direction theta (θ).
+*  [COS](COS.md) (x) can be calculated in either [SINGLE](SINGLE.md)  or [DOUBLE](DOUBLE.md)  precision depending on its argument.
 
 
-#### EXAMPLES
-##### Example 1: Converting degree angles to radians for QBasic's trig functions and drawing the line at the angle.
-```vb
-SCREEN 12
-PI = 4 * ATN(1)
-PRINT "PI = 4 * ATN(1) ="; PI
-PRINT "COS(PI) = "; COS(PI)
-PRINT "SIN(PI) = "; SIN(PI)
-DO
- PRINT
- INPUT "Enter the degree angle (0 quits): ", DEGREES%
- RADIANS = DEGREES% * PI / 180
- PRINT "RADIANS = DEGREES% * PI / 180 = "; RADIANS
- PRINT "X = COS(RADIANS) = "; COS(RADIANS)
- PRINT "Y = SIN(RADIANS) = "; SIN(RADIANS)
- CIRCLE (400, 240), 2, 12
- LINE (400, 240)-(400 + (50 * SIN(RADIANS)), 240 + (50 * COS(RADIANS))), 11
- DEGREES% = RADIANS * 180 / PI
- PRINT "DEGREES% = RADIANS * 180 / PI ="; DEGREES%
-LOOP UNTIL DEGREES% = 0
-```
-  
-```vb
-PI = 4 * ATN(1) = 3.141593
-COS(PI) = -1
-SIN(PI) = -8.742278E-08
-
-Enter the degree angle (0 quits): 45
-RADIANS = DEGREES% * PI / 180 = .7853982
-X = COS(RADIANS) = .7071068
-Y = SIN(RADIANS) = .7071068
-DEGREES% = RADIANS * 180 / PI = 45
-```
-  
-##### Example 2: Creating 12 analog clock hour points using CIRCLEs and PAINT
-```vb
-PI2 = 8 * ATN(1)                  '2 * π
-arc! = PI2 / 12                          'arc interval between hour circles
-SCREEN 12
-FOR t! = 0 TO PI2 STEP arc!
-  cx% = CINT(COS(t!) * 70) ' pixel columns (circular radius = 70)
-  cy% = CINT(SIN(t!) * 70) ' pixel rows
-  CIRCLE (cx% + 320, cy% + 240), 3, 12
-  PAINT STEP(0, 0), 9, 12
-NEXT
-```
-  
-##### Explanation: The 12 circles are placed at radian angles that are 1/12 of 6.28318 or .523598 radians apart.
-##### Example 3: Creating a rotating spiral with COS and SIN .
-```vb
-SCREEN _NEWIMAGE(640, 480, 32)
-
-DO
- LINE (0, 0)-(640, 480), _RGB(0, 0, 0), BF
- j = j + 1
- PSET (320, 240)
- FOR i = 0 TO 100 STEP .1
-   LINE -(.05 * i * i * COS(j + i) + 320, .05 * i * i * SIN(j + i) + 240)
- NEXT
- PSET (320, 240)
- FOR i = 0 TO 100 STEP .1
-   LINE -(.05 * i * i * COS(j + i + 10) + 320, .05 * i * i * SIN(j + i + 10) + 240)
- NEXT
- PSET (320, 240)
- FOR i = 0 TO 100 STEP .1
-   PAINT (.05 * i * i * COS(j + i + 5) + 320, .05 * i * i * SIN(j + i + 5) + 240)
- NEXT
-
- _DISPLAY
- _LIMIT 30
-LOOP UNTIL INP(&H60) = 1 'escape exit
-```
-  
-
+</blockquote>
 
 #### SEE ALSO
-* [_PI](./_PI.md) (QB64 function)
-* [SIN](./SIN.md) (sine)
-* [ATN](./ATN.md) (arctangent)
-* [TAN](./TAN.md) (tangent)
-* Mathematical Operations
-* Derived Mathematical Functions
+
+<blockquote>
+
+*  [_PI](PI.md)  (QB64 function)
+*  [SIN](SIN.md)  (sine)
+*  [ATN](ATN.md)  (arctangent)
+*  [TAN](TAN.md)  (tangent)
+*  Mathematical Operations
+*  Derived Mathematical Functions
+
+</blockquote>

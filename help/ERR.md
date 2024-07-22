@@ -1,44 +1,102 @@
-## ERR
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 1em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 8px !important; 
+    border: 1px solid #567 !important;
+    margin: 0 !important;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+
+</style>
+
+## [ERR](ERR.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/ERR)
 ---
+<blockquote>
 
 ### The ERR function returns the last QBasic error code number.
 
+</blockquote>
+
 #### SYNTAX
+
+<blockquote>
 
 `errorNum% = ERR`
 
+</blockquote>
+
 #### DESCRIPTION
-* If there is no error, the function returns 0
-* Can be used in an error handling routine to report the last error code number.
+
+<blockquote>
+
+*  If there is no error, the function returns 0
+*  Can be used in an error handling routine to report the last error code number.
 
 
-#### EXAMPLES
-##### Example: Simulating an error to test a program error handler that looks for a "Subscript out of range" error.
-```vb
-ON ERROR GOTO handler
-
-IF x = 0 THEN ERROR 111  'simulate an error code that does not exist
-x = x + 1
-IF x THEN ERROR 9        'simulate array boundary being exceeded
-
-END
-
-handler:
-PRINT ERR, _ERRORLINE
-BEEP
-IF ERR = 9 THEN
- PRINT "The program has encountered an error and needs to close! Press a key!"
- K$ = INPUT$(1)
- SYSTEM
-END IF
-RESUME NEXT               'RESUME can only be used in error handlers
-```
-  
-
+</blockquote>
 
 #### SEE ALSO
-* [ON](./ON.md) [ERROR](./ERROR.md) , [RESUME](./RESUME.md)
-* [ERL](./ERL.md)
-* [_ERRORLINE](./_ERRORLINE.md) , [_INCLERRORLINE](./_INCLERRORLINE.md) , _INCLERRORFILE$
-* [ERROR](./ERROR.md)
-* [ERROR](./ERROR.md) Codes
+
+<blockquote>
+
+*  [ON](ON.md)  [ERROR](ERROR.md)  , [RESUME](RESUME.md) 
+*  [ERL](ERL.md) 
+*  [_ERRORLINE](ERRORLINE.md)  , [_INCLERRORLINE](INCLERRORLINE.md)  , [_INCLERRORFILE\$](INCLERRORFILE\$.md) 
+*  [ERROR](ERROR.md) 
+*  [ERROR](ERROR.md)  Codes
+
+</blockquote>
