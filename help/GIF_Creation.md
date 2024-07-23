@@ -1,4 +1,104 @@
-## GIF Creation
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 0.5em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
+    margin: 0 !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
+</style>
+
+
+## [GIF Creation](GIF_Creation.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/GIF%20Creation)
 ---
 <blockquote>
 
@@ -18,11 +118,11 @@ SCREEN 13
 RANDOMIZE TIMER
 
 FOR A = 1 TO 40
-   x = RND * 320
-   y = RND * 200
-   c = RND * 256
-   CIRCLE (x, y), RND * 80, c
-   PAINT (x, y), RND * 256, c
+x = RND * 320
+y = RND * 200
+c = RND * 256
+CIRCLE (x, y), RND * 80, c
+PAINT (x, y), RND * 256, c
 NEXT
 
 MakeGIF "GIFtemp.gif", 0, 0, _WIDTH - 1, _HEIGHT - 1, 256  'use 319 and 199 in QBasic
@@ -32,6 +132,8 @@ MakeGIF "GIFtemp.gif", 0, 0, _WIDTH - 1, _HEIGHT - 1, 256  'use 319 and 199 in Q
 '************************************ END DEMO *********************************
 ```
   
+<br>
+
 ```vb
 '-----------------------------------------------------------------------------
 '             GIFcreate.BM Compression Routine v1.00 By Rich Geldreich 1992
@@ -67,21 +169,21 @@ OPEN file$ FOR BINARY AS #GIF
 B$ = "GIF87a": PUT #GIF, , B$  'Put GIF87a header at beginning of file
 
 SELECT CASE NumColors       'get color settings
- CASE 2            'monochrome (B&W) image
-   BitsPixel = 1   '1 bit per pixel
-   StartSize = 3   'first LZW code is 3 bits
-   StartCode = 4   'first free code
-   StartMax = 8    'maximum code in 3 bits
- CASE 16           '16 colors images SCREENS 7, 8, 9, 12, 13
-   BitsPixel = 4   '4 bits per pixel
-   StartSize = 5   'first LZW code is 5 bits
-   StartCode = 16  'first free code
-   StartMax = 32   'maximum code in 5 bits
- CASE 256   '256 color images SCREEN 13 or _NEWIMAGE 256
-   BitsPixel = 8   '8 bits per pixel
-   StartSize = 9   'first LZW code is 9 bits
-   StartCode = 256 'first free code
-   StartMax = 512  'maximum code in 9 bits
+CASE 2            'monochrome (B&W) image
+BitsPixel = 1   '1 bit per pixel
+StartSize = 3   'first LZW code is 3 bits
+StartCode = 4   'first free code
+StartMax = 8    'maximum code in 3 bits
+CASE 16           '16 colors images SCREENS 7, 8, 9, 12, 13
+BitsPixel = 4   '4 bits per pixel
+StartSize = 5   'first LZW code is 5 bits
+StartCode = 16  'first free code
+StartMax = 32   'maximum code in 5 bits
+CASE 256   '256 color images SCREEN 13 or _NEWIMAGE 256
+BitsPixel = 8   '8 bits per pixel
+StartSize = 9   'first LZW code is 9 bits
+StartCode = 256 'first free code
+StartMax = 512  'maximum code in 9 bits
 END SELECT
 
 'ColorBits = 2      'for EGA
@@ -98,14 +200,14 @@ PUT #GIF, , Zero$
 
 OUT &H3C7, 0                'start read at color 0
 FOR c = 0 TO NumColors - 1  'Get the RGB palette from the screen and put into file
- R = (INP(&H3C9) * 65280) \ 16128 'C = R * 4.0476190(for 0-255)
- G = (INP(&H3C9) * 65280) \ 16128
- B = (INP(&H3C9) * 65280) \ 16128
- red$ = CHR$(R): PUT #GIF, , red$
- grn$ = CHR$(G): PUT #GIF, , grn$
- blu$ = CHR$(B): PUT #GIF, , blu$
+R = (INP(&H3C9) * 65280) \ 16128 'C = R * 4.0476190(for 0-255)
+G = (INP(&H3C9) * 65280) \ 16128
+B = (INP(&H3C9) * 65280) \ 16128
+red$ = CHR$(R): PUT #GIF, , red$
+grn$ = CHR$(G): PUT #GIF, , grn$
+blu$ = CHR$(B): PUT #GIF, , blu$
 NEXT
-        'write out an image descriptor
+'write out an image descriptor
 sep$ = ","               'image separator
 PUT #GIF, , sep$         'write it
 PUT #GIF, , Minx         'image start locations
@@ -143,57 +245,57 @@ GOSUB GetByte: Prefix = GB           'the first pixel is a special case
 Done = False               'True when image is complete
 
 DO 'while there are more pixels to encode
- DO 'until we have a new string to put into the table
-   IF Done THEN 'write out the last pixel, clear the disk buffer
+DO 'until we have a new string to put into the table
+IF Done THEN 'write out the last pixel, clear the disk buffer
 '           'and fix up the last block so its count is correct
 
-     PC = Prefix: GOSUB PutCode      'write last pixel
-     PC = EOFCode: GOSUB PutCode     'send EOF code
+PC = Prefix: GOSUB PutCode      'write last pixel
+PC = EOFCode: GOSUB PutCode     'send EOF code
 
-     IF CurrentBit <> 0 THEN PC = 0: GOSUB PutCode    'flush out the last code...
-     PB = 0: GOSUB PutByte
-     OutBuffer$ = LEFT$(OutBuffer$, OAddress - OStartAddress)
-     PUT #GIF, , OutBuffer$
-     A$ = ";" + STRING$(8, &H1A)          'the 8 EOF chars is not standard,
-     PUT #GIF, , A$
-     A$ = CHR$(255 - BlockLength)         'correct the last block's count
-     PUT #GIF, LastLoc&, A$
-     CLOSE #GIF: EXIT SUB          '<<<<<<<<<<< End of procedure
-   ELSE     'get a pixel from the screen and find the new string in table
-     GOSUB GetByte: Suffix = GB
-     GOSUB Hash                                'is it in hash table?
-     IF Found = True THEN Prefix = Code(Index) 'replace prefix:suffix string with code in table
-   END IF
- LOOP WHILE Found             'don't stop unless we find a new string
+IF CurrentBit <> 0 THEN PC = 0: GOSUB PutCode    'flush out the last code...
+PB = 0: GOSUB PutByte
+OutBuffer$ = LEFT$(OutBuffer$, OAddress - OStartAddress)
+PUT #GIF, , OutBuffer$
+A$ = ";" + STRING$(8, &H1A)          'the 8 EOF chars is not standard,
+PUT #GIF, , A$
+A$ = CHR$(255 - BlockLength)         'correct the last block's count
+PUT #GIF, LastLoc&, A$
+CLOSE #GIF: EXIT SUB          '<<<<<<<<<<< End of procedure
+ELSE     'get a pixel from the screen and find the new string in table
+GOSUB GetByte: Suffix = GB
+GOSUB Hash                                'is it in hash table?
+IF Found = True THEN Prefix = Code(Index) 'replace prefix:suffix string with code in table
+END IF
+LOOP WHILE Found             'don't stop unless we find a new string
 
- PC = Prefix: GOSUB PutCode               'output the prefix to the file
- Prefix(Index) = Prefix       'put the new string in the table
- Suffix(Index) = Suffix
- Code(Index) = NextCode       'we've got to keep track of code!
+PC = Prefix: GOSUB PutCode               'output the prefix to the file
+Prefix(Index) = Prefix       'put the new string in the table
+Suffix(Index) = Suffix
+Code(Index) = NextCode       'we've got to keep track of code!
 
- Prefix = Suffix 'Prefix = the last pixel pulled from the screen
+Prefix = Suffix 'Prefix = the last pixel pulled from the screen
 
- NextCode = NextCode + 1          'get ready for the next code
- IF NextCode = MaxCode + 1 THEN   'increase the code size
-   MaxCode = MaxCode * 2
-   'Note: The GIF89a spec mentions something about a deferred clear code
-   IF CodeSize = 12 THEN     'is the code size too big?
-     PC = ClearCode: GOSUB PutCode      'yup; clear the table and
-     GOSUB ClearTree         'start over
-     NextCode = StartCode
-     CodeSize = StartSize
-     MaxCode = StartMax
-   ELSE CodeSize = CodeSize + 1 'increase code size if not too high (not > 12)
-   END IF
- END IF
+NextCode = NextCode + 1          'get ready for the next code
+IF NextCode = MaxCode + 1 THEN   'increase the code size
+MaxCode = MaxCode * 2
+'Note: The GIF89a spec mentions something about a deferred clear code
+IF CodeSize = 12 THEN     'is the code size too big?
+PC = ClearCode: GOSUB PutCode      'yup; clear the table and
+GOSUB ClearTree         'start over
+NextCode = StartCode
+CodeSize = StartSize
+MaxCode = StartMax
+ELSE CodeSize = CodeSize + 1 'increase code size if not too high (not > 12)
+END IF
+END IF
 LOOP         'while we have more pixels
 
 '                              'GOSUB ROUTINES
 ClearTree:
 FOR A = 0 TO Table.size - 1 'clears the hashing table
-   Prefix(A) = -1 '-1 = invalid entry
-   Suffix(A) = -1
-   Code(A) = -1
+Prefix(A) = -1 '-1 = invalid entry
+Suffix(A) = -1
+Code(A) = -1
 NEXT
 RETURN
 
@@ -203,40 +305,40 @@ Index = ((Prefix * 256&) XOR Suffix) MOD Table.size
 '        Note: the table size(7177 in this case) must be a prime number
 '    Calculate an offset just in case we don't find what we want first try...
 IF Index = 0 THEN          'cannot have Table.Size 0!
- Offset = 1
+Offset = 1
 ELSE
- Offset = Table.size - Index
+Offset = Table.size - Index
 END IF
 
 DO      'loop until we find an empty entry or find what we're lookin for
- IF Code(Index) = -1 THEN 'is this entry blank?
-   Found = False ' didn't find the string
-   RETURN
- ELSEIF Prefix(Index) = Prefix AND Suffix(Index) = Suffix THEN
-   Found = True  'found the string
-   RETURN
- ELSE 'didn't find anything, must retry - this slows hashing down.
-   Index = Index - Offset
-   IF Index < 0 THEN 'too far down the table? wrap back the index to end of table
-     Index = Index + Table.size
-   END IF
- END IF
+IF Code(Index) = -1 THEN 'is this entry blank?
+Found = False ' didn't find the string
+RETURN
+ELSEIF Prefix(Index) = Prefix AND Suffix(Index) = Suffix THEN
+Found = True  'found the string
+RETURN
+ELSE 'didn't find anything, must retry - this slows hashing down.
+Index = Index - Offset
+IF Index < 0 THEN 'too far down the table? wrap back the index to end of table
+Index = Index + Table.size
+END IF
+END IF
 LOOP
 
 PutByte:           'Puts a byte into the GIF file & also takes care of each block.
 BlockLength = BlockLength - 1             'are we at the end of a block?
 IF BlockLength <= 0 THEN                  'end of block
- BlockLength = 255                       'block length is now 255
- LastLoc& = LOC(GIF) + 1 + (OAddress - OStartAddress)  'remember the position
- BW = 255: GOSUB BufferWrite             'for later fixing
+BlockLength = 255                       'block length is now 255
+LastLoc& = LOC(GIF) + 1 + (OAddress - OStartAddress)  'remember the position
+BW = 255: GOSUB BufferWrite             'for later fixing
 END IF
 BW = PB: GOSUB BufferWrite
 RETURN
 
 BufferWrite:                             'Puts a byte into the buffer
 IF OAddress = OEndAddress THEN           'are we at the end of the buffer?
-   PUT #GIF, , OutBuffer$               'write it out and
-   OAddress = OStartAddress             'start all over
+PUT #GIF, , OutBuffer$               'write it out and
+OAddress = OStartAddress             'start all over
 END IF
 POKE OAddress, BW                        'put byte in buffer
 OAddress = OAddress + 1                  'increment position
@@ -246,9 +348,9 @@ GetByte:                 'This routine gets one pixel from the display
 GB = POINT(x, y)                         'get the "byte"
 x = x + 1 'increment X coordinate
 IF x > MaxX THEN                         'are we too far?
-   x = Minx                             'go back to start
-   y = y + 1                            'increment Y coordinate
-   IF y > MaxY THEN Done = True         'flag if too far down
+x = Minx                             'go back to start
+y = y + 1                            'increment Y coordinate
+IF y > MaxY THEN Done = True         'flag if too far down
 END IF
 RETURN
 
@@ -256,14 +358,16 @@ PutCode:                 'Puts an LZW variable-bit code into the output file...
 Char& = Char& + PC * Shift(CurrentBit)   'put the char were it belongs;
 CurrentBit = CurrentBit + CodeSize       'shifting it to its proper place
 DO WHILE CurrentBit > 7                  'do we have a least one full byte?
- PB = Char& AND 255: GOSUB PutByte      'mask it off and write it out
- Char& = Char& \ 256                    'shift the bit buffer right 8 bits
- CurrentBit = CurrentBit - 8            'now we have 8 less bits
+PB = Char& AND 255: GOSUB PutByte      'mask it off and write it out
+Char& = Char& \ 256                    'shift the bit buffer right 8 bits
+CurrentBit = CurrentBit - 8            'now we have 8 less bits
 LOOP                                     'loop until we don't have a full byte
 RETURN
 END SUB
 ```
   
+<br>
+
 
 </blockquote>
 
@@ -271,7 +375,7 @@ END SUB
 
 <blockquote>
 
-* [_LOADIMAGE](./_LOADIMAGE.md)
-* Bitmaps , Icons and Cursors
 
+* [_LOADIMAGE](LOADIMAGE.md)
+* Bitmaps , Icons and Cursors
 </blockquote>

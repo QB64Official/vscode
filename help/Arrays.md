@@ -27,16 +27,18 @@ h4 {
     border: 0 !important;
 }
 h5 {
-    margin: 0 0 1em 0  !important;
+    margin: 0 0 0.5em 0  !important;
     color: #88f !important;
     border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
 }
 code {
     background: #000 !important;
     margin: 0 !important;
     padding: 8px !important;
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
 }
 pre > code {
     background: transparent !important;
@@ -52,16 +54,49 @@ blockquote {
     padding: 0 1em !important;
 }
 pre {
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
     margin: 0 !important;
-    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
 }
 a:link, a:visited, a:hover, a:active {
     color: #ff0 !important;
 }
-
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
 </style>
+
 
 ## [Arrays](Arrays.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/Arrays)
 ---
@@ -84,12 +119,16 @@ DIM Array(100) AS INTEGER
   
 <br>
 
+
+
 ##### Example 2: dimensions an Integer array that can hold 100 values in indices 1 to 100.
 ```vb
 DIM Array%(1 TO 100)
 ```
   
 <br>
+
+
 
 ##### Example 3:
 ```vb
@@ -98,6 +137,8 @@ REDIM Array$(1000) ' REDIM creates a dynamic array
 ```
   
 <br>
+
+
 
 ##### Example 4: REDIM without the _PRESERVE action erases the array contents
 ```vb
@@ -113,7 +154,6 @@ PRINT array(10)
   
 <br>
 
-##### Example 4: REDIM without the _PRESERVE action erases the array contents
 ```vb
 24
 24
@@ -121,6 +161,8 @@ PRINT array(10)
 ```
   
 <br>
+
+
 
 ##### Example 5: Changing the starting index number using the _PRESERVE action moves the data.
 ```vb
@@ -134,7 +176,6 @@ PRINT Array$(100) ' display new end data
   
 <br>
 
-##### Example 5: Changing the starting index number using the _PRESERVE action moves the data.
 ```vb
 I'm number one!
 I'm 50...
@@ -142,13 +183,17 @@ I'm 50...
   
 <br>
 
+
+
 ##### Example 6: The memory segment address of the array is defined in DEF SEG .
 ```vb
 DEF SEG = VARSEG(array(0))
 offset = VARPTR(array(0)) 'program designated offset element
 ```
   
-<br>```vb
+<br>
+
+```vb
 TWO DIMENSIONAL ARRAY TABLES
 
 Setting up a car sales Database: The sales for each month as represented in an array.
@@ -178,6 +223,8 @@ NEXT
   
 <br>
 
+
+
 ##### Example 7: Creating a two-dimensional array. A comma separates each dimension size.
 ```vb
 DIM Array(12, 10) ' 2 dimensions can hold 143 data values
@@ -185,12 +232,16 @@ DIM Array(12, 10) ' 2 dimensions can hold 143 data values
   
 <br>
 
+
+
 ##### Example 8: Dimensioning using index ranges.
 ```vb
 DIM Array(1 TO 12, 1 TO 10) ' 2 dimensions can hold 120 data values
 ```
   
-<br>```vb
+<br>
+
+```vb
 DO
 INPUT "Enter your age: ", howold$
 age% = VAL(howold$)
@@ -203,7 +254,9 @@ PRINT Playerage%(user%) 'print array element to screen to verify entry
 user% = user% + 1 'increment user number when all data has been entered
 ```
   
-<br>```vb
+<br>
+
+```vb
 wide& = 20: deep& = 20 'change the sizes for any image area
 DIM array(wide& * deep&) AS INTEGER
 LINE (0, 0)-(wide& - 1, deep& - 1), 12, B 'the box border is all that you need to color.
@@ -215,7 +268,9 @@ PRINT arraysize&
 END
 ```
   
-<br>```vb
+<br>
+
+```vb
 FUNCTION ScanKey% (scancode%)
 STATIC Ready%, keyflags%()
 IF NOT Ready% THEN REDIM keyflags%(0 TO 127): Ready% = -1
@@ -229,4 +284,6 @@ END FUNCTION
 ```
   
 <br>
+
+
 </blockquote>

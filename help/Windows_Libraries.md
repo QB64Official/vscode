@@ -1,4 +1,104 @@
-## Windows Libraries
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 0.5em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
+    margin: 0 !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
+</style>
+
+
+## [Windows Libraries](Windows_Libraries.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/Windows%20Libraries)
 ---
 <blockquote>
 
@@ -33,9 +133,11 @@ DWORD          4 bytes                   32                LONG
 QWORD          8 bytes                   64                _INTEGER64
 LP or hwnd     Short or Long Pointer     ANY INTEGER       _OFFSET
 
-                 Void * in C code is also an _OFFSET
+Void * in C code is also an _OFFSET
 ```
   
+<br>
+
 ```vb
 '=============
 'DATE&TIME.BAS
@@ -50,21 +152,21 @@ LP or hwnd     Short or Long Pointer     ANY INTEGER       _OFFSET
 '======================================================================
 
 TYPE SYSTEMTIME
-   wYear AS INTEGER
-   wMonth AS INTEGER
-   wDayOfWeek AS INTEGER
-   wDay AS INTEGER
-   wHour AS INTEGER
-   wMinute AS INTEGER
-   wSecond AS INTEGER
-   wMilliseconds AS INTEGER
+wYear AS INTEGER
+wMonth AS INTEGER
+wDayOfWeek AS INTEGER
+wDay AS INTEGER
+wHour AS INTEGER
+wMinute AS INTEGER
+wSecond AS INTEGER
+wMilliseconds AS INTEGER
 END TYPE
 
 DECLARE DYNAMIC LIBRARY "Kernel32"
 '== NOTE: SetSystemTime& returns Zero if it Fails.
 '== NOTE: GetSystemTime does not return a value.
-   FUNCTION SetSystemTime& (lpSystemTime AS SYSTEMTIME)
-   SUB GetSystemTime (lpSystemTime AS SYSTEMTIME)
+FUNCTION SetSystemTime& (lpSystemTime AS SYSTEMTIME)
+SUB GetSystemTime (lpSystemTime AS SYSTEMTIME)
 END DECLARE
 
 ' Holds current values...
@@ -155,19 +257,21 @@ PRINT "--------------------------------"
 END
 ```
   
+<br>
+
 ```vb
 '============
 'NOBORDER.BAS
 '============
 
 DECLARE CUSTOMTYPE LIBRARY
-   FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$)
+FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$)
 END DECLARE
 
 DECLARE DYNAMIC LIBRARY "User32"
-   FUNCTION GetWindowLongA& (BYVAL hwnd AS LONG, BYVAL nIndex AS LONG)
-   FUNCTION SetWindowLongA& (BYVAL hwnd AS LONG, BYVAL nIndex AS LONG, BYVAL dwNewLong AS LONG)
-   FUNCTION SetWindowPos& (BYVAL hwnd AS LONG, BYVAL hWndInsertAfter AS LONG, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL cx AS LONG, BYVAL cy AS LONG, BYVAL wFlags AS LONG)
+FUNCTION GetWindowLongA& (BYVAL hwnd AS LONG, BYVAL nIndex AS LONG)
+FUNCTION SetWindowLongA& (BYVAL hwnd AS LONG, BYVAL nIndex AS LONG, BYVAL dwNewLong AS LONG)
+FUNCTION SetWindowPos& (BYVAL hwnd AS LONG, BYVAL hWndInsertAfter AS LONG, BYVAL x AS LONG, BYVAL y AS LONG, BYVAL cx AS LONG, BYVAL cy AS LONG, BYVAL wFlags AS LONG)
 END DECLARE
 
 GWL_STYLE = -16
@@ -191,6 +295,8 @@ a& = SetWindowPos&(hwnd&, 0, 0, 0, 0, 0, 39)
 PRINT "The end"
 ```
   
+<br>
+
 ```vb
 ' Color Dialog flag constants (use + or OR to use more than 1 flag)
 CONST CC_RGBINIT = &H1& '           Sets the initial color (don't know how to set it)
@@ -200,27 +306,27 @@ CONST CC_SHOWHELP = &H8& '          Shows the help button (USELESS!)
 '----------------------------------------------------------------------------------------
 $IF 32BIT THEN '                Checking for 32 bit IDE
 TYPE COLORDIALOGTYPE
- lStructSize AS LONG '         Length of this TYPE structure
- hwndOwner AS LONG '           Dialog owner's handle
- hInstance AS LONG '           ?
- rgbResult AS LONG '           The RGB color the user selected
- lpCustColors AS _OFFSET '     Pointer to an array of 16 custom colors (will be changed by user)
- flags AS LONG '               Dialog flags
- lCustData AS LONG '           Custom data
- lpfnHook AS LONG '            Hook
- lpTemplateName AS _OFFSET '   Custom template
+lStructSize AS LONG '         Length of this TYPE structure
+hwndOwner AS LONG '           Dialog owner's handle
+hInstance AS LONG '           ?
+rgbResult AS LONG '           The RGB color the user selected
+lpCustColors AS _OFFSET '     Pointer to an array of 16 custom colors (will be changed by user)
+flags AS LONG '               Dialog flags
+lCustData AS LONG '           Custom data
+lpfnHook AS LONG '            Hook
+lpTemplateName AS _OFFSET '   Custom template
 END TYPE
 $ELSE '                         If the IDE is 64 bit then...
 TYPE COLORDIALOGTYPE
- lStructSize AS _INTEGER64 '   Length of this TYPE structure
- hwndOwner AS _INTEGER64 '     Dialog owner's handle
- hInstance AS _INTEGER64 '     ?
- rgbResult AS _INTEGER64 '     The RGB color the user selected
- lpCustColors AS _OFFSET '     Pointer to an array of 16 custom colors (will be changed by user)
- flags AS _INTEGER64 '         Dialog flags
- lCustData AS _INTEGER64 '     Custom data
- lpfnHook AS _INTEGER64 '      Hook
- lpTemplateName AS _OFFSET '   Custom template
+lStructSize AS _INTEGER64 '   Length of this TYPE structure
+hwndOwner AS _INTEGER64 '     Dialog owner's handle
+hInstance AS _INTEGER64 '     ?
+rgbResult AS _INTEGER64 '     The RGB color the user selected
+lpCustColors AS _OFFSET '     Pointer to an array of 16 custom colors (will be changed by user)
+flags AS _INTEGER64 '         Dialog flags
+lCustData AS _INTEGER64 '     Custom data
+lpfnHook AS _INTEGER64 '      Hook
+lpTemplateName AS _OFFSET '   Custom template
 END TYPE
 $END IF
 
@@ -228,11 +334,11 @@ DIM ColorString AS STRING * 64
 ColorString = "FFFFFFFFFF" 'not sure how this works?
 
 DECLARE DYNAMIC LIBRARY "comdlg32"
- FUNCTION ChooseColorA& (DIALOGPARAMS AS COLORDIALOGTYPE) '    Yet the also famous color dialog box
+FUNCTION ChooseColorA& (DIALOGPARAMS AS COLORDIALOGTYPE) '    Yet the also famous color dialog box
 END DECLARE
 
 DECLARE LIBRARY
- FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$) ' To get hWnd handle, or use _WINDOWHANDLE
+FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$) ' To get hWnd handle, or use _WINDOWHANDLE
 END DECLARE
 
 SCREEN _NEWIMAGE(640, 480, 12) '32 or 16 or 256 color screen modes
@@ -244,9 +350,9 @@ clr~& = ChooseColor&(_RGB32(0, 0, 0), ColorString$, Cancel, CC_FULLOPEN, hWnd&)
 CLS , clr~& 'make background chosen color
 LOCATE 10, 31
 IF Cancel <> -1 THEN
- COLOR _RGB(255, 255, 255) 'white text
- PRINT "Color:"; clr~&; "&H" + HEX$(clr~&) '  use last color chosen
- PRINT ColorString$ '              display user custom color values chosen
+COLOR _RGB(255, 255, 255) 'white text
+PRINT "Color:"; clr~&; "&H" + HEX$(clr~&) '  use last color chosen
+PRINT ColorString$ '              display user custom color values chosen
 ELSE: PRINT "No color was chosen!"
 END IF
 END
@@ -270,15 +376,17 @@ ColorCall.lpCustColors = _OFFSET(CustomColors$)
 ' Do dialog call
 Result = ChooseColorA(ColorCall)
 IF Result THEN
- rgbResult& = ColorCall.rgbResult
- ' Swap RED and BLUE color intensity values using _RGB
- ChooseColor& = _RGB(_BLUE32(rgbResult&), _GREEN32(rgbResult&), _RED32(rgbResult&))
+rgbResult& = ColorCall.rgbResult
+' Swap RED and BLUE color intensity values using _RGB
+ChooseColor& = _RGB(_BLUE32(rgbResult&), _GREEN32(rgbResult&), _RED32(rgbResult&))
 ELSE
- Cancel = -1
+Cancel = -1
 END IF
 END FUNCTION
 ```
   
+<br>
+
 ```vb
 SCREEN _NEWIMAGE(640, 480, 12) 'change from screen 12 to 32 to see the difference
 rgbresult& = &H8080FF 'Dialog box long color reverse HEX$ return value
@@ -286,24 +394,26 @@ clr~& = _RGB(_BLUE32(rgbresult&), _GREEN32(rgbresult&), _RED32(rgbresult&)) 'swa
 COLOR clr~&: PRINT clr~&, HEX$(clr~&) '_UNSIGNED LONG color values
 ```
   
+<br>
+
 ```vb
 DECLARE DYNAMIC LIBRARY "user32"
-   FUNCTION SystemParametersInfoW& (BYVAL uiAction~&, BYVAL uiParam~&, BYVAL pvParam%&, BYVAL fWinlni~&)
+FUNCTION SystemParametersInfoW& (BYVAL uiAction~&, BYVAL uiParam~&, BYVAL pvParam%&, BYVAL fWinlni~&)
 END DECLARE
 
 CONST SPI_GETWORKAREA = &H30
 
 TYPE RECT
-   left AS LONG
-   top AS LONG
-   right AS LONG
-   bottom AS LONG
+left AS LONG
+top AS LONG
+right AS LONG
+bottom AS LONG
 END TYPE
 DIM Rec AS RECT
 
 IF 0 = SystemParametersInfoW(SPI_GETWORKAREA, 0, _OFFSET(Rec), 0) THEN
-   'function failed. You may call kernel32's GetLastError for more info.
-   PRINT "failed."
+'function failed. You may call kernel32's GetLastError for more info.
+PRINT "failed."
 END IF
 
 PRINT Rec.left
@@ -319,6 +429,8 @@ _FREEIMAGE scr&
 END
 ```
   
+<br>
+
 ```vb
 DECLARE LIBRARY   'Directory Information using KERNEL32 provided by Dav
 FUNCTION WINDirectory ALIAS GetWindowsDirectoryA (lpBuffer AS STRING, BYVAL nSize AS LONG)
@@ -355,6 +467,8 @@ IF Result THEN PRINT "CURRENT PROGRAM: "; LEFT$(FileName$, Result)
 END
 ```
   
+<br>
+
 ```vb
 DECLARE LIBRARY   'Directory Information using KERNEL32
 FUNCTION GetShortPathNameA (lpLongPath AS STRING, lpShortPath AS STRING, BYVAL cBufferLen AS LONG)
@@ -368,6 +482,8 @@ IF Result THEN PRINT "SHORT PATH NAME: " + ShortPathName$ ELSE PRINT "NOT Found!
 END
 ```
   
+<br>
+
 ```vb
 CONST REMOVABLE = 2
 CONST FIXED = 3
@@ -376,8 +492,8 @@ CONST CDROM = 5
 CONST RAMDISK = 6
 
 DECLARE LIBRARY
- FUNCTION GetDriveTypeA& (nDrive AS STRING)
- FUNCTION GetLogicalDriveStringsA (BYVAL nBuff AS LONG, lpbuff AS STRING)
+FUNCTION GetDriveTypeA& (nDrive AS STRING)
+FUNCTION GetLogicalDriveStringsA (BYVAL nBuff AS LONG, lpbuff AS STRING)
 END DECLARE
 
 DIM DList AS STRING, DL AS STRING
@@ -389,24 +505,26 @@ i = GetLogicalDriveStringsA(i, DList) 'the byte size returns a string that long
 PRINT DList
 
 FOR n = 65 TO 90
- IF INSTR(DList, CHR$(n)) THEN
-   DL = CHR$(n) + ":\" + CHR$(0)
-   typ = GetDriveTypeA(DL)
-   SELECT CASE typ
-     CASE REMOVABLE: PRINT DL + "Removable"
-     CASE FIXED: PRINT DL + "Fixed"
-     CASE REMOTE: PRINT DL + "Remote"
-     CASE CDROM: PRINT DL + "CDROM"
-     CASE RAMDISK: PRINT DL + "RAM"
-   END SELECT
- END IF
+IF INSTR(DList, CHR$(n)) THEN
+DL = CHR$(n) + ":\" + CHR$(0)
+typ = GetDriveTypeA(DL)
+SELECT CASE typ
+CASE REMOVABLE: PRINT DL + "Removable"
+CASE FIXED: PRINT DL + "Fixed"
+CASE REMOTE: PRINT DL + "Remote"
+CASE CDROM: PRINT DL + "CDROM"
+CASE RAMDISK: PRINT DL + "RAM"
+END SELECT
+END IF
 NEXT
 ```
   
+<br>
+
 ```vb
 DECLARE LIBRARY
-   FUNCTION GetFileAttributes& (f$)
-   FUNCTION SetFileAttributes& (f$, BYVAL attrib&)
+FUNCTION GetFileAttributes& (f$)
+FUNCTION SetFileAttributes& (f$, BYVAL attrib&)
 END DECLARE
 
 CONST INVALID_FILE_ATTRIBUTES = -1
@@ -432,6 +550,8 @@ a = GetFileAttributes(file$)
 PRINT a 'notice, it prints 1 here and not 32.  We didn't add a flag, we changed it completel
 ```
   
+<br>
+
 ```vb
 ' Dialog flag constants (use + or OR to use more than 1 flag value)
 CONST OFN_ALLOWMULTISELECT = &H200& '  Allows the user to select more than one file, not recommended!
@@ -455,57 +575,57 @@ DEFINT A-Z 'not recommended to use this statement in a final application!
 
 TYPE FILEDIALOGTYPE
 $IF 32BIT THEN
- lStructSize AS LONG '        For the DLL call
- hwndOwner AS LONG '          Dialog will hide behind window when not set correctly
- hInstance AS LONG '          Handle to a module that contains a dialog box template.
- lpstrFilter AS _OFFSET '     Pointer of the string of file filters
- lpstrCustFilter AS _OFFSET
- nMaxCustFilter AS LONG
- nFilterIndex AS LONG '       One based starting filter index to use when dialog is called
- lpstrFile AS _OFFSET '       String full of 0's for the selected file name
- nMaxFile AS LONG '           Maximum length of the string stuffed with 0's minus 1
- lpstrFileTitle AS _OFFSET '  Same as lpstrFile
- nMaxFileTitle AS LONG '      Same as nMaxFile
- lpstrInitialDir AS _OFFSET ' Starting directory
- lpstrTitle AS _OFFSET '      Dialog title
- flags AS LONG '              Dialog flags
- nFileOffset AS INTEGER '     Zero-based offset from path beginning to file name string pointed to by lpstrFile
- nFileExtension AS INTEGER '  Zero-based offset from path beginning to file extension string pointed to by lpstrFile.
- lpstrDefExt AS _OFFSET '     Default/selected file extension
- lCustData AS LONG
- lpfnHook AS LONG
- lpTemplateName AS _OFFSET
+lStructSize AS LONG '        For the DLL call
+hwndOwner AS LONG '          Dialog will hide behind window when not set correctly
+hInstance AS LONG '          Handle to a module that contains a dialog box template.
+lpstrFilter AS _OFFSET '     Pointer of the string of file filters
+lpstrCustFilter AS _OFFSET
+nMaxCustFilter AS LONG
+nFilterIndex AS LONG '       One based starting filter index to use when dialog is called
+lpstrFile AS _OFFSET '       String full of 0's for the selected file name
+nMaxFile AS LONG '           Maximum length of the string stuffed with 0's minus 1
+lpstrFileTitle AS _OFFSET '  Same as lpstrFile
+nMaxFileTitle AS LONG '      Same as nMaxFile
+lpstrInitialDir AS _OFFSET ' Starting directory
+lpstrTitle AS _OFFSET '      Dialog title
+flags AS LONG '              Dialog flags
+nFileOffset AS INTEGER '     Zero-based offset from path beginning to file name string pointed to by lpstrFile
+nFileExtension AS INTEGER '  Zero-based offset from path beginning to file extension string pointed to by lpstrFile.
+lpstrDefExt AS _OFFSET '     Default/selected file extension
+lCustData AS LONG
+lpfnHook AS LONG
+lpTemplateName AS _OFFSET
 $ELSE
- lStructSize AS _OFFSET '      For the DLL call
- hwndOwner AS _OFFSET '        Dialog will hide behind window when not set correctly
- hInstance AS _OFFSET '        Handle to a module that contains a dialog box template.
- lpstrFilter AS _OFFSET '      Pointer of the string of file filters
- lpstrCustFilter AS LONG
- nMaxCustFilter AS LONG
- nFilterIndex AS _INTEGER64 '  One based starting filter index to use when dialog is called
- lpstrFile AS _OFFSET '        String full of 0's for the selected file name
- nMaxFile AS _OFFSET '         Maximum length of the string stuffed with 0's minus 1
- lpstrFileTitle AS _OFFSET '   Same as lpstrFile
- nMaxFileTitle AS _OFFSET '    Same as nMaxFile
- lpstrInitialDir AS _OFFSET '  Starting directory
- lpstrTitle AS _OFFSET '       Dialog title
- flags AS _INTEGER64 '         Dialog flags
- nFileOffset AS _INTEGER64 '   Zero-based offset from path beginning to file name string pointed to by lpstrFile
- nFileExtension AS _INTEGER64 'Zero-based offset from path beginning to file extension string pointed to by lpstrFile.
- lpstrDefExt AS _OFFSET '      Default/selected file extension
- lCustData AS _INTEGER64
- lpfnHook AS _INTEGER64
- lpTemplateName AS _OFFSET
+lStructSize AS _OFFSET '      For the DLL call
+hwndOwner AS _OFFSET '        Dialog will hide behind window when not set correctly
+hInstance AS _OFFSET '        Handle to a module that contains a dialog box template.
+lpstrFilter AS _OFFSET '      Pointer of the string of file filters
+lpstrCustFilter AS LONG
+nMaxCustFilter AS LONG
+nFilterIndex AS _INTEGER64 '  One based starting filter index to use when dialog is called
+lpstrFile AS _OFFSET '        String full of 0's for the selected file name
+nMaxFile AS _OFFSET '         Maximum length of the string stuffed with 0's minus 1
+lpstrFileTitle AS _OFFSET '   Same as lpstrFile
+nMaxFileTitle AS _OFFSET '    Same as nMaxFile
+lpstrInitialDir AS _OFFSET '  Starting directory
+lpstrTitle AS _OFFSET '       Dialog title
+flags AS _INTEGER64 '         Dialog flags
+nFileOffset AS _INTEGER64 '   Zero-based offset from path beginning to file name string pointed to by lpstrFile
+nFileExtension AS _INTEGER64 'Zero-based offset from path beginning to file extension string pointed to by lpstrFile.
+lpstrDefExt AS _OFFSET '      Default/selected file extension
+lCustData AS _INTEGER64
+lpfnHook AS _INTEGER64
+lpTemplateName AS _OFFSET
 $END IF
 END TYPE
 
 DECLARE DYNAMIC LIBRARY "comdlg32"    ' Library declarations using _OFFSET types
- FUNCTION GetOpenFileNameA& (DIALOGPARAMS AS FILEDIALOGTYPE) ' The Open file dialog
- FUNCTION GetSaveFileNameA& (DIALOGPARAMS AS FILEDIALOGTYPE) ' The Save file dialog
+FUNCTION GetOpenFileNameA& (DIALOGPARAMS AS FILEDIALOGTYPE) ' The Open file dialog
+FUNCTION GetSaveFileNameA& (DIALOGPARAMS AS FILEDIALOGTYPE) ' The Save file dialog
 END DECLARE
 
 DECLARE LIBRARY
- FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$) ' To get hWnd handle
+FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$) ' To get hWnd handle
 END DECLARE
 
 _TITLE "FileOpen Common Dialog demo"                           'set Title of program
@@ -517,11 +637,11 @@ Flags& = OFN_FILEMUSTEXIST + OFN_NOCHANGEDIR + OFN_READONLY  '    add flag const
 OFile$ = GetOpenFileName$("YEAH! Common Dialogs in QB64!!!", ".\", Filter$, 1, Flags&, hWnd&)
 
 IF OFile$ = "" THEN   ' Display Open dialog results
- PRINT "Shame on you! You didn't pick any file..."
+PRINT "Shame on you! You didn't pick any file..."
 ELSE
- PRINT "You picked this file: "
- PRINT OFile$
- IF (Flags& AND OFN_READONLY) THEN PRINT "Read-only checkbox checked." 'read-only value in return
+PRINT "You picked this file: "
+PRINT OFile$
+IF (Flags& AND OFN_READONLY) THEN PRINT "Read-only checkbox checked." 'read-only value in return
 END IF
 
 _DELAY 5 ' Do the Save File dialog call!
@@ -530,10 +650,10 @@ Flags& = OFN_OVERWRITEPROMPT + OFN_NOCHANGEDIR '   add flag constants here
 SFile$ = GetSaveFileName$("Save will not create a file!!!", ".\", Filter$, 1, Flags&, hWnd&)
 
 IF SFile$ = "" THEN     ' Display Save dialog results
- PRINT "You didn't save the file..."
+PRINT "You didn't save the file..."
 ELSE
- PRINT "You saved this file: "
- PRINT SFile$
+PRINT "You saved this file: "
+PRINT SFile$
 END IF
 END
 
@@ -553,7 +673,7 @@ DIM OpenCall AS FILEDIALOGTYPE  ' Needed for dialog call
 
 fFilter$ = Filter$
 FOR R = 1 TO LEN(fFilter$) ' Replace the pipes with character zero
- IF MID$(fFilter$, R, 1) = "|" THEN MID$(fFilter$, R, 1) = CHR$(0)
+IF MID$(fFilter$, R, 1) = "|" THEN MID$(fFilter$, R, 1) = CHR$(0)
 NEXT R
 fFilter$ = fFilter$ + CHR$(0)
 
@@ -575,9 +695,9 @@ OpenCall.flags = Flags&
 Result = GetOpenFileNameA&(OpenCall) '            Do Open File dialog call!
 
 IF Result THEN   ' Trim the remaining zeros
- GetOpenFileName$ = LEFT$(lpstrFile$, INSTR(lpstrFile$, CHR$(0)) - 1)
- Flags& = OpenCall.flags
- FilterIndex = OpenCall.nFilterIndex
+GetOpenFileName$ = LEFT$(lpstrFile$, INSTR(lpstrFile$, CHR$(0)) - 1)
+Flags& = OpenCall.flags
+FilterIndex = OpenCall.nFilterIndex
 END IF
 
 END FUNCTION
@@ -598,7 +718,7 @@ DIM SaveCall AS FILEDIALOGTYPE  ' Needed for dialog call
 
 fFilter$ = Filter$
 FOR R = 1 TO LEN(fFilter$)  ' Replace the pipes with zeros
- IF MID$(fFilter$, R, 1) = "|" THEN MID$(fFilter$, R, 1) = CHR$(0)
+IF MID$(fFilter$, R, 1) = "|" THEN MID$(fFilter$, R, 1) = CHR$(0)
 NEXT R
 fFilter$ = fFilter$ + CHR$(0)
 
@@ -620,13 +740,15 @@ SaveCall.flags = Flags&
 Result& = GetSaveFileNameA&(SaveCall) ' Do dialog call!
 
 IF Result& THEN  ' Trim the remaining zeros
- GetSaveFileName$ = LEFT$(lpstrFile$, INSTR(lpstrFile$, CHR$(0)) - 1)
- Flags& = SaveCall.flags
- FilterIndex = SaveCall.nFilterIndex
+GetSaveFileName$ = LEFT$(lpstrFile$, INSTR(lpstrFile$, CHR$(0)) - 1)
+Flags& = SaveCall.flags
+FilterIndex = SaveCall.nFilterIndex
 END IF
 END FUNCTION
 ```
   
+<br>
+
 ```vb
 CONST GENERIC_READ = -&H80000000
 CONST GENERIC_WRITE = &H40000000
@@ -651,19 +773,19 @@ FUNCTION GetLastError& ()
 END DECLARE
 
 TYPE FILETIME
- dwLowDateTime AS _UNSIGNED LONG
- dwHighDateTime AS _UNSIGNED LONG
+dwLowDateTime AS _UNSIGNED LONG
+dwHighDateTime AS _UNSIGNED LONG
 END TYPE
 
 TYPE SYSTEMTIME
- wYear AS _UNSIGNED INTEGER
- wMonth AS _UNSIGNED INTEGER
- wDayOfWeek AS _UNSIGNED INTEGER
- wDay AS _UNSIGNED INTEGER
- wHour AS _UNSIGNED INTEGER
- wMinute AS _UNSIGNED INTEGER
- wSecond AS _UNSIGNED INTEGER
- wMilliseconds AS _UNSIGNED INTEGER
+wYear AS _UNSIGNED INTEGER
+wMonth AS _UNSIGNED INTEGER
+wDayOfWeek AS _UNSIGNED INTEGER
+wDay AS _UNSIGNED INTEGER
+wHour AS _UNSIGNED INTEGER
+wMinute AS _UNSIGNED INTEGER
+wSecond AS _UNSIGNED INTEGER
+wMilliseconds AS _UNSIGNED INTEGER
 END TYPE
 
 DIM CreateDate AS FILETIME
@@ -679,48 +801,50 @@ FileName = "readme.txt" + CHR$(0) '<<<<<< Existing file in QB64 folder. Use exis
 
 FileHandle = CreateFileA%&(_OFFSET(FileName), GENERIC_READ, FILE_SHARE_READ OR FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0)
 IF FileHandle <> INVALID_HANDLE_VALUE THEN
- IF GetFileTime&(FileHandle, _OFFSET(CreateDate), _OFFSET(ModifyDate), _OFFSET(AccessDate)) THEN
-   PRINT HEX$(CreateDate.dwLowDateTime) + HEX$(CreateDate.dwHighDateTime)
-   PRINT HEX$(ModifyDate.dwLowDateTime) + HEX$(ModifyDate.dwHighDateTime)
-   PRINT HEX$(AccessDate.dwLowDateTime) + HEX$(AccessDate.dwHighDateTime)
-   PRINT
-   IF FileTimeToSystemTime&(_OFFSET(CreateDate), _OFFSET(systime)) THEN
-     PRINT "Creation time, in GMT, in decimal:"
-     PRINT "Year:"; systime.wYear
-     PRINT "Month:"; systime.wMonth, "("; MID$("JanFebMarAprMayJunJulAugSepOctNovDec", (systime.wMonth * 3) - 2, 3); ")"
-     PRINT "DayOfWeek:"; systime.wDayOfWeek, "("; MID$("SunMonTueWedThuFriSat", (systime.wDayOfWeek * 3) + 1, 3); ")"
-     PRINT "Day"; systime.wDay
-     PRINT "Hour"; systime.wHour
-     PRINT "Minute"; systime.wMinute
-     PRINT "Second"; systime.wSecond
-     PRINT "Milliseconds"; systime.wMilliseconds
-   ELSE
-     PRINT "FileTimeToSystemTime failed. Error: 0x" + LCASE$(HEX$(GetLastError&))
-   END IF
- ELSE
-   PRINT "GetFileTime failed. Error: 0x" + LCASE$(HEX$(GetLastError&))
- END IF
- IF CloseHandle&(FileHandle) = 0 THEN
-   PRINT "CloseHandle failed. Error: 0x" + LCASE$(HEX$(GetLastError&))
-   END
- END IF
+IF GetFileTime&(FileHandle, _OFFSET(CreateDate), _OFFSET(ModifyDate), _OFFSET(AccessDate)) THEN
+PRINT HEX$(CreateDate.dwLowDateTime) + HEX$(CreateDate.dwHighDateTime)
+PRINT HEX$(ModifyDate.dwLowDateTime) + HEX$(ModifyDate.dwHighDateTime)
+PRINT HEX$(AccessDate.dwLowDateTime) + HEX$(AccessDate.dwHighDateTime)
+PRINT
+IF FileTimeToSystemTime&(_OFFSET(CreateDate), _OFFSET(systime)) THEN
+PRINT "Creation time, in GMT, in decimal:"
+PRINT "Year:"; systime.wYear
+PRINT "Month:"; systime.wMonth, "("; MID$("JanFebMarAprMayJunJulAugSepOctNovDec", (systime.wMonth * 3) - 2, 3); ")"
+PRINT "DayOfWeek:"; systime.wDayOfWeek, "("; MID$("SunMonTueWedThuFriSat", (systime.wDayOfWeek * 3) + 1, 3); ")"
+PRINT "Day"; systime.wDay
+PRINT "Hour"; systime.wHour
+PRINT "Minute"; systime.wMinute
+PRINT "Second"; systime.wSecond
+PRINT "Milliseconds"; systime.wMilliseconds
 ELSE
- PRINT "CreateFileA failed. Error: 0x" + LCASE$(HEX$(GetLastError&))
- END
+PRINT "FileTimeToSystemTime failed. Error: 0x" + LCASE$(HEX$(GetLastError&))
+END IF
+ELSE
+PRINT "GetFileTime failed. Error: 0x" + LCASE$(HEX$(GetLastError&))
+END IF
+IF CloseHandle&(FileHandle) = 0 THEN
+PRINT "CloseHandle failed. Error: 0x" + LCASE$(HEX$(GetLastError&))
+END
+END IF
+ELSE
+PRINT "CreateFileA failed. Error: 0x" + LCASE$(HEX$(GetLastError&))
+END
 END IF
 END
 ```
   
+<br>
+
 ```vb
 'Uses GetKeyState Win API to monitor a Key state.
 'This demo will maximize the window and focus on program when Shift+A is pressed.
 
 DECLARE DYNAMIC LIBRARY "user32"
- FUNCTION FindWindowA%& (BYVAL ClassName AS _OFFSET, WindowName$) 'find process handle by title
- FUNCTION GetKeyState% (BYVAL nVirtKey AS LONG) 'Windows virtual key presses
- FUNCTION ShowWindow& (BYVAL hwnd AS _OFFSET, BYVAL nCmdShow AS LONG) 'maximize process
- FUNCTION GetForegroundWindow%& 'find currently focused process handle
- FUNCTION SetForegroundWindow& (BYVAL hwnd AS _OFFSET) 'set foreground window process(focus)
+FUNCTION FindWindowA%& (BYVAL ClassName AS _OFFSET, WindowName$) 'find process handle by title
+FUNCTION GetKeyState% (BYVAL nVirtKey AS LONG) 'Windows virtual key presses
+FUNCTION ShowWindow& (BYVAL hwnd AS _OFFSET, BYVAL nCmdShow AS LONG) 'maximize process
+FUNCTION GetForegroundWindow%& 'find currently focused process handle
+FUNCTION SetForegroundWindow& (BYVAL hwnd AS _OFFSET) 'set foreground window process(focus)
 END DECLARE
 
 title$ = "Cheapo Hotkey (Shift+A)" 'title of program window
@@ -735,29 +859,31 @@ x& = ShowWindow&(hwnd%&, 2)
 '===========================
 
 DO
- IF GetKeyState(16) < 0 AND GetKeyState(ASC("A")) < 0 THEN '<==== Shift+A
-   FGwin%& = GetForegroundWindow%& 'get current process in focus
-   PRINT "Program Handle:"; hwnd%&; "Focus handle:"; FGwin%&
+IF GetKeyState(16) < 0 AND GetKeyState(ASC("A")) < 0 THEN '<==== Shift+A
+FGwin%& = GetForegroundWindow%& 'get current process in focus
+PRINT "Program Handle:"; hwnd%&; "Focus handle:"; FGwin%&
 
-   y& = ShowWindow&(hwnd%&, 1) 'maximize minimized program
+y& = ShowWindow&(hwnd%&, 1) 'maximize minimized program
 
-   IF FGwin%& <> hwnd%& THEN z& = SetForegroundWindow&(hwnd%&) 'set focus when necessary
+IF FGwin%& <> hwnd%& THEN z& = SetForegroundWindow&(hwnd%&) 'set focus when necessary
 
-   PRINT "That is all. Return values:"; x&; y&; z&
+PRINT "That is all. Return values:"; x&; y&; z&
 
-   'PUT PROGRAM CODE OR SUB CALLS HERE!
-   '=== below minimizes it for you again after code is done
-   '_DELAY 4
-   'x& = ShowWindow&(hwnd%&, 2)
-   '===========================
-   _DELAY 5: END 'delay allows user to not minimize the window
- END IF
+'PUT PROGRAM CODE OR SUB CALLS HERE!
+'=== below minimizes it for you again after code is done
+'_DELAY 4
+'x& = ShowWindow&(hwnd%&, 2)
+'===========================
+_DELAY 5: END 'delay allows user to not minimize the window
+END IF
 
- _LIMIT 30 'save CPU usage while waiting for key press
+_LIMIT 30 'save CPU usage while waiting for key press
 
 LOOP
 ```
   
+<br>
+
 ```vb
 '===========
 'HOTKEYS.BAS
@@ -769,12 +895,12 @@ LOOP
 
 
 DECLARE CUSTOMTYPE LIBRARY
- FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$)
- FUNCTION ShowWindow& (BYVAL hwnd AS LONG, BYVAL nCmdShow AS LONG)
+FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$)
+FUNCTION ShowWindow& (BYVAL hwnd AS LONG, BYVAL nCmdShow AS LONG)
 END DECLARE
 DECLARE DYNAMIC LIBRARY "user32"
- FUNCTION SendMessageA& (BYVAL hwnd AS LONG, BYVAL wMsg AS LONG, BYVAL wParam AS LONG, BYVAL lParam AS LONG)
- FUNCTION DefWindowProcA& (BYVAL hwnd AS LONG, BYVAL wMsg AS LONG, BYVAL wParam AS LONG, BYVAL lParam AS LONG)
+FUNCTION SendMessageA& (BYVAL hwnd AS LONG, BYVAL wMsg AS LONG, BYVAL wParam AS LONG, BYVAL lParam AS LONG)
+FUNCTION DefWindowProcA& (BYVAL hwnd AS LONG, BYVAL wMsg AS LONG, BYVAL wParam AS LONG, BYVAL lParam AS LONG)
 END DECLARE
 
 _TITLE "My Focus Program"
@@ -795,8 +921,8 @@ hot& = SendMessageA&(hwnd, WM_SETHOTKEY, HK_SHIFT + ASC("A"), 0) 'use uppercase 
 PRINT hot&;
 '=== See if hotkey set ok...
 IF hot& <> 1 THEN
- PRINT "Hotkey not set." + "Error: "; hot&
- END
+PRINT "Hotkey not set." + "Error: "; hot&
+END
 END IF
 
 '===  minimize program with this
@@ -807,34 +933,36 @@ END IF
 top& = DefWindowProcA&(hwnd, WM_SHOWWINDOW, 0, 0)
 
 DO: _LIMIT 1
- 'do your program stuff here....
- PRINT hot&; top&;
+'do your program stuff here....
+PRINT hot&; top&;
 LOOP UNTIL INKEY$ = CHR$(27)
 END
 ```
   
+<br>
+
 ```vb
 DECLARE CUSTOMTYPE LIBRARY
-   FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$)
+FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$)
 END DECLARE
 
 _TITLE "Super Window"
 hwnd& = _WINDOWHANDLE 'FindWindow(0, "Super Window" + CHR$(0))
 
 TYPE BROWSEINFO  'typedef struct _browseinfo 'Microsoft MSDN
- hwndOwner AS LONG '              '  HWND
- pidlRoot AS _OFFSET '             '  PCIDLIST_ABSOLUTE
- pszDisplayName AS _OFFSET '      '  LPTSTR
- lpszTitle AS _OFFSET '           '  LPCTSTR
- ulFlags AS _UNSIGNED LONG        '  UINT
- lpfn AS _OFFSET '                '  BFFCALLBACK
- lParam AS _OFFSET '              '  LPARAM
- iImage AS LONG '                 '  int
+hwndOwner AS LONG '              '  HWND
+pidlRoot AS _OFFSET '             '  PCIDLIST_ABSOLUTE
+pszDisplayName AS _OFFSET '      '  LPTSTR
+lpszTitle AS _OFFSET '           '  LPCTSTR
+ulFlags AS _UNSIGNED LONG        '  UINT
+lpfn AS _OFFSET '                '  BFFCALLBACK
+lParam AS _OFFSET '              '  LPARAM
+iImage AS LONG '                 '  int
 END TYPE  'BROWSEINFO, *PBROWSEINFO, *LPBROWSEINFO;
 
 DECLARE DYNAMIC LIBRARY "shell32"
- FUNCTION SHBrowseForFolder%& (x AS BROWSEINFO) 'Microsoft MSDN
- SUB SHGetPathFromIDList (BYVAL lpItem AS _OFFSET, BYVAL szDir AS _OFFSET) 'Microsoft MSDN
+FUNCTION SHBrowseForFolder%& (x AS BROWSEINFO) 'Microsoft MSDN
+SUB SHGetPathFromIDList (BYVAL lpItem AS _OFFSET, BYVAL szDir AS _OFFSET) 'Microsoft MSDN
 END DECLARE
 
 DIM b AS BROWSEINFO
@@ -846,15 +974,17 @@ b.lpszTitle = _OFFSET(a$)
 DIM o AS _OFFSET
 o = SHBrowseForFolder(b)
 IF o THEN
-   PRINT LEFT$(s$, INSTR(s$, CHR$(0)) - 1)
-   DIM s2 AS STRING * 1024
-   SHGetPathFromIDList o, _OFFSET(s2$)
-   PRINT LEFT$(s2$, INSTR(s2$, CHR$(0)) - 1)
+PRINT LEFT$(s$, INSTR(s$, CHR$(0)) - 1)
+DIM s2 AS STRING * 1024
+SHGetPathFromIDList o, _OFFSET(s2$)
+PRINT LEFT$(s2$, INSTR(s2$, CHR$(0)) - 1)
 ELSE
-   PRINT "Cancel?"
+PRINT "Cancel?"
 END IF
 ```
   
+<br>
+
 ```vb
 ' Constants assigned to Flags. A LONG numerical suffix defines those constants as LONG
 CONST CF_APPLY = &H200& '             Displays Apply button
@@ -915,48 +1045,48 @@ CONST GMEM_ZEROINIT = &H40
 '-------------------------------------------------------------------------------------------
 
 DECLARE DYNAMIC LIBRARY "user32"
- FUNCTION FindWindowA%& (BYVAL ClassName AS _OFFSET, BYVAL WindowName AS _OFFSET)
+FUNCTION FindWindowA%& (BYVAL ClassName AS _OFFSET, BYVAL WindowName AS _OFFSET)
 END DECLARE
 
 DECLARE DYNAMIC LIBRARY "comdlg32"
- FUNCTION ChooseFontA& (BYVAL lpcf AS _OFFSET)
- FUNCTION CommDlgExtendedError& () '                'dialog box error checking procedure
+FUNCTION ChooseFontA& (BYVAL lpcf AS _OFFSET)
+FUNCTION CommDlgExtendedError& () '                'dialog box error checking procedure
 END DECLARE
 
 TYPE CHOOSEFONT
- lStructSize AS _UNSIGNED LONG
- hwndOwner AS _OFFSET
- HDC AS _OFFSET
- lpLogFont AS _OFFSET
- iPointSize AS LONG
- Flags AS LONG
- rgbColors AS _UNSIGNED LONG
- lCustData AS _OFFSET
- lpfnHook AS _OFFSET
- lpTemplateName AS _OFFSET
- hInstance AS _OFFSET
- lpszStyle AS _OFFSET
- nFontType AS LONG '  if used as Unsigned Integer add Integer padder below
- 'padder AS INTEGER ' use only when nFontType is designated as Unsigned Integer
- nSizeMin AS LONG
- nSizeMax AS LONG
+lStructSize AS _UNSIGNED LONG
+hwndOwner AS _OFFSET
+HDC AS _OFFSET
+lpLogFont AS _OFFSET
+iPointSize AS LONG
+Flags AS LONG
+rgbColors AS _UNSIGNED LONG
+lCustData AS _OFFSET
+lpfnHook AS _OFFSET
+lpTemplateName AS _OFFSET
+hInstance AS _OFFSET
+lpszStyle AS _OFFSET
+nFontType AS LONG '  if used as Unsigned Integer add Integer padder below
+'padder AS INTEGER ' use only when nFontType is designated as Unsigned Integer
+nSizeMin AS LONG
+nSizeMax AS LONG
 END TYPE
 
 TYPE LOGFONT
- lfHeight AS LONG
- lfWidth AS LONG
- lfEscapement AS LONG
- lfOrientation AS LONG
- lfWeight AS LONG
- lfItalic AS _BYTE '    not 0 when user selected
- lfUnderline AS _BYTE ' not 0 when user selected
- lfStrikeOut AS _BYTE ' not 0 when user selected
- lfCharSet AS _BYTE
- lfOutPrecision AS _BYTE
- lfClipPrecision AS _BYTE
- lfQuality AS _BYTE
- lfPitchAndFamily AS _BYTE
- lfFaceName AS STRING * 32 'contains name listed in dialog
+lfHeight AS LONG
+lfWidth AS LONG
+lfEscapement AS LONG
+lfOrientation AS LONG
+lfWeight AS LONG
+lfItalic AS _BYTE '    not 0 when user selected
+lfUnderline AS _BYTE ' not 0 when user selected
+lfStrikeOut AS _BYTE ' not 0 when user selected
+lfCharSet AS _BYTE
+lfOutPrecision AS _BYTE
+lfClipPrecision AS _BYTE
+lfQuality AS _BYTE
+lfPitchAndFamily AS _BYTE
+lfFaceName AS STRING * 32 'contains name listed in dialog
 END TYPE
 
 DIM hWnd AS _OFFSET 'must DIM or hWnd won't work
@@ -1000,24 +1130,26 @@ cf.nSizeMin = 10 ' minimum point size
 cf.nSizeMax = 72 ' maximum point size
 
 IF ChooseFontA&(_OFFSET(cf)) <> 0 THEN '    'Initiate Dialog and Read user selections
- ShowFont = LEFT$(lfont.lfFaceName, INSTR(lfont.lfFaceName, CHR$(0)) - 1)
- 'returns closest color attribute or 32 bit value and swaps red and blue color values
- FontColor& = _RGB(_BLUE32(cf.rgbColors), _GREEN32(cf.rgbColors), _RED32(cf.rgbColors))
- IF cf.nFontType AND BOLD_FONTTYPE THEN FontType$ = "Bold"
- IF cf.nFontType AND ITALIC_FONTTYPE THEN FontType$ = FontType$ + "Italic"
- IF cf.nFontType AND REGULAR_FONTTYPE THEN FontType$ = "Regular"
- IF lfont.lfUnderline THEN FontEff$ = "Underline"
- IF lfont.lfStrikeOut THEN FontEff$ = FontStyle$ + "Strikeout"
- PointSize = cf.iPointSize \ 10
+ShowFont = LEFT$(lfont.lfFaceName, INSTR(lfont.lfFaceName, CHR$(0)) - 1)
+'returns closest color attribute or 32 bit value and swaps red and blue color values
+FontColor& = _RGB(_BLUE32(cf.rgbColors), _GREEN32(cf.rgbColors), _RED32(cf.rgbColors))
+IF cf.nFontType AND BOLD_FONTTYPE THEN FontType$ = "Bold"
+IF cf.nFontType AND ITALIC_FONTTYPE THEN FontType$ = FontType$ + "Italic"
+IF cf.nFontType AND REGULAR_FONTTYPE THEN FontType$ = "Regular"
+IF lfont.lfUnderline THEN FontEff$ = "Underline"
+IF lfont.lfStrikeOut THEN FontEff$ = FontStyle$ + "Strikeout"
+PointSize = cf.iPointSize \ 10
 ELSE
- IF CommDlgExtendedError& THEN
-   PRINT "ChooseFontA failed. Error: 0x"; LCASE$(HEX$(CommDlgExtendedError&))
- ELSE: PRINT "Entry was cancelled!"
- END IF
+IF CommDlgExtendedError& THEN
+PRINT "ChooseFontA failed. Error: 0x"; LCASE$(HEX$(CommDlgExtendedError&))
+ELSE: PRINT "Entry was cancelled!"
+END IF
 END IF
 END FUNCTION
 ```
   
+<br>
+
 ```vb
 ' procedure assumes that all fonts have been loaded into an array as below:
 RegFont$(1) = "Times New Roman (TrueType) = TIMES.TTF" 'array simulates registry data from file
@@ -1029,22 +1161,24 @@ File$ = ""
 
 FOR n = 1 TO 4 'numFiles% 'actual number of font file registry records
 IF INSTR$(RegFont$(n), Font$) THEN 'check for match of Dialog Box font name "Times New Roman"
- FontFile$ = MID$(RegFont$(n), INSTR(RegFont$(n), "=") + 2)   'get each file name value
- SELECT CASE FontType$   'check for user requested font type to get file name
- CASE "Bold"
-   IF INSTR(RegFont$(n), "Bold") AND INSTR(RegFont$(n), "Italic") = 0 THEN File$ = FontFile$
- CASE "Italic"
-   IF INSTR(RegFont$(n), "Italic") AND INSTR(RegFont$(n), "Bold") = 0 THEN File$ = FontFile$
- CASE "BoldItalic"
-   IF INSTR(RegFont$(n), "Bold") AND INSTR(RegFont$(n), "Italic") THEN File$ = FontFile$
- CASE ELSE 'regular font as default
-   IF INSTR(RegFont$(n), "Bold") = 0 AND INSTR(RegFont$(n), "Italic") = 0 THEN File$ = FontFile$
- END SELECT
+FontFile$ = MID$(RegFont$(n), INSTR(RegFont$(n), "=") + 2)   'get each file name value
+SELECT CASE FontType$   'check for user requested font type to get file name
+CASE "Bold"
+IF INSTR(RegFont$(n), "Bold") AND INSTR(RegFont$(n), "Italic") = 0 THEN File$ = FontFile$
+CASE "Italic"
+IF INSTR(RegFont$(n), "Italic") AND INSTR(RegFont$(n), "Bold") = 0 THEN File$ = FontFile$
+CASE "BoldItalic"
+IF INSTR(RegFont$(n), "Bold") AND INSTR(RegFont$(n), "Italic") THEN File$ = FontFile$
+CASE ELSE 'regular font as default
+IF INSTR(RegFont$(n), "Bold") = 0 AND INSTR(RegFont$(n), "Italic") = 0 THEN File$ = FontFile$
+END SELECT
 END IF
 IF LEN(File$) THEN EXIT FOR  'quit searching
 NEXT
 ```
   
+<br>
+
 ```vb
 ' winreg.h
 CONST HKEY_CLASSES_ROOT = &H80000000~&
@@ -1111,14 +1245,14 @@ CONST ERROR_NO_MORE_ITEMS = &H103&
 
 DECLARE DYNAMIC LIBRARY "advapi32"
 
- ' http://msdn.microsoft.com/en-us/library/ms724897(v=VS.85).aspx
- FUNCTION RegOpenKeyExA& (BYVAL hKey AS _OFFSET, BYVAL lpSubKey AS _OFFSET, BYVAL ulOptions AS _UNSIGNED LONG, BYVAL samDesired AS _UNSIGNED LONG, BYVAL phkResult AS _OFFSET)
+' http://msdn.microsoft.com/en-us/library/ms724897(v=VS.85).aspx
+FUNCTION RegOpenKeyExA& (BYVAL hKey AS _OFFSET, BYVAL lpSubKey AS _OFFSET, BYVAL ulOptions AS _UNSIGNED LONG, BYVAL samDesired AS _UNSIGNED LONG, BYVAL phkResult AS _OFFSET)
 
- ' http://msdn.microsoft.com/en-us/library/ms724837(v=VS.85).aspx
- FUNCTION RegCloseKey& (BYVAL hKey AS _OFFSET)
+' http://msdn.microsoft.com/en-us/library/ms724837(v=VS.85).aspx
+FUNCTION RegCloseKey& (BYVAL hKey AS _OFFSET)
 
- ' http://msdn.microsoft.com/en-us/library/ms724865(v=VS.85).aspx
- FUNCTION RegEnumValueA& (BYVAL hKey AS _OFFSET, BYVAL dwIndex AS _UNSIGNED LONG, BYVAL lpValueName AS _OFFSET,_
+' http://msdn.microsoft.com/en-us/library/ms724865(v=VS.85).aspx
+FUNCTION RegEnumValueA& (BYVAL hKey AS _OFFSET, BYVAL dwIndex AS _UNSIGNED LONG, BYVAL lpValueName AS _OFFSET,_
 BYVAL lpcchValueName AS _OFFSET, BYVAL lpReserved AS _OFFSET, BYVAL lpType AS _OFFSET, BYVAL lpData AS _OFFSET,_
 BYVAL lpcbData AS _OFFSET)
 
@@ -1146,63 +1280,63 @@ bData = SPACE$(&H7FFF) 'arbitrary
 
 l = RegOpenKeyExA(Ky, _OFFSET(SubKey), 0, KEY_READ, _OFFSET(hKey))
 IF l THEN
- PRINT "RegOpenKeyExA failed. Error: 0x" + LCASE$(HEX$(l))
+PRINT "RegOpenKeyExA failed. Error: 0x" + LCASE$(HEX$(l))
 ELSE
- PRINT whatKey$(Ky) + "\" + SubKey
- dwIndex = 0
- DO
-   _DELAY .1
-   numBytes = LEN(bData)
-   numTchars = LEN(Value)
-   l = RegEnumValueA(hKey, dwIndex, _OFFSET(Value), _OFFSET(numTchars), 0, _OFFSET(dwType), _OFFSET(bData), _OFFSET(numBytes))
-   IF l THEN
-     IF l <> ERROR_NO_MORE_ITEMS THEN
-       PRINT "RegEnumValueA failed. Error: 0x" + LCASE$(HEX$(l))
-     END IF
-     EXIT DO
-   ELSE
-     PRINT whatType(dwType) + " " + LEFT$(Value, numTchars) + " = " + formatData(dwType, numBytes, bData)
-     PRINT #1, LEFT$(Value, numTchars) + " = " + formatData(dwType, numBytes, bData)
-   END IF
-   dwIndex = dwIndex + 1
- LOOP
- CLOSE #1
- PRINT dwIndex; "Values."
- l = RegCloseKey(hKey)
- IF l THEN
-   PRINT "RegCloseKey failed. Error: 0x" + LCASE$(HEX$(l))
-   END
- END IF
+PRINT whatKey$(Ky) + "\" + SubKey
+dwIndex = 0
+DO
+_DELAY .1
+numBytes = LEN(bData)
+numTchars = LEN(Value)
+l = RegEnumValueA(hKey, dwIndex, _OFFSET(Value), _OFFSET(numTchars), 0, _OFFSET(dwType), _OFFSET(bData), _OFFSET(numBytes))
+IF l THEN
+IF l <> ERROR_NO_MORE_ITEMS THEN
+PRINT "RegEnumValueA failed. Error: 0x" + LCASE$(HEX$(l))
+END IF
+EXIT DO
+ELSE
+PRINT whatType(dwType) + " " + LEFT$(Value, numTchars) + " = " + formatData(dwType, numBytes, bData)
+PRINT #1, LEFT$(Value, numTchars) + " = " + formatData(dwType, numBytes, bData)
+END IF
+dwIndex = dwIndex + 1
+LOOP
+CLOSE #1
+PRINT dwIndex; "Values."
+l = RegCloseKey(hKey)
+IF l THEN
+PRINT "RegCloseKey failed. Error: 0x" + LCASE$(HEX$(l))
+END
+END IF
 END IF
 
 END
 
 FUNCTION whatType$ (dwType AS _UNSIGNED LONG)
 SELECT CASE dwType
- CASE REG_SZ: whatType = "REG_SZ"
- CASE REG_EXPAND_SZ: whatType = "REG_EXPAND_SZ"
- CASE REG_BINARY: whatType = "REG_BINARY"
- CASE REG_DWORD: whatType = "REG_DWORD"
- CASE REG_DWORD_BIG_ENDIAN: whatType = "REG_DWORD_BIG_ENDIAN"
- CASE REG_LINK: whatType = "REG_LINK"
- CASE REG_MULTI_SZ: whatType = "REG_MULTI_SZ"
- CASE REG_RESOURCE_LIST: whatType = "REG_RESOURCE_LIST"
- CASE REG_FULL_RESOURCE_DESCRIPTOR: whatType = "REG_FULL_RESOURCE_DESCRIPTOR"
- CASE REG_RESOURCE_REQUIREMENTS_LIST: whatType = "REG_RESOURCE_REQUIREMENTS_LIST"
- CASE REG_QWORD: whatType = "REG_QWORD"
- CASE ELSE: whatType = "unknown"
+CASE REG_SZ: whatType = "REG_SZ"
+CASE REG_EXPAND_SZ: whatType = "REG_EXPAND_SZ"
+CASE REG_BINARY: whatType = "REG_BINARY"
+CASE REG_DWORD: whatType = "REG_DWORD"
+CASE REG_DWORD_BIG_ENDIAN: whatType = "REG_DWORD_BIG_ENDIAN"
+CASE REG_LINK: whatType = "REG_LINK"
+CASE REG_MULTI_SZ: whatType = "REG_MULTI_SZ"
+CASE REG_RESOURCE_LIST: whatType = "REG_RESOURCE_LIST"
+CASE REG_FULL_RESOURCE_DESCRIPTOR: whatType = "REG_FULL_RESOURCE_DESCRIPTOR"
+CASE REG_RESOURCE_REQUIREMENTS_LIST: whatType = "REG_RESOURCE_REQUIREMENTS_LIST"
+CASE REG_QWORD: whatType = "REG_QWORD"
+CASE ELSE: whatType = "unknown"
 END SELECT
 END FUNCTION
 
 FUNCTION whatKey$ (hKey AS _OFFSET)
 SELECT CASE hKey
- CASE HKEY_CLASSES_ROOT: whatKey = "HKEY_CLASSES_ROOT"
- CASE HKEY_CURRENT_USER: whatKey = "HKEY_CURRENT_USER"
- CASE HKEY_LOCAL_MACHINE: whatKey = "HKEY_LOCAL_MACHINE"
- CASE HKEY_USERS: whatKey = "HKEY_USERS"
- CASE HKEY_PERFORMANCE_DATA: whatKey = "HKEY_PERFORMANCE_DATA"
- CASE HKEY_CURRENT_CONFIG: whatKey = "HKEY_CURRENT_CONFIG"
- CASE HKEY_DYN_DATA: whatKey = "HKEY_DYN_DATA"
+CASE HKEY_CLASSES_ROOT: whatKey = "HKEY_CLASSES_ROOT"
+CASE HKEY_CURRENT_USER: whatKey = "HKEY_CURRENT_USER"
+CASE HKEY_LOCAL_MACHINE: whatKey = "HKEY_LOCAL_MACHINE"
+CASE HKEY_USERS: whatKey = "HKEY_USERS"
+CASE HKEY_PERFORMANCE_DATA: whatKey = "HKEY_PERFORMANCE_DATA"
+CASE HKEY_CURRENT_CONFIG: whatKey = "HKEY_CURRENT_CONFIG"
+CASE HKEY_DYN_DATA: whatKey = "HKEY_DYN_DATA"
 END SELECT
 END FUNCTION
 
@@ -1211,101 +1345,105 @@ DIM t AS STRING
 DIM ul AS _UNSIGNED LONG
 DIM b AS _UNSIGNED _BYTE
 SELECT CASE dwType
- CASE REG_SZ, REG_EXPAND_SZ, REG_MULTI_SZ
-   formatData = LEFT$(bData, numBytes - 1)
- CASE REG_DWORD
-   t = LCASE$(HEX$(CVL(LEFT$(bData, 4))))
-   formatData = "0x" + STRING$(8 - LEN(t), &H30) + t
- CASE ELSE
-   IF numBytes THEN
-     b = ASC(LEFT$(bData, 1))
-     IF b < &H10 THEN
-       t = t + "0" + LCASE$(HEX$(b))
-     ELSE
-       t = t + LCASE$(HEX$(b))
-     END IF
-   END IF
-   FOR ul = 2 TO numBytes
-     b = ASC(MID$(bData, ul, 1))
-     IF b < &H10 THEN
-       t = t + " 0" + LCASE$(HEX$(b))
-     ELSE
-       t = t + " " + LCASE$(HEX$(b))
-     END IF
-   NEXT
-   formatData = t
+CASE REG_SZ, REG_EXPAND_SZ, REG_MULTI_SZ
+formatData = LEFT$(bData, numBytes - 1)
+CASE REG_DWORD
+t = LCASE$(HEX$(CVL(LEFT$(bData, 4))))
+formatData = "0x" + STRING$(8 - LEN(t), &H30) + t
+CASE ELSE
+IF numBytes THEN
+b = ASC(LEFT$(bData, 1))
+IF b < &H10 THEN
+t = t + "0" + LCASE$(HEX$(b))
+ELSE
+t = t + LCASE$(HEX$(b))
+END IF
+END IF
+FOR ul = 2 TO numBytes
+b = ASC(MID$(bData, ul, 1))
+IF b < &H10 THEN
+t = t + " 0" + LCASE$(HEX$(b))
+ELSE
+t = t + " " + LCASE$(HEX$(b))
+END IF
+NEXT
+formatData = t
 END SELECT
 END FUNCTION
 ```
   
+<br>
+
 ```vb
 DECLARE DYNAMIC LIBRARY "winmm"
-   FUNCTION joyGetNumDevs% () ' Number of joysticks supported on system
-   FUNCTION joyGetPosEx& (BYVAL uJoyID AS _UNSIGNED INTEGER, joyref AS LONG)
+FUNCTION joyGetNumDevs% () ' Number of joysticks supported on system
+FUNCTION joyGetPosEx& (BYVAL uJoyID AS _UNSIGNED INTEGER, joyref AS LONG)
 END DECLARE
 
 TYPE JOYINFOEX
-   dwSize AS LONG
-   dwFlags AS LONG
-   dwXpos AS LONG
-   dwYpos AS LONG
-   dwZpos AS LONG
-   dwRpos AS LONG
-   dwUpos AS LONG
-   dwVpos AS LONG
-   dwButtons AS LONG
-   dwButtonNumber AS LONG
-   dwPOV AS LONG
-   dwReserved1 AS LONG
-   dwReserved2 AS LONG
+dwSize AS LONG
+dwFlags AS LONG
+dwXpos AS LONG
+dwYpos AS LONG
+dwZpos AS LONG
+dwRpos AS LONG
+dwUpos AS LONG
+dwVpos AS LONG
+dwButtons AS LONG
+dwButtonNumber AS LONG
+dwPOV AS LONG
+dwReserved1 AS LONG
+dwReserved2 AS LONG
 END TYPE
 
 DIM Joy1 AS JOYINFOEX
 Joy1.dwSize = LEN(Joy1)
 
 DO
-   x& = joyGetPosEx(0, Joy1.dwSize)
+x& = joyGetPosEx(0, Joy1.dwSize)
 
-   LOCATE 1, 1:
-   PRINT Joy1.dwSize
-   PRINT Joy1.dwFlags
-   PRINT Joy1.dwXpos
-   PRINT Joy1.dwYpos
-   PRINT Joy1.dwZpos
-   PRINT Joy1.dwRpos
-   PRINT Joy1.dwUpos
-   PRINT Joy1.dwVpos
+LOCATE 1, 1:
+PRINT Joy1.dwSize
+PRINT Joy1.dwFlags
+PRINT Joy1.dwXpos
+PRINT Joy1.dwYpos
+PRINT Joy1.dwZpos
+PRINT Joy1.dwRpos
+PRINT Joy1.dwUpos
+PRINT Joy1.dwVpos
 
 LOOP UNTIL INKEY$ <> ""
 ```
   
+<br>
+
 ```vb
 DECLARE DYNAMIC LIBRARY "winmm"
-   FUNCTION joyGetNumDevs% () ' Number of joysticks supported on system
-   FUNCTION joyGetPos& (BYVAL uJoyID AS _UNSIGNED INTEGER, joyref AS _UNSIGNED LONG)
+FUNCTION joyGetNumDevs% () ' Number of joysticks supported on system
+FUNCTION joyGetPos& (BYVAL uJoyID AS _UNSIGNED INTEGER, joyref AS _UNSIGNED LONG)
 END DECLARE
 
 TYPE JOYINFO
-   wXpos AS _UNSIGNED LONG
-   wYpos AS _UNSIGNED LONG
-   wZpos AS _UNSIGNED LONG
-   wButtons AS _UNSIGNED LONG
+wXpos AS _UNSIGNED LONG
+wYpos AS _UNSIGNED LONG
+wZpos AS _UNSIGNED LONG
+wButtons AS _UNSIGNED LONG
 END TYPE
 
 TYPE PadCalibration
-   IsAnalog AS INTEGER
-   XMin AS LONG
-   YMin AS LONG
-   XMax AS LONG
-   YMax AS LONG
-   XNorm AS LONG
-   YNorm AS LONG
-   Button1 AS INTEGER
-   Button2 AS INTEGER
-   Button3 AS INTEGER
-   Button4 AS INTEGER
-   Button5 AS INTEGER
-   Button6 AS INTEGER
+IsAnalog AS INTEGER
+XMin AS LONG
+YMin AS LONG
+XMax AS LONG
+YMax AS LONG
+XNorm AS LONG
+YNorm AS LONG
+Button1 AS INTEGER
+Button2 AS INTEGER
+Button3 AS INTEGER
+Button4 AS INTEGER
+Button5 AS INTEGER
+Button6 AS INTEGER
 END TYPE
 
 DIM MyJoyCal AS PadCalibration, MyJoy AS JOYINFO
@@ -1315,77 +1453,77 @@ DIM MyJoyCal AS PadCalibration, MyJoy AS JOYINFO
 
 PRINT "Press button 1 (A on XBox | X on PS3) "
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons > 0
 MyJoyCal.Button1 = MyJoy.wButtons
 SLEEP 1
 
 PRINT "Press button 2 (B on XBox | Circle on PS3) "
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons <> 0
 MyJoyCal.Button2 = MyJoy.wButtons
 SLEEP 1
 
 PRINT "Press button 3 (X on XBox | Square on PS3) "
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons <> 0
 MyJoyCal.Button3 = MyJoy.wButtons
 SLEEP 1
 
 PRINT "Press button 4 (Y on XBox | Triangle on PS3) "
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons <> 0
 MyJoyCal.Button4 = MyJoy.wButtons
 SLEEP 1
 
 PRINT "Press button 5 (R1) "
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons <> 0
 MyJoyCal.Button5 = MyJoy.wButtons
 SLEEP 1
 
 PRINT "Press button 6 (L1) "
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons <> 0
 MyJoyCal.Button6 = MyJoy.wButtons
 SLEEP 1
 
 PRINT "Leave the joystick in its central position and press button 1"
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons = MyJoyCal.Button1
 MyJoyCal.XNorm = MyJoy.wXpos
 SLEEP 1
 
 PRINT "Push the joystick as far left as possible and press button 1"
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons = MyJoyCal.Button1
 MyJoyCal.XMin = MyJoy.wXpos
 SLEEP 1
 
 PRINT "Push the joystick as far right as possible and press button 1"
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons = MyJoyCal.Button1
 MyJoyCal.XMax = MyJoy.wXpos
 SLEEP 1
 
 PRINT "Push the joystick as far up as possible and press button 1"
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons = MyJoyCal.Button1
 MyJoyCal.YMin = MyJoy.wXpos
 SLEEP 1
 
 PRINT "Push the joystick as far down as possible and press button 1"
 DO
-   d% = JoyButtons(0, MyJoy, MyJoyCal)
+d% = JoyButtons(0, MyJoy, MyJoyCal)
 LOOP UNTIL MyJoy.wButtons = MyJoyCal.Button1
 MyJoyCal.YMax = MyJoy.wXpos
 SLEEP 1
@@ -1395,25 +1533,25 @@ CLS
 '//How to get the gamepads status.
 
 DO
-   a% = StickXPos(0, MyJoy, MyJoyCal)
-   b% = StickYPos(0, MyJoy, MyJoyCal)
-   c% = StickZPos(0, MyJoy, MyJoyCal)
-   d% = JoyButton1(0, MyJoy, MyJoyCal)
-   e% = JoyButton2(0, MyJoy, MyJoyCal)
-   f% = JoyButton3(0, MyJoy, MyJoyCal)
-   g% = JoyButton4(0, MyJoy, MyJoyCal)
-   h% = JoyButton5(0, MyJoy, MyJoyCal)
-   i% = JoyButton6(0, MyJoy, MyJoyCal)
+a% = StickXPos(0, MyJoy, MyJoyCal)
+b% = StickYPos(0, MyJoy, MyJoyCal)
+c% = StickZPos(0, MyJoy, MyJoyCal)
+d% = JoyButton1(0, MyJoy, MyJoyCal)
+e% = JoyButton2(0, MyJoy, MyJoyCal)
+f% = JoyButton3(0, MyJoy, MyJoyCal)
+g% = JoyButton4(0, MyJoy, MyJoyCal)
+h% = JoyButton5(0, MyJoy, MyJoyCal)
+i% = JoyButton6(0, MyJoy, MyJoyCal)
 
-   LOCATE 1, 1: PRINT "X axis : ", MyJoy.wXpos
-   PRINT "Y axis : ", MyJoy.wYpos
-   PRINT "Z axis : ", MyJoy.wZpos
-   PRINT "Button 1 : ", d%
-   PRINT "Button 2 : ", e%
-   PRINT "Button 3 : ", f%
-   PRINT "Button 4 : ", g%
-   PRINT "Button 5 : ", h%
-   PRINT "Button 6 : ", i%
+LOCATE 1, 1: PRINT "X axis : ", MyJoy.wXpos
+PRINT "Y axis : ", MyJoy.wYpos
+PRINT "Z axis : ", MyJoy.wZpos
+PRINT "Button 1 : ", d%
+PRINT "Button 2 : ", e%
+PRINT "Button 3 : ", f%
+PRINT "Button 4 : ", g%
+PRINT "Button 5 : ", h%
+PRINT "Button 6 : ", i%
 
 LOOP UNTIL INKEY$ <> ""
 
@@ -1443,58 +1581,60 @@ END FUNCTION
 FUNCTION JoyButton1 (Index AS _UNSIGNED INTEGER, Joyref AS JOYINFO, JoyCal AS PadCalibration)
 x = joyGetPos(Index, Joyref.wXpos)
 IF Joyref.wButtons = JoyCal.Button1 THEN
-   JoyButton1 = -1
+JoyButton1 = -1
 ELSE
-   JoyButton1 = 0
+JoyButton1 = 0
 END IF
 END FUNCTION
 
 FUNCTION JoyButton2 (Index AS _UNSIGNED INTEGER, Joyref AS JOYINFO, JoyCal AS PadCalibration)
 x = joyGetPos(Index, Joyref.wXpos)
 IF Joyref.wButtons = JoyCal.Button2 THEN
-   JoyButton2 = -1
+JoyButton2 = -1
 ELSE
-   JoyButton2 = 0
+JoyButton2 = 0
 END IF
 END FUNCTION
 
 FUNCTION JoyButton3 (Index AS _UNSIGNED INTEGER, Joyref AS JOYINFO, JoyCal AS PadCalibration)
 x = joyGetPos(Index, Joyref.wXpos)
 IF Joyref.wButtons = JoyCal.Button3 THEN
-   JoyButton3 = -1
+JoyButton3 = -1
 ELSE
-   JoyButton3 = 0
+JoyButton3 = 0
 END IF
 END FUNCTION
 
 FUNCTION JoyButton4 (Index AS _UNSIGNED INTEGER, Joyref AS JOYINFO, JoyCal AS PadCalibration)
 x = joyGetPos(Index, Joyref.wXpos)
 IF Joyref.wButtons = JoyCal.Button4 THEN
-   JoyButton4 = -1
+JoyButton4 = -1
 ELSE
-   JoyButton4 = 0
+JoyButton4 = 0
 END IF
 END FUNCTION
 
 FUNCTION JoyButton5 (Index AS _UNSIGNED INTEGER, Joyref AS JOYINFO, JoyCal AS PadCalibration)
 x = joyGetPos(Index, Joyref.wXpos)
 IF Joyref.wButtons = JoyCal.Button5 THEN
-   JoyButton5 = -1
+JoyButton5 = -1
 ELSE
-   JoyButton5 = 0
+JoyButton5 = 0
 END IF
 END FUNCTION
 
 FUNCTION JoyButton6 (Index AS _UNSIGNED INTEGER, Joyref AS JOYINFO, JoyCal AS PadCalibration)
 x = joyGetPos(Index, Joyref.wXpos)
 IF Joyref.wButtons = JoyCal.Button6 THEN
-   JoyButton6 = -1
+JoyButton6 = -1
 ELSE
-   JoyButton6 = 0
+JoyButton6 = 0
 END IF
 END FUNCTION
 ```
   
+<br>
+
 ```vb
 '=================
 'CHEAPO-HOTKEY.BAS
@@ -1503,9 +1643,9 @@ END FUNCTION
 'This demo will maximize the window when Shift+A is pressed at any time.
 
 DECLARE DYNAMIC LIBRARY "user32"
- FUNCTION FindWindowA& (BYVAL ClassName AS _OFFSET, WindowName$) 'handle by title
- FUNCTION GetKeyState% (BYVAL nVirtKey AS LONG) 'reads Windows key presses independently
- FUNCTION ShowWindow& (BYVAL hwnd AS LONG, BYVAL nCmdShow AS LONG) 'minimize or maximize
+FUNCTION FindWindowA& (BYVAL ClassName AS _OFFSET, WindowName$) 'handle by title
+FUNCTION GetKeyState% (BYVAL nVirtKey AS LONG) 'reads Windows key presses independently
+FUNCTION ShowWindow& (BYVAL hwnd AS LONG, BYVAL nCmdShow AS LONG) 'minimize or maximize
 END DECLARE
 
 title$ = "Cheapo Hotkey (Shift+A)" 'string variable avoids title typo's
@@ -1520,16 +1660,18 @@ PRINT "Minimize this window, then Press Shift+A to bring it back up."
 '===========================
 
 DO
- IF GetKeyState(16) < 0 AND GetKeyState(ASC("A")) < 0 THEN '<==== Shift+A
-     y& = ShowWindow&(hwnd&, 1)
-     PRINT "That is all. Hoped it worked."; x&; y&
-     END
- END IF
+IF GetKeyState(16) < 0 AND GetKeyState(ASC("A")) < 0 THEN '<==== Shift+A
+y& = ShowWindow&(hwnd&, 1)
+PRINT "That is all. Hoped it worked."; x&; y&
+END
+END IF
 
- _LIMIT 30 'Don't be a hog
+_LIMIT 30 'Don't be a hog
 LOOP
 ```
   
+<br>
+
 ```vb
 '                                  Virtual KeyState Codes
 '
@@ -1551,6 +1693,8 @@ LOOP
 '  Mouse click returns: LB = 1, RB = 2, MB = 4, etc. Special keys may also work.
 ```
   
+<br>
+
 ```vb
 $CONSOLE
 _DEST _CONSOLE ' for demonstration only
@@ -1563,76 +1707,78 @@ DO : LOOP UNTIL _SCREENEXISTS 'to prevent unexpected freezing
 _SCREENHIDE 'makes the program invisible to the user. Escape key displays log!
 
 DECLARE LIBRARY  'function is already used by QB64 so "User32" is not required
- FUNCTION GetAsyncKeyState% (BYVAL vkey AS LONG)
+FUNCTION GetAsyncKeyState% (BYVAL vkey AS LONG)
 END DECLARE
 
 DIM theitem$(1000)
 
 DO: _LIMIT 100
- FOR thekey = &H30 TO &H5A
-   IF GetAsyncKeyState(thekey) THEN
-     theitem$(a) = theitem$(a) + CHR$(thekey)
-     DO
-     LOOP UNTIL GetAsyncKeyState(thekey) = 0
-   END IF
- NEXT
- IF GetAsyncKeyState(1) THEN
-   a = a + 1
-   theitem$(a) = "{MOUSE LEFT}"
-   DO
-   LOOP UNTIL GetAsyncKeyState(1) = 0
- END IF
- IF GetAsyncKeyState(2) THEN
-   a = a + 1
-   theitem$(a) = "{MOUSE RIGHT}"
-   DO
-   LOOP UNTIL GetAsyncKeyState(2) = 0
- END IF
- IF GetAsyncKeyState(4) THEN
-   a = a + 1
-   theitem$(a) = "{MOUSE MIDDLE}"
-   DO
-   LOOP UNTIL GetAsyncKeyState(4) = 0
- END IF
- IF GetAsyncKeyState(8) THEN
-   theitem$(a) = theitem$(a) + "{BS}"
-   DO
-   LOOP UNTIL GetAsyncKeyState(8) = 0
- END IF
- IF GetAsyncKeyState(9) THEN
-   theitem$(a) = theitem$(a) + "{TAB}"
-   DO
-   LOOP UNTIL GetAsyncKeyState(9) = 0
- END IF
- IF GetAsyncKeyState(&HD) THEN
-   a = a + 1
-   theitem$(a) = "{ENTER}"
-   DO
-   LOOP UNTIL GetAsyncKeyState(&HD) = 0
- END IF
- IF GetAsyncKeyState(&H14) THEN
-   theitem$(a) = theitem$(a) + "{CAPS LOCK}"
-   DO
-   LOOP UNTIL GetAsyncKeyState(&H14) = 0
- END IF
- IF GetAsyncKeyState(&H20) THEN
-   theitem$(a) = theitem$(a) + " "
-   DO
-   LOOP UNTIL GetAsyncKeyState(&H20) = 0
- END IF
- IF GetAsyncKeyState(&H1B) THEN
-   theitem$(a) = theitem$(a) + "{ESC}"
-   EXIT DO 'ESC key exits loop and prints logged key presses
- END IF
+FOR thekey = &H30 TO &H5A
+IF GetAsyncKeyState(thekey) THEN
+theitem$(a) = theitem$(a) + CHR$(thekey)
+DO
+LOOP UNTIL GetAsyncKeyState(thekey) = 0
+END IF
+NEXT
+IF GetAsyncKeyState(1) THEN
+a = a + 1
+theitem$(a) = "{MOUSE LEFT}"
+DO
+LOOP UNTIL GetAsyncKeyState(1) = 0
+END IF
+IF GetAsyncKeyState(2) THEN
+a = a + 1
+theitem$(a) = "{MOUSE RIGHT}"
+DO
+LOOP UNTIL GetAsyncKeyState(2) = 0
+END IF
+IF GetAsyncKeyState(4) THEN
+a = a + 1
+theitem$(a) = "{MOUSE MIDDLE}"
+DO
+LOOP UNTIL GetAsyncKeyState(4) = 0
+END IF
+IF GetAsyncKeyState(8) THEN
+theitem$(a) = theitem$(a) + "{BS}"
+DO
+LOOP UNTIL GetAsyncKeyState(8) = 0
+END IF
+IF GetAsyncKeyState(9) THEN
+theitem$(a) = theitem$(a) + "{TAB}"
+DO
+LOOP UNTIL GetAsyncKeyState(9) = 0
+END IF
+IF GetAsyncKeyState(&HD) THEN
+a = a + 1
+theitem$(a) = "{ENTER}"
+DO
+LOOP UNTIL GetAsyncKeyState(&HD) = 0
+END IF
+IF GetAsyncKeyState(&H14) THEN
+theitem$(a) = theitem$(a) + "{CAPS LOCK}"
+DO
+LOOP UNTIL GetAsyncKeyState(&H14) = 0
+END IF
+IF GetAsyncKeyState(&H20) THEN
+theitem$(a) = theitem$(a) + " "
+DO
+LOOP UNTIL GetAsyncKeyState(&H20) = 0
+END IF
+IF GetAsyncKeyState(&H1B) THEN
+theitem$(a) = theitem$(a) + "{ESC}"
+EXIT DO 'ESC key exits loop and prints logged key presses
+END IF
 LOOP
 
 _SCREENSHOW 'makes program visible with ESC key press
 FOR b = 0 TO a
- PRINT theitem$(b)
- IF b MOD 20 = 19 THEN COLOR 12: PRINT "press any key": SLEEP: COLOR 7
+PRINT theitem$(b)
+IF b MOD 20 = 19 THEN COLOR 12: PRINT "press any key": SLEEP: COLOR 7
 NEXT
 ```
   
+<br>
+
 ```vb
 'public domain, 2012 april, michael calkins
 CONST INPUT_KEYBOARD = 1
@@ -1680,34 +1826,36 @@ RANDOMIZE TIMER
 DO UNTIL INKEY$ = CHR$(&H1B)
 _DELAY 2
 SELECT CASE INT(RND * 3)
- CASE 0
-  ki(0).wVk = VK_NUMLOCK
-  ki(1).wVk = VK_NUMLOCK
-  ki(0).wScan = scNumlock
-  ki(1).wScan = scNumlock
-  PRINT "Num lock..."
- CASE 1
-  ki(0).wVk = VK_CAPITAL
-  ki(1).wVk = VK_CAPITAL
-  ki(0).wScan = scCapital
-  ki(1).wScan = scCapital
-  PRINT "Caps lock..."
- CASE 2
-  ki(0).wVk = VK_SCROLL
-  ki(1).wVk = VK_SCROLL
-  ki(0).wScan = scScroll
-  ki(1).wScan = scScroll
-  PRINT "Scroll lock..."
+CASE 0
+ki(0).wVk = VK_NUMLOCK
+ki(1).wVk = VK_NUMLOCK
+ki(0).wScan = scNumlock
+ki(1).wScan = scNumlock
+PRINT "Num lock..."
+CASE 1
+ki(0).wVk = VK_CAPITAL
+ki(1).wVk = VK_CAPITAL
+ki(0).wScan = scCapital
+ki(1).wScan = scCapital
+PRINT "Caps lock..."
+CASE 2
+ki(0).wVk = VK_SCROLL
+ki(1).wVk = VK_SCROLL
+ki(0).wScan = scScroll
+ki(1).wScan = scScroll
+PRINT "Scroll lock..."
 END SELECT
 l = SendInput(2, _OFFSET(ki(0)), LEN(ki(0))) '2 tells function to read two indices(0 and 1)
 IF l <> 2 THEN
- PRINT l
- PRINT "0x" + LCASE$(HEX$(GetLastError))
+PRINT l
+PRINT "0x" + LCASE$(HEX$(GetLastError))
 END IF
 LOOP
 END
 ```
   
+<br>
+
 ```vb
 'Message Box Constant values as defined by Microsoft (MBType)
 CONST MB_OK& = 0                'OK button only
@@ -1743,53 +1891,55 @@ FUNCTION MessageBox& (BYVAL Zer0 AS LONG, Message AS STRING, Title AS STRING, BY
 END DECLARE
 
 DO
- msg& = 0: icon& = 0: DB& = 0
- INPUT "Enter Message Box type(0 to 6 other Quits): ", BOX&
- IF BOX& < 0 OR BOX& > 6 THEN EXIT DO
+msg& = 0: icon& = 0: DB& = 0
+INPUT "Enter Message Box type(0 to 6 other Quits): ", BOX&
+IF BOX& < 0 OR BOX& > 6 THEN EXIT DO
 
- INPUT "Enter Icon&(0=none, 1=stop, 2=?, 3=!, 4=info): ", Icon&
+INPUT "Enter Icon&(0=none, 1=stop, 2=?, 3=!, 4=info): ", Icon&
 
- IF BOX& THEN INPUT "Enter Default Button(1st, 2nd or 3rd): ", DB&
- IF DB& THEN DB& = DB& - 1     'adjust value to 0, 1, or 2
- msg& = MsgBox&("Box Title", "Box text message", BOX&, Icon&, DB&, 4096) 'on top of all windows
+IF BOX& THEN INPUT "Enter Default Button(1st, 2nd or 3rd): ", DB&
+IF DB& THEN DB& = DB& - 1     'adjust value to 0, 1, or 2
+msg& = MsgBox&("Box Title", "Box text message", BOX&, Icon&, DB&, 4096) 'on top of all windows
 
- PRINT "Button ="; msg&
+PRINT "Button ="; msg&
 LOOP
 END
 
 FUNCTION MsgBox& (Title$, Message$, BoxType&, Icon&, DBtn&, Mode&)
 SELECT CASE Icon&
- CASE 1: Icon& = MB_ICONSTOP&          'warning X-sign icon
- CASE 2: Icon& = MB_ICONQUESTION&      'question-mark icon
- CASE 3: Icon& = MB_ICONEXCLAMATION&   'exclamation-point icon
- CASE 4: Icon& = MB_ICONINFORMATION&   'lowercase letter i in circle
- CASE ELSE: Icon& = 0 'no icon
+CASE 1: Icon& = MB_ICONSTOP&          'warning X-sign icon
+CASE 2: Icon& = MB_ICONQUESTION&      'question-mark icon
+CASE 3: Icon& = MB_ICONEXCLAMATION&   'exclamation-point icon
+CASE 4: Icon& = MB_ICONINFORMATION&   'lowercase letter i in circle
+CASE ELSE: Icon& = 0 'no icon
 END SELECT
 IF BoxType& > 0 AND DBtn& > 0 THEN 'set default button as 2nd(256) or 3rd(512)
- SELECT CASE BoxType&
-   CASE 2, 3, 6
-    IF DBtn& = 2 THEN Icon& = Icon& + MB_DEFBUTTON3& ELSE Icon& = Icon& + MB_DEFBUTTON2& '3 button
-   CASE ELSE: Icon& = Icon& + MB_DEFBUTTON2& '2nd button default
- END SELECT
+SELECT CASE BoxType&
+CASE 2, 3, 6
+IF DBtn& = 2 THEN Icon& = Icon& + MB_DEFBUTTON3& ELSE Icon& = Icon& + MB_DEFBUTTON2& '3 button
+CASE ELSE: Icon& = Icon& + MB_DEFBUTTON2& '2nd button default
+END SELECT
 END IF
 Focus& = MB_SetFocus&
 MsgBox& = MessageBox&(0, Message$, Title$, BoxType& + Icon& + Mode& + Focus&) 'focus on button
 END FUNCTION
 ```
   
+<br>
+
 ```vb
 TYPE Rectangle
- left AS LONG
- top AS LONG
- right AS LONG
- bottom AS LONG
+left AS LONG
+top AS LONG
+right AS LONG
+bottom AS LONG
 END TYPE
 DIM Rec AS Rectangle
 
 
 DECLARE DYNAMIC LIBRARY "User32"
- FUNCTION ClipCursor%% (Rect AS Rectangle) 'sets mouse box work area on desktop
- SUB SetCursorPos (BYVAL x AS LONG, BYVAL y AS LONG) 'move cursor position
+FUNCTION ClipCursor%% (Rect AS Rectangle) 'sets mouse box work area on desktop
+SUB SetCursorPos (BYVAL x AS LONG, BYVAL y AS LONG) 'move cursor position
 END DECLARE
 
 SCREEN _NEWIMAGE(320, 200, 32)
@@ -1808,7 +1958,7 @@ CLS
 PRINT work%%
 PRINT "Click the mouse and window to quit!"
 DO
- m = _MOUSEINPUT
+m = _MOUSEINPUT
 
 LOOP UNTIL _MOUSEBUTTON(2) OR _MOUSEBUTTON(1)
 SetCursorPos 40, 36 'attempts to move mouse to left
@@ -1816,11 +1966,13 @@ SetCursorPos 40, 36 'attempts to move mouse to left
 SYSTEM
 ```
   
+<br>
+
 ```vb
 'Uses Kernel32 WinAPI to execute a program in a QB64 program.  Coded by Dav
 
 DECLARE LIBRARY
- Function WinExec (lpCmdLine AS STRING, BYVAL nCmdShow AS LONG)
+Function WinExec (lpCmdLine AS STRING, BYVAL nCmdShow AS LONG)
 END DECLARE
 
 Winmode% = 1
@@ -1843,16 +1995,18 @@ Result = WinExec(Filename$, Winmode%)
 '=== Show results ...
 
 SELECT CASE Result
-  CASE 0: PRINT "System out of memory or resources."
-  CASE 2: PRINT "The specified file was not found."
-  CASE 3: PRINT "The specified path was not found."
-  CASE 11: PRINT "The file is invalid (non-Win32 .EXE or error in .EXE image)."
-  CASE IS > 31: PRINT "Program opened normally."
-  CASE ELSE: PRINT "Unknown error: "; Result
+CASE 0: PRINT "System out of memory or resources."
+CASE 2: PRINT "The specified file was not found."
+CASE 3: PRINT "The specified path was not found."
+CASE 11: PRINT "The file is invalid (non-Win32 .EXE or error in .EXE image)."
+CASE IS > 31: PRINT "Program opened normally."
+CASE ELSE: PRINT "Unknown error: "; Result
 END SELECT
 END
 ```
   
+<br>
+
 ```vb
 CONST SND_SYNC = 0 'Windows controlled
 CONST SND_ASYNC = 1 'user controlled
@@ -1863,7 +2017,7 @@ CONST SND_NOWAIT = &H2000 'will not play sound if driver is busy
 CONST SND_PURGE = &H40 'stop any sound playing
 
 DECLARE DYNAMIC LIBRARY "winmm"
- FUNCTION PlaySound% ALIAS PlaySoundA (lpszName AS STRING, BYVAL hModule AS INTEGER, BYVAL dwFlags AS INTEGER)
+FUNCTION PlaySound% ALIAS PlaySoundA (lpszName AS STRING, BYVAL hModule AS INTEGER, BYVAL dwFlags AS INTEGER)
 END DECLARE
 
 LINE INPUT "Enter WAV sound file name: ", FileName$
@@ -1875,6 +2029,8 @@ IF K$ = "Y" THEN Synch = SND_ASYNC ELSE Synch = SND_SYNC
 retval% = PlaySound(FileName$, 0, Synch)
 ```
   
+<br>
+
 ```vb
 CONST ERROR_ALREADY_EXISTS = &HB7
 
@@ -1904,6 +2060,8 @@ LOOP
 SYSTEM
 ```
   
+<br>
+
 ```vb
 '============
 'SENDKEYS.BAS
@@ -1913,7 +2071,7 @@ SYSTEM
 
 
 DECLARE DYNAMIC LIBRARY "user32"
-   SUB SENDKEYS ALIAS keybd_event (BYVAL bVk AS LONG, BYVAL bScan AS LONG, BYVAL dwFlags AS LONG, BYVAL dwExtraInfo AS LONG)
+SUB SENDKEYS ALIAS keybd_event (BYVAL bVk AS LONG, BYVAL bScan AS LONG, BYVAL dwFlags AS LONG, BYVAL dwExtraInfo AS LONG)
 END DECLARE
 
 CONST KEYEVENTF_KEYUP = &H2
@@ -1984,6 +2142,8 @@ PRINT "That's all. have a nice day."
 END
 ```
   
+<br>
+
 ```vb
 '                                  Virtual KeyState Codes
 '
@@ -2005,6 +2165,8 @@ END
 '  Mouse click returns: LB = 1, RB = 2, MB = 4, etc. Special keys may also work.
 ```
   
+<br>
+
 ```vb
 CONST SM_CXSCREEN = 0 'Width of user desktop
 CONST SM_CYSCREEN = 1 'Height of user desktop
@@ -2046,7 +2208,7 @@ CONST SM_PENWINDOWS = 41 ' Handle of Pen Windows dynamic link library if Pen Win
 CONST SM_SWAPBUTTON = 23 ' Non-zero if the left and right mouse buttons are swapped
 
 DECLARE LIBRARY
-   FUNCTION GetSystemMetrics& (BYVAL n AS LONG)
+FUNCTION GetSystemMetrics& (BYVAL n AS LONG)
 END DECLARE
 
 PRINT trimstr$(GetSystemMetrics(SM_CXSCREEN)); "x"; trimstr$(GetSystemMetrics(SM_CYSCREEN))
@@ -2061,6 +2223,8 @@ trimstr = LTRIM$(RTRIM$(STR$(whatever)))
 END FUNCTION
 ```
   
+<br>
+
 ```vb
 'public domain
 
@@ -2119,29 +2283,31 @@ IF hWnd <> x%& THEN _SCREENCLICK 240, 240 'add 40 to x and y to focus on positio
 END
 ```
   
+<br>
+
 ```vb
 DECLARE DYNAMIC LIBRARY "WINMM"
-   FUNCTION mciSendStringA% (lpstrCommand AS STRING, lpstrReturnString AS STRING, BYVAL uReturnLength AS INTEGER, BYVAL hwndCallback AS INTEGER)
-   ' mciSendStringA function plays media files and returns the following:
-   ' 0 = command sucessful
-   ' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   ' lpstrCommand is the MCI command string (and optional flags) to send.
-   ' lpstrReturnString is a string that holds any return information.
-   ' uReturnLength is the length of the lpstrReturnString string passed.
-   ' NOTE: If lpstrCommand given doesn't retun a value then lpstrReturnString
-   '       can be empty and uReturnLength can be set to 0.
-   ' hwndCallback contains a callback window handle (only if the Notify flag used in lpstrCommand)
-   '====================================================================
-   FUNCTION mciGetErrorStringA% (BYVAL dwError AS INTEGER, lpstrBuffer AS STRING, BYVAL uLength AS INTEGER)
-   ' mciGetErrorStringA returns error info if the mciSendStringA failed.
-   ' dwError is the return value from the mciSendString function.
-   ' lpstrBuffer string holds the error information returned by the function.
-   ' uLength is the length of the lpstrBuffer string buffer.
-   '====================================================================
+FUNCTION mciSendStringA% (lpstrCommand AS STRING, lpstrReturnString AS STRING, BYVAL uReturnLength AS INTEGER, BYVAL hwndCallback AS INTEGER)
+' mciSendStringA function plays media files and returns the following:
+' 0 = command sucessful
+' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+' lpstrCommand is the MCI command string (and optional flags) to send.
+' lpstrReturnString is a string that holds any return information.
+' uReturnLength is the length of the lpstrReturnString string passed.
+' NOTE: If lpstrCommand given doesn't retun a value then lpstrReturnString
+'       can be empty and uReturnLength can be set to 0.
+' hwndCallback contains a callback window handle (only if the Notify flag used in lpstrCommand)
+'====================================================================
+FUNCTION mciGetErrorStringA% (BYVAL dwError AS INTEGER, lpstrBuffer AS STRING, BYVAL uLength AS INTEGER)
+' mciGetErrorStringA returns error info if the mciSendStringA failed.
+' dwError is the return value from the mciSendString function.
+' lpstrBuffer string holds the error information returned by the function.
+' uLength is the length of the lpstrBuffer string buffer.
+'====================================================================
 END DECLARE
 
 DECLARE CUSTOMTYPE LIBRARY
-   FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$)
+FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$)
 END DECLARE
 
 
@@ -2159,24 +2325,26 @@ filename$ = "c:\DavPiano.mpg" '<========== video file to play
 a% = mciSendStringA%("open " + filename$ + " style popup", ReturnString$, LEN(ReturnString$), 0)
 
 IF a% THEN
-   x% = mciGetErrorStringA%(a%, ErrorString$, LEN(ErrorString$))
-   PRINT ErrorString$
-   END
+x% = mciGetErrorStringA%(a%, ErrorString$, LEN(ErrorString$))
+PRINT ErrorString$
+END
 ELSE
-   a2% = mciSendStringA%("window " + filename$ + " handle " + STR$(hwnd&), ReturnString$, LEN(ReturnString$), 0)
-   b% = mciSendStringA%("play " + filename$, "", 0, 0)
-   _SCREENMOVE _MIDDLE
-   '=== Play video...
-   DO: _LIMIT 30: LOOP UNTIL INKEY$ <> ""
+a2% = mciSendStringA%("window " + filename$ + " handle " + STR$(hwnd&), ReturnString$, LEN(ReturnString$), 0)
+b% = mciSendStringA%("play " + filename$, "", 0, 0)
+_SCREENMOVE _MIDDLE
+'=== Play video...
+DO: _LIMIT 30: LOOP UNTIL INKEY$ <> ""
 
-   x% = mciSendStringA%("stop " + filename$, "", 0, 0)
-   x% = mciSendStringA%("close " + filename$, "", 0, 0)
+x% = mciSendStringA%("stop " + filename$, "", 0, 0)
+x% = mciSendStringA%("close " + filename$, "", 0, 0)
 END IF
 ```
   
+<br>
+
 ```vb
 DECLARE DYNAMIC LIBRARY "urlmon"
- FUNCTION URLDownloadToFileA% (BYVAL pCaller AS LONG, szURL AS STRING, szFileName AS STRING, BYVAL dwReserved AS LONG, BYVAL lpfnCB AS LONG)
+FUNCTION URLDownloadToFileA% (BYVAL pCaller AS LONG, szURL AS STRING, szFileName AS STRING, BYVAL dwReserved AS LONG, BYVAL lpfnCB AS LONG)
 END DECLARE
 
 '=== URL to grab (page or a file)
@@ -2193,6 +2361,8 @@ SLEEP 7
 PRINT a%
 ```
   
+<br>
+
 ```vb
 CONST HWND_BOTTOM = 1     'places the window at the bottom of the Z order
 CONST HWND_TOP = 0        'places the window at the top of the Z order
@@ -2200,12 +2370,12 @@ CONST HWND_TOPMOST = -1   'places the window above all non-topmost windows
 CONST HWND_NOTOPMOST = -2 'places the window behind all topmost windows
 
 DECLARE DYNAMIC LIBRARY "user32"
- FUNCTION FindWindowA%& (BYVAL class AS _OFFSET, Title$)
- FUNCTION CloseWindow& (BYVAL hwnd AS _OFFSET)
- FUNCTION OpenIcon& (BYVAL hwnd AS _OFFSET)
- FUNCTION SetWindowTextA& (BYVAL hwnd AS _OFFSET, NewTitle$)
- FUNCTION GetWindowThreadProcessId& (BYVAL hwnd AS _OFFSET, BYVAL null AS LONG)
- FUNCTION SetWindowPos& (BYVAL hwnd%&, BYVAL Zorder&, BYVAL X&, BYVAL Y&, BYVAL cx&, BYVAL cy&, BYVAL flag&)
+FUNCTION FindWindowA%& (BYVAL class AS _OFFSET, Title$)
+FUNCTION CloseWindow& (BYVAL hwnd AS _OFFSET)
+FUNCTION OpenIcon& (BYVAL hwnd AS _OFFSET)
+FUNCTION SetWindowTextA& (BYVAL hwnd AS _OFFSET, NewTitle$)
+FUNCTION GetWindowThreadProcessId& (BYVAL hwnd AS _OFFSET, BYVAL null AS LONG)
+FUNCTION SetWindowPos& (BYVAL hwnd%&, BYVAL Zorder&, BYVAL X&, BYVAL Y&, BYVAL cx&, BYVAL cy&, BYVAL flag&)
 END DECLARE
 
 _TITLE "Windows Test"
@@ -2241,10 +2411,12 @@ PRINT "Process ID:"; PID&
 END
 ```
   
+<br>
+
 ```vb
 DECLARE DYNAMIC LIBRARY "user32"
-   FUNCTION GetForegroundWindow%& ()
-   FUNCTION FindWindowA%& (BYVAL lpClassName%&, BYVAL lpWindowName%&)
+FUNCTION GetForegroundWindow%& ()
+FUNCTION FindWindowA%& (BYVAL lpClassName%&, BYVAL lpWindowName%&)
 END DECLARE
 
 DIM title AS STRING
@@ -2256,12 +2428,14 @@ title = title + CHR$(0) 'always add character zero to FindWindowA string paramet
 hWnd = _WINDOWHANDLE 'FindWindowA(0, _OFFSET(title))
 
 DO UNTIL LEN(INKEY$)
-   IF hWnd = GetForegroundWindow THEN PRINT "foreground" ELSE PRINT "not foreground"
-   SLEEP 1
+IF hWnd = GetForegroundWindow THEN PRINT "foreground" ELSE PRINT "not foreground"
+SLEEP 1
 LOOP
 END
 ```
   
+<br>
+
 ```vb
 DEFLNG A-Z
 
@@ -2280,30 +2454,30 @@ CONST SWP_NOSIZE = &H1
 '-----------------------------------------------------------------------------------
 
 TYPE MENUITEMINFO
-   cbSize AS LONG
-   fMask AS LONG
-   fType AS LONG
-   fState AS LONG
-   wID AS LONG
-   hSubMenu AS LONG
-   hbmpChecked AS LONG
-   hbmpUnchecked AS LONG
-   dwItemData AS _OFFSET
-   dwTypeData AS _OFFSET
-   cch AS LONG
+cbSize AS LONG
+fMask AS LONG
+fType AS LONG
+fState AS LONG
+wID AS LONG
+hSubMenu AS LONG
+hbmpChecked AS LONG
+hbmpUnchecked AS LONG
+dwItemData AS _OFFSET
+dwTypeData AS _OFFSET
+cch AS LONG
 END TYPE
 
 DECLARE LIBRARY
-   FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$) ' To get hWnd handle
+FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$) ' To get hWnd handle
 END DECLARE
 
 DECLARE DYNAMIC LIBRARY "user32"
- FUNCTION CreateMenu& ()
- FUNCTION DrawMenuBar (BYVAL hWnd&)
- FUNCTION SetMenu& (BYVAL hWnd&, BYVAL hMenu&)
- FUNCTION InsertMenuItemA& (BYVAL hMenu&, BYVAL uItem&, BYVAL fByPosition&, BYVAL lpmii AS _OFFSET)
- FUNCTION GetMenuItemCount& (BYVAL hMenu&)
- FUNCTION GetMenuItemInfoA& (BYVAL hMenu&, BYVAL uItem&, BYVAL fByPosition&, BYVAL lpmii AS _OFFSET)
+FUNCTION CreateMenu& ()
+FUNCTION DrawMenuBar (BYVAL hWnd&)
+FUNCTION SetMenu& (BYVAL hWnd&, BYVAL hMenu&)
+FUNCTION InsertMenuItemA& (BYVAL hMenu&, BYVAL uItem&, BYVAL fByPosition&, BYVAL lpmii AS _OFFSET)
+FUNCTION GetMenuItemCount& (BYVAL hMenu&)
+FUNCTION GetMenuItemInfoA& (BYVAL hMenu&, BYVAL uItem&, BYVAL fByPosition&, BYVAL lpmii AS _OFFSET)
 END DECLARE
 
 DIM hWnd AS LONG
@@ -2342,13 +2516,15 @@ IF InsertMenuItemA(hMenu, count, 1, _OFFSET(MenuItem)) THEN PRINT "Successfully 
 IF SetMenu(hWnd, hMenu) THEN PRINT "Successfully set menu!": PRINT "Menu handle is:"; hMenu ELSE PRINT "Failed to set menu!": END
 
 DO: _LIMIT 70
-   prev_state = new_state
-   ok = GetMenuItemInfoA(hMenu, MyButton, 1, _OFFSET(MenuItem))
-   new_state = MenuItem.fState AND 128
-   IF prev_state = 0 AND new_state <> 0 THEN PRINT "Ouch! ";
+prev_state = new_state
+ok = GetMenuItemInfoA(hMenu, MyButton, 1, _OFFSET(MenuItem))
+new_state = MenuItem.fState AND 128
+IF prev_state = 0 AND new_state <> 0 THEN PRINT "Ouch! ";
 LOOP WHILE INKEY$ = ""
 ```
   
+<br>
+
 ```vb
 'public domain, 2012 feb, michael calkins
 
@@ -2469,6 +2645,8 @@ END IF
 END
 ```
   
+<br>
+
 ```vb
 'this example uses QueryDosDeviceA to enumerate COM ports.
 'public domain, sept 2011, michael calkins
@@ -2489,14 +2667,14 @@ buffer = SPACE$(sizeofbuffer)
 DO
 x = 0
 IF QueryDosDeviceA~&(0, _OFFSET(buffer), sizeofbuffer) = 0 THEN
- x = GetLastError~&
- IF x = &H7A THEN
-  sizeofbuffer = sizeofbuffer + 1024
-  buffer = SPACE$(sizeofbuffer)
- ELSE
-  PRINT "Error: 0x"; HEX$(x)
-  END
- END IF
+x = GetLastError~&
+IF x = &H7A THEN
+sizeofbuffer = sizeofbuffer + 1024
+buffer = SPACE$(sizeofbuffer)
+ELSE
+PRINT "Error: 0x"; HEX$(x)
+END
+END IF
 END IF
 LOOP WHILE x = &H7A
 
@@ -2506,9 +2684,9 @@ DO WHILE ASC(MID$(buffer, i, 1))
 x = INSTR(i, buffer, CHR$(0))
 PRINT MID$(buffer, i, x - i)
 IF MID$(buffer, i, 3) = "COM" THEN 'change to "LPT" for parallel ports
- REDIM _PRESERVE comports(0 TO (n * 2) + 1) AS STRING
- comports(n * 2) = MID$(buffer, i, (x - i) + 1)
- n = n + 1
+REDIM _PRESERVE comports(0 TO (n * 2) + 1) AS STRING
+comports(n * 2) = MID$(buffer, i, (x - i) + 1)
+n = n + 1
 END IF
 i = x + 1
 LOOP
@@ -2517,22 +2695,22 @@ PRINT
 PRINT n; "COM ports:"
 IF n THEN
 FOR i = 0 TO n - 1
- DO
-  x = 0
-  IF QueryDosDeviceA~&(_OFFSET(comports(i * 2)), _OFFSET(buffer), sizeofbuffer) = 0 THEN
-   x = GetLastError~&
-   IF x = &H7A THEN
-    sizeofbuffer = sizeofbuffer + 1024
-    buffer = SPACE$(sizeofbuffer)
-   ELSE
-    PRINT "Error: 0x"; HEX$(x)
-    END
-   END IF
-  END IF
- LOOP WHILE x = &H7A
- comports((i * 2) + 1) = LEFT$(buffer, INSTR(buffer, CHR$(0)) - 1)
- comports(i * 2) = LEFT$(comports(i * 2), LEN(comports(i * 2)) - 1)
- PRINT CHR$(&H22); comports(i * 2); CHR$(&H22); " is mapped to: "; CHR$(&H22); comports((i * 2) + 1); CHR$(&H22)
+DO
+x = 0
+IF QueryDosDeviceA~&(_OFFSET(comports(i * 2)), _OFFSET(buffer), sizeofbuffer) = 0 THEN
+x = GetLastError~&
+IF x = &H7A THEN
+sizeofbuffer = sizeofbuffer + 1024
+buffer = SPACE$(sizeofbuffer)
+ELSE
+PRINT "Error: 0x"; HEX$(x)
+END
+END IF
+END IF
+LOOP WHILE x = &H7A
+comports((i * 2) + 1) = LEFT$(buffer, INSTR(buffer, CHR$(0)) - 1)
+comports(i * 2) = LEFT$(comports(i * 2), LEN(comports(i * 2)) - 1)
+PRINT CHR$(&H22); comports(i * 2); CHR$(&H22); " is mapped to: "; CHR$(&H22); comports((i * 2) + 1); CHR$(&H22)
 NEXT
 END IF
 
@@ -2541,6 +2719,8 @@ buffer = ""
 END
 ```
   
+<br>
+
 ```vb
 CONST MB_OK = 0 'beep
 CONST MB_ICONERROR = &H10
@@ -2549,7 +2729,7 @@ CONST MB_ICONWARNING = &H30
 CONST MB_ICONASTERISK = &H40
 
 DECLARE LIBRARY
- SUB MessageBeep (BYVAL alert AS _UNSIGNED LONG)
+SUB MessageBeep (BYVAL alert AS _UNSIGNED LONG)
 END DECLARE
 
 PRINT "OK"
@@ -2572,11 +2752,13 @@ PRINT "Asterisk"
 MessageBeep MB_ICONASTERISK
 ```
   
+<br>
+
 ```vb
 'SDL-SPECIFIC CHANGES! GL only needs DECLARE LIBRARY without DLL name
 
 DECLARE DYNAMIC LIBRARY "Winmm"
-   FUNCTION PlaySound (pszSound AS STRING, BYVAL hmod AS INTEGER, BYVAL fdwSound AS INTEGER)
+FUNCTION PlaySound (pszSound AS STRING, BYVAL hmod AS INTEGER, BYVAL fdwSound AS INTEGER)
 END DECLARE
 CONST SND_ALIAS = 65536
 CONST SND_ASYNC = 1
@@ -2584,19 +2766,21 @@ CONST SND_ASYNC = 1
 x = PlaySound("SystemExclamation" + CHR$(0), 0, SND_ALIAS + SND_ASYNC)
 ```
   
+<br>
+
 ```vb
 DEFINT A-Z
 
 ' Declare windows API functions
 DECLARE DYNAMIC LIBRARY "user32"
-  FUNCTION SetLayeredWindowAttributes& (BYVAL hwnd AS LONG, BYVAL crKey AS LONG, BYVAL bAlpha AS _UNSIGNED _BYTE, BYVAL dwFlags AS LONG)
-  FUNCTION GetWindowLong& ALIAS "GetWindowLongA" (BYVAL hwnd AS LONG, BYVAL nIndex AS LONG)
-  FUNCTION SetWindowLong& ALIAS "SetWindowLongA" (BYVAL hwnd AS LONG, BYVAL nIndex AS LONG, BYVAL dwNewLong AS LONG)
+FUNCTION SetLayeredWindowAttributes& (BYVAL hwnd AS LONG, BYVAL crKey AS LONG, BYVAL bAlpha AS _UNSIGNED _BYTE, BYVAL dwFlags AS LONG)
+FUNCTION GetWindowLong& ALIAS "GetWindowLongA" (BYVAL hwnd AS LONG, BYVAL nIndex AS LONG)
+FUNCTION SetWindowLong& ALIAS "SetWindowLongA" (BYVAL hwnd AS LONG, BYVAL nIndex AS LONG, BYVAL dwNewLong AS LONG)
 END DECLARE
 
 ' Needed for acquiring the hWnd of the window
 DECLARE LIBRARY
-  FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$) ' To get hWnd handle
+FUNCTION FindWindow& (BYVAL ClassName AS _OFFSET, WindowName$) ' To get hWnd handle
 END DECLARE
 
 
@@ -2611,9 +2795,9 @@ MyHwnd = _WINDOWHANDLE 'FindWindow(0, "Translucent window test" + CHR$(0))
 SCREEN _NEWIMAGE(640, 480, 32)
 
 FOR Py = 0 TO 479
-  FOR Px = 0 TO 639
-     PSET (Px, Py), _RGB32((Px OR Py) MOD 256, (Px + Py) MOD 256, Py MOD 256)
-  NEXT Px
+FOR Px = 0 TO 639
+PSET (Px, Py), _RGB32((Px OR Py) MOD 256, (Px + Py) MOD 256, Py MOD 256)
+NEXT Px
 NEXT Py
 
 
@@ -2623,14 +2807,14 @@ PRINT "Press +/- to change opacity"
 Level = 127
 SetWindowOpacity MyHwnd, Level
 DO
-  Press$ = INKEY$
-  LOCATE 2, 1: PRINT "Opacity:"; Level
+Press$ = INKEY$
+LOCATE 2, 1: PRINT "Opacity:"; Level
 
-  ' Change window opacity whenever +/- are pressed
-  IF Press$ = "+" AND Level < 255 THEN Level = Level + 1: SetWindowOpacity MyHwnd, Level
-  IF Press$ = "-" AND Level > 0 THEN Level = Level - 1: SetWindowOpacity MyHwnd, Level
+' Change window opacity whenever +/- are pressed
+IF Press$ = "+" AND Level < 255 THEN Level = Level + 1: SetWindowOpacity MyHwnd, Level
+IF Press$ = "-" AND Level > 0 THEN Level = Level - 1: SetWindowOpacity MyHwnd, Level
 
-  _LIMIT 60
+_LIMIT 60
 
 LOOP UNTIL Press$ = CHR$(27)
 SYSTEM
@@ -2651,6 +2835,8 @@ Crap = SetLayeredWindowAttributes(hWnd, 0, Level, LWA_ALPHA)
 END SUB
 ```
   
+<br>
+
 ```vb
 'public domain
 
@@ -2686,6 +2872,8 @@ PRINT CHR$(&H22); path; CHR$(&H22)
 END
 ```
   
+<br>
+
 ```vb
 Windows CSIDL Environmental LONG Constants
 
@@ -2746,12 +2934,14 @@ CONST CSIDL_RESOURCES_LOCALIZED = &H39     'Localized Resource Directory
 CONST CSIDL_COMMON_OEM_LINKS = &H3A        'Links to All Users OEM specific apps
 CONST CSIDL_CDBURN_AREA = &H3B             'USERPROFILE\Local Settings\Application Data\Microsoft\CD Burning
 
-                'See: http://msdn.microsoft.com/en-us/library/bb762181%28v=vs.85%29
+'See: http://msdn.microsoft.com/en-us/library/bb762181%28v=vs.85%29
 ```
   
+<br>
+
 ```vb
 DECLARE LIBRARY
- FUNCTION GetVersion ()
+FUNCTION GetVersion ()
 END DECLARE
 
 'Just grab the "build" number...
@@ -2775,6 +2965,8 @@ IF INSTR(1, b$, "6002") THEN PRINT "Windows Vista/Server"
 IF INSTR(1, b$, "7600") THEN PRINT "Windows 7"
 ```
   
+<br>
+
 
 </blockquote>
 
@@ -2782,12 +2974,12 @@ IF INSTR(1, b$, "7600") THEN PRINT "Windows 7"
 
 <blockquote>
 
-* [_WINDOWHANDLE](./_WINDOWHANDLE.md)
+
+* [_WINDOWHANDLE](WINDOWHANDLE.md)
 * Windows Environment
-* [DECLARE](./DECLARE.md) [LIBRARY](./LIBRARY.md) , [BYVAL](./BYVAL.md) , [ALIAS](./ALIAS.md)
-* [_OFFSET](./_OFFSET.md) , [_OFFSET](./_OFFSET.md) (function)
+* [DECLARE](DECLARE.md) [LIBRARY](LIBRARY.md) , [BYVAL](BYVAL.md) , [ALIAS](ALIAS.md)
+* [_OFFSET](OFFSET.md) , [_OFFSET](OFFSET.md) (function)
 * DLL Libraries , C Libraries
 * C++ Variable Types
 * Windows Printer Settings
-
 </blockquote>

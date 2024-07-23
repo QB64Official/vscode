@@ -27,16 +27,18 @@ h4 {
     border: 0 !important;
 }
 h5 {
-    margin: 0 0 1em 0  !important;
+    margin: 0 0 0.5em 0  !important;
     color: #88f !important;
     border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
 }
 code {
     background: #000 !important;
     margin: 0 !important;
     padding: 8px !important;
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
 }
 pre > code {
     background: transparent !important;
@@ -52,16 +54,49 @@ blockquote {
     padding: 0 1em !important;
 }
 pre {
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
     margin: 0 !important;
-    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
 }
 a:link, a:visited, a:hover, a:active {
     color: #ff0 !important;
 }
-
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
 </style>
+
 
 ## [TYPE](TYPE.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/TYPE)
 ---
@@ -166,6 +201,8 @@ integer length value, must have a minimum length of at least one character.
   
 <br>
 
+
+
 ##### Example 1: Creating a mouse INTERRUPT TYPE definition. Each INTEGER value is 2 bytes.
 ```vb
 TYPE RegType
@@ -192,6 +229,11 @@ column% = OutRegs.CX ' returns the current mouse column position
   
 <br>
 
+
+<div class="explanation">Explanation: Use one GET to read all of the header information from the start of the bitmap file opened AS BINARY . It reads all 54 bytes as STRING , INTEGER and LONG type DOT variable values.</div>
+
+
+
 ##### Example 2: Creating an addressbook database for a RANDOM file.
 ```vb
 TYPE ContactInfo
@@ -216,6 +258,8 @@ PUT #1, 5,Contact  'place contact info into fifth record position
   
 <br>
 
+
+
 ##### Example 3: Defining a TYPE variable as another variable type from a previous TYPE definition in QB64.
 ```vb
 TYPE bar
@@ -237,7 +281,9 @@ END
   
 <br>
 
-##### Example 4: A bitmap header information TYPE $INCLUDE File.
+
+
+##### Example 4: A bitmap header information TYPE \$INCLUDE File.
 ```vb
 ' ********
 'Bitmap.BI can be included at start of program
@@ -264,7 +310,6 @@ END TYPE                  '          Total Header bytes = 54
   
 <br>
 
-##### Example 4: A bitmap header information TYPE $INCLUDE File.
 ```vb
 '$INCLUDE: 'Bitmap.BI'  'use only when including a BI file
 
@@ -275,24 +320,25 @@ GET #1, , BMPHead  'get the entire bitmap header information
   
 <br>
 
-##### Example 4: A bitmap header information TYPE $INCLUDE File.
 ```vb
 GET (0, 0)-(BMPHead.PWidth - 1, BMPHead.PDepth - 1), Image(48) 'indexed for 4 BPP colors
 ```
   
 <br>
+
+
 </blockquote>
 
 #### SEE ALSO
 
 <blockquote>
 
-*  [INTEGER](INTEGER.md)  , [SINGLE](SINGLE.md)  , [DOUBLE](DOUBLE.md) 
-*  [LONG](LONG.md)  , [_INTEGER64](INTEGER64.md)  , [_FLOAT](FLOAT.md) 
-*  [STRING](STRING.md)  , [_BYTE](BYTE.md)  , [_BIT](BIT.md)  , [_OFFSET](OFFSET.md) 
-*  [GET](GET.md)  # , [PUT](PUT.md)  # , [BINARY](BINARY.md) 
-*  [GET](GET.md)  (graphics statement) , [PUT](PUT.md)  (graphics statement)
-*  [LEN](LEN.md)  , [LOF](LOF.md)  , [EOF](EOF.md) 
-*  Bitmaps , Icon to Bitmap Conversion Function
 
+* [INTEGER](INTEGER.md) , [SINGLE](SINGLE.md) , [DOUBLE](DOUBLE.md)
+* [LONG](LONG.md) , [_INTEGER64](INTEGER64.md) , [_FLOAT](FLOAT.md)
+* [STRING](STRING.md) , [_BYTE](BYTE.md) , [_BIT](BIT.md) , [_OFFSET](OFFSET.md)
+* [GET](GET.md) # , [PUT](PUT.md) # , [BINARY](BINARY.md)
+* [GET](GET.md) (graphics statement) , [PUT](PUT.md) (graphics statement)
+* [LEN](LEN.md) , [LOF](LOF.md) , [EOF](EOF.md)
+* Bitmaps , Icon to Bitmap Conversion Function
 </blockquote>

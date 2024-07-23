@@ -27,16 +27,18 @@ h4 {
     border: 0 !important;
 }
 h5 {
-    margin: 0 0 1em 0  !important;
+    margin: 0 0 0.5em 0  !important;
     color: #88f !important;
     border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
 }
 code {
     background: #000 !important;
     margin: 0 !important;
     padding: 8px !important;
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
 }
 pre > code {
     background: transparent !important;
@@ -52,16 +54,49 @@ blockquote {
     padding: 0 1em !important;
 }
 pre {
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
     margin: 0 !important;
-    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
 }
 a:link, a:visited, a:hover, a:active {
     color: #ff0 !important;
 }
-
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
 </style>
+
 
 ## [CVI](CVI.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/CVI)
 ---
@@ -83,10 +118,62 @@ a:link, a:visited, a:hover, a:active {
 
 <blockquote>
 
-*  CV functions ( [CVD](CVD.md)  , [CVS](CVS.md)  , [CVI](CVI.md)  , [CVL](CVL.md)  , [CVDMBF](CVDMBF.md)  , [CVSMBF](CVSMBF.md)  ) are used to convert values encoded by MK$ functions ( MKD$ , MKS$ , MKI$ , MKL$ , MKDMBF$ , MKSMBF$ ).
-*  QB64 has [_CV](CV.md)  and _MK$ functions which can also deal with extended data types .
-*  [INTEGER](INTEGER.md)  values can range from -32768 to 32767.
-*  Doesn't return [_UNSIGNED](UNSIGNED.md)  values.
+
+* CV functions ( [CVD](CVD.md) , [CVS](CVS.md) , [CVI](CVI.md) , [CVL](CVL.md) , [CVDMBF](CVDMBF.md) , [CVSMBF](CVSMBF.md) ) are used to convert values encoded by MK$ functions ( [MKD&dollar;](MKD&dollar;.md) , [MKS&dollar;](MKS&dollar;.md) , [MKI&dollar;](MKI&dollar;.md) , [MKL&dollar;](MKL&dollar;.md) , [MKDMBF&dollar;](MKDMBF&dollar;.md) , [MKSMBF&dollar;](MKSMBF&dollar;.md) ).
+* QB64 has [_CV](CV.md) and [_MK&dollar;](MK&dollar;.md) functions which can also deal with extended data types .
+* [INTEGER](INTEGER.md) values can range from -32768 to 32767.
+* Doesn't return [_UNSIGNED](UNSIGNED.md) values.
+
+</blockquote>
+
+#### EXAMPLES
+
+<blockquote>
+
+
+
+##### Example 1:
+```vb
+FIELD #1, 2 AS N$, 12 AS B$...
+GET #1     'GET does not need a position or variable with successive FIELD buffer reads
+Y = CVI(N$)
+```
+  
+<br>
+
+
+
+##### Example 2: How CVI converts the ASCII code values created by the MKI\$ function.
+```vb
+SCREEN 12
+DIM Q AS STRING * 1
+Q = CHR$(34)
+' create Print using templates to align the values returned
+tmp1$ = "1st character code = ### * 1   =   ### "
+tmp2$ = "2nd character code = ### * 256 = ##### "
+tmp3$ = "                                 &  "
+tmp4$ = "                     CVI Total = ##### "
+
+DO
+COLOR 14: LOCATE 13, 20: INPUT "Enter an Integer from 1 to 32767(0 quits): ", number%
+IF number% < 1 THEN EXIT DO
+CLS
+ASCII$ = MKI$(number%)     ' create the 2 byte character string
+COLOR 11
+_PRINTSTRING (152, 240), "MKI$ creates 2 byte ASCII string: " + Q + ASCII$ + Q ' displays character(s)
+
+asc1% = ASC(ASCII$)        ' find the ASCII code values of each character
+asc2% = ASC(ASCII$, 2)     ' QB64 allows ASC to read specific characters in a string
+
+LOCATE 18, 20: PRINT USING tmp1$; asc1%; asc1%
+LOCATE 19, 20: PRINT USING tmp2$; asc2%; asc2% * 256
+LOCATE 20, 20: PRINT USING tmp3$; "-----"
+LOCATE 21, 20: PRINT USING tmp4$; asc1% + (256 * asc2%)
+LOOP
+SYSTEM
+```
+  
+<br>
 
 
 </blockquote>
@@ -95,9 +182,9 @@ a:link, a:visited, a:hover, a:active {
 
 <blockquote>
 
-*  Featured in our "Keyword of the Day" series
-*  MKD$ , MKI$ , MKS$ , MKL$ , MKDMBF$ , [MKSMBF\$](MKSMBF\$.md) 
-*  [CVS](CVS.md)  , [CVD](CVD.md)  , [CVL](CVL.md)  , [CVSMBF](CVSMBF.md)  , [CVDMBF](CVDMBF.md) 
-*  [_CV](CV.md)  , [_MK\$](MK\$.md) 
 
+* Featured in our "Keyword of the Day" series
+* [MKD&dollar;](MKD&dollar;.md) , [MKI&dollar;](MKI&dollar;.md) , [MKS&dollar;](MKS&dollar;.md) , [MKL&dollar;](MKL&dollar;.md) , [MKDMBF&dollar;](MKDMBF&dollar;.md) , [MKSMBF&dollar;](MKSMBF&dollar;.md)
+* [CVS](CVS.md) , [CVD](CVD.md) , [CVL](CVL.md) , [CVSMBF](CVSMBF.md) , [CVDMBF](CVDMBF.md)
+* [_CV](CV.md) , [_MK&dollar;](MK&dollar;.md)
 </blockquote>

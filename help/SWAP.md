@@ -27,16 +27,18 @@ h4 {
     border: 0 !important;
 }
 h5 {
-    margin: 0 0 1em 0  !important;
+    margin: 0 0 0.5em 0  !important;
     color: #88f !important;
     border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
 }
 code {
     background: #000 !important;
     margin: 0 !important;
     padding: 8px !important;
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
 }
 pre > code {
     background: transparent !important;
@@ -52,16 +54,49 @@ blockquote {
     padding: 0 1em !important;
 }
 pre {
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
     margin: 0 !important;
-    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
 }
 a:link, a:visited, a:hover, a:active {
     color: #ff0 !important;
 }
-
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
 </style>
+
 
 ## [SWAP](SWAP.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/SWAP)
 ---
@@ -83,12 +118,12 @@ a:link, a:visited, a:hover, a:active {
 
 <blockquote>
 
-*  variable1 and variable2 are any type variables whose values will be exchanged.
-*  If either variable1 or variable2 is an array, then an element in the array must be designated.
-*  [SWAP](SWAP.md)  can be used with string or number variable values. Both must be of the same type.
-*  [SWAP](SWAP.md)  is often used to sort array elements into greater or lesser numerical or cumulative ASCII [STRING](STRING.md)  values.
-*  [SWAP](SWAP.md)  can be used in page flipping to change between source and destination pages.
 
+* variable1 and variable2 are any type variables whose values will be exchanged.
+* If either variable1 or variable2 is an array, then an element in the array must be designated.
+* [SWAP](SWAP.md) can be used with string or number variable values. Both must be of the same type.
+* [SWAP](SWAP.md) is often used to sort array elements into greater or lesser numerical or cumulative ASCII [STRING](STRING.md) values.
+* [SWAP](SWAP.md) can be used in page flipping to change between source and destination pages.
 
 </blockquote>
 
@@ -111,13 +146,17 @@ PRINT b$
   
 <br>
 
-##### Example 1: A simple SWAP of string values.
 ```vb
 two
 one
 ```
   
 <br>
+
+
+<div class="explanation">NOTE: The swap2 shared value is used to count the swaps for the demo and can be removed from the SUB procedure for speed.</div>
+
+
 
 ##### Example 2: Creating Cryptograms by scrambling EVERY capital letter in the alphabet.
 ```vb
@@ -155,6 +194,8 @@ END
 ```
   
 <br>
+
+
 
 ##### Example 3: A very quick array sorting SUB procedure using recursion sorts 10 thousand numbers in milliseconds.
 ```vb
@@ -204,21 +245,22 @@ END SUB
   
 <br>
 
-##### Example 3: A very quick array sorting SUB procedure using recursion sorts 10 thousand numbers in milliseconds.
 ```vb
 array(0)= 0.20200    array(5000)= 525.8505   array(10000)= 999.6196
 Elapsed time: 0.023438 seconds with 33,759 swaps
 ```
   
 <br>
+
+
 </blockquote>
 
 #### SEE ALSO
 
 <blockquote>
 
-*  [RND](RND.md)  , [RANDOMIZE](RANDOMIZE.md) 
-*  CHR$ , [ASC](ASC.md)  (function)
-*  ASCII , Arrays
 
+* [RND](RND.md) , [RANDOMIZE](RANDOMIZE.md)
+* [CHR&dollar;](CHR&dollar;.md) , [ASC](ASC.md) (function)
+* ASCII , Arrays
 </blockquote>

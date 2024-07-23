@@ -73,18 +73,6 @@
 				"reveal": "always",
 				"panel": "shared"
 			}
-		},
-		{
-			"label": "release",
-			"type": "shell",
-			"windows": {
-				"command": "move-item",
-				"args": [
-					"\"${workspaceFolder}\\*.vsix\"",
-					"\"${workspaceFolder}\\releases\"",
-					"-Force"
-				]
-			}
 		}
 	]
 }

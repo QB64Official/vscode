@@ -1,4 +1,104 @@
-## Code Pages
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 0.5em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
+    margin: 0 !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
+</style>
+
+
+## [Code Pages](Code_Pages.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/Code%20Pages)
 ---
 <blockquote>
 
@@ -13,23 +113,25 @@
 ```vb
 Code Page 437
 
-      Code Page 737     Code Page 860     Code Page 866     Code Page 1253
+Code Page 737     Code Page 860     Code Page 866     Code Page 1253
 
-      Code Page 775     Code Page 861     Code Page 869     Code Page 1254
+Code Page 775     Code Page 861     Code Page 869     Code Page 1254
 
-      Code Page 850     Code Page 862     Code Page 874     Code Page 1255
+Code Page 850     Code Page 862     Code Page 874     Code Page 1255
 
-      Code Page 852     Code Page 863     Code Page 1250    Code Page 1256
+Code Page 852     Code Page 863     Code Page 1250    Code Page 1256
 
-      Code Page 855     Code Page 864     Code Page 1251    Code Page 1257
+Code Page 855     Code Page 864     Code Page 1251    Code Page 1257
 
-      Code Page 857     Code Page 865     Code Page 1252    Code Page 1258
+Code Page 857     Code Page 865     Code Page 1252    Code Page 1258
 
-                                 Code Page MIK
+Code Page MIK
 
-                      Unicode Mapping DATA and CSV File Examples
+Unicode Mapping DATA and CSV File Examples
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp437
 199,252,233,226,228,224,229,231,234,235,232,239,238,236,196,197
@@ -42,16 +144,20 @@ Code Page 437
 8801,177,8805,8804,8992,8993,247,8776,176,8729,183,8730,8319,178,9632,160
 ```
   
+<br>
+
 ```vb
 Western ASC code page differences
 
-                 "ä" is &H84 in CP437, &HE4 in Windows-1252, &HE4 in Unicode.
-                 "ö" is &H94 in CP437, &HF6 in Windows-1252, &HF6 in Unicode.
+"ä" is &H84 in CP437, &HE4 in Windows-1252, &HE4 in Unicode.
+"ö" is &H94 in CP437, &HF6 in Windows-1252, &HF6 in Unicode.
 
-                 "÷" is &HF6 in CP437, &HF7 in Windows-1252, &HF7 in Unicode.
-                 "Σ" is &HE4 in CP437,                     , &H3A3 in Unicode.
+"÷" is &HF6 in CP437, &HF7 in Windows-1252, &HF7 in Unicode.
+"Σ" is &HE4 in CP437,                     , &H3A3 in Unicode.
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp737
 913,914,915,916,917,918,919,920,921,922,923,924,925,926,927,928
@@ -64,6 +170,8 @@ Western ASC code page differences
 911,177,8805,8804,938,939,247,8776,176,8729,183,8730,8319,178,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp775
 262,252,233,257,228,291,229,263,322,275,342,343,299,377,196,197
@@ -76,6 +184,8 @@ Western ASC code page differences
 173,177,8220,190,182,167,247,8222,176,8729,183,185,179,178,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp850
 199,252,233,226,228,224,229,231,234,235,232,239,238,236,196,197
@@ -88,6 +198,8 @@ Western ASC code page differences
 173,177,8215,190,182,167,247,184,176,168,183,185,179,178,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp852
 199,252,233,226,228,367,263,231,322,235,336,337,238,377,196,262
@@ -100,6 +212,8 @@ Western ASC code page differences
 173,733,731,711,728,167,247,184,176,168,729,369,344,345,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp855
 1106,1026,1107,1027,1105,1025,1108,1028,1109,1029,1110,1030,1111,1031,1112,1032
@@ -112,6 +226,8 @@ Western ASC code page differences
 173,1099,1067,1079,1047,1096,1064,1101,1069,1097,1065,1095,1063,167,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp857
 199,252,233,226,228,224,229,231,234,235,232,239,238,305,196,197
@@ -124,6 +240,8 @@ Western ASC code page differences
 173,177,0,190,182,167,247,184,176,168,183,185,179,178,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp860
 199,252,233,226,227,224,193,231,234,202,232,205,212,236,195,194
@@ -136,6 +254,8 @@ Western ASC code page differences
 8801,177,8805,8804,8992,8993,247,8776,176,8729,183,8730,8319,178,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp861
 199,252,233,226,228,224,229,231,234,235,232,208,240,222,196,197
@@ -148,6 +268,8 @@ Western ASC code page differences
 8801,177,8805,8804,8992,8993,247,8776,176,8729,183,8730,8319,178,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp862
 1488,1489,1490,1491,1492,1493,1494,1495,1496,1497,1498,1499,1500,1501,1502,1503
@@ -160,6 +282,8 @@ Western ASC code page differences
 8801,177,8805,8804,8992,8993,247,8776,176,8729,183,8730,8319,178,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp863
 199,252,233,226,194,224,182,231,234,235,232,239,238,8215,192,167
@@ -172,6 +296,8 @@ Western ASC code page differences
 8801,177,8805,8804,8992,8993,247,8776,176,8729,183,8730,8319,178,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp864
 176,183,8729,8730,9618,9472,9474,9532,9508,9516,9500,9524,9488,9484,9492,9496
@@ -184,6 +310,8 @@ Western ASC code page differences
 65149,1617,65253,65257,65260,65264,65266,65232,65237,65269,65270,65245,65241,65265,9632,0
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp865
 199,252,233,226,228,224,229,231,234,235,232,239,238,236,196,197
@@ -196,6 +324,8 @@ Western ASC code page differences
 8801,177,8805,8804,8992,8993,247,8776,176,8729,183,8730,8319,178,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp866
 1040,1041,1042,1043,1044,1045,1046,1047,1048,1049,1050,1051,1052,1053,1054,1055
@@ -208,6 +338,8 @@ Western ASC code page differences
 1025,1105,1028,1108,1031,1111,1038,1118,176,8729,183,8730,8470,164,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cpMIK
 1040,1041,1042,1043,1044,1045,1046,1047,1048,1049,1050,1051,1052,1053,1054,1055
@@ -220,6 +352,8 @@ Western ASC code page differences
 8801,177,8805,8804,8992,8993,247,8776,176,8729,183,8730,8319,178,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp869
 0,0,0,0,0,0,902,0,183,172,166,8216,8217,904,8213,905
@@ -232,6 +366,8 @@ Western ASC code page differences
 173,177,965,966,967,167,968,901,176,168,969,971,944,974,9632,160
 ```
   
+<br>
+
 ```vb
 'Microsoft_pc_cp874
 8364,0,0,0,0,8230,0,0,0,0,0,0,0,0,0,0
@@ -244,6 +380,8 @@ Western ASC code page differences
 3664,3665,3666,3667,3668,3669,3670,3671,3672,3673,3674,3675,0,0,0,0
 ```
   
+<br>
+
 ```vb
 'Microsoft_windows_cp1250
 8364,0,8218,0,8222,8230,8224,8225,0,8240,352,8249,346,356,381,377
@@ -256,6 +394,8 @@ Western ASC code page differences
 273,324,328,243,244,337,246,247,345,367,250,369,252,253,355,729
 ```
   
+<br>
+
 ```vb
 'Microsoft_windows_cp1251
 1026,1027,8218,1107,8222,8230,8224,8225,8364,8240,1033,8249,1034,1036,1035,1039
@@ -268,6 +408,8 @@ Western ASC code page differences
 1088,1089,1090,1091,1092,1093,1094,1095,1096,1097,1098,1099,1100,1101,1102,1103
 ```
   
+<br>
+
 ```vb
 'Microsoft_windows_cp1252
 8364,0,8218,402,8222,8230,8224,8225,710,8240,352,8249,338,0,381,0
@@ -280,16 +422,20 @@ Western ASC code page differences
 240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255
 ```
   
+<br>
+
 ```vb
 MS DOS ASC code page differences
 
-                 "ä" is &H84 in CP437, &HE4 in Windows-1252, &HE4 in Unicode.
-                 "ö" is &H94 in CP437, &HF6 in Windows-1252, &HF6 in Unicode.
+"ä" is &H84 in CP437, &HE4 in Windows-1252, &HE4 in Unicode.
+"ö" is &H94 in CP437, &HF6 in Windows-1252, &HF6 in Unicode.
 
-                 "÷" is &HF6 in CP437, &HF7 in Windows-1252, &HF7 in Unicode.
-                 "Σ" is &HE4 in CP437,                     , &H3A3 in Unicode.
+"÷" is &HF6 in CP437, &HF7 in Windows-1252, &HF7 in Unicode.
+"Σ" is &HE4 in CP437,                     , &H3A3 in Unicode.
 ```
   
+<br>
+
 ```vb
 'Microsoft_windows_cp1253
 8364,0,8218,402,8222,8230,8224,8225,0,8240,0,8249,0,0,0,0
@@ -302,6 +448,8 @@ MS DOS ASC code page differences
 960,961,962,963,964,965,966,967,968,969,970,971,972,973,974,0
 ```
   
+<br>
+
 ```vb
 'Microsoft_windows_cp1254
 8364,0,8218,402,8222,8230,8224,8225,710,8240,352,8249,338,0,0,0
@@ -314,6 +462,8 @@ MS DOS ASC code page differences
 287,241,242,243,244,245,246,247,248,249,250,251,252,305,351,255
 ```
   
+<br>
+
 ```vb
 'Microsoft_windows_cp1255
 8364,0,8218,402,8222,8230,8224,8225,710,8240,0,8249,0,0,0,0
@@ -326,6 +476,8 @@ MS DOS ASC code page differences
 1504,1505,1506,1507,1508,1509,1510,1511,1512,1513,1514,0,0,8206,8207,0
 ```
   
+<br>
+
 ```vb
 'Microsoft_windows_cp1256
 8364,1662,8218,402,8222,8230,8224,8225,710,8240,1657,8249,338,1670,1688,1672
@@ -338,6 +490,8 @@ MS DOS ASC code page differences
 1611,1612,1613,1614,244,1615,1616,247,1617,249,1618,251,252,8206,8207,1746
 ```
   
+<br>
+
 ```vb
 'Microsoft_windows_cp1257
 8364,0,8218,0,8222,8230,8224,8225,0,8240,0,8249,0,168,711,184
@@ -350,6 +504,8 @@ MS DOS ASC code page differences
 353,324,326,243,333,245,246,247,371,322,347,363,252,380,382,729
 ```
   
+<br>
+
 ```vb
 'Microsoft_windows_cp1258
 8364,0,8218,402,8222,8230,8224,8225,710,8240,0,8249,338,0,0,0
@@ -362,6 +518,8 @@ MS DOS ASC code page differences
 273,241,803,243,244,417,246,247,248,249,250,251,252,432,8363,255
 ```
   
+<br>
+
 ```vb
 Microsoft_pc_cp863
 199,252,233,226,194,224,182,231,234,235,232,239,238,8215,192,167
@@ -374,6 +532,8 @@ Microsoft_pc_cp863
 8801,177,8805,8804,8992,8993,247,8776,176,8729,183,8730,8319,178,9632,160
 ```
   
+<br>
+
 ```vb
 SCREEN 0
 _FONT _LOADFONT("C:\Windows\Fonts\Cour.ttf", 20, "MONOSPACE")  'select monospace font
@@ -384,33 +544,35 @@ INPUT #f, CodePage$                     'read code page ID on first line of file
 IF NOT EOF(f) THEN PRINT CodePage$      'display code page number
 
 FOR ascii = 128 TO 255       'assign unicode values to ascii 128 to 255 only
- IF EOF(f) THEN EXIT FOR
- INPUT #f, unicode&
- IF unicode& = 0 THEN unicode& = 9744  'make undefined characters look like a box
- _MAPUNICODE unicode& TO ascii         'replace ascii with unicode value
+IF EOF(f) THEN EXIT FOR
+INPUT #f, unicode&
+IF unicode& = 0 THEN unicode& = 9744  'make undefined characters look like a box
+_MAPUNICODE unicode& TO ascii         'replace ascii with unicode value
 NEXT
 CLOSE #f
 
 FOR code = 128 TO 255
- PRINT code; CHR$(code);               'display unicode characters
+PRINT code; CHR$(code);               'display unicode characters
 NEXT
 
 END
 ```
   
+<br>
+
 ```vb
 SCREEN 0
 _FONT _LOADFONT("C:\Windows\Fonts\Cour.ttf", 20, "MONOSPACE")  'select monospace font
 
 RESTORE Microsoft_pc_cp863   'or restore single DATA field w/o field name
 FOR ascii = 128 TO 255       'assign unicode values to ascii 128 to 255 only
- READ unicode&
- IF unicode& = 0 THEN unicode& = 9744   'make undefined characters look like a box
- _MAPUNICODE unicode& TO ascii          'replace ascii with unicode value
+READ unicode&
+IF unicode& = 0 THEN unicode& = 9744   'make undefined characters look like a box
+_MAPUNICODE unicode& TO ascii          'replace ascii with unicode value
 NEXT
 
 FOR code = 128 TO 255
- PRINT code; CHR$(code);                'display unicode characters
+PRINT code; CHR$(code);                'display unicode characters
 NEXT
 
 END
@@ -426,6 +588,8 @@ DATA 945,223,915,960,931,963,181,964,934,920,937,948,8734,966,949,8745
 DATA 8801,177,8805,8804,8992,8993,247,8776,176,8729,183,8730,8319,178,9632,160
 ```
   
+<br>
+
 
 </blockquote>
 
@@ -433,9 +597,9 @@ DATA 8801,177,8805,8804,8992,8993,247,8776,176,8729,183,8730,8319,178,9632,160
 
 <blockquote>
 
-* [_MAPUNICODE](./_MAPUNICODE.md) , [_MAPUNICODE](./_MAPUNICODE.md) (function)
-* Unicode , ASCII , CHR$ , [ASC](./ASC.md) (function)
-* [_KEYHIT](./_KEYHIT.md) , [_KEYDOWN](./_KEYDOWN.md)
-* Text Using Graphics
 
+* [_MAPUNICODE](MAPUNICODE.md) , [_MAPUNICODE](MAPUNICODE.md) (function)
+* Unicode , ASCII , [CHR&dollar;](CHR&dollar;.md) , [ASC](ASC.md) (function)
+* [_KEYHIT](KEYHIT.md) , [_KEYDOWN](KEYDOWN.md)
+* Text Using Graphics
 </blockquote>

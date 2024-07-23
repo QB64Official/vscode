@@ -27,16 +27,18 @@ h4 {
     border: 0 !important;
 }
 h5 {
-    margin: 0 0 1em 0  !important;
+    margin: 0 0 0.5em 0  !important;
     color: #88f !important;
     border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
 }
 code {
     background: #000 !important;
     margin: 0 !important;
     padding: 8px !important;
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
 }
 pre > code {
     background: transparent !important;
@@ -52,18 +54,51 @@ blockquote {
     padding: 0 1em !important;
 }
 pre {
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
     margin: 0 !important;
-    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
 }
 a:link, a:visited, a:hover, a:active {
     color: #ff0 !important;
 }
-
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
 </style>
 
-## [_OPENFILEDIALOG\$](OPENFILEDIALOG\$.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/_OPENFILEDIALOG$)
+
+## [_OPENFILEDIALOG\$](OPENFILEDIALOG\$.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/_OPENFILEDIALOG%24)
 ---
 <blockquote>
 
@@ -83,21 +118,35 @@ a:link, a:visited, a:hover, a:active {
 
 <blockquote>
 
-*  title$ is the dialog box title
-*  defaultPathAndFile$ is the default path that will be used by the dialog box if not changed by the user
-*  filterPatterns$ are the file filters separated using "|" (e.g., "*.png|*.jpg|*.gif")
-*  singleFilterDescription$ is the single filter description (e.g., "Image files")
-*  allowMultipleSelects& can be 0 (false) or -1 (true) if multiple file selection is to be allowed. If omitted, then this defaults to 0 (false)
 
+* title$ is the dialog box title
+* defaultPathAndFile$ is the default path that will be used by the dialog box if not changed by the user
+* filterPatterns$ are the file filters separated using "|" (e.g., "*.png|*.jpg|*.gif")
+* singleFilterDescription$ is the single filter description (e.g., "Image files")
+* allowMultipleSelects& can be 0 (false) or -1 (true) if multiple file selection is to be allowed. If omitted, then this defaults to 0 (false)
 </blockquote>
 
 #### DESCRIPTION
 
 <blockquote>
 
-*  All parameters accept an empty string ( "" ) in which case system defaults are used
-*  If singleFilterDescription$ is an empty string ( "" ), then filterPatterns$ will be shown in it's place
-*  The dialog box automatically becomes a modal window if the application window is visible
+
+* All parameters accept an empty string ( "" ) in which case system defaults are used
+* If singleFilterDescription$ is an empty string ( "" ), then filterPatterns$ will be shown in it's place
+* The dialog box automatically becomes a modal window if the application window is visible
+
+</blockquote>
+
+#### EXAMPLES
+
+<blockquote>
+
+```vb
+audiofiles$ = _OPENFILEDIALOG$("Open File", "", "*.mp3|*.ogg|*.wav|*.flac", "Audio files", -1)
+IF audiofiles$ <> "" THEN _MESSAGEBOX "Information", "You selected " + audiofiles$
+```
+  
+<br>
 
 
 </blockquote>
@@ -106,12 +155,12 @@ a:link, a:visited, a:hover, a:active {
 
 <blockquote>
 
-*  [_NOTIFYPOPUP](NOTIFYPOPUP.md) 
-*  [_MESSAGEBOX](MESSAGEBOX.md) 
-*  [_MESSAGEBOX](MESSAGEBOX.md)  (function)
-*  [_INPUTBOX\$](INPUTBOX\$.md) 
-*  [_SELECTFOLDERDIALOG\$](SELECTFOLDERDIALOG\$.md) 
-*  [_COLORCHOOSERDIALOG](COLORCHOOSERDIALOG.md) 
-*  [_SAVEFILEDIALOG\$](SAVEFILEDIALOG\$.md) 
 
+* [_NOTIFYPOPUP](NOTIFYPOPUP.md)
+* [_MESSAGEBOX](MESSAGEBOX.md)
+* [_MESSAGEBOX](MESSAGEBOX.md) (function)
+* [_INPUTBOX&dollar;](INPUTBOX&dollar;.md)
+* [_SELECTFOLDERDIALOG&dollar;](SELECTFOLDERDIALOG&dollar;.md)
+* [_COLORCHOOSERDIALOG](COLORCHOOSERDIALOG.md)
+* [_SAVEFILEDIALOG&dollar;](SAVEFILEDIALOG&dollar;.md)
 </blockquote>

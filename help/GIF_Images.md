@@ -1,4 +1,104 @@
-## GIF Images
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 0.5em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
+    margin: 0 !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
+</style>
+
+
+## [GIF Images](GIF_Images.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/GIF%20Images)
 ---
 <blockquote>
 
@@ -24,36 +124,36 @@ DIM SHARED powerOf2&(11)
 FOR a = 0 TO 11: powerOf2&(a) = 2 ^ a: NEXT a
 
 TYPE GIFDATA
- file AS INTEGER
- sigver AS STRING * 6
- width AS _UNSIGNED INTEGER
- height AS _UNSIGNED INTEGER
- bpp AS _UNSIGNED _BYTE
- sortFlag AS _BYTE ' Unused
- colorRes AS _UNSIGNED _BYTE
- colorTableFlag AS _BYTE
- bgColor AS _UNSIGNED _BYTE
- aspect AS SINGLE ' Unused
- numColors AS _UNSIGNED INTEGER
- palette AS STRING * 768
+file AS INTEGER
+sigver AS STRING * 6
+width AS _UNSIGNED INTEGER
+height AS _UNSIGNED INTEGER
+bpp AS _UNSIGNED _BYTE
+sortFlag AS _BYTE ' Unused
+colorRes AS _UNSIGNED _BYTE
+colorTableFlag AS _BYTE
+bgColor AS _UNSIGNED _BYTE
+aspect AS SINGLE ' Unused
+numColors AS _UNSIGNED INTEGER
+palette AS STRING * 768
 END TYPE
 
 TYPE FRAMEDATA
- addr AS LONG
- left AS _UNSIGNED INTEGER
- top AS _UNSIGNED INTEGER
- width AS _UNSIGNED INTEGER
- height AS _UNSIGNED INTEGER
- localColorTableFlag AS _BYTE
- interlacedFlag AS _BYTE
- sortFlag AS _BYTE ' Unused
- palBPP AS _UNSIGNED _BYTE
- minimumCodeSize AS _UNSIGNED _BYTE
- transparentFlag AS _BYTE 'GIF89a-specific (animation) values
- userInput AS _BYTE ' Unused
- disposalMethod AS _UNSIGNED _BYTE
- delay AS SINGLE
- transColor AS _UNSIGNED _BYTE
+addr AS LONG
+left AS _UNSIGNED INTEGER
+top AS _UNSIGNED INTEGER
+width AS _UNSIGNED INTEGER
+height AS _UNSIGNED INTEGER
+localColorTableFlag AS _BYTE
+interlacedFlag AS _BYTE
+sortFlag AS _BYTE ' Unused
+palBPP AS _UNSIGNED _BYTE
+minimumCodeSize AS _UNSIGNED _BYTE
+transparentFlag AS _BYTE 'GIF89a-specific (animation) values
+userInput AS _BYTE ' Unused
+disposalMethod AS _UNSIGNED _BYTE
+delay AS SINGLE
+transColor AS _UNSIGNED _BYTE
 END TYPE
 
 SCREEN _NEWIMAGE(640, 480, 32)
@@ -71,11 +171,11 @@ openGif filename$, gifData, frameData()
 ' Loop away.
 frame = 0
 DO
- ' Request a frame. If it has been requested before, it is re-used,
- ' otherwise it is read and decoded from the file.
- _PUTIMAGE (0, 0), getGifFrame&(gifData, frameData(), frame)
- _DELAY frameData(frame).delay
- frame = (frame + 1) MOD (UBOUND(framedata) + 1)
+' Request a frame. If it has been requested before, it is re-used,
+' otherwise it is read and decoded from the file.
+_PUTIMAGE (0, 0), getGifFrame&(gifData, frameData(), frame)
+_DELAY frameData(frame).delay
+frame = (frame + 1) MOD (UBOUND(framedata) + 1)
 LOOP UNTIL LEN(INKEY$)
 
 'Close the file and free the allocated frames.
@@ -108,98 +208,98 @@ palette$ = SPACE$(3 * gifData.numColors)
 GET file, , palette$
 gifData.palette = palette$
 IF Dbg AND 1 THEN
- PRINT "sigver         ="; gifData.sigver
- PRINT "width          ="; gifData.width
- PRINT "height         ="; gifData.height
- PRINT "bpp            ="; gifData.bpp
- PRINT "sortFlag       ="; gifData.sortFlag
- PRINT "colorRes       ="; gifData.colorRes
- PRINT "colorTableFlag ="; gifData.colorTableFlag
- PRINT "bgColor        ="; gifData.bgColor
- PRINT "aspect         ="; gifData.aspect
- PRINT "numColors      ="; gifData.numColors
- FOR i = 0 TO gifData.numColors - 1
-   PRINT USING "pal(###) = "; i;
-   PRINT HEX$(_RGB32(ASC(gifData.palette, i * 3 + 1), ASC(gifData.palette, i * 3 + 2), ASC(gifData.palette, i * 3 + 3)))
- NEXT
+PRINT "sigver         ="; gifData.sigver
+PRINT "width          ="; gifData.width
+PRINT "height         ="; gifData.height
+PRINT "bpp            ="; gifData.bpp
+PRINT "sortFlag       ="; gifData.sortFlag
+PRINT "colorRes       ="; gifData.colorRes
+PRINT "colorTableFlag ="; gifData.colorTableFlag
+PRINT "bgColor        ="; gifData.bgColor
+PRINT "aspect         ="; gifData.aspect
+PRINT "numColors      ="; gifData.numColors
+FOR i = 0 TO gifData.numColors - 1
+PRINT USING "pal(###) = "; i;
+PRINT HEX$(_RGB32(ASC(gifData.palette, i * 3 + 1), ASC(gifData.palette, i * 3 + 2), ASC(gifData.palette, i * 3 + 3)))
+NEXT
 END IF
 DO
- GET file, , byte~%%
- IF Dbg AND 2 THEN PRINT "Chunk: "; HEX$(byte~%%)
- SELECT CASE byte~%%
-   CASE &H2C ' Image Descriptor
-     IF frame > UBOUND(frameData) THEN
-       REDIM _PRESERVE frameData(0 TO frame * 2 - 1) AS FRAMEDATA
-     END IF
+GET file, , byte~%%
+IF Dbg AND 2 THEN PRINT "Chunk: "; HEX$(byte~%%)
+SELECT CASE byte~%%
+CASE &H2C ' Image Descriptor
+IF frame > UBOUND(frameData) THEN
+REDIM _PRESERVE frameData(0 TO frame * 2 - 1) AS FRAMEDATA
+END IF
 
-     GET file, , frameData(frame).left
-     GET file, , frameData(frame).top
-     GET file, , frameData(frame).width
-     GET file, , frameData(frame).height
-     GET file, , byte~%%
-     frameData(frame).localColorTableFlag = (byte~%% AND 128) > 0
-     frameData(frame).interlacedFlag = (byte~%% AND 64) > 0
-     frameData(frame).sortFlag = (byte~%% AND 32) > 0
-     frameData(frame).palBPP = (byte~%% AND 7) + 1
-     frameData(frame).addr = LOC(file) + 1
+GET file, , frameData(frame).left
+GET file, , frameData(frame).top
+GET file, , frameData(frame).width
+GET file, , frameData(frame).height
+GET file, , byte~%%
+frameData(frame).localColorTableFlag = (byte~%% AND 128) > 0
+frameData(frame).interlacedFlag = (byte~%% AND 64) > 0
+frameData(frame).sortFlag = (byte~%% AND 32) > 0
+frameData(frame).palBPP = (byte~%% AND 7) + 1
+frameData(frame).addr = LOC(file) + 1
 
-     IF frameData(frame).localColorTableFlag THEN
-       SEEK file, LOC(file) + 3 * 2 ^ frameData(frame).palBPP + 1
-     END IF
-     GET file, , frameData(frame).minimumCodeSize
-     IF Dbg AND 2 THEN
-       PRINT "addr                ="; HEX$(frameData(frame).addr - 1)
-       PRINT "left                ="; frameData(frame).left
-       PRINT "top                 ="; frameData(frame).top
-       PRINT "width               ="; frameData(frame).width
-       PRINT "height              ="; frameData(frame).height
-       PRINT "localColorTableFlag ="; frameData(frame).localColorTableFlag
-       PRINT "interlacedFlag      ="; frameData(frame).interlacedFlag
-       PRINT "sortFlag            ="; frameData(frame).sortFlag
-       PRINT "palBPP              ="; frameData(frame).palBPP
-       PRINT "minimumCodeSize     ="; frameData(frame).minimumCodeSize
-     END IF
-     IF localColors THEN _DEST 0: PRINT "Local color table": END
-     IF frameData(frame).disposalMethod > 2 THEN PRINT "Unsupported disposalMethod: "; frameData(frame).disposalMethod: END
-     skipBlocks file
+IF frameData(frame).localColorTableFlag THEN
+SEEK file, LOC(file) + 3 * 2 ^ frameData(frame).palBPP + 1
+END IF
+GET file, , frameData(frame).minimumCodeSize
+IF Dbg AND 2 THEN
+PRINT "addr                ="; HEX$(frameData(frame).addr - 1)
+PRINT "left                ="; frameData(frame).left
+PRINT "top                 ="; frameData(frame).top
+PRINT "width               ="; frameData(frame).width
+PRINT "height              ="; frameData(frame).height
+PRINT "localColorTableFlag ="; frameData(frame).localColorTableFlag
+PRINT "interlacedFlag      ="; frameData(frame).interlacedFlag
+PRINT "sortFlag            ="; frameData(frame).sortFlag
+PRINT "palBPP              ="; frameData(frame).palBPP
+PRINT "minimumCodeSize     ="; frameData(frame).minimumCodeSize
+END IF
+IF localColors THEN _DEST 0: PRINT "Local color table": END
+IF frameData(frame).disposalMethod > 2 THEN PRINT "Unsupported disposalMethod: "; frameData(frame).disposalMethod: END
+skipBlocks file
 
-     frame = frame + 1
-   CASE &H3B ' Trailer
-     EXIT DO
-   CASE &H21 ' Extension Introducer
-     GET file, , byte~%% ' Extension Label
-     IF Dbg AND 2 THEN PRINT "Extension Introducer: "; HEX$(byte~%%)
-     SELECT CASE byte~%%
-       CASE &HFF, &HFE ' Application Extension, Comment Extension
-         skipBlocks file
-       CASE &HF9
-         IF frame > UBOUND(frameData) THEN
-           REDIM _PRESERVE frameData(0 TO frame * 2 - 1) AS FRAMEDATA
-         END IF
+frame = frame + 1
+CASE &H3B ' Trailer
+EXIT DO
+CASE &H21 ' Extension Introducer
+GET file, , byte~%% ' Extension Label
+IF Dbg AND 2 THEN PRINT "Extension Introducer: "; HEX$(byte~%%)
+SELECT CASE byte~%%
+CASE &HFF, &HFE ' Application Extension, Comment Extension
+skipBlocks file
+CASE &HF9
+IF frame > UBOUND(frameData) THEN
+REDIM _PRESERVE frameData(0 TO frame * 2 - 1) AS FRAMEDATA
+END IF
 
-         GET 1, , byte~%% ' Block Size (always 4)
-         GET 1, , byte~%%
-         frameData(frame).transparentFlag = (byte~%% AND 1) > 0
-         frameData(frame).userInput = (byte~%% AND 2) > 0
-         frameData(frame).disposalMethod = byte~%% \ 4 AND 7
-         GET 1, , delay~%
-         IF delay~% = 0 THEN frameData(frame).delay = 0.1 ELSE frameData(frame).delay = delay~% / 100
-         GET 1, , frameData(frame).transColor
-         IF Dbg AND 2 THEN
-           PRINT "frame           ="; frame
-           PRINT "transparentFlag ="; frameData(frame).transparentFlag
-           PRINT "userInput       ="; frameData(frame).userInput
-           PRINT "disposalMethod  ="; frameData(frame).disposalMethod
-           PRINT "delay           ="; frameData(frame).delay
-           PRINT "transColor      ="; frameData(frame).transColor
-         END IF
-         skipBlocks file
-       CASE ELSE
-         PRINT "Unsupported extension Label: "; HEX$(byte~%%): END
-     END SELECT
-   CASE ELSE
-     PRINT "Unsupported chunk: "; HEX$(byte~%%): END
- END SELECT
+GET 1, , byte~%% ' Block Size (always 4)
+GET 1, , byte~%%
+frameData(frame).transparentFlag = (byte~%% AND 1) > 0
+frameData(frame).userInput = (byte~%% AND 2) > 0
+frameData(frame).disposalMethod = byte~%% \ 4 AND 7
+GET 1, , delay~%
+IF delay~% = 0 THEN frameData(frame).delay = 0.1 ELSE frameData(frame).delay = delay~% / 100
+GET 1, , frameData(frame).transColor
+IF Dbg AND 2 THEN
+PRINT "frame           ="; frame
+PRINT "transparentFlag ="; frameData(frame).transparentFlag
+PRINT "userInput       ="; frameData(frame).userInput
+PRINT "disposalMethod  ="; frameData(frame).disposalMethod
+PRINT "delay           ="; frameData(frame).delay
+PRINT "transColor      ="; frameData(frame).transColor
+END IF
+skipBlocks file
+CASE ELSE
+PRINT "Unsupported extension Label: "; HEX$(byte~%%): END
+END SELECT
+CASE ELSE
+PRINT "Unsupported chunk: "; HEX$(byte~%%): END
+END SELECT
 LOOP
 
 REDIM _PRESERVE frameData(0 TO frame - 1) AS FRAMEDATA
@@ -207,68 +307,68 @@ END FUNCTION
 
 SUB skipBlocks (file)
 DO
- GET file, , byte~%% ' Block Size
- IF Dbg AND 2 THEN PRINT "block size ="; byte~%%
- SEEK file, LOC(file) + byte~%% + 1
+GET file, , byte~%% ' Block Size
+IF Dbg AND 2 THEN PRINT "block size ="; byte~%%
+SEEK file, LOC(file) + byte~%% + 1
 LOOP WHILE byte~%%
 END SUB
 
 FUNCTION getGifFrame& (gifData AS GIFDATA, frameData() AS FRAMEDATA, frame)
 IF frameData(frame).addr > 0 THEN
- IF Dbg AND 4 THEN
-   PRINT "addr                ="; HEX$(frameData(frame).addr - 1)
-   PRINT "left                ="; frameData(frame).left
-   PRINT "top                 ="; frameData(frame).top
-   PRINT "width               ="; frameData(frame).width
-   PRINT "height              ="; frameData(frame).height
-   PRINT "localColorTableFlag ="; frameData(frame).localColorTableFlag
-   PRINT "interlacedFlag      ="; frameData(frame).interlacedFlag
-   PRINT "sortFlag            ="; frameData(frame).sortFlag
-   PRINT "palBPP              ="; frameData(frame).palBPP
-   PRINT "minimumCodeSize     ="; frameData(frame).minimumCodeSize
-   PRINT "transparentFlag     ="; frameData(frame).transparentFlag
-   PRINT "userInput           ="; frameData(frame).userInput
-   PRINT "disposalMethod      ="; frameData(frame).disposalMethod
-   PRINT "delay               ="; frameData(frame).delay
-   PRINT "transColor          ="; frameData(frame).transColor
- END IF
- w = frameData(frame).width
- h = frameData(frame).height
- img& = _NEWIMAGE(w, h, 256)
- frame& = _NEWIMAGE(gifData.width, gifData.height, 256)
+IF Dbg AND 4 THEN
+PRINT "addr                ="; HEX$(frameData(frame).addr - 1)
+PRINT "left                ="; frameData(frame).left
+PRINT "top                 ="; frameData(frame).top
+PRINT "width               ="; frameData(frame).width
+PRINT "height              ="; frameData(frame).height
+PRINT "localColorTableFlag ="; frameData(frame).localColorTableFlag
+PRINT "interlacedFlag      ="; frameData(frame).interlacedFlag
+PRINT "sortFlag            ="; frameData(frame).sortFlag
+PRINT "palBPP              ="; frameData(frame).palBPP
+PRINT "minimumCodeSize     ="; frameData(frame).minimumCodeSize
+PRINT "transparentFlag     ="; frameData(frame).transparentFlag
+PRINT "userInput           ="; frameData(frame).userInput
+PRINT "disposalMethod      ="; frameData(frame).disposalMethod
+PRINT "delay               ="; frameData(frame).delay
+PRINT "transColor          ="; frameData(frame).transColor
+END IF
+w = frameData(frame).width
+h = frameData(frame).height
+img& = _NEWIMAGE(w, h, 256)
+frame& = _NEWIMAGE(gifData.width, gifData.height, 256)
 
- _DEST img&
- decodeFrame gifData, frameData(frame)
+_DEST img&
+decodeFrame gifData, frameData(frame)
 
- _DEST frame&
- IF frameData(frame).localColorTableFlag THEN
-   _COPYPALETTE img&
- ELSE
-   FOR i = 0 TO gifData.numColors - 1
-     _PALETTECOLOR i, _RGB32(ASC(gifData.palette, i * 3 + 1), ASC(gifData.palette, i * 3 + 2), ASC(gifData.palette, i * 3 + 3))
-   NEXT
- END IF
+_DEST frame&
+IF frameData(frame).localColorTableFlag THEN
+_COPYPALETTE img&
+ELSE
+FOR i = 0 TO gifData.numColors - 1
+_PALETTECOLOR i, _RGB32(ASC(gifData.palette, i * 3 + 1), ASC(gifData.palette, i * 3 + 2), ASC(gifData.palette, i * 3 + 3))
+NEXT
+END IF
 
- IF frame THEN
-   SELECT CASE frameData(frame - 1).disposalMethod
-     CASE 0, 1
-       _PUTIMAGE , frameData(frame - 1).addr
-     CASE 2
-       CLS , gifData.bgColor
-       _CLEARCOLOR gifData.bgColor
-   END SELECT
- ELSE
-   CLS , gifData.bgColor
- END IF
+IF frame THEN
+SELECT CASE frameData(frame - 1).disposalMethod
+CASE 0, 1
+_PUTIMAGE , frameData(frame - 1).addr
+CASE 2
+CLS , gifData.bgColor
+_CLEARCOLOR gifData.bgColor
+END SELECT
+ELSE
+CLS , gifData.bgColor
+END IF
 
- IF frameData(frame).transparentFlag THEN
-   _CLEARCOLOR frameData(frame).transColor, img&
- END IF
- _PUTIMAGE (frameData(frame).left, frameData(frame).top), img&
- _FREEIMAGE img&
+IF frameData(frame).transparentFlag THEN
+_CLEARCOLOR frameData(frame).transColor, img&
+END IF
+_PUTIMAGE (frameData(frame).left, frameData(frame).top), img&
+_FREEIMAGE img&
 
- frameData(frame).addr = frame&
- _DEST 0
+frameData(frame).addr = frame&
+_DEST 0
 END IF
 
 getGifFrame& = frameData(frame).addr
@@ -301,80 +401,80 @@ file = gifdata.file
 SEEK file, framedata.addr
 
 IF framedata.localColorTableFlag THEN
- palette$ = SPACE$(3 * 2 ^ framedata.palBPP)
- GET 1, , palette$
+palette$ = SPACE$(3 * 2 ^ framedata.palBPP)
+GET 1, , palette$
 
- FOR i = 0 TO gifdata.numColors - 1
-   c& = _RGB32(ASC(palette$, i * 3 + 1), ASC(palette$, i * 3 + 2), ASC(palette$, i * 3 + 3))
-   _PALETTECOLOR i, c&
- NEXT
+FOR i = 0 TO gifdata.numColors - 1
+c& = _RGB32(ASC(palette$, i * 3 + 1), ASC(palette$, i * 3 + 2), ASC(palette$, i * 3 + 3))
+_PALETTECOLOR i, c&
+NEXT
 END IF
 
 GET file, , byte ' minimumCodeSize
 
 DO
- GOSUB GetCode
- stackPointer = 0
- IF code = clearCode THEN 'Reset & Draw next color direct
-   nvc = minCode '           \
-   codeSize = startCodeSize ' Preset default codes
-   maxCode = startMaxCode '  /
+GOSUB GetCode
+stackPointer = 0
+IF code = clearCode THEN 'Reset & Draw next color direct
+nvc = minCode '           \
+codeSize = startCodeSize ' Preset default codes
+maxCode = startMaxCode '  /
 
-   GOSUB GetCode
-   currentCode = code
+GOSUB GetCode
+currentCode = code
 
-   lastColor = code
-   colorStack(stackPointer) = lastColor
-   stackPointer = 1
- ELSEIF code <> endCode THEN 'Draw direct color or colors from suffix
-   currentCode = code
-   IF currentCode = nvc THEN 'Take last color too
-     currentCode = oldCode
-     colorStack(stackPointer) = lastColor
-     stackPointer = stackPointer + 1
-   END IF
+lastColor = code
+colorStack(stackPointer) = lastColor
+stackPointer = 1
+ELSEIF code <> endCode THEN 'Draw direct color or colors from suffix
+currentCode = code
+IF currentCode = nvc THEN 'Take last color too
+currentCode = oldCode
+colorStack(stackPointer) = lastColor
+stackPointer = stackPointer + 1
+END IF
 
-   WHILE currentCode >= minCode 'Extract colors from suffix
-     colorStack(stackPointer) = suffix(currentCode)
-     stackPointer = stackPointer + 1
-     currentCode = prefix(currentCode) 'Next color from suffix is described in
-   WEND '                                 the prefix, else prefix is the last col.
+WHILE currentCode >= minCode 'Extract colors from suffix
+colorStack(stackPointer) = suffix(currentCode)
+stackPointer = stackPointer + 1
+currentCode = prefix(currentCode) 'Next color from suffix is described in
+WEND '                                 the prefix, else prefix is the last col.
 
-   lastColor = currentCode '              Last color is equal to the
-   colorStack(stackPointer) = lastColor ' last known code (direct, or from
-   stackPointer = stackPointer + 1 '      Prefix)
-   suffix(nvc) = lastColor 'Automatically, update suffix
-   prefix(nvc) = oldCode 'Code from the session before (for extracting from suffix)
-   nvc = nvc + 1
+lastColor = currentCode '              Last color is equal to the
+colorStack(stackPointer) = lastColor ' last known code (direct, or from
+stackPointer = stackPointer + 1 '      Prefix)
+suffix(nvc) = lastColor 'Automatically, update suffix
+prefix(nvc) = oldCode 'Code from the session before (for extracting from suffix)
+nvc = nvc + 1
 
-   IF nvc > maxCode AND codeSize < 12 THEN
-     codeSize = codeSize + 1
-     maxCode = maxCode * 2 + 1
-   END IF
- END IF
+IF nvc > maxCode AND codeSize < 12 THEN
+codeSize = codeSize + 1
+maxCode = maxCode * 2 + 1
+END IF
+END IF
 
- FOR i = stackPointer - 1 TO 0 STEP -1
-   PSET (x, y), colorStack(i)
-   x = x + 1
-   IF x = framedata.width THEN
-     x = 0
-     IF framedata.interlacedFlag THEN
-       y = y + interlacedStep
-       IF y >= framedata.height THEN
-         SELECT CASE interlacedPass
-           CASE 0: interlacedPass = 1: y = 4
-           CASE 1: interlacedPass = 2: y = 2
-           CASE 2: interlacedPass = 3: y = 1
-         END SELECT
-         interlacedStep = 2 * y
-       END IF
-     ELSE
-       y = y + 1
-     END IF
-   END IF
- NEXT
+FOR i = stackPointer - 1 TO 0 STEP -1
+PSET (x, y), colorStack(i)
+x = x + 1
+IF x = framedata.width THEN
+x = 0
+IF framedata.interlacedFlag THEN
+y = y + interlacedStep
+IF y >= framedata.height THEN
+SELECT CASE interlacedPass
+CASE 0: interlacedPass = 1: y = 4
+CASE 1: interlacedPass = 2: y = 2
+CASE 2: interlacedPass = 3: y = 1
+END SELECT
+interlacedStep = 2 * y
+END IF
+ELSE
+y = y + 1
+END IF
+END IF
+NEXT
 
- oldCode = code
+oldCode = code
 LOOP UNTIL code = endCode
 
 GET file, , byte
@@ -384,10 +484,10 @@ GetCode:
 IF bitPointer = 0 THEN GOSUB ReadByteFromBlock: bitPointer = 8
 WorkCode& = LastChar \ powerOf2&(8 - bitPointer)
 WHILE codeSize > bitPointer
- GOSUB ReadByteFromBlock
+GOSUB ReadByteFromBlock
 
- WorkCode& = WorkCode& OR LastChar * powerOf2&(bitPointer)
- bitPointer = bitPointer + 8
+WorkCode& = WorkCode& OR LastChar * powerOf2&(bitPointer)
+bitPointer = bitPointer + 8
 WEND
 bitPointer = bitPointer - codeSize
 code = WorkCode& AND maxCode
@@ -395,9 +495,9 @@ RETURN
 
 ReadByteFromBlock:
 IF blockPointer = blockSize THEN
- GET file, , byte: blockSize = byte
- a$ = SPACE$(blockSize): GET file, , a$
- blockPointer = 0
+GET file, , byte: blockSize = byte
+a$ = SPACE$(blockSize): GET file, , a$
+blockPointer = 0
 END IF
 blockPointer = blockPointer + 1
 LastChar = ASC(MID$(a$, blockPointer, 1))
@@ -407,13 +507,15 @@ END SUB
 
 SUB codeGif (gifData AS GIFDATA, frameData() AS FRAMEDATA)
 FOR i = 0 TO UBOUND(FRAMEDATA)
- IF frameData(i).addr < 0 THEN _FREEIMAGE frameData(i).addr
+IF frameData(i).addr < 0 THEN _FREEIMAGE frameData(i).addr
 NEXT
 
 CLOSE gifData.file
 END SUB
 ```
   
+<br>
+
 
 </blockquote>
 
@@ -421,11 +523,11 @@ END SUB
 
 <blockquote>
 
+
 * GIF Creation , Bitmaps
 * Icons and Cursors
-* [_LOADIMAGE](./_LOADIMAGE.md) , [_PUTIMAGE](./_PUTIMAGE.md)
+* [_LOADIMAGE](LOADIMAGE.md) , [_PUTIMAGE](PUTIMAGE.md)
 * FILELIST$ (function) (member file search routine)
 * SaveIcon32 (create icons from any image)
-* $EXEICON (Icon visible in Windows Explorer)
-
+* [&dollar;EXEICON](&dollar;EXEICON.md) (Icon visible in Windows Explorer)
 </blockquote>

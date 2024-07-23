@@ -27,16 +27,18 @@ h4 {
     border: 0 !important;
 }
 h5 {
-    margin: 0 0 1em 0  !important;
+    margin: 0 0 0.5em 0  !important;
     color: #88f !important;
     border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
 }
 code {
     background: #000 !important;
     margin: 0 !important;
     padding: 8px !important;
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
 }
 pre > code {
     background: transparent !important;
@@ -52,16 +54,49 @@ blockquote {
     padding: 0 1em !important;
 }
 pre {
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
     margin: 0 !important;
-    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
 }
 a:link, a:visited, a:hover, a:active {
     color: #ff0 !important;
 }
-
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
 </style>
+
 
 ## [CVD](CVD.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/CVD)
 ---
@@ -83,10 +118,54 @@ a:link, a:visited, a:hover, a:active {
 
 <blockquote>
 
-*  CV functions ( [CVD](CVD.md)  , [CVS](CVS.md)  , [CVI](CVI.md)  , [CVL](CVL.md)  , [CVDMBF](CVDMBF.md)  , [CVSMBF](CVSMBF.md)  ) are used to convert values encoded by MK$ functions ( MKD$ , MKS$ , MKI$ , MKL$ , MKDMBF$ , MKSMBF$ ).
-*  Variables of numerical types are also encoded when [PUT](PUT.md)  to a [RANDOM](RANDOM.md)  or [BINARY](BINARY.md)  -access file.
-*  QB64 has [_CV](CV.md)  and _MK$ functions which can also deal with extended data types .
-*  [DOUBLE](DOUBLE.md)  values can range up to 15 decimal point digits. Decimal point accuracy depends on whole value places taken.
+
+* CV functions ( [CVD](CVD.md) , [CVS](CVS.md) , [CVI](CVI.md) , [CVL](CVL.md) , [CVDMBF](CVDMBF.md) , [CVSMBF](CVSMBF.md) ) are used to convert values encoded by MK$ functions ( [MKD&dollar;](MKD&dollar;.md) , [MKS&dollar;](MKS&dollar;.md) , [MKI&dollar;](MKI&dollar;.md) , [MKL&dollar;](MKL&dollar;.md) , [MKDMBF&dollar;](MKDMBF&dollar;.md) , [MKSMBF&dollar;](MKSMBF&dollar;.md) ).
+* Variables of numerical types are also encoded when [PUT](PUT.md) to a [RANDOM](RANDOM.md) or [BINARY](BINARY.md) -access file.
+* QB64 has [_CV](CV.md) and [_MK&dollar;](MK&dollar;.md) functions which can also deal with extended data types .
+* [DOUBLE](DOUBLE.md) values can range up to 15 decimal point digits. Decimal point accuracy depends on whole value places taken.
+
+</blockquote>
+
+#### EXAMPLES
+
+<blockquote>
+
+
+
+##### Example 1: Reading an 8-byte encoded string n\$ from a file and obtaining the decoded DOUBLE value:
+```vb
+FIELD #1, 8 AS N$, 12 AS B$...
+GET #1
+Y# = CVD(N$)
+```
+  
+<br>
+
+
+
+##### Example 2: Showcases the reduced space to store an encoded number.
+```vb
+a# = 77000.24523213
+PRINT "Value of a#:"; a#
+b$ = MKD$(a#)
+PRINT "Value of a# encoded using MKD$: "; b$
+PRINT "The string above, decoded using CVD:"; CVD(b$)
+```
+  
+<br>
+
+
+<div class="explanation">Since the representation of a double-precision number can use up to 15 ASCII characters (fifteen bytes), writing to a file using MKD\$ conversion, and then reading back with the CVD conversion can save up to 7 bytes of storage space.</div>
+
+```vb
+Value of a#: 77000.24523213
+
+Value of a# encoded using MKD$: ñåxýâ╠‗@
+
+The string above, decoded using CVD: 77000.24523213
+```
+  
+<br>
 
 
 </blockquote>

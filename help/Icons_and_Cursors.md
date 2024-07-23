@@ -1,4 +1,104 @@
-## Icons and Cursors
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 0.5em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
+    margin: 0 !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
+</style>
+
+
+## [Icons and Cursors](Icons_and_Cursors.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/Icons%20and%20Cursors)
 ---
 <blockquote>
 
@@ -23,37 +123,39 @@
 ' INCLUDE this BI file at the start of a program
 '
 TYPE ICONTYPE            'Icon or cursor file header
- Reserved AS INTEGER    'Reserved (always 0)
- ID AS INTEGER          'Resource ID (Icon = 1, Cursor = 2)
- Count AS INTEGER       'Number of icon bitmaps in Directory of icon entries array
+Reserved AS INTEGER    'Reserved (always 0)
+ID AS INTEGER          'Resource ID (Icon = 1, Cursor = 2)
+Count AS INTEGER       'Number of icon bitmaps in Directory of icon entries array
 END TYPE '6 bytes
 
 TYPE ICONENTRY           'or unanimated Cursor entry (ANI are animated cursors)
- PWidth AS _UNSIGNED _BYTE 'Width of icon in pixels (USE THIS)
- PDepth AS _UNSIGNED _BYTE 'Height of icon in pixels (USE THIS)
- NumColors AS _BYTE     'Maximum number of colors. (2, 8 or 16 colors. 256 or 24/32 bit = 0)
- RES2 AS _BYTE          'Reserved. Not used (always 0)
- HotSpotX AS INTEGER    'Icon: NumberPlanes(normally 0), Cursor: hotspot pixels from left
- HotSpotY AS INTEGER    'Icon: BitsPerPixel(normally 0), Cursor: hotspot pixels from top
- DataSize AS LONG       'Length of image data in bytes minus Icon and Entry headers (USE THIS)
- DataOffset AS LONG     'Start Offset byte position of icon bitmap header(add 1 if TYPE GET)
+PWidth AS _UNSIGNED _BYTE 'Width of icon in pixels (USE THIS)
+PDepth AS _UNSIGNED _BYTE 'Height of icon in pixels (USE THIS)
+NumColors AS _BYTE     'Maximum number of colors. (2, 8 or 16 colors. 256 or 24/32 bit = 0)
+RES2 AS _BYTE          'Reserved. Not used (always 0)
+HotSpotX AS INTEGER    'Icon: NumberPlanes(normally 0), Cursor: hotspot pixels from left
+HotSpotY AS INTEGER    'Icon: BitsPerPixel(normally 0), Cursor: hotspot pixels from top
+DataSize AS LONG       'Length of image data in bytes minus Icon and Entry headers (USE THIS)
+DataOffset AS LONG     'Start Offset byte position of icon bitmap header(add 1 if TYPE GET)
 END TYPE '16 bytes       'BMP header and image data follow ALL entry data(after 22, 38, 54, etc.)
 
 TYPE BMPHEADER           'Bitmap type header found using entry DataOffset + 1
- IconHSize AS LONG      'size of ICON header (always 40 bytes)
- ICONWidth AS LONG      'bitmap width in pixels (signed integer).
- ICONDepth AS LONG      'Total map height in pixels (signed integer is 2 times image height)
- NumPlanes AS INTEGER   'number of color planes. Must be set to 1.
- BPP AS INTEGER         'bits per pixel  1, 4, 8, 16, 24 or 32.(USE THIS)
- Compress AS LONG       'compression method should always be 0.
- RAWSize AS LONG        'size of the raw ICON image data(may only be XOR mask size).
- Hres AS LONG           'horizontal resolution of the image(not normally used)
- Vres AS LONG           'vertical resolution of the image(not normally used)
- NumColors AS LONG      'number of colors in the color palette(not normally used)
- SigColors AS LONG      'number of important colors used(not normally used)
+IconHSize AS LONG      'size of ICON header (always 40 bytes)
+ICONWidth AS LONG      'bitmap width in pixels (signed integer).
+ICONDepth AS LONG      'Total map height in pixels (signed integer is 2 times image height)
+NumPlanes AS INTEGER   'number of color planes. Must be set to 1.
+BPP AS INTEGER         'bits per pixel  1, 4, 8, 16, 24 or 32.(USE THIS)
+Compress AS LONG       'compression method should always be 0.
+RAWSize AS LONG        'size of the raw ICON image data(may only be XOR mask size).
+Hres AS LONG           'horizontal resolution of the image(not normally used)
+Vres AS LONG           'vertical resolution of the image(not normally used)
+NumColors AS LONG      'number of colors in the color palette(not normally used)
+SigColors AS LONG      'number of important colors used(not normally used)
 END TYPE '40 bytes       'palette and/or image data immediately follow this header!
 ```
   
+<br>
+
 ```vb
 DIM ICO AS ICONTYPE
 items% = ICO.Count
@@ -61,51 +163,55 @@ DIM SHARED Entry(items%) AS ICONENTRY
 DIM SHARED BMP(items%) AS BMPHEADER
 ```
   
+<br>
+
 ```vb
 Single Image Icon or Cursor
 
-             ┌──────┐   ┌─────┐    ┌──────┐    ┌───────┐     ┌───────┐     ┌───────┐
-             │ ICON │   │Entry│    │BMP[1]│    │PALETTE│     │  XOR  │     │  AND  │
-             │Header├─6─┤ [1] ├─22─┤Header├─62─┤ 4 BPP ├─126─┤ 4 BPP ├─638─┤ 1 BPP │
-             │  6B  │   │16 B │    │ 40 B │    │½ byte │     │32*32*½│     │32*32\8│
-             └──────┘   └─────┘    └──────┘    │ 64 B  │     │ 512 B │     │ 128 B │
-                                               └───────┘     └───────┘     └───────┘
+┌──────┐   ┌─────┐    ┌──────┐    ┌───────┐     ┌───────┐     ┌───────┐
+│ ICON │   │Entry│    │BMP[1]│    │PALETTE│     │  XOR  │     │  AND  │
+│Header├─6─┤ [1] ├─22─┤Header├─62─┤ 4 BPP ├─126─┤ 4 BPP ├─638─┤ 1 BPP │
+│  6B  │   │16 B │    │ 40 B │    │½ byte │     │32*32*½│     │32*32\8│
+└──────┘   └─────┘    └──────┘    │ 64 B  │     │ 512 B │     │ 128 B │
+└───────┘     └───────┘     └───────┘
 
-                                    Multiple Image (3)
+Multiple Image (3)
 
-                 ┌──────┐   ┌───────┐    ┌───────┐    ┌───────┐
-                 │ ICON │   │ Entry │    │ Entry │    │ Entry │
-                 │Header├─6─┤  [1]  ├─22─┤  [2]  ├─38─┤  [3]  ├─54─┐ Entry precedes all data
-                 │  6B  │   │ 16 B  │    │ 16 B  │    │ 16 B  │    │
-                 └──────┘   └───────┘    └───────┘    └───────┘    │
-                                ┌───◄ GET Offset + 1 = 55◄─────────┘
-                            ┌───┴───┐    ┌───────┐    ┌───────┐
-                            │ BMP[1]│    │ BMP[2]│    │ BMP[3]│
-                            │Header │  ┌─┤Header │  ┌─┤Header │  Image settings
-                            │ 40 B  │  │ │ 40 B  │  │ │ 40 B  │
-                            └───┬───┘  │ └───┬───┘  │ └───┬───┘
-                            ┌───┴───┐  ▲ ┌───┴───┐  ▲     │
-                            │PALETTE│  O │PALETTE│  O     │
-                            │ 4 BPP │  f │ 8 BPP │  f   24 BPP   RGB color intensities
-                            │½ byte │  f │1 byte │  f   3 byte
-                            │ 64 B  │  s │1024 B │  s     │
-                            └───┬───┘  e └───┬───┘  e     │
-                            ┌───┴───┐  t ┌───┴───┐  t ┌───┴───┐
-                            │  XOR  │  + │  XOR  │  + │  XOR  │
-                            │16*16*½│  1 │32*32*1│  1 │48*48*3│  Image color data
-                            │ 128 B │  ▲ │1024 B │  ▲ │6912 B │
-                            └───┬───┘  │ └───┬───┘  │ └───┬───┘
-                           ┌────┴───┐  │ ┌───┴───┐  │ ┌───┴────┐
-                           │   AND  │  │ │  AND  │  │ │  AND   │
-                           │ 1 BPP  ├──┘ │ 1 BPP ├──┘ │ 1 BPP  │ B & W mask
-                           │16*(2+2)│    │32*32\8│    │48*(6+2)│
-                           │  64 B  │    │ 128 B │    │ 384 B  │
-                           └────────┘    └───────┘    └────────┘
+┌──────┐   ┌───────┐    ┌───────┐    ┌───────┐
+│ ICON │   │ Entry │    │ Entry │    │ Entry │
+│Header├─6─┤  [1]  ├─22─┤  [2]  ├─38─┤  [3]  ├─54─┐ Entry precedes all data
+│  6B  │   │ 16 B  │    │ 16 B  │    │ 16 B  │    │
+└──────┘   └───────┘    └───────┘    └───────┘    │
+┌───◄ GET Offset + 1 = 55◄─────────┘
+┌───┴───┐    ┌───────┐    ┌───────┐
+│ BMP[1]│    │ BMP[2]│    │ BMP[3]│
+│Header │  ┌─┤Header │  ┌─┤Header │  Image settings
+│ 40 B  │  │ │ 40 B  │  │ │ 40 B  │
+└───┬───┘  │ └───┬───┘  │ └───┬───┘
+┌───┴───┐  ▲ ┌───┴───┐  ▲     │
+│PALETTE│  O │PALETTE│  O     │
+│ 4 BPP │  f │ 8 BPP │  f   24 BPP   RGB color intensities
+│½ byte │  f │1 byte │  f   3 byte
+│ 64 B  │  s │1024 B │  s     │
+└───┬───┘  e └───┬───┘  e     │
+┌───┴───┐  t ┌───┴───┐  t ┌───┴───┐
+│  XOR  │  + │  XOR  │  + │  XOR  │
+│16*16*½│  1 │32*32*1│  1 │48*48*3│  Image color data
+│ 128 B │  ▲ │1024 B │  ▲ │6912 B │
+└───┬───┘  │ └───┬───┘  │ └───┬───┘
+┌────┴───┐  │ ┌───┴───┐  │ ┌───┴────┐
+│   AND  │  │ │  AND  │  │ │  AND   │
+│ 1 BPP  ├──┘ │ 1 BPP ├──┘ │ 1 BPP  │ B & W mask
+│16*(2+2)│    │32*32\8│    │48*(6+2)│
+│  64 B  │    │ 128 B │    │ 384 B  │
+└────────┘    └───────┘    └────────┘
 
-     Add one to Offset position when using one TYPE definition GET for the BMP Header data!
-                      BPP = bits per pixel B = bytes +2 = padder bytes
+Add one to Offset position when using one TYPE definition GET for the BMP Header data!
+BPP = bits per pixel B = bytes +2 = padder bytes
 ```
   
+<br>
+
 ```vb
 SUB ANDMask   'MASK is B & W. Black area holds XOR colors, white displays background
 BitsOver = Entry(i).PWidth& MOD 32
@@ -113,24 +219,26 @@ IF BitsOver THEN ZeroPAD$ = SPACE$((32 - BitsOver) \ 8) 'look for sizes not mult
 _DEST bmp&  'destination handle if used
 y = Entry(i).PDepth - 1: a$ = " ": p$ = " "
 DO
- x = 0
- DO
-   GET #1, , a$   'position is immediately AFTER XOR mask data
-   ByteVAL = ASC(a$)   'MSBit is left when calculating 16 X 16 cursor map 2 byte integer
-   FOR Bit% = 7 TO 0 STEP -1   'values despite M$ documentation that says otherwise!
-     IF ByteVAL AND 2 ^ Bit% THEN
-       PSET (x, y), _RGB(255, 255, 255) '_RGB can be used in 1, 4, 8 or 24/32 BPP
-     ELSE: PSET (x, y), _RGB(0, 0, 0)
-     END IF
-     x = x + 1        '16 X 16 = 32 bytes, 32 X 32 = 128 bytes AND MASK SIZES
-   NEXT Bit%          '48 X 48 = 288 bytes, 64 X 64 = 512 bytes, 128 X 128 = 2048 bytes
- LOOP WHILE x < Entry(i).PWidth
- GET #1, , ZeroPAD$   '16 X 16 and 48 X 48 = 2 byte end padder per row in the AND MASK
- y = y - 1            'adds 32 and 96 bytes respectively to the raw data size!
+x = 0
+DO
+GET #1, , a$   'position is immediately AFTER XOR mask data
+ByteVAL = ASC(a$)   'MSBit is left when calculating 16 X 16 cursor map 2 byte integer
+FOR Bit% = 7 TO 0 STEP -1   'values despite M$ documentation that says otherwise!
+IF ByteVAL AND 2 ^ Bit% THEN
+PSET (x, y), _RGB(255, 255, 255) '_RGB can be used in 1, 4, 8 or 24/32 BPP
+ELSE: PSET (x, y), _RGB(0, 0, 0)
+END IF
+x = x + 1        '16 X 16 = 32 bytes, 32 X 32 = 128 bytes AND MASK SIZES
+NEXT Bit%          '48 X 48 = 288 bytes, 64 X 64 = 512 bytes, 128 X 128 = 2048 bytes
+LOOP WHILE x < Entry(i).PWidth
+GET #1, , ZeroPAD$   '16 X 16 and 48 X 48 = 2 byte end padder per row in the AND MASK
+y = y - 1            'adds 32 and 96 bytes respectively to the raw data size!
 LOOP UNTIL y = -1
 END SUB
 ```
   
+<br>
+
 ```vb
 Entry(item%).DataSize = DataSize&(item%) 'example function call
 
@@ -138,17 +246,17 @@ FUNCTION DataSize&(i AS INTEGER)
 PixelBytes! = BMP(i)BPP / 8      '1 BPP = 1/8; 4 BPP = 1/2; 8 BPP = 1; 24 BPP = 3
 
 SELECT CASE BPP
- CASE 1: PaletteBytes% = 0
-   IF Entry(i).PWidth MOD 32 THEN Pad% = (32 - (Entry(i).PWidth MOD 32)) \ 8 ELSE Pad% = 0
- CASE 4: PaletteBytes% = 64
-   IF Entry(i).PWidth MOD 8 THEN Pad% = (8 - (Entry(i).PWidth MOD 8)) \ 2 ELSE Pad% = 0
- CASE 8: PaletteBytes% = 1024
-   IF Entry(i).PWidth MOD 4 THEN Pad% = 4 - (Entry(i).PWidth MOD 4) ELSE Pad% = 0
- CASE IS > 8: PaletteBytes% = 0
-   IF ((Picture{{Cl|Entry(i).PWidth * 3) MOD 4) THEN
-     Pad% = ((4 - ((Entry(i).PWidth * 3) MOD 4)))
-   ELSE: Pad% = 0
-   END IF
+CASE 1: PaletteBytes% = 0
+IF Entry(i).PWidth MOD 32 THEN Pad% = (32 - (Entry(i).PWidth MOD 32)) \ 8 ELSE Pad% = 0
+CASE 4: PaletteBytes% = 64
+IF Entry(i).PWidth MOD 8 THEN Pad% = (8 - (Entry(i).PWidth MOD 8)) \ 2 ELSE Pad% = 0
+CASE 8: PaletteBytes% = 1024
+IF Entry(i).PWidth MOD 4 THEN Pad% = 4 - (Entry(i).PWidth MOD 4) ELSE Pad% = 0
+CASE IS > 8: PaletteBytes% = 0
+IF ((Picture{{Cl|Entry(i).PWidth * 3) MOD 4) THEN
+Pad% = ((4 - ((Entry(i).PWidth * 3) MOD 4)))
+ELSE: Pad% = 0
+END IF
 END SELECT
 
 XORsize& = ((Entry(i).PWidth + Pad%) * Entry(i).PDepth) * PixelBytes!
@@ -159,6 +267,8 @@ DataSize& = XORsize& + ANDsize& + PaletteBytes% + 40  'header is always 40 bytes
 END FUNCTION
 ```
   
+<br>
+
 ```vb
 INPUT "Enter an icon width(multiples of 8 or 16 only): ", width
 
@@ -168,11 +278,15 @@ bytes = (width + bitpad) * width \ 8 'dividing by 8 returns the byte size
 PRINT "AND mask size:"; bytes; "bytes with a"; bitpad; "bit padder."
 ```
   
+<br>
+
 ```vb
 Enter an icon width(multiples of 8 or 16 only): 16
 AND mask size: 64 bytes with a 16 bit padder.
 ```
   
+<br>
+
 
 </blockquote>
 
@@ -180,10 +294,10 @@ AND mask size: 64 bytes with a 16 bit padder.
 
 <blockquote>
 
-* $EXEICON
-* [_ICON](./_ICON.md)
+
+* [&dollar;EXEICON](&dollar;EXEICON.md)
+* [_ICON](ICON.md)
 * Creating Sprite Masks
 * Bitmaps , GIF Images
 * Icon Extraction
-
 </blockquote>

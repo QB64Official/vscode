@@ -162,14 +162,9 @@ export class TokenInfo {
 	 */
 	public getHoverText(): string {
 		let retvalue = ""
-		const path = require('path');
 		if (this.isKeyword) {
 			if (this.offlinehelp.length > 0) {
-				const config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration("qb64pe")
-				let helpPath: string = config.get("helpPath");
-				let helpFile: string = path.join(helpPath, `${this.helpify()}.md`).replaceAll("\\", "/");
 				retvalue = fs.readFileSync(this.offlinehelp).toString();
-				// retvalue = retvalue.replaceAll(/\[([\w|\$]*)\]\((([\.|\/|\w|\$])*)\)/igm, '[$1](file:' + this.offlinehelp + ')');				
 			} else {
 				retvalue = "Press F1 for help"
 			}

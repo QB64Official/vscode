@@ -27,16 +27,18 @@ h4 {
     border: 0 !important;
 }
 h5 {
-    margin: 0 0 1em 0  !important;
+    margin: 0 0 0.5em 0  !important;
     color: #88f !important;
     border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
 }
 code {
     background: #000 !important;
     margin: 0 !important;
     padding: 8px !important;
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
 }
 pre > code {
     background: transparent !important;
@@ -52,16 +54,49 @@ blockquote {
     padding: 0 1em !important;
 }
 pre {
-    border-radius: 8px !important; 
-    border: 1px solid #567 !important;
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
     margin: 0 !important;
-    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.25) !important;
 }
 a:link, a:visited, a:hover, a:active {
     color: #ff0 !important;
 }
-
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
 </style>
+
 
 ## [_KEYDOWN](KEYDOWN.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/_KEYDOWN)
 ---
@@ -114,7 +149,9 @@ Use CVI to convert ASCII 2-byte codes to _KEYDOWN values.
 '          Lower value = LCase/NumLock On __________________ + = add 100000
 ```
   
-<br>```vb
+<br>
+
+```vb
 65536-&H40000000: QB64-specific Virtual Key codes:
 
 CONST KEY_PAUSE& = 100019
@@ -178,7 +215,9 @@ Use _KEYHIT to find the key codes to be monitored by _KEYDOWN!
   
 <br>
 
-##### Example 1: Comparing the _KEYDOWN returns using constant values with 2 byte INKEY$ returns.
+
+
+##### Example 1: Comparing the _KEYDOWN returns using constant values with 2 byte INKEY\$ returns.
 ```vb
 CONST RSHIFT& = 100303
 CONST LSHIFT& = 100304
@@ -199,7 +238,9 @@ LOOP UNTIL k$ = CHR$(27)     'escape key exit
   
 <br>
 
-##### Example 2: How to calculate the _KEYDOWN codes of the 2 byte INKEY$ arrow key codes using CVI .
+
+
+##### Example 2: How to calculate the _KEYDOWN codes of the 2 byte INKEY\$ arrow key codes using CVI .
 ```vb
 SCREEN 12
 
@@ -224,17 +265,19 @@ LOOP
 ```
   
 <br>
+
+
 </blockquote>
 
 #### SEE ALSO
 
 <blockquote>
 
-*  [_KEYHIT](KEYHIT.md)  , Unicode , Code Pages (by region)
-*  [_MAPUNICODE](MAPUNICODE.md)  , [_MAPUNICODE](MAPUNICODE.md)  (function)
-*  INKEY$ , ASCII , [CVI](CVI.md) 
-*  [INP](INP.md)  (&H60), Scancodes
-*  [ON](ON.md)  [KEY](KEY.md) (n) , [KEY](KEY.md) (n) , [KEY](KEY.md)  n
-*  Windows hot keys
 
+* [_KEYHIT](KEYHIT.md) , Unicode , Code Pages (by region)
+* [_MAPUNICODE](MAPUNICODE.md) , [_MAPUNICODE](MAPUNICODE.md) (function)
+* [INKEY&dollar;](INKEY&dollar;.md) , ASCII , [CVI](CVI.md)
+* [INP](INP.md) (&H60), Scancodes
+* [ON](ON.md) KEY(n) , KEY(n) , [KEY](KEY.md) n
+* Windows hot keys
 </blockquote>

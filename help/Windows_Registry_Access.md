@@ -1,4 +1,104 @@
-## Windows Registry Access
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 0.5em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
+    margin: 0 !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
+</style>
+
+
+## [Windows Registry Access](Windows_Registry_Access.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/Windows%20Registry%20Access)
 ---
 <blockquote>
 
@@ -139,53 +239,53 @@ DO
 PRINT "This value enables/disables AutoRun/AutoPlay for the current user:"
 l = RegOpenKeyExA(Ky, _OFFSET(SubKey), 0, KEY_READ, _OFFSET(hKey))
 IF l THEN
- PRINT "RegOpenKeyExA failed. Error: 0x" + LCASE$(HEX$(l))
+PRINT "RegOpenKeyExA failed. Error: 0x" + LCASE$(HEX$(l))
 ELSE
- l = RegQueryValueExA(hKey, _OFFSET(Value), 0, _OFFSET(dwType), _OFFSET(bData), _OFFSET(numBytes))
- IF l THEN
-  PRINT "RegQueryValueExA failed. Error: 0x" + LCASE$(HEX$(l))
- ELSE
-  PRINT whatKey$(Ky) + "\" + SubKey
-  PRINT whatType(dwType) + " " + Value + " = " + formatData(dwType, numBytes, bData)
- END IF
- l = RegCloseKey(hKey)
- IF l THEN
-  PRINT "RegCloseKey failed. Error: 0x" + LCASE$(HEX$(l))
-  END
- END IF
+l = RegQueryValueExA(hKey, _OFFSET(Value), 0, _OFFSET(dwType), _OFFSET(bData), _OFFSET(numBytes))
+IF l THEN
+PRINT "RegQueryValueExA failed. Error: 0x" + LCASE$(HEX$(l))
+ELSE
+PRINT whatKey$(Ky) + "\" + SubKey
+PRINT whatType(dwType) + " " + Value + " = " + formatData(dwType, numBytes, bData)
+END IF
+l = RegCloseKey(hKey)
+IF l THEN
+PRINT "RegCloseKey failed. Error: 0x" + LCASE$(HEX$(l))
+END
+END IF
 END IF
 IF dwType <> REG_DWORD THEN
- PRINT "Oops. I expected that value to be a DWORD."
- EXIT DO
+PRINT "Oops. I expected that value to be a DWORD."
+EXIT DO
 END IF
 PRINT
 PRINT "Would you like to change that value? ";
 DO
- _LIMIT 20
- t = LCASE$(INKEY$)
+_LIMIT 20
+t = LCASE$(INKEY$)
 LOOP UNTIL (t = "y") OR (t = "n")
 PRINT t
 IF t = "y" THEN
- PRINT "I recommend setting this value to 0xff to disable AutoRun for the current user."
- PRINT "Enter a new DWORD value: 0x";
- LINE INPUT t
- bData = MKL$(VAL("&h" + t + "&"))
- t = "y"
- l = RegOpenKeyExA(Ky, _OFFSET(SubKey), 0, KEY_ALL_ACCESS, _OFFSET(hKey))
- IF l THEN
-  PRINT "RegOpenKeyExA failed. Error: 0x" + LCASE$(HEX$(l))
- ELSE
-  l = RegSetValueExA(hKey, _OFFSET(Value), 0, dwType, _OFFSET(bData), numBytes)
-  IF l THEN
-   PRINT "RegSetValueExA failed. Error: 0x" + LCASE$(HEX$(l))
-  END IF
-  l = RegCloseKey(hKey)
-  IF l THEN
-   PRINT "RegCloseKey failed. Error: 0x" + LCASE$(HEX$(l))
-   END
-  END IF
- END IF
- PRINT
+PRINT "I recommend setting this value to 0xff to disable AutoRun for the current user."
+PRINT "Enter a new DWORD value: 0x";
+LINE INPUT t
+bData = MKL$(VAL("&h" + t + "&"))
+t = "y"
+l = RegOpenKeyExA(Ky, _OFFSET(SubKey), 0, KEY_ALL_ACCESS, _OFFSET(hKey))
+IF l THEN
+PRINT "RegOpenKeyExA failed. Error: 0x" + LCASE$(HEX$(l))
+ELSE
+l = RegSetValueExA(hKey, _OFFSET(Value), 0, dwType, _OFFSET(bData), numBytes)
+IF l THEN
+PRINT "RegSetValueExA failed. Error: 0x" + LCASE$(HEX$(l))
+END IF
+l = RegCloseKey(hKey)
+IF l THEN
+PRINT "RegCloseKey failed. Error: 0x" + LCASE$(HEX$(l))
+END
+END IF
+END IF
+PRINT
 END IF
 LOOP UNTIL t = "n"
 
@@ -203,25 +303,25 @@ ELSE
 PRINT whatKey$(Ky) + "\" + SubKey
 dwIndex = 0
 DO
- SLEEP 1
- numBytes = LEN(bData)
- numTchars = LEN(Value)
- l = RegEnumValueA(hKey, dwIndex, _OFFSET(Value), _OFFSET(numTchars), 0, _OFFSET(dwType), _OFFSET(bData), _OFFSET(numBytes))
- IF l THEN
-  IF l <> ERROR_NO_MORE_ITEMS THEN
-   PRINT "RegEnumValueA failed. Error: 0x" + LCASE$(HEX$(l))
-  END IF
-  EXIT DO
- ELSE
-  PRINT whatType(dwType) + " " + LEFT$(Value, numTchars) + " = " + formatData(dwType, numBytes, bData)
- END IF
- dwIndex = dwIndex + 1
+SLEEP 1
+numBytes = LEN(bData)
+numTchars = LEN(Value)
+l = RegEnumValueA(hKey, dwIndex, _OFFSET(Value), _OFFSET(numTchars), 0, _OFFSET(dwType), _OFFSET(bData), _OFFSET(numBytes))
+IF l THEN
+IF l <> ERROR_NO_MORE_ITEMS THEN
+PRINT "RegEnumValueA failed. Error: 0x" + LCASE$(HEX$(l))
+END IF
+EXIT DO
+ELSE
+PRINT whatType(dwType) + " " + LEFT$(Value, numTchars) + " = " + formatData(dwType, numBytes, bData)
+END IF
+dwIndex = dwIndex + 1
 LOOP
 PRINT dwIndex; "Values."
 l = RegCloseKey(hKey)
 IF l THEN
- PRINT "RegCloseKey failed. Error: 0x" + LCASE$(HEX$(l))
- END
+PRINT "RegCloseKey failed. Error: 0x" + LCASE$(HEX$(l))
+END
 END IF
 END IF
 
@@ -262,32 +362,34 @@ DIM ul AS _UNSIGNED LONG
 DIM b AS _UNSIGNED _BYTE
 SELECT CASE dwType
 CASE REG_SZ, REG_EXPAND_SZ, REG_MULTI_SZ
- formatData = LEFT$(bData, numBytes)
+formatData = LEFT$(bData, numBytes)
 CASE REG_DWORD
- t = LCASE$(HEX$(CVL(LEFT$(bData, 4))))
- formatData = "0x" + STRING$(8 - LEN(t), &H30) + t
+t = LCASE$(HEX$(CVL(LEFT$(bData, 4))))
+formatData = "0x" + STRING$(8 - LEN(t), &H30) + t
 CASE ELSE
- IF numBytes THEN
-  b = ASC(LEFT$(bData, 1))
-  IF b < &H10 THEN
-   t = t + "0" + LCASE$(HEX$(b))
-  ELSE
-   t = t + LCASE$(HEX$(b))
-  END IF
- END IF
- FOR ul = 2 TO numBytes
-  b = ASC(MID$(bData, ul, 1))
-  IF b < &H10 THEN
-   t = t + " 0" + LCASE$(HEX$(b))
-  ELSE
-   t = t + " " + LCASE$(HEX$(b))
-  END IF
- NEXT
- formatData = t
+IF numBytes THEN
+b = ASC(LEFT$(bData, 1))
+IF b < &H10 THEN
+t = t + "0" + LCASE$(HEX$(b))
+ELSE
+t = t + LCASE$(HEX$(b))
+END IF
+END IF
+FOR ul = 2 TO numBytes
+b = ASC(MID$(bData, ul, 1))
+IF b < &H10 THEN
+t = t + " 0" + LCASE$(HEX$(b))
+ELSE
+t = t + " " + LCASE$(HEX$(b))
+END IF
+NEXT
+formatData = t
 END SELECT
 END FUNCTION
 ```
   
+<br>
+
 
 </blockquote>
 
@@ -295,8 +397,8 @@ END FUNCTION
 
 <blockquote>
 
-* Windows Libraries
-* [DECLARE](./DECLARE.md) [LIBRARY](./LIBRARY.md)
-* [_OFFSET](./_OFFSET.md)
 
+* Windows Libraries
+* [DECLARE](DECLARE.md) [LIBRARY](LIBRARY.md)
+* [_OFFSET](OFFSET.md)
 </blockquote>

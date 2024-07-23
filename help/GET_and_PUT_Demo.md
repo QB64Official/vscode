@@ -1,4 +1,104 @@
-## GET and PUT Demo
+<style type="text/css">
+body {
+    background: #00a !important;
+    color: #ccc !important;
+}
+li {
+    list-style-type: square !important;
+    color: #ccc !important;
+}
+li::marker {
+    color: #77f !important;
+}    
+hr {
+    border-color: #55f !important;
+    border-width: 2px !important;
+}
+h2 {
+    color: #fff !important;
+    border: 0 !important;
+}
+h3 {
+    color: #cfc !important;
+    border: 0 !important;
+}
+h4 {
+    color: #ccc !important;
+    border: 0 !important;
+}
+h5 {
+    margin: 0 0 0.5em 0  !important;
+    color: #88f !important;
+    border: 0 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
+}
+code {
+    background: #000 !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 4px !important; 
+    border: 1px solid #333 !important;
+}
+pre > code {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit !important; 
+    border: 0 !important;
+}
+blockquote {
+    border: 0 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 1em !important;
+}
+pre {
+    border-radius: 4px !important;
+    background: #000 !important;
+    border: 1px solid #333 !important;
+    margin: 0 !important;
+}
+a:link, a:visited, a:hover, a:active {
+    color: #ff0 !important;
+}
+br + pre {
+    border-radius: 0 !important;
+    border-style: inset !important;
+    border-width: 5px !important;
+    border-color: #999 !important;
+    background-color: #000 !important;
+    box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.25) !important;
+    margin-top: -1em !important;
+}
+br + pre::before {
+    content: "OUTPUT \A" !important;
+    color: #555 !important;
+    border-bottom: 1px solid #333;
+    font-size: x-small;
+    display: block !important;
+    padding: 0 3px !important;
+    margin: -1em -1em 1em -1em !important;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */    
+}
+br ~ h5 {
+    margin-top: 2em !important;
+}
+.explanation {
+    color: #995 !important;
+    /* background-color: rgba(150, 150, 100) !important; */
+    border-radius: 10em !important;
+    border: 2px #441 dashed !important;
+    padding: 8px 32px !important;
+    margin-bottom: 4em !important;
+    font-size: x-small !important;
+}
+</style>
+
+
+## [GET and PUT Demo](GET_and_PUT_Demo.md) [📖](https://qb64phoenix.com/qb64wiki/index.php/GET%20and%20PUT%20Demo)
 ---
 <blockquote>
 
@@ -29,12 +129,12 @@ OUT &H3C8, 5: OUT &H3C9, 52: OUT &H3C9, 52: OUT &H3C9, 52 'ship light gray
 MaxWIDTH = 83 + 280: MaxDEPTH = 200 + 60: x = 280: y = 200
 RESTORE ShipData
 DO
- READ Count, Colr    'read RLE compressed data field
- FOR reps = 1 TO Count
-   PSET (x, y), Colr
-   x = x + 1
-   IF x > MaxWIDTH THEN x = 280: y = y + 1
- NEXT reps
+READ Count, Colr    'read RLE compressed data field
+FOR reps = 1 TO Count
+PSET (x, y), Colr
+x = x + 1
+IF x > MaxWIDTH THEN x = 280: y = y + 1
+NEXT reps
 LOOP UNTIL y > MaxDEPTH 'y start + 60
 
 Align 14, 2, "Working with Sprites and Masks"
@@ -66,10 +166,10 @@ LOCATE 12, 4: PRINT "   NEXT xx"
 LOCATE 13, 4: PRINT "   GET (0, 0)-(83, 60), Image(1500)  'mask indexed into array"
 Align 13, 22, "Mask procedure slowed for demonstration purposes!"
 FOR xx = 280 TO 83 + 280
- _DELAY .03
- FOR yy = 200 TO 260
-   IF POINT(xx, yy) = 0 THEN PSET (xx, yy), 15 ELSE PSET (xx, yy), 0
- NEXT yy
+_DELAY .03
+FOR yy = 200 TO 260
+IF POINT(xx, yy) = 0 THEN PSET (xx, yy), 15 ELSE PSET (xx, yy), 0
+NEXT yy
 NEXT xx
 GET (280, 200)-(83 + 280, 260), Image(1500)
 COLOR 14: LOCATE 20, 38: PRINT "MASK"
@@ -128,7 +228,7 @@ DATA 16,0,6,4,3,0,3,4,5,14,2,0,2,4,2,14,5,15,1,0,2,4,1,14,7,15,2,0,2,4
 DATA 2,14,5,15,3,0,3,4,5,14,5,0,6,4,60,0,6,4,3,0,3,4,5,14,2,0,2,4,2,14
 DATA 5,15,1,0,2,4,1,14,7,15,2,0,2,4,2,14,5,15,3,0,3,4,5,14,5,0,6,4,11,0
 
- 'sub programs are for demonstration text only
+'sub programs are for demonstration text only
 SUB Align (Tclr, Trow, txt$)
 Tcol = 41 - (LEN(txt$) \ 2)
 COLOR Tclr: LOCATE Trow, Tcol: PRINT txt$;
@@ -143,11 +243,13 @@ END SUB
 
 SUB Eraser (Srow, Erow)
 FOR R = Srow TO Erow
- LOCATE R, 4: PRINT SPACE$(75)
+LOCATE R, 4: PRINT SPACE$(75)
 NEXT
 END SUB
 ```
   
+<br>
+
 
 </blockquote>
 
@@ -155,9 +257,9 @@ END SUB
 
 <blockquote>
 
-* Creating Sprite Masks
-* [PUT](./PUT.md) (graphics statement)
-* [GET](./GET.md) (graphics statement)
-* [_PUTIMAGE](./_PUTIMAGE.md) , [_MAPTRIANGLE](./_MAPTRIANGLE.md)
 
+* Creating Sprite Masks
+* [PUT](PUT.md) (graphics statement)
+* [GET](GET.md) (graphics statement)
+* [_PUTIMAGE](PUTIMAGE.md) , [_MAPTRIANGLE](MAPTRIANGLE.md)
 </blockquote>
